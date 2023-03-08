@@ -1,17 +1,12 @@
-import Header from '@/components/Header'
-import { Footer } from '@/components/Footer'
-import TrialPage from '@/components/trialPage'
+'use client'
+import { NextPage } from "next";
+import React from "react";
 
-export default function Home() {
+const HomePage: NextPage = () => {
   return (
-    <div>
-      <Header />
-      <main>
-        <TrialPage />
-      </main>
-      <div>
-        <Footer />
-        </div>
+    <div className='main'>
     </div>
-  )
-}
+  );
+};
+
+export default HomePage;
