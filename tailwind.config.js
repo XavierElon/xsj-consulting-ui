@@ -7,25 +7,44 @@ module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
-       gridTemplateColumns: {
-        sidebar: "300px auto", //for sidebar layout
-      },
-      gridTemplateRows: {
-        header: "64px auto", //for the navbar layout
-      },
       fontFamily: {
         sans: ['Inter var', ...fontFamily.sans],
       },
-      backgroundImage: {
-        'signup-cover': "url('/images/signup-cover.png')"
+      animation: {
+        text: 'text 5s ease infinite',
       },
-      colors: {
-        'primary': '#6AA7F8',
+      keyframes: {
+        text: {
+          '0%, 100%': {
+            'background-size': '200% 200%',
+            'background-position': 'left center',
+          },
+          '50%': {
+            'background-size': '200% 200%',
+            'background-position': 'right center',
+          },
+        },
+        gridTemplateColumns: {
+          sidebar: "300px auto", //for sidebar layout
+        },
+        gridTemplateRows: {
+          header: "64px auto", //for the navbar layout
+        },
+        fontFamily: {
+          sans: ['Inter var', ...fontFamily.sans],
+        },
+        backgroundImage: {
+          'signup-cover': "url('/images/signup-cover.png')"
+        },
+        colors: {
+          'primary': '#6AA7F8',
+        },
       },
+    },
   },
   variants: {
-    extend: {},
+    extend: {
+      animation: ['hover', 'focus'],
+    },
   },
-  plugins: [],
-  }
 };

@@ -15,10 +15,10 @@ const Navbar = (props: Props) => {
       className={classNames({
         "text-zinc-500": true, // colors
         "flex items-center": true, // layout
-        "w-full fixed z-10 px-4 shadow-sm h-16": true, //positioning & styling
+        "w-full fixed z-10 px-4 h-16": true, //positioning & styling
       })}
     >
-      <div className="font-bold text-lg">My Logo</div>
+      <div className="font-bold text-lg">DevGru</div>
       <div className="flex-grow"></div>
       {props.open ? (
         <button onClick={props.handleClick}>
