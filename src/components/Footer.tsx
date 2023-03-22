@@ -9,8 +9,8 @@ export const Footer = () => {
 
 <div className="rounded animate-bg bg-gradient-to-r from-red-600 via-red-500 to-pink-700 bg-clip bg-transparent text-5xl font-black">
             <div
-                className="p-10 flex flex-col items-center text-center group hover:bg-slate-50 cursor-pointer ">
-                <span className="p-5 rounded-full bg-zinc-900 text-white"><svg
+                className="p-10 flex flex-col items-center text-center group  cursor-pointer ">
+                <span className="p-5 rounded-full bg-black text-white"><svg
                         xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" stroke-width="1.5">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -23,8 +23,8 @@ export const Footer = () => {
           </div>
           <div className="rounded animate-bg bg-gradient-to-r from-pink-700 via-red-500 to-red-600 bg-clip bg-transparent text-5xl font-black">
             <div
-                className="p-10 flex flex-col items-center text-center group hover:bg-slate-50 cursor-pointer">
-                <span className="p-5 rounded-full bg-zinc-900 text-white"><svg
+                className="p-10 flex flex-col items-center text-center group cursor-pointer">
+                <span className="p-5 rounded-full bg-black-900 text-white"><svg
                         xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" stroke-width="1.5">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -39,8 +39,8 @@ export const Footer = () => {
           </div>
                    <div className="rounded animate-bg bg-gradient-to-r from-red-600 via-purple-600 to-purple-700 bg-clip bg-transparent text-5xl font-black">
            
-            <div className="p-10 flex flex-col items-center text-center group hover:bg-slate-50 cursor-pointer">
-                <span className="p-5 rounded-full bg-zinc-900 text-white"><svg
+            <div className="p-10 flex flex-col items-center text-center group  cursor-pointer">
+                <span className="p-5 rounded-full bg-black-900 text-white"><svg
                         xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" stroke-width="1.5">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -54,7 +54,7 @@ export const Footer = () => {
 <div className="rounded animate-bg bg-gradient-to-r from-red-600 via-red-500 to-pink-700 bg-clip bg-transparent text-5xl font-black">
   
             <div className="p-10 flex flex-col items-center text-center grouphover:bg-slate-50 cursor-pointer">
-                <span className="p-5 rounded-full bg-zinc-900 text-white"><svg
+                <span className="p-5 rounded-full bg-black-900 text-white"><svg
                         xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" stroke-width="1.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
@@ -65,8 +65,8 @@ export const Footer = () => {
             </div>
           </div>
                   <div className="rounded animate-bg bg-gradient-to-r from-pink-700 via-red-500 to-red-600 bg-clip bg-transparent text-5xl font-black">
-            <div className="p-10 flex flex-col items-center text-center group hover:bg-slate-50 cursor-pointer">
-                <span className="p-5 rounded-full bg-zinc-900 text-white"><svg
+            <div className="p-10 flex flex-col items-center text-center group  cursor-pointer">
+                <span className="p-5 rounded-full bg-black-900 text-white"><svg
                         xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" stroke-width="1.5">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -78,8 +78,8 @@ export const Footer = () => {
             </div>
           </div>
                             <div className="rounded animate-bg bg-gradient-to-r from-red-600 via-purple-600 to-purple-700 bg-clip bg-transparent text-5xl font-black">
-            <div className="p-10 flex flex-col items-center text-center group     hover:bg-slate-50 cursor-pointer">
-                <span className="p-5 rounded-full bg-zinc-900 text-white"><svg
+            <div className="p-10 flex flex-col items-center text-center group      cursor-pointer">
+                <span className="p-5 rounded-full bg-black-900 text-white"><svg
                         xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" stroke-width="1.5">
                         <path stroke-linecap="round" stroke-linejoin="round"

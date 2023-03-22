@@ -110,17 +110,17 @@ const CardTwo = () => {
       <div className="absolute inset-0 top-1/2 md:mt-24 lg:mt-0 bg-inherit dark:bg-black pointer-events-none" aria-hidden="true"></div>
       <div className="absolute left-0 right-0 bottom-0 m-auto w-px p-px h-20 bg-inherit transform translate-y-1/2"></div>
 
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
+      <div className="mt-10 relative max-w-6xl mx-auto px-4 sm:px-6">
         <div className="py-2 md:py-2">
 
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-            <h2 className="h2 mb-4 text-white text-2xl">DevGru Is An Industry Leader</h2>
-            <p className="text-xl text-blue-400 dark:text-white">Where Our People Live To Deliver The Highest Impact Solutions</p>
+            <h1 className="h2 mb-4 my-20 text-white text-5xl">DevGru Is An Industry Leader</h1>
+            <p className="text-xl text-blue-400 dark:text-white">Where Our Solution Experts Live To Deliver The Highest Impact Solutions</p>
           </div>
 
           {/* Items */}
-                  <div className="max-w-sm mx-auto grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-start md:max-w-2xl lg:max-w-none">
+                  <div className="my-20 max-w-sm mx-auto grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-start md:max-w-2xl lg:max-w-none">
                       {features.map((feature) => (
                           <div key={feature.title} className="flex flex-col items-center p-4 bg-inherit bg-gray-900 rounded shadow-xl">    
                               <div className="flex-shrink-0">{feature.icon}</div> 
