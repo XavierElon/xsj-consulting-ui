@@ -12,10 +12,12 @@ export const CityCard = () => {
                     height={2000}
                     width={1500}
                 />
-                {/* <div className="absolute top-2/3 left-0 w-full h-full flex flex-col items-center justify-center">
+                <div className="absolute top-120 left-0 w-full h-full flex flex-col items-center justify-center">
+                    <div className="flex flex-col items-center justify-center bg-zinc-900 rounded-xl px-4 py-4 bg-opacity-80">
                     <h1 className="text-5xl font-bold text-white">The World Is Constantly Evolving</h1>
-                    <p className="text-2xl text-white">Let Us Help You Grow With it</p>
-                </div> */}
+                        <p className="text-2xl text-white">Let Us Help Build The Future You Want...</p>
+                        </div>
+                </div>
                 
             </div>
              <div className="h-20 w-full bg-gradient-to-b from-black to-neutral-900">
