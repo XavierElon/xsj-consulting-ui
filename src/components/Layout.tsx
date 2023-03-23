@@ -2,10 +2,11 @@
 import React, { PropsWithChildren, useState } from "react";
 import CardOne from "./cards/CardOne";
 import CardTwo from "./cards/CardTwo";
-import Navbar from "./Navbar";
-import Sidebar from "./Sidebar";
-import Footer from "./Footer";
+import Navbar from "./navigation/Navbar";
+import Sidebar from "./navigation/Sidebar";
+import Footer from "./navigation/Footer";
 import { CityCard } from "./cards/CityCard";
+import CardThree from "./cards/CardThree";
 
 const Layout = (props: PropsWithChildren) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -32,6 +33,9 @@ const Layout = (props: PropsWithChildren) => {
         <div className="row-span-2">
           <CardTwo />
           </div>
+      </div>
+      <div className="row-span-1">
+        <CardThree />
       </div>
         <div className="flex justify-center">
           <div className="flex flex-col">

@@ -115,7 +115,7 @@ const CardTwo = () => {
 
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-            <h1 className="h2 mb-4 my-20 text-white text-5xl">DevGru Is An Industry Leader</h1>
+            <h1 className="h2 mb-4 my-10 text-white text-5xl">DevGru Is An Industry Leader</h1>
             <p className="text-xl text-blue-400 dark:text-white">Where Our Solution Experts Live To Deliver The Highest Impact Solutions</p>
           </div>
 

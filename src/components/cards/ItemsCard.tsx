@@ -2,13 +2,13 @@
 
 import Image from 'next/image'
 
-export const CityCard = () => {
+export const ItemsCard = () => {
     return (
         <>
         <div className="h-20 w-full bg-gradient-to-t from-black to-neutral-900">
             </div>
         <div className="grid grid-cols gap-4">
-                <Image src="/images/city.png" alt="city" className="object-cover h-screen"
+                <Image src="/images/whiteboardSesh.png" alt="city" className="object-cover h-screen"
                     height={2000}
                     width={1500}
                 />
