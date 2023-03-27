@@ -15,7 +15,7 @@ export const CityCard = () => {
                 <div className="absolute top-120 left-0 w-full h-full flex flex-col items-center justify-center">
                     <div className="flex flex-col items-center justify-center bg-zinc-900 rounded-xl px-4 py-4 bg-opacity-80">
                     <h1 className="text-5xl font-bold text-white">The World Is Constantly Evolving</h1>
-                        <p className="text-2xl text-white">Let Us Help Build The Future You Want...</p>
+                        <p className="text-2xl text-white">Let Us Help Build The Future You Envision...</p>
                         </div>
                 </div>
                 

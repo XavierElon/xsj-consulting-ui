@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export const CardOne = () => {
     return (
-<>
+        <>
             <div className="grid-rows-2 grid-cols-2 text-center">
                 <div className="flex justify-center items-center">
                   <Image src="/images/gps.png" alt="city"
@@ -17,7 +17,8 @@ export const CardOne = () => {
             </div>
             <div className="flex justify-center mt-10">
                 <button className="bg-blue-400 text-black rounded-md p-2">Get Started</button>
-        </div>
+                </div>
+        
     </>
     );
 };

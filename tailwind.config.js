@@ -39,6 +39,9 @@ module.exports = {
         colors: {
           'primary': '#6AA7F8',
         },
+        blue: {
+          50: '#02326B',
+        },
       },
     },
   },

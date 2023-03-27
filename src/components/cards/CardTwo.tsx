@@ -102,7 +102,7 @@ const features = [
     },
 ];
 
-const CardTwo = () => {
+export const CardTwo = () => {
   return (
     <section className="relative">
 

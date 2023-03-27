@@ -1,27 +1,26 @@
 import Image from 'next/image'
-
 export const TableCard = () => {
     return (
 
-            <>
-            <div className="grid grid-cols gap-4 justify-center mt-20">
-                      <h1 className="text-5xl font-bold text-white text-center">Our Team Never Stops</h1>
-                        <p className="text-2xl text-white text-center mb-10">It Is The People At DevGru That Make Us Who We Are...</p>
-                <div className="flex flex-col items-center justify-center bg-zinc-900 text-5xl font-black py-6 px-4 rounded-2xl">
-                <Image src="/images/team.png" alt="city"
-                    height={1000}
-                    width={1500}
+        <>
+            <div className="flex justify-center gap-10 my-20 mb-4 pb-10">
+                <div className="w-1/3 bg-sky-900 opacity-60 h-88 rounded-2xl">
+                    <Image src="/images/team.png" alt="city" className="w-50 h-50 mt-14 justify-center"
+                        width={500}
+                        height={500}
+                    />
+                    <h1 className="text-center text-white opacity-none text-2xl mt-4">Our Team</h1>
+                    <p className="text-center text-white text-sm">The People Are What Makes Us The Best In the Industry.</p>
+  </div>
+  <div className="w-1/3 bg-sky-900 opacity-60 h-88 rounded-2xl pb-10"> <Image src="/images/native.png" alt="city" className="w-50 h-50 mt-4 justify-center"
+                        width={500}
+                        height={500}
                 />
-                {/* <div className="absolute top-120 left-0 w-full h-full flex flex-col items-center justify-center">
-                    <div className="flex flex-col items-center justify-center bg-zinc-900 rounded-xl px-4 py-4 bg-opacity-80">
-                    <h1 className="text-5xl font-bold text-white">The World Is Constantly Evolving</h1>
-                        <p className="text-2xl text-white">Let Us Help Build The Future You Want...</p>
-                        </div>
-                </div> */}
-                </div>
-            </div>
+                 <h1 className="text-center text-white opacity-none text-xl">Our Methods</h1>
+                    <p className="text-center text-white text-sm">We Ensure Every Step We Take Is Specifically Crafted To Optimize Output.</p></div>
+</div>
         </>
     )
 }
 
-
+export default TableCard
