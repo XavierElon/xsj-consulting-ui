@@ -1,8 +1,9 @@
 /** @type {import('tailwindcss').Config} */
-const { fontFamily } = require('tailwindcss/defaultTheme');
+const { fontFamily } = require('tailwindcss/defaultTheme')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  mode: 'jit',
   darkMode: 'class',
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
@@ -25,19 +26,19 @@ module.exports = {
           },
         },
         gridTemplateColumns: {
-          sidebar: "300px auto", //for sidebar layout
+          sidebar: '300px auto', //for sidebar layout
         },
         gridTemplateRows: {
-          header: "64px auto", //for the navbar layout
+          header: '64px auto', //for the navbar layout
         },
         fontFamily: {
           sans: ['Inter var', ...fontFamily.sans],
         },
         backgroundImage: {
-          'signup-cover': "url('/images/signup-cover.png')"
+          'signup-cover': "url('/images/signup-cover.png')",
         },
         colors: {
-          'primary': '#6AA7F8',
+          primary: '#6AA7F8',
         },
         blue: {
           50: '#02326B',
@@ -50,4 +51,4 @@ module.exports = {
       animation: ['hover', 'focus'],
     },
   },
-};
+}
