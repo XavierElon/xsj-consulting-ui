@@ -1,26 +1,35 @@
 export const CardThree = () => {
-    return (
-        <>
-                <div className="px-3 md:lg:xl:px-40 py-20 bg-opacity-10">
-        <div className="grid grid-cols-1 gap-4 md:lg:xl:grid-cols-3 group">
+  return (
+    <>
+      <div className="px-3 md:px-10 lg:px-20 xl:px-40 py-20 bg-opacity-10">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
 
-<div className="rounded animate-bg bg-gradient-to-r from-red-600 via-red-500 to-pink-700 bg-clip bg-transparent text-5xl font-black">
-            <div
-                className="p-10 flex flex-col items-center text-center group  cursor-pointer ">
-                <span className="p-5 rounded-full bg-black text-white"><svg
-                        xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" strokeWidth="1.5">
-                        <path strokeLinecap="round" strokeLinejoin="round"
-                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg></span>
-                <p className="text-xl font-medium text-white mt-3">Highly Trained</p>
-                <p className="mt-2 text-sm text-white">DevGru Solution solution specialist are the worlds most elite, highly focused, driven
-                    set of consultants.</p>
+          <div className="rounded animate-bg bg-gradient-to-r from-red-600 via-red-500 to-pink-700 bg-clip bg-transparent text-5xl font-black">
+            <div className="p-10 flex flex-col items-center text-center cursor-pointer">
+              <span className="p-5 rounded-full text-white"><svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg></span>
+              <p className="text-xl font-medium text-white mt-3">Highly Trained</p>
+              <p className="mt-2 text-sm text-white">DevGru Solution solution specialist are the worlds most elite, highly focused, driven set of consultants.</p>
             </div>
           </div>
+
           <div className="rounded animate-bg bg-gradient-to-r from-pink-700 via-red-500 to-red-600 bg-clip bg-transparent text-5xl font-black">
-            <div
-                className="p-10 flex flex-col items-center text-center group cursor-pointer">
+            <div className="p-10 flex flex-col items-center text-center cursor-pointer">
+              <span className="p-5 rounded-full bg-black-900 text-white"><svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg></span>
+              <p className="text-xl font-medium text-white mt-3">Focused Planning</p>
+              <p className="mt-2 text-sm text-white">Know what you need and what next to do to succeed.</p>
+            </div>
+          </div>
+
+          <div className="rounded animate-bg bg-gradient-to-r from-red-600 via-purple-600 to-purple-700 bg-clip bg-transparent text-5xl font-black">
+            <div className="p-10 flex flex-col items-center text-center group cursor-pointer">
                 <span className="p-5 rounded-full bg-black-900 text-white"><svg
                         xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" strokeWidth="1.5">

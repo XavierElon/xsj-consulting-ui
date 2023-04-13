@@ -1,13 +1,13 @@
 'use client'
 import React, { PropsWithChildren, useEffect, useState } from "react";
-import Navbar from "./navigation/Navbar";
-import Sidebar from "./navigation/Sidebar";
-import Footer from "./navigation/Footer";
+import Navbar from "./cards/navigation/Navbar";
+import Sidebar from "./cards/navigation/Sidebar";
+import Footer from "./cards/navigation/Footer";
 
 const Layout = (props: PropsWithChildren) => {
     const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="grid min-h-screen grid-rows-header">
+    <div className="flex-grid min-h-screen grid-rows-header">
 
         <Navbar open={isOpen} handleClick={() => setIsOpen(!isOpen)} />
 
