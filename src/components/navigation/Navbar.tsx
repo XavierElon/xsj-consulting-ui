@@ -38,7 +38,7 @@ const Navbar = (props: Props) => {
       </Link>
       <div className="flex-grow"></div>
 
-      <div className="flex flex-col justify-end px-10">
+      <div className="flex flex-col justify-end px-3">
         <Link href="/login">
           <Button
             variant="light"
@@ -48,11 +48,11 @@ const Navbar = (props: Props) => {
           </Button>
         </Link>
       </div>
-      <div className="flex flex-col justify-end px-10">
+      <div className="flex flex-col justify-end px-3">
         <Link href="/signup">
           <Button
             variant="primary"
-            className="bg-sky-400 hover:bg-sky-600 px-2 py-2 rounded-lg text-white"
+            className="bg-my-blue hover:bg-sky-600 px-2 py-2 rounded-lg text-white"
           >
             Sign Up
           </Button>
