@@ -27,7 +27,7 @@ const Navbar = (props: Props) => {
       ) : (
         <div className="flex flex-col justify-start px-10">
           <button onClick={props.handleClick}>
-            <CgMenuGridR className="h-6 w-6" />
+            <CgMenuGridR className="h-10 w-10" />
           </button>
         </div>
       )}
@@ -52,7 +52,7 @@ const Navbar = (props: Props) => {
         <Link href="/signup">
           <Button
             variant="primary"
-            className="bg-my-blue hover:bg-sky-600 px-2 py-2 rounded-lg text-white"
+            className="bg-sky-400 hover:bg-sky-600 px-2 py-2 rounded-lg text-white"
           >
             Sign Up
           </Button>

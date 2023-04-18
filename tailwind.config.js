@@ -38,9 +38,9 @@ module.exports = {
           'signup-cover': "url('/images/signup-cover.png')",
         },
         colors: {
-          primary: '#6AA7F8',
+          primary: '#000000',
           secondary: '#6AA7F8',
-          'my-blue': 'rgb(106,167,248)',
+          blue: 'rgb(106,167,248)',
         },
         blue: {
           50: '#02326B',
