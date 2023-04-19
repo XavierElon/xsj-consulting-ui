@@ -15,9 +15,9 @@ const Navbar = (props: Props) => {
   return (
     <nav
       className={classNames({
-        'text-zinc-500': true, // colors
+        'text-black bg-white': true, // colors
         'flex items-center': true, // layout
-        'w-full fixed z-10 px-4 h-16': true, //positioning & styling
+        'w-full fixed z-50 px-4 h-16': true, //positioning & styling
       })}
     >
       {props.open ? (
@@ -32,7 +32,7 @@ const Navbar = (props: Props) => {
         </div>
       )}
       <Link href="/">
-        <div className="flex flex-col justify-start font-bold text-lg text-white px-5">
+        <div className="flex flex-col justify-start font-bold text-lg text-black px-5">
           DevGru
         </div>
       </Link>
@@ -54,7 +54,7 @@ const Navbar = (props: Props) => {
             variant="primary"
             className="bg-sky-400 hover:bg-sky-600 px-2 py-2 rounded-lg text-white"
           >
-            Sign Up
+            Sign up
           </Button>
         </Link>
       </div>
