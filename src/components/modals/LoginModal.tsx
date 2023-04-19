@@ -55,9 +55,21 @@ const LoginModal = (props: any) => {
         style={containerStyle}
         className="left-24 w-96 h-96 bg-white border-b-2 border-gray-200 rounded-lg p-4 shadow-md"
       >
-        <h2 className="epilogue.className text-4xl font-bold text-black text-center">
+        <h2 style={headerStyle} className="text-black text-center">
           Log in to your account
         </h2>
+        <TextField
+          required
+          id="outlined-required"
+          label="Required"
+          defaultValue="Hello World"
+        />
+        <TextField
+          id="outlined-password-input"
+          label="Password"
+          type="password"
+          autoComplete="current-password"
+        />
       </div>
     </div>
   )
@@ -69,4 +81,12 @@ const containerStyle: CSSProperties = {
   width: '478px',
   height: '524px',
   marginLeft: '3%',
+}
+
+const headerStyle: CSSProperties = {
+  fontFamily: 'Epilogue',
+  fontSize: '32px',
+  letterSpacing: '-.5px',
+  lineHeight: '40px',
+  fontWeight: '700',
 }

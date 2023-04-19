@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import Link from 'next/link'
 import { CgMenuGridR } from 'react-icons/cg'
 import { XMarkIcon } from '@heroicons/react/24/outline'
@@ -38,21 +38,23 @@ const Navbar = (props: Props) => {
       </Link>
       <div className="flex-grow"></div>
 
-      <div className="flex flex-col justify-end px-3 w-40">
+      <div className="flex flex-col justify-end px-1">
         <Link href="/login">
           <Button
             variant="light"
-            className="bg-slate-50 hover:bg-slate-200 px-2 py-2 rounded-lg text-black"
+            className="bg-slate-50 hover:bg-slate-200 transform hover:scale-110 transition-all duration-300 px-2 py-2 rounded-lg text-black"
+            style={buttonStyle}
           >
             Login
           </Button>
         </Link>
       </div>
-      <div className="flex flex-col justify-end px-3 w-40">
+      <div className="flex flex-col justify-end px-1">
         <Link href="/signup">
           <Button
             variant="primary"
-            className="bg-sky-400 hover:bg-sky-600 px-2 py-2 rounded-lg text-white"
+            className="bg-[#0069FF] hover:bg-[#022cac] transform hover:scale-110 transition-all duration-300 px-2 py-2 rounded-lg text-white"
+            style={buttonStyle}
           >
             Sign up
           </Button>
@@ -63,3 +65,8 @@ const Navbar = (props: Props) => {
 }
 
 export default Navbar
+
+const buttonStyle: CSSProperties = {
+  width: '86px',
+  height: '40px',
+}
