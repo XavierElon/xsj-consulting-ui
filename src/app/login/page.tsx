@@ -6,7 +6,14 @@ const Login: NextPage = () => {
   return (
     <>
       <Layout>
-        <LoginModal className="fixed left-1/4 top-1/2 transform -translate-y-1/2"></LoginModal>
+        <div className="flex min-h-screen">
+          <div className="flex w-1/2 bg-white mx-auto items-center justify-center">
+            <LoginModal className=""></LoginModal>
+          </div>
+          <div className="w-1/2 bg-[#6AA7F8]">
+            <p>Right-side content goes here.</p>
+          </div>
+        </div>
       </Layout>
     </>
   )

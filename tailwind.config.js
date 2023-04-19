@@ -40,7 +40,9 @@ module.exports = {
         colors: {
           primary: '#000000',
           secondary: '#6AA7F8',
-          blue: 'rgb(106,167,248)',
+        },
+        backgroundColor: {
+          myBlue: '#0061EB',
         },
         blue: {
           50: '#02326B',
@@ -50,7 +52,7 @@ module.exports = {
   },
   variants: {
     extend: {
-      animation: ['hover', 'focus'],
+      animation: ['hover', 'focus', 'group-hover', 'pulse'],
     },
   },
 }

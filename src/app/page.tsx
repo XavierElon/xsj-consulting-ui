@@ -14,10 +14,10 @@ const HomePage: NextPage = () => {
   
   return (
     <>
+                <div className="stars"/>
       <Layout>
-
-      <div className="row-span-1 py-20">
-          <CardOne />
+        <div className="row-span-1 py-20">
+            <CardOne />
         </div>
        
           <CityCard />
