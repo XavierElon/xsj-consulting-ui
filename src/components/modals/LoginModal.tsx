@@ -1,6 +1,9 @@
 'use client'
 import React, { CSSProperties, useState } from 'react'
 import { TextField, Box } from '@mui/material'
+import { Epilogue } from 'next/font/google'
+
+const epilogue = Epilogue({ subsets: ['latin'] })
 
 const LoginModal = (props: any) => {
   const [email, setEmail] = useState('')
@@ -52,7 +55,9 @@ const LoginModal = (props: any) => {
         style={containerStyle}
         className="left-24 w-96 h-96 bg-white border-b-2 border-gray-200 rounded-lg p-4 shadow-md"
       >
-        <h2 className="text-4xl font-bold">Log in to your account</h2>
+        <h2 className="epilogue.className text-4xl font-bold text-black text-center">
+          Log in to your account
+        </h2>
       </div>
     </div>
   )
@@ -63,5 +68,5 @@ export default LoginModal
 const containerStyle: CSSProperties = {
   width: '478px',
   height: '524px',
-  marginLeft: '5%',
+  marginLeft: '3%',
 }

@@ -10,6 +10,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['Inter var', ...fontFamily.sans],
+        epilogue: ['Epilogue', 'sans-serif'],
       },
       animation: {
         text: 'text 5s ease infinite',
