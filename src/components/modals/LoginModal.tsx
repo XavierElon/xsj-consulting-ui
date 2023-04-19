@@ -50,7 +50,7 @@ const LoginModal = (props: any) => {
     //     <button type="submit">Log In</button>
     //   </form>
     // </div>
-    <div className="container fixed left-1/2 -translate-x-1/2 top-1/2 transform -translate-y-1/2">
+    <div className="flex flex-col container fixed left-1/2 -translate-x-1/2 top-1/2 transform -translate-y-1/2">
       <div
         style={containerStyle}
         className="left-24 w-96 h-96 bg-white border-b-2 border-gray-200 rounded-lg p-4 shadow-md"
@@ -62,13 +62,17 @@ const LoginModal = (props: any) => {
           required
           id="outlined-required"
           label="Required"
+          size="small"
           defaultValue="Hello World"
+          className="transform hover:scale-110 transition-all duration-300 w-72"
         />
         <TextField
           id="outlined-password-input"
           label="Password"
           type="password"
+          size="small"
           autoComplete="current-password"
+          className="transform hover:scale-110 transition-all duration-300 w-80"
         />
       </div>
     </div>
