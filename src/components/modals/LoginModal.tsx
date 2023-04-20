@@ -54,6 +54,20 @@ const LoginModal = (props: any) => {
             className="transform hover:scale-110 transition-all duration-300 w-80 mx-10"
             onChange={(e) => setPassword(e.target.value)}
           />
+          <button
+            type="submit"
+            className="text-white bg-[#0061EB] rounded-xl my-7 mx-10"
+            style={submitButtonStyle}
+          >
+            Log In
+          </button>
+          <button
+            type="submit"
+            className="text-white bg-[#0061EB] rounded-xl my-7 mx-10"
+            style={submitButtonStyle}
+          >
+            Log In
+          </button>
         </form>
       </div>
     </div>
@@ -78,4 +92,11 @@ const headerStyle: CSSProperties = {
 
 const pStyle: CSSProperties = {
   marginTop: '15px',
+}
+
+const submitButtonStyle: CSSProperties = {
+  width: '80%',
+  height: '4%',
+  paddingTop: '2%',
+  paddingBottom: '2%',
 }
