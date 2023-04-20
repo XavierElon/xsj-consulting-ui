@@ -4,6 +4,7 @@ import { Providers } from './providers'
 import './globals.css'
 import './stars.css'
 import '@fontsource/epilogue'
+import { UserStateProvider } from '@/context/UserContext'
 
 export default function RootLayout({
   children,
@@ -14,7 +15,9 @@ export default function RootLayout({
     <html>
       <head></head>
       <body>
-        <Providers>{children}</Providers>
+        <UserStateProvider>
+          <Providers>{children}</Providers>
+        </UserStateProvider>
       </body>
     </html>
   )
