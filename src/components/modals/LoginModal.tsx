@@ -1,7 +1,9 @@
 'use client'
 import React, { CSSProperties, useEffect, useState } from 'react'
-import { TextField, Box } from '@mui/material'
+import { TextField, Box, Button } from '@mui/material'
 import { Epilogue } from 'next/font/google'
+import Image from 'next/image'
+import GoogleLogo from 'public/google-logo.svg'
 
 const epilogue = Epilogue({ subsets: ['latin'] })
 
@@ -56,18 +58,26 @@ const LoginModal = (props: any) => {
           />
           <button
             type="submit"
-            className="text-white bg-[#0061EB] rounded-xl my-7 mx-10"
+            className="text-white bg-[#0061EB] hover:bg-[#022cac] rounded-lg my-7 mx-10"
             style={submitButtonStyle}
           >
             Log In
           </button>
-          <button
-            type="submit"
-            className="text-white bg-[#0061EB] rounded-xl my-7 mx-10"
-            style={submitButtonStyle}
+          <Button
+            variant="outlined"
+            size="medium"
+            className="inline-block text-black bg-white hover:bg-[#0061EB] rounded-lg border-gray-200 border-2 my-10 mx-10"
+            sx={googleButtonStyle}
           >
-            Log In
-          </button>
+            <Image
+              src={GoogleLogo}
+              width="16"
+              height="16"
+              alt="Google"
+              className="inline-block mx-2"
+            />
+            Sign In with Google
+          </Button>
         </form>
       </div>
     </div>
@@ -95,8 +105,32 @@ const pStyle: CSSProperties = {
 }
 
 const submitButtonStyle: CSSProperties = {
+  width: '79%',
+  height: '4%',
+  paddingTop: '2%',
+  paddingBottom: '2%',
+}
+
+const googleButtonStyle: CSSProperties = {
   width: '80%',
   height: '4%',
   paddingTop: '2%',
   paddingBottom: '2%',
 }
+
+// <span className="inline-block">
+//             <button
+//               type="submit"
+//               className="text-black bg-white hover:bg-[#0061EB] rounded-lg border-3 border-black my-16 mx-10 inline-block"
+//               style={googleButtonStyle}
+//             >
+//               <Image
+//                 src={GoogleLogo}
+//                 width="16"
+//                 height="16"
+//                 alt="Google"
+//                 className="inline-block mx-2"
+//               />
+//               Sign in with Google
+//             </button>
+//           </span>
