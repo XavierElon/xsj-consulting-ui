@@ -8,7 +8,7 @@ import { UserStateContext } from '@/context/UserContext'
 
 const Login: NextPage = () => {
   const { items } = useContext(UserStateContext)
-  console.log(items)
+
   return (
     <>
       <Layout>
