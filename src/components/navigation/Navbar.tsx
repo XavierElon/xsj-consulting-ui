@@ -14,6 +14,8 @@ type Props = {
 }
 
 const Navbar = (props: Props) => {
+  const [user] = useAuthState(auth)
+
   return (
     <nav
       className={classNames({
