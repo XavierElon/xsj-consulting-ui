@@ -18,9 +18,7 @@ const Login: NextPage = () => {
           </div>
           <div className="w-1/2 bg-gradient-to-t from-[#77cafe] to-[#0069FF] p-8">
             <div className="relative">
-              <div className="mask-ellipsis">
-                Some text that is long enough to be truncated with an ellipsis
-              </div>
+              <div className="mask-ellipsis"></div>
             </div>
           </div>
         </div>

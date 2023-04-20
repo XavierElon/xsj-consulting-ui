@@ -60,6 +60,7 @@ const LoginModal = (props: any) => {
             type="submit"
             className="text-white bg-[#0061EB] hover:bg-[#022cac] rounded-lg my-7 mx-10"
             style={submitButtonStyle}
+            onClick={handleSubmit}
           >
             Log In
           </button>
@@ -117,20 +118,3 @@ const googleButtonStyle: CSSProperties = {
   paddingTop: '2%',
   paddingBottom: '2%',
 }
-
-// <span className="inline-block">
-//             <button
-//               type="submit"
-//               className="text-black bg-white hover:bg-[#0061EB] rounded-lg border-3 border-black my-16 mx-10 inline-block"
-//               style={googleButtonStyle}
-//             >
-//               <Image
-//                 src={GoogleLogo}
-//                 width="16"
-//                 height="16"
-//                 alt="Google"
-//                 className="inline-block mx-2"
-//               />
-//               Sign in with Google
-//             </button>
-//           </span>
