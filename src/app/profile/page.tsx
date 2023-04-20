@@ -4,6 +4,7 @@ import { NextPage } from 'next'
 import Layout from '@/components/Layout'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/firebase/firebase'
+import Forbidden from '../forbidden/page'
 
 const Profile: NextPage = () => {
   const [user] = useAuthState(auth)
@@ -15,15 +16,10 @@ const Profile: NextPage = () => {
     try {
       await auth.signOut()
       console.log('User has been signed out')
-      console.log(user)
     } catch (error) {
       console.error(error)
     }
   }
-
-  useEffect(() => {
-    console.log('user changed')
-  }, [user2])
 
   return (
     <>
@@ -42,7 +38,7 @@ const Profile: NextPage = () => {
         </>
       ) : (
         <>
-          <h1 className="text-white">Forbidden</h1>
+          <Forbidden />
         </>
       )}
     </>

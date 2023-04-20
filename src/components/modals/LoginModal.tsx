@@ -10,7 +10,7 @@ const LoginModal = (props: any) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleSubmit = (e: any) => {
+  const handleLogin = (e: any) => {
     e.preventDefault()
     // Add your login logic here
     console.log('Email:', email, 'Password:', password)
@@ -59,7 +59,7 @@ const LoginModal = (props: any) => {
             type="submit"
             className="text-white bg-[#0061EB] hover:bg-[#022cac] rounded-lg my-7 mx-10"
             style={submitButtonStyle}
-            onClick={handleSubmit}
+            onClick={handleLogin}
           >
             Log In
           </button>
