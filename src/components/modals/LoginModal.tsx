@@ -4,8 +4,7 @@ import { TextField, Box, Button } from '@mui/material'
 import { Epilogue } from 'next/font/google'
 import Image from 'next/image'
 import GoogleLogo from 'public/google-logo.svg'
-
-const epilogue = Epilogue({ subsets: ['latin'] })
+import { signInWithGooglePopup } from '@/firebase/firebase'
 
 const LoginModal = (props: any) => {
   const [email, setEmail] = useState('')
@@ -16,10 +15,10 @@ const LoginModal = (props: any) => {
     // Add your login logic here
     console.log('Email:', email, 'Password:', password)
   }
-
-  useEffect(() => {
-    console.log(password)
-  }, [password])
+  const handleGoogleLogin = () => {
+    console.log('Google clicked')
+    signInWithGooglePopup()
+  }
 
   return (
     <div className="flex flex-col container fixed left-1/2 -translate-x-1/2 top-1/2 transform -translate-y-1/2">
@@ -69,6 +68,7 @@ const LoginModal = (props: any) => {
             size="medium"
             className="inline-block text-black bg-white hover:bg-[#0061EB] rounded-lg border-gray-200 border-2 my-10 mx-10"
             sx={googleButtonStyle}
+            onClick={() => handleGoogleLogin()}
           >
             <Image
               src={GoogleLogo}

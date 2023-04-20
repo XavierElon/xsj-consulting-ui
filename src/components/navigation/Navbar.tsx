@@ -5,6 +5,8 @@ import { CgMenuGridR } from 'react-icons/cg'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { Button } from 'react-bootstrap'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth } from '@/firebase/firebase'
 
 type Props = {
   open: boolean
