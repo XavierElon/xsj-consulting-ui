@@ -3,20 +3,21 @@ import * as React from 'react'
 import { Providers } from './providers'
 import './globals.css'
 import './stars.css'
+import '@fontsource/epilogue'
+import { UserStateProvider } from '@/context/UserContext'
 
 export default function RootLayout({
-  children
+  children,
 }: {
   children: React.ReactNode
 }) {
   return (
     <html>
-      <head>
-      </head>
+      <head></head>
       <body>
-        <Providers>
-            {children}
-        </Providers>
+        <UserStateProvider>
+          <Providers>{children}</Providers>
+        </UserStateProvider>
       </body>
     </html>
   )
