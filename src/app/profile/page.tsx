@@ -4,17 +4,16 @@ import { NextPage } from 'next'
 import Layout from '@/components/Layout'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/firebase/firebase'
+import { signOut } from 'firebase/auth'
 import Forbidden from '../forbidden/page'
 
 const Profile: NextPage = () => {
   const [user] = useAuthState(auth)
   console.log(user)
 
-  const [user2, setUser2] = useState(user)
-
   const handleSignout = async (e: any) => {
     try {
-      await auth.signOut()
+      await signOut(auth)
       console.log('User has been signed out')
     } catch (error) {
       console.error(error)

@@ -1,6 +1,5 @@
 import React from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import Link from 'next/link'
 import { auth } from '@/firebase/firebase'
 import Layout from '@/components/Layout'
 import Forbidden from '@/app/forbidden/page'

@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app"
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -32,6 +32,7 @@ export const signInWithGooglePopup = () => {
         localStorage.setItem('name', name)
         localStorage.setItem('email', email)
         localStorage.setItem('profilePic', profilePic)
+        window.location.assign('/')
     }).catch((error) => {
         console.log(error)
     })
