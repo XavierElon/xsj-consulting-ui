@@ -1,11 +1,14 @@
 'use client'
-
+import { useContext } from 'react'
 import { NextPage } from 'next'
 import Layout from '@/components/Layout'
 import LoginModal from '@/components/modals/LoginModal'
 import '../../css/ellipsis.css'
+import { UserStateContext } from '@/context/UserContext'
 
 const Login: NextPage = () => {
+  const { items } = useContext(UserStateContext)
+  console.log(items)
   return (
     <>
       <Layout>
