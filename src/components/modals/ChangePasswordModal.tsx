@@ -1,15 +1,20 @@
 'use client'
 import React, { CSSProperties, useEffect, useState } from 'react'
 import { TextField, Box, Button } from '@mui/material'
-import { Epilogue } from 'next/font/google'
-import Image from 'next/image'
-import GoogleLogo from 'public/google-logo.svg'
-import { signInWithGooglePopup } from '@/firebase/firebase'
+import axios from 'axios'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth } from '@/firebase/firebase'
+// import dotenv from 'dotenv'
+
+// dotenv.config()
 
 const ChangePasswordModal = (props: any) => {
   const [oldPassword, setOldPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmNewPassword, setConfirmNewPassword] = useState('')
+
+  const [user] = useAuthState(auth)
+  console.log(user)
 
   const handlePasswordChange = (e: any) => {
     e.preventDefault()
@@ -22,6 +27,24 @@ const ChangePasswordModal = (props: any) => {
       ' confirmNewPassword: ',
       confirmNewPassword
     )
+    if (newPassword !== confirmNewPassword) {
+      console.error('Passwords do not match')
+      return
+    } else {
+      axios
+        .put('http://localhost:4269/profile/settings/changepassword', {
+          oldPassword: oldPassword,
+          newPassword: newPassword,
+          email: user?.email,
+        })
+        .then((response) => {
+          if (response.data.error) {
+            alert(response.data.error)
+          } else {
+            console.log('Password successfully updated')
+          }
+        })
+    }
   }
 
   return (

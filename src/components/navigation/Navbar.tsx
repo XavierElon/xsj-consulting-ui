@@ -6,11 +6,11 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { Button } from 'react-bootstrap'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth } from '@/firebase/firebase'
 import { signOut } from 'firebase/auth'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
-import { auth } from '@/firebase/firebase'
 
 type Props = {
   open: boolean
@@ -25,6 +25,7 @@ const Navbar = (props: Props) => {
   const handleLogout = async () => {
     try {
       await signOut(auth)
+      window.location.assign('/')
     } catch (error) {
       console.error(error)
     }

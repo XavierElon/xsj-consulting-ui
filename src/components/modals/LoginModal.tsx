@@ -1,5 +1,6 @@
 'use client'
 import React, { CSSProperties, useEffect, useState } from 'react'
+import Link from 'next/link'
 import { TextField, Box, Button } from '@mui/material'
 import { Epilogue } from 'next/font/google'
 import Image from 'next/image'
@@ -79,6 +80,11 @@ const LoginModal = (props: any) => {
             />
             Sign In with Google
           </Button>
+          <Link href="/forgotpassword">
+            <p style={forgotPasswordStyle} className="underline text-[#0069FF]">
+              Forgot Password?
+            </p>
+          </Link>
         </form>
       </div>
     </div>
@@ -117,4 +123,8 @@ const googleButtonStyle: CSSProperties = {
   height: '4%',
   paddingTop: '2%',
   paddingBottom: '2%',
+}
+
+const forgotPasswordStyle: CSSProperties = {
+  fontFamily: 'Jetbrains Mono',
 }
