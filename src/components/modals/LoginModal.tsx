@@ -39,6 +39,7 @@ const LoginModal = (props: any) => {
             <TextField
               required
               id="outlined-required"
+              error
               size="small"
               className="transform hover:scale-110 transition-all duration-300 w-80 mx-10"
               onChange={(e) => setEmail(e.target.value)}
@@ -81,7 +82,7 @@ const LoginModal = (props: any) => {
             Sign In with Google
           </Button>
           <Link href="/forgotpassword">
-            <p style={forgotPasswordStyle} className="underline text-[#0069FF]">
+            <p className="underline text-[#0069FF] font-jetbrains">
               Forgot Password?
             </p>
           </Link>
@@ -125,6 +126,6 @@ const googleButtonStyle: CSSProperties = {
   paddingBottom: '2%',
 }
 
-const forgotPasswordStyle: CSSProperties = {
-  fontFamily: 'Jetbrains Mono',
-}
+// const forgotPasswordStyle: CSSProperties = {
+//   fontFamily: 'Jetbrains Mono',
+// }

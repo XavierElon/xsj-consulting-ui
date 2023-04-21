@@ -11,6 +11,7 @@ module.exports = {
       fontFamily: {
         sans: ['Inter var', ...fontFamily.sans],
         epilogue: ['Epilogue', 'sans-serif'],
+        jetbrains: ['JetBrains Mono', 'monospace'],
       },
       animation: {
         text: 'text 5s ease infinite',
