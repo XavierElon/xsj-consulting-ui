@@ -11,6 +11,10 @@ const ForgotPassword: NextPage = () => {
   const [email, setEmail] = useState<string>('')
   const { items } = useContext(UserStateContext)
 
+  const handlePasswordReset = () => {
+    console.log('clicked')
+  }
+
   return (
     <>
       <Layout>
@@ -28,17 +32,26 @@ const ForgotPassword: NextPage = () => {
                 send you a link to reset your password.
               </p>
               <form>
-                <p className="mx-10">
-                  <span className="text-[#0069FF]">email </span>
+                <p className="mx-2 py-2">
+                  <span className="text-[#0069FF]">email address </span>
                   <span className="text-red-600 relative top-1">*</span>
                 </p>
                 <TextField
                   required
                   id="outlined-required"
                   size="small"
-                  className="transform hover:scale-110 transition-all duration-300 w-80 mx-10"
+                  className="transform hover:scale-110 transition-all duration-300 w-96 mx-2"
                   onChange={(e) => setEmail(e.target.value)}
                 />
+
+                <button
+                  type="submit"
+                  className="text-white bg-[#0061EB] hover:bg-[#022cac] rounded-lg my-7 mx-2"
+                  style={submitButtonStyle}
+                  onClick={handlePasswordReset}
+                >
+                  Request Password Reset
+                </button>
               </form>
             </div>
           </div>
@@ -51,7 +64,7 @@ const ForgotPassword: NextPage = () => {
 export default ForgotPassword
 
 const containerStyle: CSSProperties = {
-  width: '478px',
+  width: '440px',
   height: '304px',
   marginLeft: '3%',
 }
@@ -62,4 +75,11 @@ const headerStyle: CSSProperties = {
   letterSpacing: '-.5px',
   lineHeight: '40px',
   fontWeight: '700',
+}
+
+const submitButtonStyle: CSSProperties = {
+  width: '94%',
+  height: '4%',
+  paddingTop: '2%',
+  paddingBottom: '2%',
 }
