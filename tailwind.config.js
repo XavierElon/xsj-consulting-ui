@@ -39,7 +39,7 @@ module.exports = {
           'signup-cover': "url('/images/signup-cover.png')",
         },
         colors: {
-          primary: '#000000',
+          primary: '#FFFFFF',
           secondary: '#6AA7F8',
         },
         backgroundColor: {
