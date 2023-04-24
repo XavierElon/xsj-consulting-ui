@@ -1,21 +1,23 @@
 'use client'
 import React, { CSSProperties, useEffect, useState } from 'react'
-import Link from 'next/link'
 import { TextField, Box, Button } from '@mui/material'
 import { Epilogue } from 'next/font/google'
 import Image from 'next/image'
+import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import GoogleLogo from 'public/google-logo.svg'
 import { signInWithGooglePopup } from '@/firebase/firebase'
+import { validateEmail } from '@/utils/email.helpers'
 
 const SignupModal = (props: any) => {
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
+  const [firstName, setFirstName] = useState<string>('')
+  const [lastName, setLastName] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [confirmPassword, setConfirmPassword] = useState<string>('')
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(false)
+  const [validEmail, setValidEmail] = useState<boolean>(true)
 
   const showSuccessToastMessage = () => {
     toast.success('Success Notification !', {
@@ -29,14 +31,39 @@ const SignupModal = (props: any) => {
     })
   }
 
+  const showEmailErrorToastMessage = () => {
+    toast.error('Email must be valid for signup!', {
+      position: toast.POSITION.BOTTOM_CENTER,
+    })
+  }
+
   const handleSignup = (e: any) => {
     e.preventDefault()
     if (!passwordsMatch) {
-      console.log('here')
       showPasswordErrorToastMessage()
       return
+    } else if (!validEmail || email === '') {
+      showEmailErrorToastMessage()
+      return
+    } else {
+      axios
+        .post('http://localhost:1017/signup', {
+          local: {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: password,
+          },
+          provider: 'local',
+        })
+        .then((result) => {
+          console.log(result)
+        })
+        .catch((error) => {
+          console.log('error')
+          console.error(error)
+        })
     }
-    console.log('test')
   }
 
   const handleGoogleLogin = () => {
@@ -89,8 +116,17 @@ const SignupModal = (props: any) => {
             size="small"
             autoComplete="current-email"
             className="transform hover:scale-110 transition-all duration-300 w-80 mx-10"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value)
+              //   const isValidEmail = validateEmail(email)
+              //   setValidEmail(isValidEmail)
+            }}
           />
+          {!validEmail && (
+            <div className="h-6">
+              <p className="text-red-600 mx-10">Email address must be valid</p>
+            </div>
+          )}
           <p style={pStyle} className="mx-10">
             <span className="text-[#0069FF]">password </span>
             <span className="text-red-600 relative top-1">*</span>
