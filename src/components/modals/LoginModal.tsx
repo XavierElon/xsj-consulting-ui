@@ -1,25 +1,24 @@
 'use client'
 import React, { CSSProperties, useEffect, useState } from 'react'
+import Link from 'next/link'
 import { TextField, Box, Button } from '@mui/material'
 import { Epilogue } from 'next/font/google'
 import Image from 'next/image'
 import GoogleLogo from 'public/google-logo.svg'
-
-const epilogue = Epilogue({ subsets: ['latin'] })
+import { signInWithGooglePopup } from '@/firebase/firebase'
 
 const LoginModal = (props: any) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleSubmit = (e: any) => {
+  const handleLogin = (e: any) => {
     e.preventDefault()
     // Add your login logic here
     console.log('Email:', email, 'Password:', password)
   }
-
-  useEffect(() => {
-    console.log(password)
-  }, [password])
+  const handleGoogleLogin = () => {
+    signInWithGooglePopup()
+  }
 
   return (
     <div className="flex flex-col container fixed left-1/2 -translate-x-1/2 top-1/2 transform -translate-y-1/2">
@@ -60,6 +59,7 @@ const LoginModal = (props: any) => {
             type="submit"
             className="text-white bg-[#0061EB] hover:bg-[#022cac] rounded-lg my-7 mx-10"
             style={submitButtonStyle}
+            onClick={handleLogin}
           >
             Log In
           </button>
@@ -68,6 +68,7 @@ const LoginModal = (props: any) => {
             size="medium"
             className="inline-block text-black bg-white hover:bg-[#0061EB] rounded-lg border-gray-200 border-2 my-10 mx-10"
             sx={googleButtonStyle}
+            onClick={() => handleGoogleLogin()}
           >
             <Image
               src={GoogleLogo}
@@ -78,6 +79,11 @@ const LoginModal = (props: any) => {
             />
             Sign In with Google
           </Button>
+          <Link href="/forgotpassword">
+            <p className="underline text-[#0069FF] font-jetbrains">
+              Forgot Password?
+            </p>
+          </Link>
         </form>
       </div>
     </div>
@@ -118,19 +124,6 @@ const googleButtonStyle: CSSProperties = {
   paddingBottom: '2%',
 }
 
-// <span className="inline-block">
-//             <button
-//               type="submit"
-//               className="text-black bg-white hover:bg-[#0061EB] rounded-lg border-3 border-black my-16 mx-10 inline-block"
-//               style={googleButtonStyle}
-//             >
-//               <Image
-//                 src={GoogleLogo}
-//                 width="16"
-//                 height="16"
-//                 alt="Google"
-//                 className="inline-block mx-2"
-//               />
-//               Sign in with Google
-//             </button>
-//           </span>
+// const forgotPasswordStyle: CSSProperties = {
+//   fontFamily: 'Jetbrains Mono',
+// }
