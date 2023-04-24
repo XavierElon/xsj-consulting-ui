@@ -17,7 +17,6 @@ const LoginModal = (props: any) => {
     console.log('Email:', email, 'Password:', password)
   }
   const handleGoogleLogin = () => {
-    console.log('Google clicked')
     signInWithGooglePopup()
   }
 

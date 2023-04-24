@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app"
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import axios from 'axios'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -23,16 +24,44 @@ export const auth = getAuth(app)
 const GoogleProvider = new GoogleAuthProvider()
 
 export const signInWithGooglePopup = () => {
-    signInWithPopup(auth, GoogleProvider).then((result) => {
+    signInWithPopup(auth, GoogleProvider).then((result: any) => {
+        console.log('result')
         console.log(result)
-        const name: string = result.user.displayName!
+        console.log(result._tokenResponse)
+        const displayName: string = result.user.displayName!
         const email: string = result.user.email!
         const profilePic: string = result.user.photoURL!
+        const firebaseUid: string = result.user.uid
+        const accessToken: string = result.user.accessToken
+        const refreshToken: string = result._tokenResponse.refreshToken
 
-        localStorage.setItem('name', name)
+        try {
+            console.log('here')
+            axios.post('http://localhost:1017/auth/firebase/google', {
+              firebaseGoogle: {
+                firebaseUid: firebaseUid,
+                accessToken: accessToken,
+                email: email,
+                displayName: displayName,
+                photoURL: profilePic,
+                refreshToken: refreshToken
+              }
+            }).then((result) => {
+                console.log(result)
+            }).catch((error) => {
+                console.error(error)
+            })
+            console.log('posted')
+          } catch (error) {
+            console.error(`${error}`)
+            throw new Error('Google login failed')
+          }
+
+
+        localStorage.setItem('name', displayName)
         localStorage.setItem('email', email)
         localStorage.setItem('profilePic', profilePic)
-        window.location.assign('/')
+        // window.location.assign('/')
     }).catch((error) => {
         console.log(error)
     })

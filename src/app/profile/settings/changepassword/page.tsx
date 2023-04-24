@@ -21,14 +21,18 @@ const ChangePassword = () => {
                   <div className="mask-ellipsis"></div>
                 </div>
               </div>
-              <div className="flex w-1/2 bg-white mx-auto items-center justify-center">
+              <div className="flex w-1/2 bg-white mx-auto items-center justify-ce">
                 <ChangePasswordModal className=""></ChangePasswordModal>
               </div>
             </div>
           </Layout>
         </>
       ) : (
-        <Forbidden />
+        <>
+          <Layout>
+            <Forbidden />
+          </Layout>
+        </>
       )}
     </>
   )
