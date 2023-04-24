@@ -34,7 +34,9 @@ const SignupModal = (props: any) => {
     if (!passwordsMatch) {
       console.log('here')
       showPasswordErrorToastMessage()
+      return
     }
+    console.log('test')
   }
 
   const handleGoogleLogin = () => {
@@ -84,11 +86,10 @@ const SignupModal = (props: any) => {
           </p>
           <TextField
             id="outlined-email-input"
-            type="password"
             size="small"
             autoComplete="current-email"
             className="transform hover:scale-110 transition-all duration-300 w-80 mx-10"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <p style={pStyle} className="mx-10">
             <span className="text-[#0069FF]">password </span>
