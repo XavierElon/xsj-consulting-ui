@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { TextField, Box, Button } from '@mui/material'
 import { Epilogue } from 'next/font/google'
 import Image from 'next/image'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import GoogleLogo from 'public/google-logo.svg'
 import { signInWithGooglePopup } from '@/firebase/firebase'
 
@@ -15,11 +17,24 @@ const SignupModal = (props: any) => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(false)
 
+  const showSuccessToastMessage = () => {
+    toast.success('Success Notification !', {
+      position: toast.POSITION.TOP_RIGHT,
+    })
+  }
+
+  const showPasswordErrorToastMessage = () => {
+    toast.error('Passwords must match!', {
+      position: toast.POSITION.BOTTOM_CENTER,
+    })
+  }
+
   const handleSignup = (e: any) => {
     e.preventDefault()
     if (!passwordsMatch) {
+      console.log('here')
+      showPasswordErrorToastMessage()
     }
-    console.log('Email:', email, 'Password:', password)
   }
 
   const handleGoogleLogin = () => {
@@ -28,8 +43,9 @@ const SignupModal = (props: any) => {
 
   return (
     <div className="flex flex-col">
+      <ToastContainer />
       <div
-        style={{ ...containerStyle, width: '90%' }}
+        style={{ ...containerStyle, width: '450px' }}
         className="left-24 w-96 h-96 bg-white border-b-2 border-gray-200 rounded-lg p-4 shadow-md"
       >
         <h2 style={headerStyle} className="text-black text-center">
@@ -133,6 +149,7 @@ const SignupModal = (props: any) => {
           </Button>
         </form>
       </div>
+      {/* </ToastContainer> */}
     </div>
   )
 }
