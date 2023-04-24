@@ -8,7 +8,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import GoogleLogo from 'public/google-logo.svg'
 import { signInWithGooglePopup } from '@/firebase/firebase'
-import { validateEmail } from '@/utils/email.helpers'
+import { validateEmail, validatePassword } from '@/utils/verification.helpers'
 
 const SignupModal = (props: any) => {
   const [firstName, setFirstName] = useState<string>('')
@@ -18,17 +18,27 @@ const SignupModal = (props: any) => {
   const [confirmPassword, setConfirmPassword] = useState<string>('')
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(false)
   const [validEmail, setValidEmail] = useState<boolean>(true)
+  const [validPassword, setValidPassword] = useState<boolean>(false)
 
   const showSuccessToastMessage = () => {
     toast.success('Success Notification !', {
-      position: toast.POSITION.TOP_RIGHT,
+      position: toast.POSITION.TOP_CENTER,
     })
   }
 
-  const showPasswordErrorToastMessage = () => {
+  const showPasswordMatchErrorToastMessage = () => {
     toast.error('Passwords must match!', {
       position: toast.POSITION.BOTTOM_CENTER,
     })
+  }
+
+  const showPasswordNotValidErrorToastMessage = () => {
+    toast.error(
+      'Local password must contain at least 8 characters, at least one letter, at least one number, and at least one special character (@$!%*#?&)',
+      {
+        position: toast.POSITION.BOTTOM_CENTER,
+      }
+    )
   }
 
   const showEmailErrorToastMessage = () => {
@@ -39,8 +49,15 @@ const SignupModal = (props: any) => {
 
   const handleSignup = (e: any) => {
     e.preventDefault()
+    setValidPassword(validatePassword(password))
+    console.log(validPassword)
+    if (!validPassword) {
+      showPasswordNotValidErrorToastMessage()
+      return
+    }
+
     if (!passwordsMatch) {
-      showPasswordErrorToastMessage()
+      showPasswordMatchErrorToastMessage()
       return
     } else if (!validEmail || email === '') {
       showEmailErrorToastMessage()
@@ -58,9 +75,9 @@ const SignupModal = (props: any) => {
         })
         .then((result) => {
           console.log(result)
+          showSuccessToastMessage()
         })
         .catch((error) => {
-          console.log('error')
           console.error(error)
         })
     }
