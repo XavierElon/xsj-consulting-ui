@@ -1,5 +1,3 @@
-import { withTailwindCSS } from '@zeit/next-tailwind'
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
@@ -13,11 +11,4 @@ const nextConfig = {
   },
 }
 
-// Use the `withTailwindCSS` function to enhance the `nextConfig` object
-module.exports = withTailwindCSS({
-  tailwindCss: {
-    config: './tailwind.config.js',
-    jit: true,
-  },
-  ...nextConfig,
-})
+module.exports = nextConfig
