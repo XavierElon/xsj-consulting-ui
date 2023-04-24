@@ -38,7 +38,6 @@ const LoginModal = (props: any) => {
             <TextField
               required
               id="outlined-required"
-              error
               size="small"
               className="transform hover:scale-110 transition-all duration-300 w-80 mx-10"
               onChange={(e) => setEmail(e.target.value)}
