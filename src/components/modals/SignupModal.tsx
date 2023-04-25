@@ -25,6 +25,7 @@ const SignupModal = (props: any) => {
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(false)
   const [validEmail, setValidEmail] = useState<boolean>(true)
   const [validPassword, setValidPassword] = useState<boolean>(false)
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
   const handleSignup = (e: any) => {
     e.preventDefault()
@@ -58,6 +59,10 @@ const SignupModal = (props: any) => {
         })
         .catch((error) => {
           console.error(error)
+          if (error.response.status === 400) {
+            setErrorMessage(error.response.data.error)
+            return
+          }
         })
     }
   }
@@ -114,6 +119,9 @@ const SignupModal = (props: any) => {
             className="transform hover:scale-110 transition-all duration-300 w-80 mx-10"
             onChange={(e) => setEmail(e.target.value)}
           />
+          {errorMessage && validEmail && (
+            <p className="text-red-600 relative mx-10 top-1">{errorMessage}</p>
+          )}
           {!validEmail && (
             <div className="h-6">
               <p className="text-red-600 mx-10">Email address must be valid</p>

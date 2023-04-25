@@ -59,7 +59,7 @@ const LoginModal = (props: any) => {
         setErrorMessage(error.response.data.error)
         showEmailDoesNotExistErrorToastMessage()
         return
-      } else if (error.status === 400) {
+      } else if (error.response.status === 400) {
         setErrorMessage(error.response.data.error)
         showIncorrectLoginInfoErrorToastMessage()
         return
