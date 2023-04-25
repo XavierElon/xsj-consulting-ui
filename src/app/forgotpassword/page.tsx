@@ -79,14 +79,21 @@ const ForgotPassword: NextPage = () => {
   const handleUpdatePassword = (e: any) => {
     e.preventDefault()
     axios
-      .post('http://localhost:1017/resetpassword', {
+      .put('http://localhost:1017/resetpassword', {
         password,
         recipientEmail,
       })
       .then((result) => {
         console.log(result)
         if (result.status === 200) {
+          showPasswordResetSuccessfullyToastMessage()
+          setTimeout(() => {
+            window.location.assign('/login')
+          }, 2000)
         }
+      })
+      .catch((error) => {
+        console.error(error)
       })
   }
 
@@ -145,6 +152,7 @@ const ForgotPassword: NextPage = () => {
                       required
                       id="outlined-required"
                       size="small"
+                      type="password"
                       className="transform hover:scale-110 transition-all duration-300 w-96 mx-2"
                       onChange={(e) => setPassword(e.target.value)}
                     />
@@ -156,6 +164,7 @@ const ForgotPassword: NextPage = () => {
                       required
                       id="outlined-required"
                       size="small"
+                      type="password"
                       className="transform hover:scale-110 transition-all duration-300 w-96 mx-2"
                       onChange={(e) => {
                         setConfirmPassword(e.target.value)
@@ -174,7 +183,7 @@ const ForgotPassword: NextPage = () => {
                       type="submit"
                       className="text-white bg-[#0061EB] hover:bg-[#022cac] rounded-lg my-7 mx-2"
                       style={submitButtonStyle}
-                      onClick={handlePasswordReset}
+                      onClick={handleUpdatePassword}
                     >
                       Request Password Reset
                     </button>
