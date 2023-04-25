@@ -4,7 +4,7 @@ import { NextPage } from 'next'
 import Layout from '@/components/Layout'
 import LoginModal from '@/components/modals/LoginModal'
 import '../../css/ellipsis.css'
-import { UserStateContext } from '@/context/UserContext'
+import { UserStateContext } from '@/context/CartContext'
 
 const Login: NextPage = () => {
   const { items } = useContext(UserStateContext)

@@ -123,7 +123,3 @@ const googleButtonStyle: CSSProperties = {
   paddingTop: '2%',
   paddingBottom: '2%',
 }
-
-// const forgotPasswordStyle: CSSProperties = {
-//   fontFamily: 'Jetbrains Mono',
-// }

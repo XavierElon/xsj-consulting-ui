@@ -4,7 +4,7 @@ import { Providers } from './providers'
 import './globals.css'
 import './stars.css'
 import '@fontsource/epilogue'
-import { UserStateProvider } from '@/context/UserContext'
+import { UserStateProvider } from '@/context/CartContext'
 
 export default function RootLayout({
   children,
