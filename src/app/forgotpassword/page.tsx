@@ -1,6 +1,7 @@
 'use client'
-import { CSSProperties, useContext, useState } from 'react'
+import { CSSProperties, useContext, useEffect, useState } from 'react'
 import { NextPage } from 'next'
+import axios from 'axios'
 import Layout from '@/components/Layout'
 import LoginModal from '@/components/modals/LoginModal'
 import '../../css/ellipsis.css'
@@ -9,29 +10,64 @@ import { TextField } from '@mui/material'
 import cryptoRandomString from 'crypto-random-string'
 import { LocalUserStateContext } from '@/context/UserContext'
 
+interface PasswordResetParams {
+  OTP: string
+  recipient_email: string
+}
+
 const ForgotPassword: NextPage = () => {
   // const [userEmail, setUserEmail] = useState<string>('')
-  const [showOtpInput, setShowOtpInput] = useState<boolean>(true)
-  const { setEmail, setOtp } = useContext(LocalUserStateContext)
+  const [otpEmailSent, setOtpEmailSent] = useState<boolean>(false)
+  // const { setEmail, setOtp } = useContext(LocalUserStateContext)
+  const [recipientEmail, setRecipientEmail] = useState<string>('')
+  const [otp, setOtp] = useState<string>('')
   const [localOtp, setLocalOtp] = useState<string>()
   const [validOtp, setValidOtp] = useState<boolean>(false)
   const [password, setPassword] = useState<string>('')
-  const [confirmedPassword, setConfirmedPassword] = useState<string>('')
+  const [confirmPassword, setConfirmPassword] = useState<string>('')
 
   const OTP_LENGTH: number = 6
   const OTP_CHARACTERS: string = '0123456789'
 
-  const OTP: string = cryptoRandomString({
-    length: OTP_LENGTH,
-    characters: OTP_CHARACTERS,
-  })
+  useEffect(() => {
+    console.log(otpEmailSent)
+  }, [otpEmailSent])
 
-  const handlePasswordReset = () => {
-    console.log('clicked')
+  useEffect(() => {
+    console.log(validOtp)
+  }, [otpEmailSent])
+
+  const handlePasswordReset = (e: any) => {
+    e.preventDefault()
+    const OTP: string = cryptoRandomString({
+      length: OTP_LENGTH,
+      characters: OTP_CHARACTERS,
+    })
+    console.log(OTP)
+    setOtp(OTP)
+    axios
+      .post('http://localhost:1017/send_recovery_email', {
+        OTP,
+        recipientEmail,
+      })
+      .then((response) => {
+        console.log(response)
+        if (response.status === 200) {
+          setOtpEmailSent(true)
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 
-  const verifyOTP = () => {
-    if (OTP === localOtp) {
+  const verifyOTP = (e: any) => {
+    e.preventDefault()
+    console.log(otp)
+    console.log(localOtp)
+    if (otp === localOtp) {
+      setOtpEmailSent(false)
+      setValidOtp(true)
     }
   }
 
@@ -46,7 +82,7 @@ const ForgotPassword: NextPage = () => {
               style={containerStyle}
               className="bg-white border-b-2 border-gray-200 rounded-lg p-4 shadow-md"
             >
-              {!showOtpInput ? (
+              {otpEmailSent ? (
                 <>
                   <h2 style={headerStyle} className="text-black">
                     Enter OTP to Reset Password
@@ -81,12 +117,11 @@ const ForgotPassword: NextPage = () => {
                     Update Password
                   </h2>
                   <p className="text-[#4D5B7C] py-4">
-                    Enter the email address associated with your account and we
-                    will send you a link to reset your password.
+                    Enter a new password for the email you provided.
                   </p>
                   <form>
                     <p className="mx-2 py-2">
-                      <span className="text-[#0069FF]">email address </span>
+                      <span className="text-[#0069FF]">password </span>
                       <span className="text-red-600 relative top-1">*</span>
                     </p>
                     <TextField
@@ -94,7 +129,18 @@ const ForgotPassword: NextPage = () => {
                       id="outlined-required"
                       size="small"
                       className="transform hover:scale-110 transition-all duration-300 w-96 mx-2"
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <p className="mx-2 py-2">
+                      <span className="text-[#0069FF]">confirm password </span>
+                      <span className="text-red-600 relative top-1">*</span>
+                    </p>
+                    <TextField
+                      required
+                      id="outlined-required"
+                      size="small"
+                      className="transform hover:scale-110 transition-all duration-300 w-96 mx-2"
+                      onChange={(e) => setConfirmPassword(e.target.value)}
                     />
 
                     <button
@@ -126,7 +172,7 @@ const ForgotPassword: NextPage = () => {
                       id="outlined-required"
                       size="small"
                       className="transform hover:scale-110 transition-all duration-300 w-96 mx-2"
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e) => setRecipientEmail(e.target.value)}
                     />
 
                     <button
@@ -152,7 +198,7 @@ export default ForgotPassword
 
 const containerStyle: CSSProperties = {
   width: '440px',
-  height: '304px',
+  height: '350px',
   marginLeft: '3%',
 }
 
