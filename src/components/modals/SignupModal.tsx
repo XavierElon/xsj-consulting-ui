@@ -49,7 +49,6 @@ const SignupModal = (props: any) => {
             lastName: lastName,
             email: email,
             password: password,
-            username: email,
           },
           provider: 'local',
         })
