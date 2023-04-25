@@ -4,11 +4,17 @@ import { TextField, Box, Button } from '@mui/material'
 import { Epilogue } from 'next/font/google'
 import Image from 'next/image'
 import axios from 'axios'
-import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import GoogleLogo from 'public/google-logo.svg'
 import { signInWithGooglePopup } from '@/firebase/firebase'
 import { validateEmail, validatePassword } from '@/utils/verification.helpers'
+import {
+  showEmailNotValidErrorToastMessage,
+  showPasswordMatchErrorToastMessage,
+  showPasswordNotValidErrorToastMessage,
+  showSignupSuccessToastMessage,
+} from '@/utils/toast.helpers'
+import { ToastContainer } from 'react-toastify'
 
 const SignupModal = (props: any) => {
   const [firstName, setFirstName] = useState<string>('')
@@ -18,49 +24,24 @@ const SignupModal = (props: any) => {
   const [confirmPassword, setConfirmPassword] = useState<string>('')
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(false)
   const [validEmail, setValidEmail] = useState<boolean>(true)
-  const [validPassword, setValidPassword] = useState<boolean>(false)
+  const [validPassword, setValidPassword] = useState<any>(null)
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
-  const showSuccessToastMessage = () => {
-    toast.success('Success Notification !', {
-      position: toast.POSITION.TOP_CENTER,
-    })
-  }
-
-  const showPasswordMatchErrorToastMessage = () => {
-    toast.error('Passwords must match!', {
-      position: toast.POSITION.BOTTOM_CENTER,
-    })
-  }
-
-  const showPasswordNotValidErrorToastMessage = () => {
-    toast.error(
-      'Local password must contain at least 8 characters, at least one letter, at least one number, and at least one special character (@$!%*#?&)',
-      {
-        position: toast.POSITION.BOTTOM_CENTER,
-      }
-    )
-  }
-
-  const showEmailErrorToastMessage = () => {
-    toast.error('Email must be valid for signup!', {
-      position: toast.POSITION.BOTTOM_CENTER,
-    })
-  }
+  useEffect(() => {
+    if (validPassword !== null && !validPassword) {
+      showPasswordNotValidErrorToastMessage()
+    }
+  }, [validPassword])
 
   const handleSignup = (e: any) => {
     e.preventDefault()
     setValidPassword(validatePassword(password))
-    console.log(validPassword)
-    if (!validPassword) {
-      showPasswordNotValidErrorToastMessage()
-      return
-    }
 
     if (!passwordsMatch) {
       showPasswordMatchErrorToastMessage()
       return
     } else if (!validEmail || email === '') {
-      showEmailErrorToastMessage()
+      showEmailNotValidErrorToastMessage()
       return
     } else {
       axios
@@ -75,10 +56,14 @@ const SignupModal = (props: any) => {
         })
         .then((result) => {
           console.log(result)
-          showSuccessToastMessage()
+          showSignupSuccessToastMessage()
         })
         .catch((error) => {
           console.error(error)
+          if (error.response.status === 400) {
+            setErrorMessage(error.response.data.error)
+            return
+          }
         })
     }
   }
@@ -133,12 +118,11 @@ const SignupModal = (props: any) => {
             size="small"
             autoComplete="current-email"
             className="transform hover:scale-110 transition-all duration-300 w-80 mx-10"
-            onChange={(e) => {
-              setEmail(e.target.value)
-              //   const isValidEmail = validateEmail(email)
-              //   setValidEmail(isValidEmail)
-            }}
+            onChange={(e) => setEmail(e.target.value)}
           />
+          {errorMessage && validEmail && (
+            <p className="text-red-600 relative mx-10 top-1">{errorMessage}</p>
+          )}
           {!validEmail && (
             <div className="h-6">
               <p className="text-red-600 mx-10">Email address must be valid</p>

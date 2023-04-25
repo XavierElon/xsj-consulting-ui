@@ -1,96 +1,34 @@
-'use client'
 import { createContext, useState } from 'react'
 
 type ContextInterface = {
-  items: any
-  getProductQuantity: any
-  addOneToCart: any
-  removeOneFromCart: any
-  deleteFromCart: any
+  uid: any
+  setUid: any
+  email: any
+  setEmail: any
 }
-const UserStateContext = createContext<ContextInterface>({
-  items: [],
-  getProductQuantity: () => {},
-  addOneToCart: () => {},
-  removeOneFromCart: () => {},
-  deleteFromCart: () => {},
+const LocalUserStateContext = createContext<ContextInterface>({
+  uid: null,
+  setUid: null,
+  email: null,
+  setEmail: null,
 })
 
-const UserStateProvider = (props: any) => {
-  const [cartProducts, setCartProducts] = useState<any[]>([])
-
-  const getProductQuantity = (id: number) => {
-    const quantity = cartProducts.find((product) => product.id === id)?.quantity
-    // console.log(quantity)
-    if (quantity === undefined) {
-      return 0
-    }
-
-    return quantity
-  }
-
-  const addOneToCart = (id: number) => {
-    const quantity = getProductQuantity(id)
-    console.log(quantity)
-    console.log('add')
-    if (quantity === 0) {
-      console.log('here')
-      setCartProducts([
-        ...cartProducts,
-        {
-          id: id,
-          quantity: 1,
-        },
-      ])
-    } else {
-      setCartProducts(
-        cartProducts.map((product) =>
-          product.id === id
-            ? { ...product, quantity: product.quantity + 1 }
-            : product
-        )
-      )
-    }
-    console.log(cartProducts)
-  }
-
-  const removeOneFromCart = (id: number) => {
-    const quantity = getProductQuantity(id)
-
-    if (quantity === 1) {
-      deleteFromCart(id)
-    } else {
-      setCartProducts(
-        cartProducts.map((product) =>
-          product.id === id
-            ? { ...product, quantity: product.quantity - 1 }
-            : product
-        )
-      )
-    }
-  }
-
-  const deleteFromCart = (id: number) => {
-    setCartProducts((cartProducts) =>
-      cartProducts.filter((currentProduct) => {
-        return currentProduct.id != id
-      })
-    )
-  }
-
-  const contextValue = {
-    items: cartProducts,
-    getProductQuantity,
-    addOneToCart,
-    removeOneFromCart,
-    deleteFromCart,
-  }
+const LocalUserStateProvider = (props: any) => {
+  const [uid, setUid] = useState()
+  const [email, setEmail] = useState()
 
   return (
-    <UserStateContext.Provider value={contextValue}>
+    <LocalUserStateContext.Provider
+      value={{
+        uid,
+        setUid,
+        email,
+        setEmail,
+      }}
+    >
       {props.children}
-    </UserStateContext.Provider>
+    </LocalUserStateContext.Provider>
   )
 }
 
-export { UserStateContext, UserStateProvider }
+export { LocalUserStateContext, LocalUserStateProvider }

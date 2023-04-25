@@ -1,20 +1,70 @@
 'use client'
 import React, { CSSProperties, useEffect, useState } from 'react'
 import Link from 'next/link'
+import axios from 'axios'
 import { TextField, Box, Button } from '@mui/material'
+import { ToastContainer, toast } from 'react-toastify'
 import { Epilogue } from 'next/font/google'
 import Image from 'next/image'
 import GoogleLogo from 'public/google-logo.svg'
 import { signInWithGooglePopup } from '@/firebase/firebase'
+import 'react-toastify/dist/ReactToastify.css'
+
+const showLoginSuccessToastMessage = () => {
+  toast.success('Login successful', {
+    position: toast.POSITION.TOP_CENTER,
+  })
+}
+
+const showLoginErrorToastMessage = () => {
+  toast.error('Password and username do not match!', {
+    position: toast.POSITION.BOTTOM_CENTER,
+  })
+}
+
+const showEmailDoesNotExistErrorToastMessage = () => {
+  toast.error('Email does not exist.', {
+    position: toast.POSITION.BOTTOM_CENTER,
+  })
+}
+
+const showIncorrectLoginInfoErrorToastMessage = () => {
+  toast.error('Incorrect username or password combination.', {
+    position: toast.POSITION.BOTTOM_CENTER,
+  })
+}
 
 const LoginModal = (props: any) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
-  const handleLogin = (e: any) => {
+  const handleLogin = async (e: any) => {
     e.preventDefault()
-    // Add your login logic here
-    console.log('Email:', email, 'Password:', password)
+    try {
+      const response = await axios.post('http://localhost:1017/login', {
+        email,
+        password,
+      })
+      if (response.status === 200) {
+        console.log('here')
+        setErrorMessage('')
+        showLoginSuccessToastMessage()
+      }
+    } catch (error: any) {
+      console.log(error.response)
+
+      if (error.response.status === 401) {
+        console.log('401')
+        setErrorMessage(error.response.data.error)
+        showEmailDoesNotExistErrorToastMessage()
+        return
+      } else if (error.response.status === 400) {
+        setErrorMessage(error.response.data.error)
+        showIncorrectLoginInfoErrorToastMessage()
+        return
+      }
+    }
   }
   const handleGoogleLogin = () => {
     signInWithGooglePopup()
@@ -26,6 +76,7 @@ const LoginModal = (props: any) => {
         style={containerStyle}
         className="left-24 w-96 h-96 bg-white border-b-2 border-gray-200 rounded-lg p-4 shadow-md"
       >
+        <ToastContainer />
         <h2 style={headerStyle} className="text-black text-center">
           Log in to your account
         </h2>
@@ -42,6 +93,9 @@ const LoginModal = (props: any) => {
               className="transform hover:scale-110 transition-all duration-300 w-80 mx-10"
               onChange={(e) => setEmail(e.target.value)}
             />
+            {errorMessage && (
+              <p className="text-red-600 relative top-1">{errorMessage}</p>
+            )}
           </div>
           <p style={pStyle} className="mx-10">
             <span className="text-[#0069FF]">password </span>
@@ -123,7 +177,3 @@ const googleButtonStyle: CSSProperties = {
   paddingTop: '2%',
   paddingBottom: '2%',
 }
-
-// const forgotPasswordStyle: CSSProperties = {
-//   fontFamily: 'Jetbrains Mono',
-// }

@@ -93,14 +93,14 @@ const Navbar = (props: Props) => {
       {user && (
         <div>
           <div className="flex justify-end items-center">
-            <button
+            {/* <button
               type="submit"
               className="inline-block text-black bg-slate-50 hover:bg-slate-200 transform hover:scale-110 transition-all duration-300 rounded-lg my-7 mx-10 w-24 h-10"
               // style={submitButtonStyle}
               onClick={handleLogout}
             >
               Log Out
-            </button>
+            </button> */}
             <p className="text-black mr-2">{user?.displayName}</p>
             <img
               src={user?.photoURL || ''}

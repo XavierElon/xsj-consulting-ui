@@ -45,7 +45,7 @@ export const signInWithGooglePopup = () => {
                 displayName: displayName,
                 photoURL: profilePic,
                 refreshToken: refreshToken
-              }
+              },
             }).then((result) => {
                 console.log(result)
             }).catch((error) => {
