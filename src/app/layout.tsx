@@ -1,12 +1,11 @@
 'use client'
-import React, { useState, useEffect, useRef } from 'react'
-
+import React from 'react'
 import { Providers } from './providers'
 import './globals.css'
 import './stars.css'
 import '@fontsource/epilogue'
 import { UserStateProvider } from '@/context/CartContext'
-import { ToastContainer } from 'react-toastify'
+import { LocalUserStateProvider } from '@/context/UserContext'
 
 export default function RootLayout({
   children,
@@ -17,9 +16,11 @@ export default function RootLayout({
     <html>
       <head></head>
       <body>
-        <UserStateProvider>
-          <Providers>{children}</Providers>
-        </UserStateProvider>
+        <LocalUserStateProvider>
+          <UserStateProvider>
+            <Providers>{children}</Providers>
+          </UserStateProvider>
+        </LocalUserStateProvider>
       </body>
     </html>
   )
