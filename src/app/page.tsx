@@ -10,12 +10,14 @@ import {
   TableCard,
 } from '@/components/cards'
 import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const HomePage: NextPage = () => {
   return (
     <>
       <div className="stars" />
       <Layout>
+        <ToastContainer />
         <div className="row-span-1 py-20">
           <CardOne />
         </div>
@@ -33,7 +35,6 @@ const HomePage: NextPage = () => {
           <TableCard />
         </div>
       </Layout>
-      {/* <ToastContainer /> */}
     </>
   )
 }

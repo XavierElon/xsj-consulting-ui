@@ -8,6 +8,7 @@ import { Epilogue } from 'next/font/google'
 import Image from 'next/image'
 import GoogleLogo from 'public/google-logo.svg'
 import { signInWithGooglePopup } from '@/firebase/firebase'
+import 'react-toastify/dist/ReactToastify.css'
 
 const showLoginSuccessToastMessage = () => {
   toast.success('Login successful', {
