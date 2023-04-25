@@ -13,11 +13,15 @@ const ForgotPassword: NextPage = () => {
   // const [userEmail, setUserEmail] = useState<string>('')
   const [showOtpInput, setShowOtpInput] = useState<boolean>(true)
   const { setEmail, setOtp } = useContext(LocalUserStateContext)
+  const [localOtp, setLocalOtp] = useState<string>()
+  const [validOtp, setValidOtp] = useState<boolean>(false)
+  const [password, setPassword] = useState<string>('')
+  const [confirmedPassword, setConfirmedPassword] = useState<string>('')
 
-  const OTP_LENGTH = 6
-  const OTP_CHARACTERS = '0123456789'
+  const OTP_LENGTH: number = 6
+  const OTP_CHARACTERS: string = '0123456789'
 
-  const OTP = cryptoRandomString({
+  const OTP: string = cryptoRandomString({
     length: OTP_LENGTH,
     characters: OTP_CHARACTERS,
   })
@@ -26,7 +30,12 @@ const ForgotPassword: NextPage = () => {
     console.log('clicked')
   }
 
-  const verifyOTP = () => {}
+  const verifyOTP = () => {
+    if (OTP === localOtp) {
+    }
+  }
+
+  const handleUpdatePassword = () => {}
 
   return (
     <>
@@ -40,7 +49,36 @@ const ForgotPassword: NextPage = () => {
               {!showOtpInput ? (
                 <>
                   <h2 style={headerStyle} className="text-black">
-                    Forgot password?
+                    Enter OTP to Reset Password
+                  </h2>
+                  <form>
+                    <p className="mx-2 py-2">
+                      <span className="text-[#0069FF]">OTP:</span>
+                    </p>
+                    <TextField
+                      required
+                      id="outlined-required"
+                      size="small"
+                      type="number"
+                      placeholder="######"
+                      className="transform hover:scale-110 transition-all duration-300 w-96 mx-2"
+                      onChange={(e) => setLocalOtp(e.target.value)}
+                    />
+
+                    <button
+                      type="submit"
+                      className="text-white bg-[#0061EB] hover:bg-[#022cac] rounded-lg my-7 mx-2"
+                      style={submitButtonStyle}
+                      onClick={verifyOTP}
+                    >
+                      Submit OTP
+                    </button>
+                  </form>
+                </>
+              ) : validOtp ? (
+                <>
+                  <h2 style={headerStyle} className="text-black">
+                    Update Password
                   </h2>
                   <p className="text-[#4D5B7C] py-4">
                     Enter the email address associated with your account and we
@@ -72,7 +110,7 @@ const ForgotPassword: NextPage = () => {
               ) : (
                 <>
                   <h2 style={headerStyle} className="text-black">
-                    Enter OTP to Reset Password
+                    Forgot password?
                   </h2>
                   <p className="text-[#4D5B7C] py-4">
                     Enter the email address associated with your account and we
@@ -80,17 +118,15 @@ const ForgotPassword: NextPage = () => {
                   </p>
                   <form>
                     <p className="mx-2 py-2">
-                      <span className="text-[#0069FF]">OTP</span>
+                      <span className="text-[#0069FF]">email address </span>
                       <span className="text-red-600 relative top-1">*</span>
                     </p>
                     <TextField
                       required
                       id="outlined-required"
                       size="small"
-                      type="number"
-                      placeholder="######"
                       className="transform hover:scale-110 transition-all duration-300 w-96 mx-2"
-                      onChange={(e) => setOTP(e.target.value)}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
 
                     <button
@@ -99,7 +135,7 @@ const ForgotPassword: NextPage = () => {
                       style={submitButtonStyle}
                       onClick={handlePasswordReset}
                     >
-                      Submit OTP
+                      Request Password Reset
                     </button>
                   </form>
                 </>
