@@ -9,6 +9,10 @@ import { UserStateContext } from '@/context/CartContext'
 import { TextField } from '@mui/material'
 import cryptoRandomString from 'crypto-random-string'
 import { LocalUserStateContext } from '@/context/UserContext'
+import {
+  showPasswordMatchErrorToastMessage,
+  showPasswordNotValidErrorToastMessage,
+} from '@/utils/toast.helpers'
 
 interface PasswordResetParams {
   OTP: string
@@ -25,17 +29,17 @@ const ForgotPassword: NextPage = () => {
   const [validOtp, setValidOtp] = useState<boolean>(false)
   const [password, setPassword] = useState<string>('')
   const [confirmPassword, setConfirmPassword] = useState<string>('')
+  const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true)
+  const [validPassword, setValidPassword] = useState<any>(null)
 
   const OTP_LENGTH: number = 6
   const OTP_CHARACTERS: string = '0123456789'
 
   useEffect(() => {
-    console.log(otpEmailSent)
-  }, [otpEmailSent])
-
-  useEffect(() => {
-    console.log(validOtp)
-  }, [otpEmailSent])
+    if (validPassword !== null && !validPassword) {
+      showPasswordNotValidErrorToastMessage()
+    }
+  }, [validPassword])
 
   const handlePasswordReset = (e: any) => {
     e.preventDefault()
@@ -140,8 +144,18 @@ const ForgotPassword: NextPage = () => {
                       id="outlined-required"
                       size="small"
                       className="transform hover:scale-110 transition-all duration-300 w-96 mx-2"
-                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      onChange={(e) => {
+                        setConfirmPassword(e.target.value)
+                        setPasswordsMatch(e.target.value === password)
+                      }}
                     />
+                    {!passwordsMatch && (
+                      <div className="h-6">
+                        <p className="text-red-600 mx-10">
+                          Passwords do not match
+                        </p>
+                      </div>
+                    )}
 
                     <button
                       type="submit"
