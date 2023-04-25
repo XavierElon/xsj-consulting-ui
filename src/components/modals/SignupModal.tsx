@@ -24,17 +24,18 @@ const SignupModal = (props: any) => {
   const [confirmPassword, setConfirmPassword] = useState<string>('')
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(false)
   const [validEmail, setValidEmail] = useState<boolean>(true)
-  const [validPassword, setValidPassword] = useState<boolean>(false)
+  const [validPassword, setValidPassword] = useState<any>(null)
   const [errorMessage, setErrorMessage] = useState<string>('')
+
+  useEffect(() => {
+    if (validPassword !== null && !validPassword) {
+      showPasswordNotValidErrorToastMessage()
+    }
+  }, [validPassword])
 
   const handleSignup = (e: any) => {
     e.preventDefault()
     setValidPassword(validatePassword(password))
-    console.log(validPassword)
-    if (!validPassword) {
-      showPasswordNotValidErrorToastMessage()
-      return
-    }
 
     if (!passwordsMatch) {
       showPasswordMatchErrorToastMessage()
