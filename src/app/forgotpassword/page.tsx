@@ -11,6 +11,7 @@ import cryptoRandomString from 'crypto-random-string'
 import { LocalUserStateContext } from '@/context/UserContext'
 import {
   showPasswordMatchErrorToastMessage,
+  showPasswordResetSuccessfullyToastMessage,
   showPasswordNotValidErrorToastMessage,
 } from '@/utils/toast.helpers'
 
@@ -75,7 +76,19 @@ const ForgotPassword: NextPage = () => {
     }
   }
 
-  const handleUpdatePassword = () => {}
+  const handleUpdatePassword = (e: any) => {
+    e.preventDefault()
+    axios
+      .post('http://localhost:1017/resetpassword', {
+        password,
+        recipientEmail,
+      })
+      .then((result) => {
+        console.log(result)
+        if (result.status === 200) {
+        }
+      })
+  }
 
   return (
     <>
