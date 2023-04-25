@@ -9,7 +9,7 @@ import GoogleLogo from 'public/google-logo.svg'
 import { signInWithGooglePopup } from '@/firebase/firebase'
 import { validateEmail, validatePassword } from '@/utils/verification.helpers'
 import {
-  showEmailErrorToastMessage,
+  showEmailNotValidErrorToastMessage,
   showPasswordMatchErrorToastMessage,
   showPasswordNotValidErrorToastMessage,
   showSignupSuccessToastMessage,
@@ -39,7 +39,7 @@ const SignupModal = (props: any) => {
       showPasswordMatchErrorToastMessage()
       return
     } else if (!validEmail || email === '') {
-      showEmailErrorToastMessage()
+      showEmailNotValidErrorToastMessage()
       return
     } else {
       axios
@@ -49,6 +49,7 @@ const SignupModal = (props: any) => {
             lastName: lastName,
             email: email,
             password: password,
+            username: email,
           },
           provider: 'local',
         })

@@ -1,20 +1,49 @@
 'use client'
 import React, { CSSProperties, useEffect, useState } from 'react'
 import Link from 'next/link'
+import axios from 'axios'
 import { TextField, Box, Button } from '@mui/material'
+import { ToastContainer, toast } from 'react-toastify'
 import { Epilogue } from 'next/font/google'
 import Image from 'next/image'
 import GoogleLogo from 'public/google-logo.svg'
 import { signInWithGooglePopup } from '@/firebase/firebase'
+import {
+  showEmailDoesNotExistErrorToastMessage,
+  showIncorrectLoginInfoErrorToastMessage,
+  showLoginSuccessToastMessage,
+} from '@/utils/toast.helpers'
 
 const LoginModal = (props: any) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
-  const handleLogin = (e: any) => {
+  const handleLogin = async (e: any) => {
     e.preventDefault()
     // Add your login logic here
     console.log('Email:', email, 'Password:', password)
+    try {
+      const response = await axios.post('http://localhost:1017/login', {
+        email,
+        password,
+      })
+      if (response.status === 200) {
+        console.log('here')
+        setErrorMessage('')
+        showLoginSuccessToastMessage()
+      }
+    } catch (error: any) {
+      if (error.status === 401) {
+        setErrorMessage(error.response.data.error)
+        showEmailDoesNotExistErrorToastMessage()
+        return
+      } else if (error.status === 400) {
+        setErrorMessage(error.response.data.error)
+        showIncorrectLoginInfoErrorToastMessage()
+        return
+      }
+    }
   }
   const handleGoogleLogin = () => {
     signInWithGooglePopup()
@@ -22,6 +51,7 @@ const LoginModal = (props: any) => {
 
   return (
     <div className="flex flex-col container fixed left-1/2 -translate-x-1/2 top-1/2 transform -translate-y-1/2">
+      <ToastContainer />
       <div
         style={containerStyle}
         className="left-24 w-96 h-96 bg-white border-b-2 border-gray-200 rounded-lg p-4 shadow-md"
@@ -85,6 +115,10 @@ const LoginModal = (props: any) => {
             </p>
           </Link>
         </form>
+
+        {errorMessage && (
+          <p className="text-red-600 relative top-1">{errorMessage}</p>
+        )}
       </div>
     </div>
   )

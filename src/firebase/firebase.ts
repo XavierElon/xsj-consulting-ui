@@ -42,6 +42,7 @@ export const signInWithGooglePopup = () => {
                 firebaseUid: firebaseUid,
                 accessToken: accessToken,
                 email: email,
+                username: email,
                 displayName: displayName,
                 photoURL: profilePic,
                 refreshToken: refreshToken

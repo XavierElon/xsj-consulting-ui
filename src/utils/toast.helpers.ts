@@ -4,25 +4,37 @@ export const showSignupSuccessToastMessage = () => {
     toast.success('Account successfully created!', {
       position: toast.POSITION.TOP_CENTER,
     })
-  }
+}
 
-  export const showLoginSuccessToastMessage = () => {
+export const showLoginSuccessToastMessage = () => {
     toast.success('Login successful', {
       position: toast.POSITION.TOP_CENTER,
     })
-  }
+}
 
-  export const showLoginErrorToastMessage = () => {
+export const showLoginErrorToastMessage = () => {
     toast.error('Password and username do not match!', {
       position: toast.POSITION.BOTTOM_CENTER,
     })
-  }
+}
+
+export const showEmailDoesNotExistErrorToastMessage = () => {
+    toast.error('Email does not exist.', {
+      position: toast.POSITION.BOTTOM_CENTER,
+    })
+}
+
+export const showIncorrectLoginInfoErrorToastMessage = () => {
+    toast.error('Incorrect username or password combination.', {
+      position: toast.POSITION.BOTTOM_CENTER,
+    })
+}
 
 export const showPasswordMatchErrorToastMessage = () => {
     toast.error('Passwords must match!', {
       position: toast.POSITION.BOTTOM_CENTER,
     })
-  }
+}
 
 export const showPasswordNotValidErrorToastMessage = () => {
     toast.error(
@@ -31,10 +43,10 @@ export const showPasswordNotValidErrorToastMessage = () => {
         position: toast.POSITION.BOTTOM_CENTER,
       }
     )
-  }
+}
 
-export const showEmailErrorToastMessage = () => {
+export const showEmailNotValidErrorToastMessage = () => {
     toast.error('Email must be valid for signup!', {
       position: toast.POSITION.BOTTOM_CENTER,
     })
-  }
+}
