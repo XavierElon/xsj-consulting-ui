@@ -22,7 +22,7 @@ const SignupModal = (props: any) => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [confirmPassword, setConfirmPassword] = useState<string>('')
-  const [passwordsMatch, setPasswordsMatch] = useState<boolean>(false)
+  const [passwordsMatch, setPasswordsMatch] = useState<any>(true)
   const [validEmail, setValidEmail] = useState<boolean>(true)
   const [validPassword, setValidPassword] = useState<any>(null)
   const [errorMessage, setErrorMessage] = useState<string>('')

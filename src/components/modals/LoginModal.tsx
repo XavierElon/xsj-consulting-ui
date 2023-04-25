@@ -52,10 +52,7 @@ const LoginModal = (props: any) => {
         showLoginSuccessToastMessage()
       }
     } catch (error: any) {
-      console.log(error.response)
-
       if (error.response.status === 401) {
-        console.log('401')
         setErrorMessage(error.response.data.error)
         showEmailDoesNotExistErrorToastMessage()
         return

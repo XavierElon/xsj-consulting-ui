@@ -6,6 +6,12 @@ export const showSignupSuccessToastMessage = () => {
     })
 }
 
+export const showPasswordResetSuccessfullyToastMessage = () => {
+  toast.success('Password successfully reset!', {
+    position: toast.POSITION.TOP_CENTER,
+  })
+}
+
 export const showPasswordMatchErrorToastMessage = () => {
     toast.error('Passwords must match!', {
       position: toast.POSITION.BOTTOM_CENTER,
