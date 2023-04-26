@@ -36,7 +36,8 @@ const LoginModal = (props: any) => {
         {
           email,
           password,
-        }
+        },
+        { withCredentials: true }
       )
       if (response.status === 200) {
         setErrorMessage('')
@@ -51,6 +52,7 @@ const LoginModal = (props: any) => {
         }, 1000)
       }
     } catch (error: any) {
+      console.log(error)
       if (error.response.status === 401) {
         setErrorMessage(error.response.data.error)
         showEmailDoesNotExistErrorToastMessage()

@@ -13,7 +13,8 @@ import { AuthStateContext } from '@/context/AuthContext'
 const Profile: NextPage = () => {
   const [user] = useAuthState(auth)
   const { authState } = useContext(AuthStateContext)
-  const { email } = authState
+  const { email } = authState.user
+
   let authorized: boolean
   if (authState.provider !== null && authState.provider !== '') {
     authorized = true
@@ -65,6 +66,9 @@ const Profile: NextPage = () => {
                       {authState.provider.charAt(0).toUpperCase() +
                         authState.provider.slice(1)}
                     </p>
+                    <Link href="/profile/settings/changepassword">
+                      <p className="text-black">Change Password< /p>
+                    </Link>
                   </div>
                 </div>
               </div>

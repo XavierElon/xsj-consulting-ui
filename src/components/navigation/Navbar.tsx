@@ -121,16 +121,10 @@ const Navbar = (props: Props) => {
                   fontSize="inherit"
                   color="primary"
                   sx={{ fontSize: '50px' }}
+                  onClick={handleDropdownOpen}
                 ></AccountCircleIcon>
               </>
             )}
-            {/* <img
-              src={user?.photoURL || ''}
-              width="50"
-              height="50"
-              className="rounded-md transform hover:scale-110 transition-all duration-300 cursor-pointer"
-              onClick={handleDropdownOpen}
-            ></img> */}
             <ExpandMoreIcon
               className=" transform hover:scale-150 transition-all duration-300"
               onClick={handleDropdownOpen}

@@ -26,8 +26,6 @@ const GoogleProvider = new GoogleAuthProvider()
 export const signInWithGooglePopup = () => {
   return signInWithPopup(auth, GoogleProvider)
     .then((result: any) => {
-      // console.log(result)
-      // console.log(result._tokenResponse)
       const displayName: string = result.user.displayName!
       const email: string = result.user.email!
       const profilePic: string = result.user.photoURL!
@@ -48,7 +46,6 @@ export const signInWithGooglePopup = () => {
             },
           })
           .then((response) => {
-            // console.log(result)
             localStorage.setItem('name', displayName)
             localStorage.setItem('email', email)
             localStorage.setItem('profilePic', profilePic)
