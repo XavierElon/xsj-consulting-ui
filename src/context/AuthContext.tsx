@@ -28,14 +28,26 @@ const AuthStateProvider = (props: any) => {
   useEffect(() => {
     console.log('user')
     console.log(user)
-    setGoogleAuth()
+    if (user) {
+      setGoogleAuth()
+    }
   }, [user])
 
   const setGoogleAuth = () => {
+    const { accessToken, displayName, email, photoURL, uid } = user
+    const firebaseObj: any = {
+      firebaseGoogle: {
+        displayName: displayName,
+        email: email,
+        firebaseUid: uid,
+        photoURL: photoURL,
+        refreshToken: localStorage.getItem('refreshToken'),
+      },
+    }
     setAuthState({
-      authToken: '',
-      user: '',
-      provider: 'test',
+      authToken: accessToken,
+      user: firebaseObj,
+      provider: 'firebaseGoogle',
     })
   }
 
