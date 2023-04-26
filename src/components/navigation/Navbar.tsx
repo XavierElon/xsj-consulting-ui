@@ -105,10 +105,10 @@ const Navbar = (props: Props) => {
         <div>
           <div className="flex justify-end items-center">
             <p className="text-black mr-2">{user?.displayName}</p>
-            {authState.provider === 'firebaseGoogle ' ? (
+            {authState.provider === 'firebaseGoogle' ? (
               <>
                 <img
-                  src={user?.photoURL || ''}
+                  src={authState?.user.photoURL || ''}
                   width="50"
                   height="50"
                   className="rounded-md transform hover:scale-110 transition-all duration-300 cursor-pointer"
