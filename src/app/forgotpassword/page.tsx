@@ -50,12 +50,14 @@ const ForgotPassword: NextPage = () => {
     })
     console.log(OTP)
     setOtp(OTP)
+    console.log('axios')
     axios
       .post('http://localhost:1017/send_recovery_email', {
         OTP,
         recipientEmail,
       })
       .then((response) => {
+        console.log('test')
         console.log(response)
         if (response.status === 200) {
           setOtpEmailSent(true)

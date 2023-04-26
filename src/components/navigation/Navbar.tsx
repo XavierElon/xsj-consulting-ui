@@ -1,16 +1,20 @@
 'use client'
-import React, { CSSProperties, useState } from 'react'
+import React, { CSSProperties, useContext, useState } from 'react'
 import Link from 'next/link'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
 import { CgMenuGridR } from 'react-icons/cg'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { Button } from 'react-bootstrap'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { AuthStateContext } from '@/context/AuthContext'
 import { auth } from '@/firebase/firebase'
 import { signOut } from 'firebase/auth'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 
 type Props = {
   open: boolean
@@ -19,12 +23,34 @@ type Props = {
 
 const Navbar = (props: Props) => {
   const [anchorEl, setAnchorEl] = useState<any>(null)
-
   const [user] = useAuthState(auth)
+  const { authState } = useContext(AuthStateContext)
+  const router = useRouter()
+
+  let authorized: boolean
+  if (authState.provider !== null && authState.provider !== '') {
+    authorized = true
+  } else {
+    authorized = false
+  }
+  const { provider } = authState
+  console.log(provider)
 
   const handleLogout = async () => {
     try {
-      await signOut(auth)
+      if (provider === 'googleFirebase') {
+        await signOut(auth)
+      }
+      axios
+        .post('http://localhost:1017/logout')
+        .then((result) => {
+          console.log(result)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      localStorage.clear()
+
       window.location.assign('/')
     } catch (error) {
       console.error(error)
@@ -64,7 +90,7 @@ const Navbar = (props: Props) => {
         </div>
       </Link>
       <div className="flex-grow"></div>
-      {!user && (
+      {!authorized && (
         <div className="flex">
           <div className="justify-end mx-5">
             <Link href="/login">
@@ -90,25 +116,30 @@ const Navbar = (props: Props) => {
           </div>
         </div>
       )}
-      {user && (
+      {authorized && (
         <div>
           <div className="flex justify-end items-center">
-            {/* <button
-              type="submit"
-              className="inline-block text-black bg-slate-50 hover:bg-slate-200 transform hover:scale-110 transition-all duration-300 rounded-lg my-7 mx-10 w-24 h-10"
-              // style={submitButtonStyle}
-              onClick={handleLogout}
-            >
-              Log Out
-            </button> */}
             <p className="text-black mr-2">{user?.displayName}</p>
-            <img
-              src={user?.photoURL || ''}
-              width="50"
-              height="50"
-              className="rounded-md transform hover:scale-110 transition-all duration-300 cursor-pointer"
-              onClick={handleDropdownOpen}
-            ></img>
+            {authState.provider === 'firebaseGoogle' ? (
+              <>
+                <img
+                  src={authState?.user.photoURL || ''}
+                  width="50"
+                  height="50"
+                  className="rounded-md transform hover:scale-110 transition-all duration-300 cursor-pointer"
+                  onClick={handleDropdownOpen}
+                ></img>
+              </>
+            ) : (
+              <>
+                <AccountCircleIcon
+                  fontSize="inherit"
+                  color="primary"
+                  sx={{ fontSize: '50px' }}
+                  onClick={handleDropdownOpen}
+                ></AccountCircleIcon>
+              </>
+            )}
             <ExpandMoreIcon
               className=" transform hover:scale-150 transition-all duration-300"
               onClick={handleDropdownOpen}
@@ -118,7 +149,7 @@ const Navbar = (props: Props) => {
               open={Boolean(anchorEl)}
               onClose={handleDropdownClose}
             >
-              <MenuItem onClick={() => window.location.assign('/profile')}>
+              <MenuItem onClick={() => router.push('/profile')}>
                 Profile
               </MenuItem>
               <MenuItem onClick={handleDropdownClose}>Settings</MenuItem>

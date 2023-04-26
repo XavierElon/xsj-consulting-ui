@@ -1,32 +1,23 @@
 'use client'
-import React, { CSSProperties, useEffect, useState } from 'react'
+import React, { CSSProperties, useContext, useEffect, useState } from 'react'
 import { TextField, Box, Button } from '@mui/material'
 import axios from 'axios'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/firebase/firebase'
-// import dotenv from 'dotenv'
-
-// dotenv.config()
+import { AuthStateContext } from '@/context/AuthContext'
 
 const ChangePasswordModal = (props: any) => {
   const [oldPassword, setOldPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmNewPassword, setConfirmNewPassword] = useState('')
-
-  const [user] = useAuthState(auth)
-  console.log(user)
+  const { authState } = useContext(AuthStateContext)
+  // const [user] = useAuthState(auth)
+  // console.log(user)
+  console.log('auth state')
+  console.log(authState)
 
   const handlePasswordChange = (e: any) => {
     e.preventDefault()
-    // Add your login logic here
-    console.log(
-      'Old Password: ',
-      oldPassword,
-      ' New Password: ',
-      newPassword,
-      ' confirmNewPassword: ',
-      confirmNewPassword
-    )
     if (newPassword !== confirmNewPassword) {
       console.error('Passwords do not match')
       return
@@ -35,7 +26,7 @@ const ChangePasswordModal = (props: any) => {
         .put('http://localhost:4269/profile/settings/changepassword', {
           oldPassword: oldPassword,
           newPassword: newPassword,
-          email: user?.email,
+          // email: user?.email,
         })
         .then((response) => {
           if (response.data.error) {

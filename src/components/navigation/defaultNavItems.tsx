@@ -11,7 +11,7 @@ export const defaultNavItems: NavItem[] = [
   {
     label: 'Dashboard',
     href: '/',
-    icon: <HomeIcon className="w-6 h-6" />,
+    icon: <HomeIcon className="w-6 h-6 " />,
   },
   {
     label: 'Team',
