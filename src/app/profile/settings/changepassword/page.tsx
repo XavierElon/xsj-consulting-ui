@@ -2,6 +2,7 @@
 import { CSSProperties, useContext, useEffect, useState } from 'react'
 import { NextPage } from 'next'
 import axios from 'axios'
+import { useRouter } from 'next/navigation'
 import Layout from '@/components/Layout'
 import { TextField } from '@mui/material'
 import {
@@ -18,10 +19,16 @@ const ChangePassword: NextPage = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>('')
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true)
   const [validPassword, setValidPassword] = useState<any>(null)
-  const { authState } = useContext(AuthStateContext)
+  const {
+    authState,
+    authState: {
+      user: { email },
+    },
+  } = useContext(AuthStateContext)
+  const router = useRouter()
 
   console.log(authState)
-  const { email } = authState.user.email
+  console.log(email)
 
   let authorized: boolean
   if (authState.provider !== null && authState.provider !== '') {
@@ -53,7 +60,7 @@ const ChangePassword: NextPage = () => {
         if (result.status === 200) {
           showPasswordResetSuccessfullyToastMessage()
           setTimeout(() => {
-            window.location.assign('/login')
+            router.push('/')
           }, 2000)
         }
       })

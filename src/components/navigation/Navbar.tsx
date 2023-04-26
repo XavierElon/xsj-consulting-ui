@@ -33,7 +33,7 @@ const Navbar = (props: Props) => {
   } else {
     authorized = false
   }
-  const { provider } = authState.provider
+  const { provider } = authState
   console.log(provider)
 
   const handleLogout = async () => {
