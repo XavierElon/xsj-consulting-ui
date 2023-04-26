@@ -10,10 +10,6 @@ import Forbidden from '../forbidden/page'
 
 const Profile: NextPage = () => {
   const [user] = useAuthState(auth)
-  // console.log(user)s
-  // const {
-  //   metadata: { creationTime },
-  // } = user!
   const displayName: string = user?.displayName
   const email: string = user?.email
   const photoURL: string = user?.photoURL

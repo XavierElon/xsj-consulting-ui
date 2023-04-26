@@ -12,7 +12,7 @@ const AuthStateContext = createContext<ContextInterface>({
 const AuthStateProvider = (props: any) => {
   const [authState, setAuthState] = useState({
     authToken: false,
-    user: null,
+    localUser: null,
   })
 
   return (
