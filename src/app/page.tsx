@@ -17,23 +17,6 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/firebase/firebase'
 
 const HomePage: NextPage = (Component, pageProps) => {
-  const { authState, setAuthState } = useContext(AuthStateContext)
-  // // useEffect(() => {
-  // //   console.log(authState)
-  // // }, [])
-
-  // const [user] = useAuthState(auth)
-
-  // useEffect(() => {
-  //   console.log('auth state')
-  //   console.log(user)
-  // }, [])
-
-  // useEffect(() => {
-  //   console.log('user')
-  //   console.log(user)
-  // }, [auth])
-
   return (
     <>
       <div className="stars" />

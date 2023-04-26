@@ -21,13 +21,6 @@ const AuthStateProvider = (props: any) => {
   const [user] = useAuthState(auth)
 
   useEffect(() => {
-    console.log('auth state')
-    console.log(user)
-  }, [])
-
-  useEffect(() => {
-    console.log('user')
-    console.log(user)
     if (user) {
       setGoogleAuth()
     }
