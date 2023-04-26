@@ -1,6 +1,7 @@
 'use client'
 import { NextPage } from 'next'
 import React from 'react'
+import axios from 'axios'
 import Layout from '@/components/Layout'
 import {
   CardOne,
@@ -13,6 +14,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const HomePage: NextPage = (Component, pageProps) => {
+  axios.defaults.withCredentials = true
   return (
     <>
       <div className="stars" />

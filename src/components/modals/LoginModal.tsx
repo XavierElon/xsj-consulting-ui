@@ -69,7 +69,7 @@ const LoginModal = (props: any) => {
     const googleAuthResult: any = data?.result
     const axiosResult: any = data?.response
     setGoogleAuthState(googleAuthResult, axiosResult)
-    // router.push('/')
+    router.push('/')
   }
 
   const setGoogleAuthState = (googleAuthResult: any, axiosResult: any) => {

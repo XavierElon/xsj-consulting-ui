@@ -38,13 +38,16 @@ const ChangePassword: NextPage = () => {
 
   const handleUpdatePassword = (e: any) => {
     e.preventDefault()
-    console.log('here')
     axios
-      .put('http://localhost:1017/changepassword', {
-        oldPassword,
-        newPassword,
-        email,
-      })
+      .put(
+        'http://localhost:1017/changepassword',
+        {
+          oldPassword,
+          newPassword,
+          email,
+        },
+        { withCredentials: true }
+      )
       .then((result) => {
         console.log(result)
         if (result.status === 200) {

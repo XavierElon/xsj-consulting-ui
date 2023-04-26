@@ -1,6 +1,7 @@
 'use client'
 import React, { CSSProperties, useEffect, useState } from 'react'
 import { TextField, Box, Button } from '@mui/material'
+import { useRouter } from 'next/navigation'
 import { Epilogue } from 'next/font/google'
 import Image from 'next/image'
 import axios from 'axios'
@@ -26,6 +27,8 @@ const SignupModal = (props: any) => {
   const [validEmail, setValidEmail] = useState<boolean>(true)
   const [validPassword, setValidPassword] = useState<any>(null)
   const [errorMessage, setErrorMessage] = useState<string>('')
+
+  const router = useRouter()
 
   useEffect(() => {
     if (validPassword !== null && !validPassword) {
@@ -68,8 +71,37 @@ const SignupModal = (props: any) => {
     }
   }
 
-  const handleGoogleLogin = () => {
-    signInWithGooglePopup()
+  const handleGoogleLogin = async () => {
+    const data = await signInWithGooglePopup()
+    const googleAuthResult: any = data?.result
+    const axiosResult: any = data?.response
+    setGoogleAuthState(googleAuthResult, axiosResult)
+    router.push('/')
+  }
+
+  const setGoogleAuthState = (googleAuthResult: any, axiosResult: any) => {
+    console.log(googleAuthResult)
+    console.log(axiosResult)
+    const displayName: string = googleAuthResult.user.displayName!
+    const email: string = googleAuthResult.user.email!
+    const photoURL: string = googleAuthResult.user.photoURL!
+    const firebaseUid: string = googleAuthResult.user.uid
+    const accessToken: string = googleAuthResult.user.accessToken
+    const refreshToken: string = googleAuthResult._tokenResponse.refreshToken
+
+    const firebaseObj: any = {
+      displayName: displayName,
+      email: email,
+      firebaseUid: firebaseUid,
+      photoURL: photoURL,
+      refreshToken: refreshToken,
+    }
+
+    setAuthState({
+      authToken: accessToken,
+      user: firebaseObj,
+      provider: 'firebaseGoogle',
+    })
   }
 
   return (
@@ -221,4 +253,11 @@ const submitButtonStyle: CSSProperties = {
 const googleButtonStyle: CSSProperties = {
   width: '80%',
   height: '4%',
+}
+function setAuthState(arg0: {
+  authToken: string
+  user: any
+  provider: string
+}) {
+  throw new Error('Function not implemented.')
 }

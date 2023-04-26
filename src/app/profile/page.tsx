@@ -37,6 +37,7 @@ const Profile: NextPage = () => {
                           src={user?.photoURL || ''}
                           width="50"
                           height="50"
+                          referrerPolicy="no-referrer"
                           className="rounded-md transform hover:scale-110 transition-all duration-300 cursor-pointer"
                         ></img>
                       </>
@@ -67,7 +68,7 @@ const Profile: NextPage = () => {
                         authState.provider.slice(1)}
                     </p>
                     <Link href="/profile/settings/changepassword">
-                      <p className="text-black">Change Password< /p>
+                      <p className="text-black">Change Password</p>
                     </Link>
                   </div>
                 </div>

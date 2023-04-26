@@ -1,6 +1,7 @@
 'use client'
 import React, { CSSProperties, useContext, useState } from 'react'
 import Link from 'next/link'
+import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { CgMenuGridR } from 'react-icons/cg'
 import { XMarkIcon } from '@heroicons/react/24/outline'
@@ -32,10 +33,24 @@ const Navbar = (props: Props) => {
   } else {
     authorized = false
   }
+  const { provider } = authState.provider
+  console.log(provider)
 
   const handleLogout = async () => {
     try {
-      await signOut(auth)
+      if (provider === 'googleFirebase') {
+        await signOut(auth)
+      }
+      axios
+        .post('http://localhost:1017/logout')
+        .then((result) => {
+          console.log(result)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      localStorage.clear()
+
       window.location.assign('/')
     } catch (error) {
       console.error(error)
