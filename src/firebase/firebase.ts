@@ -61,6 +61,7 @@ export const signInWithGooglePopup = () => {
       localStorage.setItem('name', displayName)
       localStorage.setItem('email', email)
       localStorage.setItem('profilePic', profilePic)
+      localStorage.setItem('refreshToken', refreshToken)
       // window.location.assign('/')
     })
     .catch((error) => {

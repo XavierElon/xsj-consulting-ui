@@ -65,6 +65,7 @@ const LoginModal = (props: any) => {
   }
   const handleGoogleLogin = () => {
     signInWithGooglePopup()
+    router.push('/')
   }
 
   return (

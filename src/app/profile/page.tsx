@@ -1,5 +1,5 @@
 'use client'
-import { CSSProperties, useEffect, useState } from 'react'
+import { CSSProperties, useContext, useEffect, useState } from 'react'
 import { NextPage } from 'next'
 import Link from 'next/link'
 import Layout from '@/components/Layout'
@@ -7,9 +7,11 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/firebase/firebase'
 import { signOut } from 'firebase/auth'
 import Forbidden from '../forbidden/page'
+import { AuthStateContext } from '@/context/AuthContext'
 
 const Profile: NextPage = () => {
   const [user] = useAuthState(auth)
+  const { authState } = useContext(AuthStateContext)
   const displayName: string = user?.displayName
   const email: string = user?.email
   const photoURL: string = user?.photoURL
@@ -22,7 +24,7 @@ const Profile: NextPage = () => {
 
   const formattedDate = `${day} ${date} ${month} ${year}`
   console.log(formattedDate)
-
+  console.log(authState)
   console.log(user)
 
   return (

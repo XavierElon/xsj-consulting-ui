@@ -25,6 +25,9 @@ const Navbar = (props: Props) => {
   const { authState } = useContext(AuthStateContext)
   const router = useRouter()
 
+  const { accessToken } = user
+  console.log(accessToken)
+
   const handleLogout = async () => {
     try {
       await signOut(auth)
