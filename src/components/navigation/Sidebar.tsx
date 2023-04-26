@@ -43,7 +43,7 @@ const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
               <Link key={index} href={item.href}>
                 <li
                   className={classNames({
-                    'text-indigo-100 hover:bg-indigo-900': true, //colors
+                    'text-[#0061EB] hover:bg-[#022cac] hover:text-white': true, //colors
                     'flex gap-4 items-center ': true, //layout
                     'transition-colors duration-300': true, //animation
                     'rounded-md p-2 mx-2': true, //self style

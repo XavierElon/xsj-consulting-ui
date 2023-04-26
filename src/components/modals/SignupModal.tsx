@@ -222,7 +222,3 @@ const googleButtonStyle: CSSProperties = {
   width: '80%',
   height: '4%',
 }
-
-// const forgotPasswordStyle: CSSProperties = {
-//   fontFamily: 'Jetbrains Mono',
-// }
