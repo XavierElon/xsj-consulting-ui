@@ -2,7 +2,7 @@ import { createContext, useState } from 'react'
 
 type ContextInterface = {
   authState: any
-  setAuthState: any
+  setAuthState: React.SetStateAction<any>
 }
 const AuthStateContext = createContext<ContextInterface>({
   authState: null,
@@ -11,8 +11,9 @@ const AuthStateContext = createContext<ContextInterface>({
 
 const AuthStateProvider = (props: any) => {
   const [authState, setAuthState] = useState({
-    authToken: false,
-    localUser: null,
+    authToken: null,
+    user: null,
+    provider: null,
   })
 
   return (

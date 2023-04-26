@@ -1,9 +1,33 @@
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 
 export const showSignupSuccessToastMessage = () => {
     toast.success('Account successfully created!', {
       position: toast.POSITION.TOP_CENTER,
     })
+}
+
+export const showLoginSuccessToastMessage = () => {
+  toast.success('Login successful', {
+    position: toast.POSITION.TOP_CENTER,
+  })
+}
+
+export const showLoginErrorToastMessage = () => {
+  toast.error('Password and username do not match!', {
+    position: toast.POSITION.BOTTOM_CENTER,
+  })
+}
+
+export const showEmailDoesNotExistErrorToastMessage = () => {
+  toast.error('Email does not exist.', {
+    position: toast.POSITION.BOTTOM_CENTER,
+  })
+}
+
+export const showIncorrectLoginInfoErrorToastMessage = () => {
+  toast.error('Incorrect username or password combination.', {
+    position: toast.POSITION.BOTTOM_CENTER,
+  })
 }
 
 export const showPasswordResetSuccessfullyToastMessage = () => {

@@ -1,55 +1,48 @@
 'use client'
-import React, { CSSProperties, useEffect, useState } from 'react'
+import React, { CSSProperties, useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import axios from 'axios'
-import { TextField, Box, Button } from '@mui/material'
-import { ToastContainer, toast } from 'react-toastify'
-import { Epilogue } from 'next/font/google'
+import { TextField, Button } from '@mui/material'
+import { ToastContainer } from 'react-toastify'
 import Image from 'next/image'
 import GoogleLogo from 'public/google-logo.svg'
 import { signInWithGooglePopup } from '@/firebase/firebase'
 import 'react-toastify/dist/ReactToastify.css'
-
-const showLoginSuccessToastMessage = () => {
-  toast.success('Login successful', {
-    position: toast.POSITION.TOP_CENTER,
-  })
-}
-
-const showLoginErrorToastMessage = () => {
-  toast.error('Password and username do not match!', {
-    position: toast.POSITION.BOTTOM_CENTER,
-  })
-}
-
-const showEmailDoesNotExistErrorToastMessage = () => {
-  toast.error('Email does not exist.', {
-    position: toast.POSITION.BOTTOM_CENTER,
-  })
-}
-
-const showIncorrectLoginInfoErrorToastMessage = () => {
-  toast.error('Incorrect username or password combination.', {
-    position: toast.POSITION.BOTTOM_CENTER,
-  })
-}
+import {
+  showEmailDoesNotExistErrorToastMessage,
+  showIncorrectLoginInfoErrorToastMessage,
+  showLoginSuccessToastMessage,
+} from '@/utils/toast.helpers'
+import { AuthStateContext } from '@/context/AuthContext'
 
 const LoginModal = (props: any) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
+  const { authState, setAuthState } = useContext(AuthStateContext)
+
+  useEffect(() => {
+    console.log(authState)
+  }, [authState])
 
   const handleLogin = async (e: any) => {
     e.preventDefault()
     try {
-      const response = await axios.post('http://localhost:1017/login', {
-        email,
-        password,
-      })
+      const response = await axios.post(
+        process.env.NEXT_PUBLIC_USERS_LOGIN_ROUTE!,
+        {
+          email,
+          password,
+        }
+      )
       if (response.status === 200) {
-        console.log('here')
         setErrorMessage('')
         showLoginSuccessToastMessage()
+        console.log(response)
+        setAuthState({
+          authToken: response.data.accessToken,
+          user: response.data.user.local,
+        })
       }
     } catch (error: any) {
       if (error.response.status === 401) {

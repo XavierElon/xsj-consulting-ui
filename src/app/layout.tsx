@@ -5,7 +5,6 @@ import './globals.css'
 import './stars.css'
 import '@fontsource/epilogue'
 import { UserStateProvider } from '@/context/CartContext'
-import { LocalUserStateProvider } from '@/context/UserContext'
 import { AuthStateProvider } from '@/context/AuthContext'
 
 export default function RootLayout({
@@ -18,11 +17,9 @@ export default function RootLayout({
       <head></head>
       <body>
         <AuthStateProvider>
-          <LocalUserStateProvider>
-            <UserStateProvider>
-              <Providers>{children}</Providers>
-            </UserStateProvider>
-          </LocalUserStateProvider>
+          <UserStateProvider>
+            <Providers>{children}</Providers>
+          </UserStateProvider>
         </AuthStateProvider>
       </body>
     </html>
