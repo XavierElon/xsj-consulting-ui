@@ -41,7 +41,6 @@ const LoginModal = (props: any) => {
       if (response.status === 200) {
         setErrorMessage('')
         showLoginSuccessToastMessage()
-        console.log(response)
         setAuthState({
           authToken: response.data.accessToken,
           user: response.data.user.local,
@@ -49,7 +48,7 @@ const LoginModal = (props: any) => {
         })
         setTimeout(() => {
           router.push('/')
-        }, 2000)
+        }, 1000)
       }
     } catch (error: any) {
       if (error.response.status === 401) {
@@ -63,9 +62,37 @@ const LoginModal = (props: any) => {
       }
     }
   }
-  const handleGoogleLogin = () => {
-    signInWithGooglePopup()
-    router.push('/')
+  const handleGoogleLogin = async () => {
+    const data = await signInWithGooglePopup()
+    const googleAuthResult: any = data?.result
+    const axiosResult: any = data?.response
+    setGoogleAuthState(googleAuthResult, axiosResult)
+    // router.push('/')
+  }
+
+  const setGoogleAuthState = (googleAuthResult: any, axiosResult: any) => {
+    console.log(googleAuthResult)
+    console.log(axiosResult)
+    const displayName: string = googleAuthResult.user.displayName!
+    const email: string = googleAuthResult.user.email!
+    const photoURL: string = googleAuthResult.user.photoURL!
+    const firebaseUid: string = googleAuthResult.user.uid
+    const accessToken: string = googleAuthResult.user.accessToken
+    const refreshToken: string = googleAuthResult._tokenResponse.refreshToken
+
+    const firebaseObj: any = {
+      displayName: displayName,
+      email: email,
+      firebaseUid: firebaseUid,
+      photoURL: photoURL,
+      refreshToken: refreshToken,
+    }
+
+    setAuthState({
+      authToken: accessToken,
+      user: firebaseObj,
+      provider: 'firebaseGoogle',
+    })
   }
 
   return (

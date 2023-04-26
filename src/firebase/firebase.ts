@@ -24,10 +24,10 @@ export const auth = getAuth(app)
 const GoogleProvider = new GoogleAuthProvider()
 
 export const signInWithGooglePopup = () => {
-  signInWithPopup(auth, GoogleProvider)
+  return signInWithPopup(auth, GoogleProvider)
     .then((result: any) => {
-      console.log(result)
-      console.log(result._tokenResponse)
+      // console.log(result)
+      // console.log(result._tokenResponse)
       const displayName: string = result.user.displayName!
       const email: string = result.user.email!
       const profilePic: string = result.user.photoURL!
@@ -35,8 +35,8 @@ export const signInWithGooglePopup = () => {
       const accessToken: string = result.user.accessToken
       const refreshToken: string = result._tokenResponse.refreshToken
 
-      try {
-        const response = axios
+    
+        return axios
           .post('http://localhost:1017/auth/firebase/google', {
             firebaseGoogle: {
               firebaseUid: firebaseUid,
@@ -47,22 +47,16 @@ export const signInWithGooglePopup = () => {
               refreshToken: refreshToken,
             },
           })
-          .then((result) => {
-            console.log(result)
+          .then((response) => {
+            // console.log(result)
+            localStorage.setItem('name', displayName)
+            localStorage.setItem('email', email)
+            localStorage.setItem('profilePic', profilePic)
+            return { result, response }
           })
           .catch((error) => {
             console.error(error)
           })
-      } catch (error) {
-        console.error(`${error}`)
-        throw new Error('Google login failed')
-      }
-
-      localStorage.setItem('name', displayName)
-      localStorage.setItem('email', email)
-      localStorage.setItem('profilePic', profilePic)
-      localStorage.setItem('refreshToken', refreshToken)
-      // window.location.assign('/')
     })
     .catch((error) => {
       console.log(error)

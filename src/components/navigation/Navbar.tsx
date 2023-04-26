@@ -13,6 +13,7 @@ import { signOut } from 'firebase/auth'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 
 type Props = {
   open: boolean
@@ -25,8 +26,6 @@ const Navbar = (props: Props) => {
   const { authState } = useContext(AuthStateContext)
   const router = useRouter()
 
-  // const { accessToken } = user
-  // console.log(accessToken)
   let authorized: boolean
   if (authState.provider !== null && authState.provider !== '') {
     authorized = true
@@ -106,13 +105,32 @@ const Navbar = (props: Props) => {
         <div>
           <div className="flex justify-end items-center">
             <p className="text-black mr-2">{user?.displayName}</p>
-            <img
+            {authState.provider === 'firebaseGoogle ' ? (
+              <>
+                <img
+                  src={user?.photoURL || ''}
+                  width="50"
+                  height="50"
+                  className="rounded-md transform hover:scale-110 transition-all duration-300 cursor-pointer"
+                  onClick={handleDropdownOpen}
+                ></img>
+              </>
+            ) : (
+              <>
+                <AccountCircleIcon
+                  fontSize="inherit"
+                  color="primary"
+                  sx={{ fontSize: '50px' }}
+                ></AccountCircleIcon>
+              </>
+            )}
+            {/* <img
               src={user?.photoURL || ''}
               width="50"
               height="50"
               className="rounded-md transform hover:scale-110 transition-all duration-300 cursor-pointer"
               onClick={handleDropdownOpen}
-            ></img>
+            ></img> */}
             <ExpandMoreIcon
               className=" transform hover:scale-150 transition-all duration-300"
               onClick={handleDropdownOpen}
