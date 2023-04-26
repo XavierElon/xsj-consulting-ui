@@ -1,6 +1,8 @@
 'use client'
 import { NextPage } from 'next'
-import React from 'react'
+import { useRouter } from 'next/router'
+import React, { useContext, useEffect } from 'react'
+import { AuthStateContext } from '@/context/AuthContext'
 import Layout from '@/components/Layout'
 import {
   CardOne,
@@ -12,7 +14,12 @@ import {
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-const HomePage: NextPage = () => {
+const HomePage: NextPage = (Component, pageProps) => {
+  const { authState } = useContext(AuthStateContext)
+  useEffect(() => {
+    console.log(authState)
+  }, [])
+
   return (
     <>
       <div className="stars" />

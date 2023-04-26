@@ -1,6 +1,7 @@
 'use client'
 import React, { CSSProperties, useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import { TextField, Button } from '@mui/material'
 import { ToastContainer } from 'react-toastify'
@@ -20,6 +21,8 @@ const LoginModal = (props: any) => {
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const { authState, setAuthState } = useContext(AuthStateContext)
+
+  const router = useRouter()
 
   useEffect(() => {
     console.log(authState)
@@ -42,7 +45,11 @@ const LoginModal = (props: any) => {
         setAuthState({
           authToken: response.data.accessToken,
           user: response.data.user.local,
+          provider: 'local',
         })
+        setTimeout(() => {
+          router.push('/')
+        }, 2000)
       }
     } catch (error: any) {
       if (error.response.status === 401) {

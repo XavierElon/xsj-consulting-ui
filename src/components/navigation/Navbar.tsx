@@ -1,11 +1,13 @@
 'use client'
-import React, { CSSProperties, useState } from 'react'
+import React, { CSSProperties, useContext, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { CgMenuGridR } from 'react-icons/cg'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { Button } from 'react-bootstrap'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { AuthStateContext } from '@/context/AuthContext'
 import { auth } from '@/firebase/firebase'
 import { signOut } from 'firebase/auth'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
@@ -19,8 +21,9 @@ type Props = {
 
 const Navbar = (props: Props) => {
   const [anchorEl, setAnchorEl] = useState<any>(null)
-
   const [user] = useAuthState(auth)
+  const { authState } = useContext(AuthStateContext)
+  const router = useRouter()
 
   const handleLogout = async () => {
     try {
@@ -37,6 +40,10 @@ const Navbar = (props: Props) => {
 
   const handleDropdownClose = () => {
     setAnchorEl(null)
+  }
+
+  const navigateToProfile = () => {
+    // router()
   }
 
   return (
@@ -118,7 +125,7 @@ const Navbar = (props: Props) => {
               open={Boolean(anchorEl)}
               onClose={handleDropdownClose}
             >
-              <MenuItem onClick={() => window.location.assign('/profile')}>
+              <MenuItem onClick={() => router.push('/profile')}>
                 Profile
               </MenuItem>
               <MenuItem onClick={handleDropdownClose}>Settings</MenuItem>
