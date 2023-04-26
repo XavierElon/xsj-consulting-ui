@@ -11,7 +11,7 @@ const AuthStateContext = createContext<ContextInterface>({
 
 const AuthStateProvider = (props: any) => {
   const [authState, setAuthState] = useState({
-    authToken: null,
+    authToken: false,
     user: null,
   })
 
