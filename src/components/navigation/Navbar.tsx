@@ -1,5 +1,5 @@
 'use client'
-import React, { CSSProperties, useContext, useState } from 'react'
+import React, { CSSProperties, useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
@@ -24,21 +24,24 @@ type Props = {
 const Navbar = (props: Props) => {
   const [anchorEl, setAnchorEl] = useState<any>(null)
   const [user] = useAuthState(auth)
-  const { authState } = useContext(AuthStateContext)
+  const { authState, getLoggedInUser } = useContext(AuthStateContext)
   const router = useRouter()
 
   console.log(localStorage.getItem('isLoggedIn'))
 
   let authorized: boolean
-  if (
-    authState.provider !== null &&
-    authState.provider !== '' &&
-    localStorage.getItem('isLoggedIn') === 'true'
-  ) {
+  if (authState.provider !== null && authState.provider !== '') {
     authorized = true
   } else {
     authorized = false
   }
+
+  useEffect(() => {
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      const id = localStorage.getItem('id')
+      getLoggedInUser(id)
+    }
+  }, [])
 
   const { provider } = authState
 
