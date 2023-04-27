@@ -1,5 +1,5 @@
 'use client'
-import React, { CSSProperties, useEffect, useState } from 'react'
+import React, { CSSProperties, useContext, useEffect, useState } from 'react'
 import { TextField, Box, Button } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { Epilogue } from 'next/font/google'
@@ -16,6 +16,7 @@ import {
   showSignupSuccessToastMessage,
 } from '@/utils/toast.helpers'
 import { ToastContainer } from 'react-toastify'
+import { AuthStateContext } from '@/context/AuthContext'
 
 const SignupModal = (props: any) => {
   const [firstName, setFirstName] = useState<string>('')
@@ -27,6 +28,7 @@ const SignupModal = (props: any) => {
   const [validEmail, setValidEmail] = useState<boolean>(true)
   const [validPassword, setValidPassword] = useState<any>(null)
   const [errorMessage, setErrorMessage] = useState<string>('')
+  const { authState, setAuthState } = useContext(AuthStateContext)
 
   const router = useRouter()
 
@@ -60,6 +62,8 @@ const SignupModal = (props: any) => {
         .then((result) => {
           console.log(result)
           showSignupSuccessToastMessage()
+          localStorage.setItem('isLoggedIn', 'true')
+          router.push('/')
         })
         .catch((error) => {
           console.error(error)
@@ -76,12 +80,14 @@ const SignupModal = (props: any) => {
     const googleAuthResult: any = data?.result
     const axiosResult: any = data?.response
     setGoogleAuthState(googleAuthResult, axiosResult)
+    localStorage.setItem('isLoggedIn', 'true')
     router.push('/')
   }
 
-  const setGoogleAuthState = (googleAuthResult: any, axiosResult: any) => {
-    console.log(googleAuthResult)
-    console.log(axiosResult)
+  const setGoogleAuthState = async (
+    googleAuthResult: any,
+    axiosResult: any
+  ) => {
     const displayName: string = googleAuthResult.user.displayName!
     const email: string = googleAuthResult.user.email!
     const photoURL: string = googleAuthResult.user.photoURL!
@@ -97,7 +103,7 @@ const SignupModal = (props: any) => {
       refreshToken: refreshToken,
     }
 
-    setAuthState({
+    await setAuthState({
       authToken: accessToken,
       user: firebaseObj,
       provider: 'firebaseGoogle',

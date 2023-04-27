@@ -18,6 +18,8 @@ const AuthStateProvider = (props: any) => {
     provider: '',
   })
 
+  const setLoggedInUserAuthState = async () => {}
+
   return (
     <AuthStateContext.Provider value={{ authState, setAuthState }}>
       {props.children}

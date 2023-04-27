@@ -27,14 +27,20 @@ const Navbar = (props: Props) => {
   const { authState } = useContext(AuthStateContext)
   const router = useRouter()
 
+  console.log(localStorage.getItem('isLoggedIn'))
+
   let authorized: boolean
-  if (authState.provider !== null && authState.provider !== '') {
+  if (
+    authState.provider !== null &&
+    authState.provider !== '' &&
+    localStorage.getItem('isLoggedIn') === 'true'
+  ) {
     authorized = true
   } else {
     authorized = false
   }
+
   const { provider } = authState
-  console.log(provider)
 
   const handleLogout = async () => {
     try {

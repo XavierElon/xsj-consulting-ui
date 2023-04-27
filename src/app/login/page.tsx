@@ -3,8 +3,10 @@ import { NextPage } from 'next'
 import Layout from '@/components/Layout'
 import LoginModal from '@/components/modals/LoginModal'
 import '../../css/ellipsis.css'
+import { useEffect } from 'react'
 
 const Login: NextPage = () => {
+  useEffect(() => {})
   return (
     <>
       <Layout>

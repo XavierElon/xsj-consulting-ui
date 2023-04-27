@@ -1,6 +1,6 @@
 'use client'
 import { NextPage } from 'next'
-import React from 'react'
+import React, { useEffect } from 'react'
 import axios from 'axios'
 import Layout from '@/components/Layout'
 import {
@@ -15,6 +15,10 @@ import 'react-toastify/dist/ReactToastify.css'
 
 const HomePage: NextPage = (Component, pageProps) => {
   axios.defaults.withCredentials = true
+
+  // useEffect(() => {
+
+  // })
   return (
     <>
       <div className="stars" />
