@@ -13,6 +13,7 @@ export const useAuthorization = () => {
   }, [])
 
   useEffect(() => {
+    console.log(authState)
     if (authState.provider !== null && authState.provider !== '') {
       setAuthorized(true)
     } else {

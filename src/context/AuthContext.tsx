@@ -26,9 +26,13 @@ const AuthStateProvider = (props: any) => {
         const provider = result.data.user.provider
         const authToken = result.data.authToken
         if (provider === 'local') {
-          setUserState(result.data.user.local, authToken)
+          setUserState(result.data.user.local, authToken, 'local')
         } else {
-          setUserState(result.data.user.firebaseGoogle, authToken)
+          setUserState(
+            result.data.user.firebaseGoogle,
+            authToken,
+            'firebaseGoogle'
+          )
         }
       })
       .catch((error) => {
@@ -36,11 +40,11 @@ const AuthStateProvider = (props: any) => {
       })
   }
 
-  const setUserState = (userData: any, authToken: any) => {
+  const setUserState = (userData: any, authToken: any, provider: string) => {
     setAuthState({
       authToken: authToken,
       user: userData,
-      provider: 'local',
+      provider: provider,
     })
   }
 

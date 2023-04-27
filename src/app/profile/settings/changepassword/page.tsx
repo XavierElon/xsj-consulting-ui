@@ -12,6 +12,7 @@ import {
 } from '@/utils/toast.helpers'
 import { AuthStateContext } from '@/context/AuthContext'
 import Forbidden from '@/app/forbidden/page'
+import { useAuthorization } from '@/hooks/useAuthorization'
 
 const ChangePassword: NextPage = () => {
   const [oldPassword, setOldPassword] = useState<string>('')
@@ -19,28 +20,31 @@ const ChangePassword: NextPage = () => {
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true)
   const [validPassword, setValidPassword] = useState<any>(null)
   const {
-    authState,
     authState: {
       user: { email },
     },
+    authState: { provider },
   } = useContext(AuthStateContext)
   const router = useRouter()
+  const authorized = useAuthorization()
 
-  console.log(authState)
-  console.log(email)
-
-  let authorized: boolean
-  if (authState.provider !== null && authState.provider !== '') {
-    authorized = true
-  } else {
-    authorized = true
-  }
+  useEffect(() => {
+    if (provider !== 'local') {
+      router.push('/profile')
+    }
+  }, [])
 
   useEffect(() => {
     if (validPassword !== null && !validPassword) {
       showPasswordNotValidErrorToastMessage()
     }
   }, [validPassword])
+
+  if (provider !== 'local') {
+    return (
+      <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-white"></div>
+    )
+  }
 
   const handleUpdatePassword = (e: any) => {
     e.preventDefault()

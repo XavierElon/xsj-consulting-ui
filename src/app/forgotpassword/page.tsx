@@ -46,7 +46,6 @@ const ForgotPassword: NextPage = () => {
         recipientEmail,
       })
       .then((response) => {
-        console.log('test')
         console.log(response)
         if (response.status === 200) {
           setOtpEmailSent(true)
@@ -59,8 +58,6 @@ const ForgotPassword: NextPage = () => {
 
   const verifyOTP = (e: any) => {
     e.preventDefault()
-    console.log(otp)
-    console.log(localOtp)
     if (otp === localOtp) {
       setOtpEmailSent(false)
       setValidOtp(true)

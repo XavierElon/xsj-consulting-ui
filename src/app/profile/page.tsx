@@ -15,14 +15,13 @@ const Profile: NextPage = () => {
   const [user] = useAuthState(auth)
   const { authState } = useContext(AuthStateContext)
   const { email } = authState.user
+  const { provider } = authState
 
   const authorized = useAuthorization()
 
   if (authorized === null) {
     return (
-      <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-white">
-        {/* <div className="text-black">Loading...</div> */}
-      </div>
+      <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-white"></div>
     )
   }
 
@@ -71,9 +70,11 @@ const Profile: NextPage = () => {
                       {authState.provider.charAt(0).toUpperCase() +
                         authState.provider.slice(1)}
                     </p>
-                    <Link href="/profile/settings/changepassword">
-                      <p className="text-black">Change Password</p>
-                    </Link>
+                    {provider === 'local' && (
+                      <Link href="/profile/settings/changepassword">
+                        <p className="text-black">Change Password</p>
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>
