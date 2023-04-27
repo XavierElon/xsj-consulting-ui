@@ -15,6 +15,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import { useAuthorization } from '@/hooks/useAuthorization'
 
 type Props = {
   open: boolean
@@ -27,21 +28,7 @@ const Navbar = (props: Props) => {
   const { authState, getLoggedInUser } = useContext(AuthStateContext)
   const router = useRouter()
 
-  console.log(localStorage.getItem('isLoggedIn'))
-
-  let authorized: boolean
-  if (authState.provider !== null && authState.provider !== '') {
-    authorized = true
-  } else {
-    authorized = false
-  }
-
-  useEffect(() => {
-    if (localStorage.getItem('isLoggedIn') === 'true') {
-      const id = localStorage.getItem('id')
-      getLoggedInUser(id)
-    }
-  }, [])
+  const authorized = useAuthorization()
 
   const { provider } = authState
 

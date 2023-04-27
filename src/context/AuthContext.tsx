@@ -21,12 +21,11 @@ const AuthStateProvider = (props: any) => {
 
   const getLoggedInUser = async (id: any) => {
     axios
-      .get(`http://localhost:1017/profile/${id}`)
+      .get(`http://localhost:1017/profile/${id}`, { withCredentials: true })
       .then((result) => {
         console.log(result)
         const provider = result.data.user.provider
         const authToken = result.data.authToken
-        console.log(provider)
         if (provider === 'local') {
           setUserState(result.data.user.local, authToken)
         } else {
@@ -38,12 +37,10 @@ const AuthStateProvider = (props: any) => {
       })
   }
 
-  const setUserState = (localUserData: any, authToken: any) => {
-    console.log(localUserData)
-    console.log(authToken)
+  const setUserState = (userData: any, authToken: any) => {
     setAuthState({
       authToken: authToken,
-      user: localUserData,
+      user: userData,
       provider: 'local',
     })
   }

@@ -9,18 +9,14 @@ import { auth } from '@/firebase/firebase'
 import { signOut } from 'firebase/auth'
 import Forbidden from '../forbidden/page'
 import { AuthStateContext } from '@/context/AuthContext'
+import { useAuthorization } from '@/hooks/useAuthorization'
 
 const Profile: NextPage = () => {
   const [user] = useAuthState(auth)
   const { authState } = useContext(AuthStateContext)
   const { email } = authState.user
 
-  let authorized: boolean
-  if (authState.provider !== null && authState.provider !== '') {
-    authorized = true
-  } else {
-    authorized = false
-  }
+  const authorized = useAuthorization()
 
   return (
     <>

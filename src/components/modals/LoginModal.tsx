@@ -72,10 +72,14 @@ const LoginModal = (props: any) => {
     const axiosResult: any = data?.response
     setGoogleAuthState(googleAuthResult, axiosResult)
     localStorage.setItem('isLoggedIn', 'true')
-    router.push('/')
+    localStorage.setItem('id', googleAuthResult.user.uid)
+    setTimeout(() => {
+      router.push('/')
+    }, 1000)
   }
 
   const setGoogleAuthState = (googleAuthResult: any, axiosResult: any) => {
+    console.log(googleAuthResult)
     const displayName: string = googleAuthResult.user.displayName!
     const email: string = googleAuthResult.user.email!
     const photoURL: string = googleAuthResult.user.photoURL!
