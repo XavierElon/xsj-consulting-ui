@@ -1,5 +1,5 @@
 'use client'
-import React, { CSSProperties, useContext, useState } from 'react'
+import React, { CSSProperties, useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
@@ -15,6 +15,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import { useAuthorization } from '@/hooks/useAuthorization'
 
 type Props = {
   open: boolean
@@ -26,19 +27,15 @@ const Navbar = (props: Props) => {
   const [user] = useAuthState(auth)
   const { authState } = useContext(AuthStateContext)
   const router = useRouter()
-
-  let authorized: boolean
-  if (authState.provider !== null && authState.provider !== '') {
-    authorized = true
-  } else {
-    authorized = false
-  }
-  const { provider } = authState
-  console.log(provider)
+  const authorized = useAuthorization()
+  const {
+    provider,
+    user: { firstName, lastName },
+  } = authState
 
   const handleLogout = async () => {
     try {
-      if (provider === 'googleFirebase') {
+      if (provider === 'firebaseGoogle') {
         await signOut(auth)
       }
       axios
@@ -119,9 +116,9 @@ const Navbar = (props: Props) => {
       {authorized && (
         <div>
           <div className="flex justify-end items-center">
-            <p className="text-black mr-2">{user?.displayName}</p>
             {authState.provider === 'firebaseGoogle' ? (
               <>
+                <p className="text-black mr-2">{user?.displayName}</p>
                 <img
                   src={authState?.user.photoURL || ''}
                   width="50"
@@ -132,6 +129,9 @@ const Navbar = (props: Props) => {
               </>
             ) : (
               <>
+                <p className="text-black mr-2">
+                  {firstName} {lastName}
+                </p>
                 <AccountCircleIcon
                   fontSize="inherit"
                   color="primary"
@@ -152,7 +152,9 @@ const Navbar = (props: Props) => {
               <MenuItem onClick={() => router.push('/profile')}>
                 Profile
               </MenuItem>
-              <MenuItem onClick={handleDropdownClose}>Settings</MenuItem>
+              <MenuItem onClick={() => router.push('/profile/settings')}>
+                Settings
+              </MenuItem>
               <MenuItem onClick={handleLogout}>Log Out</MenuItem>
             </Menu>
           </div>

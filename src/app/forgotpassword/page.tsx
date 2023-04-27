@@ -3,27 +3,16 @@ import { CSSProperties, useContext, useEffect, useState } from 'react'
 import { NextPage } from 'next'
 import axios from 'axios'
 import Layout from '@/components/Layout'
-import LoginModal from '@/components/modals/LoginModal'
 import '../../css/ellipsis.css'
-import { UserStateContext } from '@/context/CartContext'
 import { TextField } from '@mui/material'
 import cryptoRandomString from 'crypto-random-string'
-import { LocalUserStateContext } from '@/context/UserContext'
 import {
-  showPasswordMatchErrorToastMessage,
   showPasswordResetSuccessfullyToastMessage,
   showPasswordNotValidErrorToastMessage,
 } from '@/utils/toast.helpers'
 
-interface PasswordResetParams {
-  OTP: string
-  recipient_email: string
-}
-
 const ForgotPassword: NextPage = () => {
-  // const [userEmail, setUserEmail] = useState<string>('')
   const [otpEmailSent, setOtpEmailSent] = useState<boolean>(false)
-  // const { setEmail, setOtp } = useContext(LocalUserStateContext)
   const [recipientEmail, setRecipientEmail] = useState<string>('')
   const [otp, setOtp] = useState<string>('')
   const [localOtp, setLocalOtp] = useState<string>()
@@ -57,7 +46,6 @@ const ForgotPassword: NextPage = () => {
         recipientEmail,
       })
       .then((response) => {
-        console.log('test')
         console.log(response)
         if (response.status === 200) {
           setOtpEmailSent(true)
@@ -70,8 +58,6 @@ const ForgotPassword: NextPage = () => {
 
   const verifyOTP = (e: any) => {
     e.preventDefault()
-    console.log(otp)
-    console.log(localOtp)
     if (otp === localOtp) {
       setOtpEmailSent(false)
       setValidOtp(true)

@@ -24,10 +24,6 @@ const LoginModal = (props: any) => {
 
   const router = useRouter()
 
-  useEffect(() => {
-    console.log(authState)
-  }, [authState])
-
   const handleLogin = async (e: any) => {
     e.preventDefault()
     try {
@@ -47,6 +43,12 @@ const LoginModal = (props: any) => {
           user: response.data.user.local,
           provider: 'local',
         })
+        localStorage.setItem('id', response.data.user._id)
+        localStorage.setItem('isLoggedIn', 'true')
+        localStorage.setItem('firstName', response.data.user.local.firstName)
+        localStorage.setItem('lastName', response.data.user.local.lastName)
+        localStorage.setItem('email', response.data.user.local.email)
+        localStorage.setItem('provider', 'local')
         setTimeout(() => {
           router.push('/')
         }, 1000)
@@ -69,12 +71,15 @@ const LoginModal = (props: any) => {
     const googleAuthResult: any = data?.result
     const axiosResult: any = data?.response
     setGoogleAuthState(googleAuthResult, axiosResult)
-    router.push('/')
+    localStorage.setItem('isLoggedIn', 'true')
+    localStorage.setItem('id', googleAuthResult.user.uid)
+    setTimeout(() => {
+      router.push('/')
+    }, 1000)
   }
 
   const setGoogleAuthState = (googleAuthResult: any, axiosResult: any) => {
     console.log(googleAuthResult)
-    console.log(axiosResult)
     const displayName: string = googleAuthResult.user.displayName!
     const email: string = googleAuthResult.user.email!
     const photoURL: string = googleAuthResult.user.photoURL!
