@@ -27,14 +27,15 @@ const Navbar = (props: Props) => {
   const [user] = useAuthState(auth)
   const { authState } = useContext(AuthStateContext)
   const router = useRouter()
-
   const authorized = useAuthorization()
-
-  const { provider } = authState
+  const {
+    provider,
+    user: { firstName, lastName },
+  } = authState
 
   const handleLogout = async () => {
     try {
-      if (provider === 'googleFirebase') {
+      if (provider === 'firebaseGoogle') {
         await signOut(auth)
       }
       axios
@@ -115,9 +116,9 @@ const Navbar = (props: Props) => {
       {authorized && (
         <div>
           <div className="flex justify-end items-center">
-            <p className="text-black mr-2">{user?.displayName}</p>
             {authState.provider === 'firebaseGoogle' ? (
               <>
+                <p className="text-black mr-2">{user?.displayName}</p>
                 <img
                   src={authState?.user.photoURL || ''}
                   width="50"
@@ -128,6 +129,9 @@ const Navbar = (props: Props) => {
               </>
             ) : (
               <>
+                <p className="text-black mr-2">
+                  {firstName} {lastName}
+                </p>
                 <AccountCircleIcon
                   fontSize="inherit"
                   color="primary"

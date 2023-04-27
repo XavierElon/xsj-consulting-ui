@@ -12,13 +12,11 @@ import { AuthStateContext } from '@/context/AuthContext'
 import { useAuthorization } from '@/hooks/useAuthorization'
 
 const Profile: NextPage = () => {
-  const [user] = useAuthState(auth)
   const { authState } = useContext(AuthStateContext)
   const { email } = authState.user
   const { provider } = authState
 
   const authorized = useAuthorization()
-  console.log(provider)
 
   if (authorized === null) {
     return (
