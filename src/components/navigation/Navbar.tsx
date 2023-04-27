@@ -148,7 +148,9 @@ const Navbar = (props: Props) => {
               <MenuItem onClick={() => router.push('/profile')}>
                 Profile
               </MenuItem>
-              <MenuItem onClick={handleDropdownClose}>Settings</MenuItem>
+              <MenuItem onClick={() => router.push('/profile/settings')}>
+                Settings
+              </MenuItem>
               <MenuItem onClick={handleLogout}>Log Out</MenuItem>
             </Menu>
           </div>
