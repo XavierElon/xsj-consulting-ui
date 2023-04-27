@@ -1,5 +1,5 @@
 'use client'
-import { CSSProperties, useContext, useEffect, useState } from 'react'
+import { CSSProperties, useEffect, useState } from 'react'
 import { NextPage } from 'next'
 import axios from 'axios'
 import Layout from '@/components/Layout'
@@ -10,6 +10,7 @@ import {
   showPasswordResetSuccessfullyToastMessage,
   showPasswordNotValidErrorToastMessage,
 } from '@/utils/toast.helpers'
+import { validatePassword } from '@/utils/verification.helpers'
 
 const ForgotPassword: NextPage = () => {
   const [otpEmailSent, setOtpEmailSent] = useState<boolean>(false)
@@ -18,7 +19,7 @@ const ForgotPassword: NextPage = () => {
   const [localOtp, setLocalOtp] = useState<string>()
   const [validOtp, setValidOtp] = useState<boolean>(false)
   const [password, setPassword] = useState<string>('')
-  const [confirmPassword, setConfirmPassword] = useState<string>('')
+  // const [confirmPassword, setConfirmPassword] = useState<string>('')
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true)
   const [validPassword, setValidPassword] = useState<any>(null)
   const [timerCount, setTimerCount] = useState<number>(15)
@@ -27,11 +28,7 @@ const ForgotPassword: NextPage = () => {
   const OTP_LENGTH: number = 6
   const OTP_CHARACTERS: string = '0123456789'
 
-  useEffect(() => {
-    if (validPassword !== null && !validPassword) {
-      showPasswordNotValidErrorToastMessage()
-    }
-  }, [validPassword])
+  useEffect(() => {}, [validPassword])
 
   useEffect(() => {
     console.log(disabled)
@@ -85,23 +82,29 @@ const ForgotPassword: NextPage = () => {
 
   const handleUpdatePassword = (e: any) => {
     e.preventDefault()
-    axios
-      .put('http://localhost:1017/resetpassword', {
-        password,
-        recipientEmail,
-      })
-      .then((result) => {
-        console.log(result)
-        if (result.status === 200) {
-          showPasswordResetSuccessfullyToastMessage()
-          setTimeout(() => {
-            window.location.assign('/login')
-          }, 2000)
-        }
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+    setValidPassword(validatePassword(password))
+    if (validPassword !== null && !validPassword) {
+      showPasswordNotValidErrorToastMessage()
+      return
+    } else {
+      axios
+        .put('http://localhost:1017/resetpassword', {
+          password,
+          recipientEmail,
+        })
+        .then((result) => {
+          console.log(result)
+          if (result.status === 200) {
+            showPasswordResetSuccessfullyToastMessage()
+            setTimeout(() => {
+              window.location.assign('/login')
+            }, 2000)
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    }
   }
 
   return (
@@ -194,7 +197,7 @@ const ForgotPassword: NextPage = () => {
                       type="password"
                       className="transform hover:scale-110 transition-all duration-300 w-96 mx-2"
                       onChange={(e) => {
-                        setConfirmPassword(e.target.value)
+                        // setConfirmPassword(e.target.value)
                         setPasswordsMatch(e.target.value === password)
                       }}
                     />
