@@ -21,6 +21,8 @@ const ForgotPassword: NextPage = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>('')
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true)
   const [validPassword, setValidPassword] = useState<any>(null)
+  const [timerCount, setTimerCount] = useState<number>(15)
+  const [disabled, setDisabled] = useState<boolean>(false)
 
   const OTP_LENGTH: number = 6
   const OTP_CHARACTERS: string = '0123456789'
@@ -31,15 +33,19 @@ const ForgotPassword: NextPage = () => {
     }
   }, [validPassword])
 
-  const handlePasswordReset = (e: any) => {
+  useEffect(() => {
+    console.log(disabled)
+  }, [disabled])
+
+  const sendOTP = (e: any) => {
     e.preventDefault()
+
     const OTP: string = cryptoRandomString({
       length: OTP_LENGTH,
       characters: OTP_CHARACTERS,
     })
     console.log(OTP)
     setOtp(OTP)
-    console.log('axios')
     axios
       .post('http://localhost:1017/send_recovery_email', {
         OTP,
@@ -47,8 +53,21 @@ const ForgotPassword: NextPage = () => {
       })
       .then((response) => {
         console.log(response)
+
         if (response.status === 200) {
           setOtpEmailSent(true)
+          // setTimerCount(200)
+          const interval = setInterval(() => {
+            setTimerCount((prevTimerCount) => {
+              console.log(prevTimerCount)
+              console.log(disabled)
+              if (prevTimerCount <= 1) {
+                setDisabled(true)
+                clearInterval(interval)
+              }
+              return prevTimerCount - 5
+            })
+          }, 5000)
         }
       })
       .catch((error) => {
@@ -115,12 +134,32 @@ const ForgotPassword: NextPage = () => {
 
                     <button
                       type="submit"
-                      className="text-white bg-[#0061EB] hover:bg-[#022cac] rounded-lg my-7 mx-2"
+                      className={`text-white bg-[#0061EB] hover:bg-[#022cac] rounded-lg my-7 mx-2 ${
+                        disabled ? 'bg-gray cursor-not-allowed' : ''
+                      }`}
                       style={submitButtonStyle}
                       onClick={verifyOTP}
+                      disabled={disabled}
                     >
                       Submit OTP
                     </button>
+                    <div className="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
+                      <p>Didn't recieve code?</p>{' '}
+                      <button
+                        className="flex flex-row items-center"
+                        style={{
+                          color: disabled ? 'blue' : 'gray',
+                          cursor: disabled ? 'pointer' : '',
+                          textDecorationLine: disabled ? 'underline' : 'none',
+                        }}
+                        disabled={!disabled}
+                        onClick={sendOTP}
+                      >
+                        {disabled
+                          ? 'Resend OTP'
+                          : `Resend OTP in ${timerCount}s`}
+                      </button>
+                    </div>
                   </form>
                 </>
               ) : validOtp ? (
@@ -203,7 +242,7 @@ const ForgotPassword: NextPage = () => {
                       type="submit"
                       className="text-white bg-[#0061EB] hover:bg-[#022cac] rounded-lg my-7 mx-2"
                       style={submitButtonStyle}
-                      onClick={handlePasswordReset}
+                      onClick={sendOTP}
                     >
                       Request Password Reset
                     </button>
