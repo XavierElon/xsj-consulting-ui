@@ -18,6 +18,7 @@ const Profile: NextPage = () => {
   const { provider } = authState
 
   const authorized = useAuthorization()
+  console.log(provider)
 
   if (authorized === null) {
     return (
@@ -34,12 +35,12 @@ const Profile: NextPage = () => {
               <div className="absolute top-0 left-0 w-full h-full bg-white flex items-center justify-center">
                 <div className="relative w-4/5 bg-white border-none flex flex-wrap flex-col items-start">
                   <div className="flex items-center mr-2">
-                    {authState.provider === 'firebaseGoogle ' ? (
+                    {provider === 'firebaseGoogle' ? (
                       <>
                         <img
-                          src={user?.photoURL || ''}
-                          width="50"
-                          height="50"
+                          src={authState.user?.photoURL || ''}
+                          width="100"
+                          height="100"
                           referrerPolicy="no-referrer"
                           className="rounded-md transform hover:scale-110 transition-all duration-300 cursor-pointer"
                         ></img>
@@ -57,9 +58,9 @@ const Profile: NextPage = () => {
                       <p className="font-bold text-black text-3xl mb-1">
                         {email}
                       </p>
-                      <p className="text-slate-500 text-lg">
+                      {/* <p className="text-slate-500 text-lg">
                         Member since unknown
-                      </p>
+                      </p> */}
                     </div>
                   </div>
                   <div className="flex items-center mt-2 px-24">
