@@ -23,7 +23,6 @@ const AuthStateProvider = (props: any) => {
     axios
       .get(`http://localhost:1017/profile/${id}`, { withCredentials: true })
       .then((result) => {
-        console.log(result)
         const provider = result.data.user.provider
         const authToken = result.data.authToken
         if (provider === 'local') {

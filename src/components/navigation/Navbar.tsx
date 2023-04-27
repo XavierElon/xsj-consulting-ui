@@ -25,7 +25,7 @@ type Props = {
 const Navbar = (props: Props) => {
   const [anchorEl, setAnchorEl] = useState<any>(null)
   const [user] = useAuthState(auth)
-  const { authState, getLoggedInUser } = useContext(AuthStateContext)
+  const { authState } = useContext(AuthStateContext)
   const router = useRouter()
 
   const authorized = useAuthorization()
