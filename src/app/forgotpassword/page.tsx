@@ -19,7 +19,6 @@ const ForgotPassword: NextPage = () => {
   const [localOtp, setLocalOtp] = useState<string>()
   const [validOtp, setValidOtp] = useState<boolean>(false)
   const [password, setPassword] = useState<string>('')
-  // const [confirmPassword, setConfirmPassword] = useState<string>('')
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true)
   const [validPassword, setValidPassword] = useState<any>(null)
   const [timerCount, setTimerCount] = useState<number>(120)
@@ -190,7 +189,6 @@ const ForgotPassword: NextPage = () => {
                       type="password"
                       className="transform hover:scale-110 transition-all duration-300 w-96 mx-2"
                       onChange={(e) => {
-                        // setConfirmPassword(e.target.value)
                         setPasswordsMatch(e.target.value === password)
                       }}
                     />
