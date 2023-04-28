@@ -61,8 +61,14 @@ const SignupModal = (props: any) => {
         })
         .then((result) => {
           console.log(result)
+          const userId = result.data.user._id.toString()
           showSignupSuccessToastMessage()
-          localStorage.setItem('id', result.data.user._id)
+          setAuthState({
+            authToken: result.data.accessToken,
+            user: result.data.user.local,
+            provider: 'local',
+          })
+          localStorage.setItem('id', userId)
           localStorage.setItem('isLoggedIn', 'true')
           localStorage.setItem('firstName', result.data.user.local.firstName)
           localStorage.setItem('lastName', result.data.user.local.lastName)
@@ -73,6 +79,7 @@ const SignupModal = (props: any) => {
           }, 1000)
         })
         .catch((error) => {
+          console.log('here')
           console.error(error)
           if (error.response.status === 400) {
             setErrorMessage(error.response.data.error)

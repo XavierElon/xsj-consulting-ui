@@ -26,7 +26,7 @@ const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
     <div
       ref={ref}
       className={classNames({
-        'bg-inherit': 'black', //colors
+        'bg-white': true, //colors
         'border-r border-t border-white border-opacity-10': true, //colors
         'max-width-104 h-full': true, //layout
         'fixed z-20': true, //positioning

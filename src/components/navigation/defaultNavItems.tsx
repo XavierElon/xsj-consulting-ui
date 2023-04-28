@@ -5,6 +5,7 @@ import {
   HomeIcon,
   UserGroupIcon,
 } from '@heroicons/react/24/outline'
+import StoreIcon from '@mui/icons-material/Store'
 import { NavItem } from './Sidebar'
 
 export const defaultNavItems: NavItem[] = [
@@ -12,6 +13,11 @@ export const defaultNavItems: NavItem[] = [
     label: 'Dashboard',
     href: '/',
     icon: <HomeIcon className="w-6 h-6 " />,
+  },
+  {
+    label: 'Store',
+    href: '/store',
+    icon: <StoreIcon className="w-6 h-6" />,
   },
   {
     label: 'Team',
