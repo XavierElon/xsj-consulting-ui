@@ -22,7 +22,7 @@ const ForgotPassword: NextPage = () => {
   // const [confirmPassword, setConfirmPassword] = useState<string>('')
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true)
   const [validPassword, setValidPassword] = useState<any>(null)
-  const [timerCount, setTimerCount] = useState<number>(15)
+  const [timerCount, setTimerCount] = useState<number>(120)
   const [disabled, setDisabled] = useState<boolean>(false)
 
   const OTP_LENGTH: number = 6
@@ -30,18 +30,13 @@ const ForgotPassword: NextPage = () => {
 
   useEffect(() => {}, [validPassword])
 
-  useEffect(() => {
-    console.log(disabled)
-  }, [disabled])
-
   const sendOTP = (e: any) => {
     e.preventDefault()
-
+    setDisabled(false)
     const OTP: string = cryptoRandomString({
       length: OTP_LENGTH,
       characters: OTP_CHARACTERS,
     })
-    console.log(OTP)
     setOtp(OTP)
     axios
       .post('http://localhost:1017/send_recovery_email', {
@@ -49,22 +44,18 @@ const ForgotPassword: NextPage = () => {
         recipientEmail,
       })
       .then((response) => {
-        console.log(response)
-
         if (response.status === 200) {
           setOtpEmailSent(true)
-          // setTimerCount(200)
+          setTimerCount(120)
           const interval = setInterval(() => {
             setTimerCount((prevTimerCount) => {
-              console.log(prevTimerCount)
-              console.log(disabled)
               if (prevTimerCount <= 1) {
                 setDisabled(true)
                 clearInterval(interval)
               }
-              return prevTimerCount - 5
+              return prevTimerCount - 1
             })
-          }, 5000)
+          }, 1000)
         }
       })
       .catch((error) => {
@@ -74,6 +65,7 @@ const ForgotPassword: NextPage = () => {
 
   const verifyOTP = (e: any) => {
     e.preventDefault()
+
     if (otp === localOtp) {
       setOtpEmailSent(false)
       setValidOtp(true)
@@ -83,6 +75,7 @@ const ForgotPassword: NextPage = () => {
   const handleUpdatePassword = (e: any) => {
     e.preventDefault()
     setValidPassword(validatePassword(password))
+
     if (validPassword !== null && !validPassword) {
       showPasswordNotValidErrorToastMessage()
       return
@@ -138,7 +131,7 @@ const ForgotPassword: NextPage = () => {
                     <button
                       type="submit"
                       className={`text-white bg-[#0061EB] hover:bg-[#022cac] rounded-lg my-7 mx-2 ${
-                        disabled ? 'bg-gray cursor-not-allowed' : ''
+                        disabled ? 'bg-slate-400 cursor-not-allowed' : ''
                       }`}
                       style={submitButtonStyle}
                       onClick={verifyOTP}
