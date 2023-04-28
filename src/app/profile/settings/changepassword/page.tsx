@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation'
 import Layout from '@/components/Layout'
 import { TextField } from '@mui/material'
 import {
-  showPasswordMatchErrorToastMessage,
   showPasswordResetSuccessfullyToastMessage,
   showPasswordNotValidErrorToastMessage,
 } from '@/utils/toast.helpers'

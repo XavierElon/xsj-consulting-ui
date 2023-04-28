@@ -62,8 +62,15 @@ const SignupModal = (props: any) => {
         .then((result) => {
           console.log(result)
           showSignupSuccessToastMessage()
+          localStorage.setItem('id', result.data.user._id)
           localStorage.setItem('isLoggedIn', 'true')
-          router.push('/')
+          localStorage.setItem('firstName', result.data.user.local.firstName)
+          localStorage.setItem('lastName', result.data.user.local.lastName)
+          localStorage.setItem('email', result.data.user.local.email)
+          localStorage.setItem('provider', 'local')
+          setTimeout(() => {
+            router.push('/')
+          }, 1000)
         })
         .catch((error) => {
           console.error(error)
@@ -81,7 +88,10 @@ const SignupModal = (props: any) => {
     const axiosResult: any = data?.response
     setGoogleAuthState(googleAuthResult, axiosResult)
     localStorage.setItem('isLoggedIn', 'true')
-    router.push('/')
+    localStorage.setItem('id', googleAuthResult.user.uid)
+    setTimeout(() => {
+      router.push('/')
+    }, 1000)
   }
 
   const setGoogleAuthState = async (

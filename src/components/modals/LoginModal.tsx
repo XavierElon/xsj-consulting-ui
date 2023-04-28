@@ -69,16 +69,16 @@ const LoginModal = (props: any) => {
   const handleGoogleLogin = async () => {
     const data = await signInWithGooglePopup()
     const googleAuthResult: any = data?.result
-    const axiosResult: any = data?.response
-    setGoogleAuthState(googleAuthResult, axiosResult)
+    setGoogleAuthState(googleAuthResult)
     localStorage.setItem('isLoggedIn', 'true')
     localStorage.setItem('id', googleAuthResult.user.uid)
+    showLoginSuccessToastMessage()
     setTimeout(() => {
       router.push('/')
     }, 1000)
   }
 
-  const setGoogleAuthState = (googleAuthResult: any, axiosResult: any) => {
+  const setGoogleAuthState = (googleAuthResult: any) => {
     console.log(googleAuthResult)
     const displayName: string = googleAuthResult.user.displayName!
     const email: string = googleAuthResult.user.email!
