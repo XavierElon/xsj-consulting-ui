@@ -48,28 +48,34 @@ const ChangePassword: NextPage = () => {
 
   const handleUpdatePassword = (e: any) => {
     e.preventDefault()
-    axios
-      .put(
-        'http://localhost:1017/changepassword',
-        {
-          oldPassword,
-          newPassword,
-          email,
-        },
-        { withCredentials: true }
-      )
-      .then((result) => {
-        console.log(result)
-        if (result.status === 200) {
-          showPasswordResetSuccessfullyToastMessage()
-          setTimeout(() => {
-            router.push('/')
-          }, 2000)
-        }
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+    setValidPassword(validPassword(newPassword))
+    if (validPassword !== null && !validPassword) {
+      showPasswordNotValidErrorToastMessage()
+      return
+    } else {
+      axios
+        .put(
+          'http://localhost:1017/changepassword',
+          {
+            oldPassword,
+            newPassword,
+            email,
+          },
+          { withCredentials: true }
+        )
+        .then((result) => {
+          console.log(result)
+          if (result.status === 200) {
+            showPasswordResetSuccessfullyToastMessage()
+            setTimeout(() => {
+              router.push('/')
+            }, 2000)
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    }
   }
 
   return (
