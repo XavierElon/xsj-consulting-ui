@@ -61,11 +61,25 @@ const SignupModal = (props: any) => {
         })
         .then((result) => {
           console.log(result)
+          const userId = result.data.user._id.toString()
           showSignupSuccessToastMessage()
+          setAuthState({
+            authToken: result.data.accessToken,
+            user: result.data.user.local,
+            provider: 'local',
+          })
+          localStorage.setItem('id', userId)
           localStorage.setItem('isLoggedIn', 'true')
-          router.push('/')
+          localStorage.setItem('firstName', result.data.user.local.firstName)
+          localStorage.setItem('lastName', result.data.user.local.lastName)
+          localStorage.setItem('email', result.data.user.local.email)
+          localStorage.setItem('provider', 'local')
+          setTimeout(() => {
+            router.push('/')
+          }, 1000)
         })
         .catch((error) => {
+          console.log('here')
           console.error(error)
           if (error.response.status === 400) {
             setErrorMessage(error.response.data.error)
@@ -81,7 +95,10 @@ const SignupModal = (props: any) => {
     const axiosResult: any = data?.response
     setGoogleAuthState(googleAuthResult, axiosResult)
     localStorage.setItem('isLoggedIn', 'true')
-    router.push('/')
+    localStorage.setItem('id', googleAuthResult.user.uid)
+    setTimeout(() => {
+      router.push('/')
+    }, 1000)
   }
 
   const setGoogleAuthState = async (

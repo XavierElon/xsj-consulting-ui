@@ -1,5 +1,5 @@
 'use client'
-import { CSSProperties, useContext, useEffect, useState } from 'react'
+import { CSSProperties, useEffect, useState } from 'react'
 import { NextPage } from 'next'
 import axios from 'axios'
 import Layout from '@/components/Layout'
@@ -10,6 +10,7 @@ import {
   showPasswordResetSuccessfullyToastMessage,
   showPasswordNotValidErrorToastMessage,
 } from '@/utils/toast.helpers'
+import { validatePassword } from '@/utils/verification.helpers'
 
 const ForgotPassword: NextPage = () => {
   const [otpEmailSent, setOtpEmailSent] = useState<boolean>(false)
@@ -18,37 +19,42 @@ const ForgotPassword: NextPage = () => {
   const [localOtp, setLocalOtp] = useState<string>()
   const [validOtp, setValidOtp] = useState<boolean>(false)
   const [password, setPassword] = useState<string>('')
-  const [confirmPassword, setConfirmPassword] = useState<string>('')
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true)
   const [validPassword, setValidPassword] = useState<any>(null)
+  const [timerCount, setTimerCount] = useState<number>(120)
+  const [disabled, setDisabled] = useState<boolean>(false)
 
   const OTP_LENGTH: number = 6
   const OTP_CHARACTERS: string = '0123456789'
 
-  useEffect(() => {
-    if (validPassword !== null && !validPassword) {
-      showPasswordNotValidErrorToastMessage()
-    }
-  }, [validPassword])
+  useEffect(() => {}, [validPassword])
 
-  const handlePasswordReset = (e: any) => {
+  const sendOTP = (e: any) => {
     e.preventDefault()
+    setDisabled(false)
     const OTP: string = cryptoRandomString({
       length: OTP_LENGTH,
       characters: OTP_CHARACTERS,
     })
-    console.log(OTP)
     setOtp(OTP)
-    console.log('axios')
     axios
       .post('http://localhost:1017/send_recovery_email', {
         OTP,
         recipientEmail,
       })
       .then((response) => {
-        console.log(response)
         if (response.status === 200) {
           setOtpEmailSent(true)
+          setTimerCount(120)
+          const interval = setInterval(() => {
+            setTimerCount((prevTimerCount) => {
+              if (prevTimerCount <= 1) {
+                setDisabled(true)
+                clearInterval(interval)
+              }
+              return prevTimerCount - 1
+            })
+          }, 1000)
         }
       })
       .catch((error) => {
@@ -58,6 +64,7 @@ const ForgotPassword: NextPage = () => {
 
   const verifyOTP = (e: any) => {
     e.preventDefault()
+
     if (otp === localOtp) {
       setOtpEmailSent(false)
       setValidOtp(true)
@@ -66,23 +73,30 @@ const ForgotPassword: NextPage = () => {
 
   const handleUpdatePassword = (e: any) => {
     e.preventDefault()
-    axios
-      .put('http://localhost:1017/resetpassword', {
-        password,
-        recipientEmail,
-      })
-      .then((result) => {
-        console.log(result)
-        if (result.status === 200) {
-          showPasswordResetSuccessfullyToastMessage()
-          setTimeout(() => {
-            window.location.assign('/login')
-          }, 2000)
-        }
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+    setValidPassword(validatePassword(password))
+
+    if (validPassword !== null && !validPassword) {
+      showPasswordNotValidErrorToastMessage()
+      return
+    } else {
+      axios
+        .put('http://localhost:1017/resetpassword', {
+          password,
+          recipientEmail,
+        })
+        .then((result) => {
+          console.log(result)
+          if (result.status === 200) {
+            showPasswordResetSuccessfullyToastMessage()
+            setTimeout(() => {
+              window.location.assign('/login')
+            }, 2000)
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    }
   }
 
   return (
@@ -115,12 +129,32 @@ const ForgotPassword: NextPage = () => {
 
                     <button
                       type="submit"
-                      className="text-white bg-[#0061EB] hover:bg-[#022cac] rounded-lg my-7 mx-2"
+                      className={`text-white bg-[#0061EB] hover:bg-[#022cac] rounded-lg my-7 mx-2 ${
+                        disabled ? 'bg-slate-400 cursor-not-allowed' : ''
+                      }`}
                       style={submitButtonStyle}
                       onClick={verifyOTP}
+                      disabled={disabled}
                     >
                       Submit OTP
                     </button>
+                    <div className="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
+                      <p>Didn't recieve code?</p>{' '}
+                      <button
+                        className="flex flex-row items-center"
+                        style={{
+                          color: disabled ? 'blue' : 'gray',
+                          cursor: disabled ? 'pointer' : '',
+                          textDecorationLine: disabled ? 'underline' : 'none',
+                        }}
+                        disabled={!disabled}
+                        onClick={sendOTP}
+                      >
+                        {disabled
+                          ? 'Resend OTP'
+                          : `Resend OTP in ${timerCount}s`}
+                      </button>
+                    </div>
                   </form>
                 </>
               ) : validOtp ? (
@@ -155,7 +189,6 @@ const ForgotPassword: NextPage = () => {
                       type="password"
                       className="transform hover:scale-110 transition-all duration-300 w-96 mx-2"
                       onChange={(e) => {
-                        setConfirmPassword(e.target.value)
                         setPasswordsMatch(e.target.value === password)
                       }}
                     />
@@ -203,7 +236,7 @@ const ForgotPassword: NextPage = () => {
                       type="submit"
                       className="text-white bg-[#0061EB] hover:bg-[#022cac] rounded-lg my-7 mx-2"
                       style={submitButtonStyle}
-                      onClick={handlePasswordReset}
+                      onClick={sendOTP}
                     >
                       Request Password Reset
                     </button>
