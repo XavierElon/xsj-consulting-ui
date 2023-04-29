@@ -2,8 +2,8 @@
 import { CSSProperties, useContext, useEffect, useState } from 'react'
 import { NextPage } from 'next'
 import Link from 'next/link'
+import axios from 'axios'
 import Layout from '@/components/Layout'
-import { useAuthState } from 'react-firebase-hooks/auth'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import { auth } from '@/firebase/firebase'
 import { signOut } from 'firebase/auth'
@@ -12,6 +12,7 @@ import { AuthStateContext } from '@/context/AuthContext'
 import { useAuthorization } from '@/hooks/useAuthorization'
 
 const Profile: NextPage = () => {
+  const [file, setFile] = useState<any>(null)
   const { authState } = useContext(AuthStateContext)
   const { email } = authState.user
   const { provider } = authState
@@ -22,6 +23,17 @@ const Profile: NextPage = () => {
     return (
       <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-white"></div>
     )
+  }
+
+  const handleFileChange = (event: any) => {
+    console.log(event.target.files)
+    setFile(event.target.files[0])
+  }
+
+  const handleUpload = async () => {
+    const formData = new FormData()
+    formData.append('profilePicture', file)
+    console.log(formData)
   }
 
   return (
@@ -52,13 +64,18 @@ const Profile: NextPage = () => {
                         ></AccountCircleIcon>
                       </>
                     )}
+                    <div>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                      />
+                      <button onClick={handleUpload}>Upload</button>
+                    </div>
                     <div className="flex flex-col ml-4">
                       <p className="font-bold text-black text-3xl mb-1">
                         {email}
                       </p>
-                      {/* <p className="text-slate-500 text-lg">
-                        Member since unknown
-                      </p> */}
                     </div>
                   </div>
                   <div className="flex items-center mt-2 px-24">
