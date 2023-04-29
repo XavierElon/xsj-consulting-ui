@@ -1,10 +1,17 @@
 'use client'
-import { CSSProperties, useContext, useEffect, useState } from 'react'
+import {
+  ChangeEvent,
+  CSSProperties,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import { NextPage } from 'next'
 import Link from 'next/link'
 import axios from 'axios'
 import Layout from '@/components/Layout'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import FileUploadIcon from '@mui/icons-material/FileUpload'
 import { auth } from '@/firebase/firebase'
 import { signOut } from 'firebase/auth'
 import Forbidden from '../forbidden/page'
@@ -12,6 +19,7 @@ import { AuthStateContext } from '@/context/AuthContext'
 import { useAuthorization } from '@/hooks/useAuthorization'
 
 const Profile: NextPage = () => {
+  const [isHovering, setIsHovering] = useState<boolean>(false)
   const [file, setFile] = useState<any>(null)
   const { authState } = useContext(AuthStateContext)
   const { email } = authState.user
@@ -19,21 +27,33 @@ const Profile: NextPage = () => {
 
   const authorized = useAuthorization()
 
+  // useEffect(() => {
+  //   // handleUpload()
+  // }, [file])
+
   if (authorized === null) {
     return (
       <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-white"></div>
     )
   }
 
-  const handleFileChange = (event: any) => {
+  const handleFileChange = async (event: any) => {
+    // event.preventDefault()
     console.log(event.target.files)
-    setFile(event.target.files[0])
+    if (event.target.files && event.target.files.length > 0) {
+      setFile(event.target.files[0])
+      await handleUpload()
+    }
   }
 
   const handleUpload = async () => {
+    if (!file) {
+      return
+    }
     const formData = new FormData()
     formData.append('profilePicture', file)
-    console.log(formData)
+
+    console.log(formData.get('profilePicture'))
   }
 
   return (
@@ -57,21 +77,54 @@ const Profile: NextPage = () => {
                       </>
                     ) : (
                       <>
-                        <AccountCircleIcon
-                          fontSize="inherit"
-                          color="primary"
-                          sx={{ fontSize: '100px' }}
-                        ></AccountCircleIcon>
+                        <div
+                          onMouseEnter={() => setIsHovering(true)}
+                          onMouseLeave={() => setIsHovering(false)}
+                          className="relative"
+                        >
+                          <AccountCircleIcon
+                            fontSize="inherit"
+                            color="primary"
+                            sx={{ fontSize: '100px' }}
+                          ></AccountCircleIcon>
+
+                          <>
+                            <form onSubmit={handleUpload}>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                                className="hidden"
+                                id="fileInput"
+                              ></input>
+
+                              <label htmlFor="fileInput">
+                                {isHovering && (
+                                  <FileUploadIcon
+                                    fontSize="inherit"
+                                    color="primary"
+                                    sx={{
+                                      fontSize: '40px',
+                                      position: 'absolute',
+                                      top: '80%',
+                                      left: '50%',
+                                      transform: 'translate(-50%, -50%)',
+                                      backgroundColor: 'white',
+                                      borderRadius: '50px',
+                                      cursor: 'pointer',
+                                    }}
+                                  />
+                                )}
+                              </label>
+                              {/* <button className="bg-black" type="submit">
+                                Upload
+                              </button> */}
+                            </form>
+                          </>
+                        </div>
                       </>
                     )}
-                    <div>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleFileChange}
-                      />
-                      <button onClick={handleUpload}>Upload</button>
-                    </div>
+
                     <div className="flex flex-col ml-4">
                       <p className="font-bold text-black text-3xl mb-1">
                         {email}
@@ -114,4 +167,3 @@ const submitButtonStyle: CSSProperties = {
   paddingTop: '2%',
   paddingBottom: '2%',
 }
-//
