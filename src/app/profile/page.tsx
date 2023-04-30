@@ -1,19 +1,11 @@
 'use client'
-import {
-  ChangeEvent,
-  CSSProperties,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import { CSSProperties, useContext, useEffect, useState } from 'react'
 import { NextPage } from 'next'
 import Link from 'next/link'
 import axios from 'axios'
 import Layout from '@/components/Layout'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
-import { auth } from '@/firebase/firebase'
-import { signOut } from 'firebase/auth'
 import Forbidden from '../forbidden/page'
 import { AuthStateContext } from '@/context/AuthContext'
 import { useAuthorization } from '@/hooks/useAuthorization'
@@ -30,16 +22,12 @@ const Profile: NextPage = () => {
 
   useEffect(() => {
     if (!file) {
-      console.log('fail')
       return
     }
     const sendImage = async () => {
       try {
-        console.log('file')
-        console.log(file)
         const formData = new FormData()
         formData.append('image', file)
-        console.log(formData.get('image'))
         const id = localStorage.getItem('id')
 
         await axios.post(
@@ -62,21 +50,9 @@ const Profile: NextPage = () => {
     console.log(event.target.files)
     if (event.target.files && event.target.files.length > 0) {
       const selectedFile = event.target.files[0]
-
       setFile(selectedFile)
     }
   }
-
-  // const handleUpload = async () => {
-  //   if (!file) {
-  //     console.log('fail')
-  //     return
-  //   }
-  //   const formData = new FormData()
-  //   formData.append('profilePicture', file)
-
-  //   consodle.log(formData.get('profilePicture'))
-  // }
 
   if (authorized === null) {
     return (
@@ -117,12 +93,7 @@ const Profile: NextPage = () => {
                           ></AccountCircleIcon>
 
                           <>
-                            <form
-                            // onSubmit={handleUpload}
-                            // method="POST"
-                            // action="/upload-profile-picture"
-                            // encType="multipart/form-data"
-                            >
+                            <form>
                               <input
                                 type="file"
                                 accept="image/*"
@@ -131,10 +102,6 @@ const Profile: NextPage = () => {
                                 className="hidden"
                                 id="fileInput"
                               ></input>
-                              {/* <input
-                                type="submit"
-                                className="bg-slate-800"
-                              ></input> */}
 
                               <label htmlFor="fileInput">
                                 {isHovering && (
