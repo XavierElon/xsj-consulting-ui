@@ -40,9 +40,10 @@ const Profile: NextPage = () => {
         const formData = new FormData()
         formData.append('image', file)
         console.log(formData.get('image'))
+        const id = localStorage.getItem('id')
 
         await axios.post(
-          'http://localhost:1017/upload-profile-picture',
+          `http://localhost:1017/upload-profile-picture/${id}`,
           formData,
           {
             headers: {
