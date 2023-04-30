@@ -26,34 +26,61 @@ const Profile: NextPage = () => {
   const { provider } = authState
 
   const authorized = useAuthorization()
+  console.log(authState)
 
-  // useEffect(() => {
-  //   // handleUpload()
-  // }, [file])
+  useEffect(() => {
+    if (!file) {
+      console.log('fail')
+      return
+    }
+    const sendImage = async () => {
+      try {
+        console.log('file')
+        console.log(file)
+        const formData = new FormData()
+        formData.append('image', file)
+        console.log(formData.get('image'))
+
+        await axios.post(
+          'http://localhost:1017/upload-profile-picture',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        )
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    sendImage()
+  }, [file])
+
+  const handleFileChange = async (event: any) => {
+    console.log(event.target.files)
+    if (event.target.files && event.target.files.length > 0) {
+      const selectedFile = event.target.files[0]
+
+      setFile(selectedFile)
+    }
+  }
+
+  // const handleUpload = async () => {
+  //   if (!file) {
+  //     console.log('fail')
+  //     return
+  //   }
+  //   const formData = new FormData()
+  //   formData.append('profilePicture', file)
+
+  //   consodle.log(formData.get('profilePicture'))
+  // }
 
   if (authorized === null) {
     return (
       <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-white"></div>
     )
-  }
-
-  const handleFileChange = async (event: any) => {
-    // event.preventDefault()
-    console.log(event.target.files)
-    if (event.target.files && event.target.files.length > 0) {
-      setFile(event.target.files[0])
-      await handleUpload()
-    }
-  }
-
-  const handleUpload = async () => {
-    if (!file) {
-      return
-    }
-    const formData = new FormData()
-    formData.append('profilePicture', file)
-
-    console.log(formData.get('profilePicture'))
   }
 
   return (
@@ -89,14 +116,24 @@ const Profile: NextPage = () => {
                           ></AccountCircleIcon>
 
                           <>
-                            <form onSubmit={handleUpload}>
+                            <form
+                            // onSubmit={handleUpload}
+                            // method="POST"
+                            // action="/upload-profile-picture"
+                            // encType="multipart/form-data"
+                            >
                               <input
                                 type="file"
                                 accept="image/*"
+                                name="file"
                                 onChange={handleFileChange}
                                 className="hidden"
                                 id="fileInput"
                               ></input>
+                              {/* <input
+                                type="submit"
+                                className="bg-slate-800"
+                              ></input> */}
 
                               <label htmlFor="fileInput">
                                 {isHovering && (
@@ -116,9 +153,6 @@ const Profile: NextPage = () => {
                                   />
                                 )}
                               </label>
-                              {/* <button className="bg-black" type="submit">
-                                Upload
-                              </button> */}
                             </form>
                           </>
                         </div>
