@@ -1,5 +1,5 @@
 'use client'
-import React, { CSSProperties, useContext, useState } from 'react'
+import React, { CSSProperties, useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
@@ -24,6 +24,8 @@ type Props = {
 
 const Navbar = (props: Props) => {
   const [anchorEl, setAnchorEl] = useState<any>(null)
+  const [imageUrl, setImageUrl] = useState<any>(null)
+  const [displayName, setDisplayName] = useState<string>('')
   const [user] = useAuthState(auth)
   const { authState } = useContext(AuthStateContext)
   const router = useRouter()
@@ -32,6 +34,17 @@ const Navbar = (props: Props) => {
     provider,
     user: { firstName, lastName },
   } = authState
+
+  useEffect(() => {
+    if (authState.provider === 'local') {
+      const imageBuffer = authState.user.profilePicture.data.data
+      const imageType = authState.user.profilePicture.contentType
+      const base64String = Buffer.from(imageBuffer).toString('base64')
+
+      const url = `data:${imageType};base64,${base64String}`
+      setImageUrl(url)
+    }
+  }, [authState])
 
   const handleLogout = async () => {
     try {
@@ -129,15 +142,23 @@ const Navbar = (props: Props) => {
               </>
             ) : (
               <>
-                <p className="text-black mr-2">
-                  {firstName} {lastName}
-                </p>
-                <AccountCircleIcon
-                  fontSize="inherit"
-                  color="primary"
-                  sx={{ fontSize: '50px' }}
-                  onClick={handleDropdownOpen}
-                ></AccountCircleIcon>
+                {imageUrl ? (
+                  <>
+                    <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
+                      <img
+                        src={imageUrl}
+                        alt="profilePicture"
+                        className="w-full h-full rounded-full"
+                      ></img>
+                    </div>
+                  </>
+                ) : (
+                  <AccountCircleIcon
+                    fontSize="inherit"
+                    color="primary"
+                    sx={{ fontSize: '100px' }}
+                  ></AccountCircleIcon>
+                )}
               </>
             )}
             <ExpandMoreIcon

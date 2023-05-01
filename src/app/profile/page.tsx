@@ -104,8 +104,6 @@ const Profile: NextPage = () => {
                                 <img
                                   src={imageUrl}
                                   alt="profilePicture"
-                                  // width="4%"
-                                  // height="4%"
                                   className="w-full h-full rounded-full"
                                 ></img>
                               </div>
