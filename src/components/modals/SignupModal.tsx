@@ -1,8 +1,7 @@
 'use client'
 import React, { CSSProperties, useContext, useEffect, useState } from 'react'
-import { TextField, Box, Button } from '@mui/material'
+import { TextField, Button } from '@mui/material'
 import { useRouter } from 'next/navigation'
-import { Epilogue } from 'next/font/google'
 import Image from 'next/image'
 import axios from 'axios'
 import 'react-toastify/dist/ReactToastify.css'
@@ -28,7 +27,7 @@ const SignupModal = (props: any) => {
   const [validEmail, setValidEmail] = useState<boolean>(true)
   const [validPassword, setValidPassword] = useState<any>(null)
   const [errorMessage, setErrorMessage] = useState<string>('')
-  const { authState, setAuthState } = useContext(AuthStateContext)
+  const { setAuthState } = useContext(AuthStateContext)
 
   const router = useRouter()
 
@@ -79,7 +78,6 @@ const SignupModal = (props: any) => {
           }, 1000)
         })
         .catch((error) => {
-          console.log('here')
           console.error(error)
           if (error.response.status === 400) {
             setErrorMessage(error.response.data.error)

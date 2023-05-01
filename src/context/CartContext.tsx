@@ -8,7 +8,7 @@ type ContextInterface = {
   removeOneFromCart: any
   deleteFromCart: any
 }
-const UserStateContext = createContext<ContextInterface>({
+const CartStateContext = createContext<ContextInterface>({
   items: [],
   getProductQuantity: () => {},
   addOneToCart: () => {},
@@ -16,7 +16,7 @@ const UserStateContext = createContext<ContextInterface>({
   deleteFromCart: () => {},
 })
 
-const UserStateProvider = (props: any) => {
+const CartStateProvider = (props: any) => {
   const [cartProducts, setCartProducts] = useState<any[]>([])
 
   const getProductQuantity = (id: number) => {
@@ -87,10 +87,10 @@ const UserStateProvider = (props: any) => {
   }
 
   return (
-    <UserStateContext.Provider value={contextValue}>
+    <CartStateContext.Provider value={contextValue}>
       {props.children}
-    </UserStateContext.Provider>
+    </CartStateContext.Provider>
   )
 }
 
-export { UserStateContext, UserStateProvider }
+export { CartStateContext, CartStateProvider }

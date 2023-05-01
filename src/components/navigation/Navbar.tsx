@@ -1,5 +1,5 @@
 'use client'
-import React, { CSSProperties, useContext, useEffect, useState } from 'react'
+import React, { CSSProperties, useContext, useState } from 'react'
 import Link from 'next/link'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'

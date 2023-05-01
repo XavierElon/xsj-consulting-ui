@@ -2,21 +2,78 @@
 import { CSSProperties, useContext, useEffect, useState } from 'react'
 import { NextPage } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
+import axios from 'axios'
 import Layout from '@/components/Layout'
-import { useAuthState } from 'react-firebase-hooks/auth'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import { auth } from '@/firebase/firebase'
-import { signOut } from 'firebase/auth'
+import FileUploadIcon from '@mui/icons-material/FileUpload'
 import Forbidden from '../forbidden/page'
 import { AuthStateContext } from '@/context/AuthContext'
 import { useAuthorization } from '@/hooks/useAuthorization'
 
 const Profile: NextPage = () => {
+  const [isHovering, setIsHovering] = useState<boolean>(false)
+  const [file, setFile] = useState<any>(null)
+  const [imageUrl, setImageUrl] = useState<any>(null)
+  const authorized = useAuthorization()
   const { authState } = useContext(AuthStateContext)
   const { email } = authState.user
   const { provider } = authState
 
-  const authorized = useAuthorization()
+  useEffect(() => {
+    if (authState.provider === 'local') {
+      const imageBuffer = authState.user.profilePicture.data.data
+      const imageType = authState.user.profilePicture.contentType
+      const base64String = Buffer.from(imageBuffer).toString('base64')
+
+      const url = `data:${imageType};base64,${base64String}`
+      console.log(url)
+      setImageUrl(url)
+      console.log(authState)
+    }
+  }, [authState])
+
+  console.log(authState)
+
+  useEffect(() => {
+    if (!file) {
+      return
+    }
+    const sendImage = async () => {
+      try {
+        const formData = new FormData()
+        formData.append('image', file)
+        const id = localStorage.getItem('id')
+
+        await axios.post(
+          `http://localhost:1017/upload-profile-picture/${id}`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        )
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    sendImage()
+  }, [file])
+
+  const handleFileChange = async (event: any) => {
+    console.log(event.target.files)
+    if (event.target.files && event.target.files.length > 0) {
+      const selectedFile = event.target.files[0]
+      setFile(selectedFile)
+    }
+  }
+
+  const readFile = (input: any) => {
+    const fr = new FileReader()
+
+    fr.readAsDataURL(input)
+  }
 
   if (authorized === null) {
     return (
@@ -45,20 +102,68 @@ const Profile: NextPage = () => {
                       </>
                     ) : (
                       <>
-                        <AccountCircleIcon
-                          fontSize="inherit"
-                          color="primary"
-                          sx={{ fontSize: '100px' }}
-                        ></AccountCircleIcon>
+                        <div
+                          onMouseEnter={() => setIsHovering(true)}
+                          onMouseLeave={() => setIsHovering(false)}
+                          className="relative"
+                        >
+                          {imageUrl ? (
+                            <>
+                              <img
+                                src={imageUrl}
+                                alt="profilePicture"
+                                width={100}
+                                height={100}
+                                className="rounded-xl"
+                              ></img>
+                            </>
+                          ) : (
+                            <AccountCircleIcon
+                              fontSize="inherit"
+                              color="primary"
+                              sx={{ fontSize: '100px' }}
+                            ></AccountCircleIcon>
+                          )}
+
+                          <>
+                            <form>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                name="file"
+                                onChange={handleFileChange}
+                                className="hidden"
+                                id="fileInput"
+                              ></input>
+
+                              <label htmlFor="fileInput">
+                                {isHovering && (
+                                  <FileUploadIcon
+                                    fontSize="inherit"
+                                    color="primary"
+                                    sx={{
+                                      fontSize: '40px',
+                                      position: 'absolute',
+                                      top: '80%',
+                                      left: '50%',
+                                      transform: 'translate(-50%, -50%)',
+                                      backgroundColor: 'white',
+                                      borderRadius: '50px',
+                                      cursor: 'pointer',
+                                    }}
+                                  />
+                                )}
+                              </label>
+                            </form>
+                          </>
+                        </div>
                       </>
                     )}
+
                     <div className="flex flex-col ml-4">
                       <p className="font-bold text-black text-3xl mb-1">
                         {email}
                       </p>
-                      {/* <p className="text-slate-500 text-lg">
-                        Member since unknown
-                      </p> */}
                     </div>
                   </div>
                   <div className="flex items-center mt-2 px-24">
@@ -97,4 +202,3 @@ const submitButtonStyle: CSSProperties = {
   paddingTop: '2%',
   paddingBottom: '2%',
 }
-//
