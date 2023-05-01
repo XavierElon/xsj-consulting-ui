@@ -21,23 +21,17 @@ const Profile: NextPage = () => {
   const { provider } = authState
 
   useEffect(() => {
-    console.log('here')
     if (authState.provider === 'local') {
       const imageBuffer = authState.user.profilePicture.data.data
       const imageType = authState.user.profilePicture.contentType
-      const url = URL.createObjectURL(
-        new Blob([imageBuffer], { type: imageType })
-      )
-      console.log(imageBuffer)
+      const base64String = Buffer.from(imageBuffer).toString('base64')
+
+      const url = `data:${imageType};base64,${base64String}`
       console.log(url)
       setImageUrl(url)
       console.log(authState)
     }
   }, [authState])
-
-  useEffect(() => {
-    console.log(imageUrl)
-  }, [imageUrl])
 
   console.log(authState)
 
@@ -120,6 +114,7 @@ const Profile: NextPage = () => {
                                 alt="profilePicture"
                                 width={100}
                                 height={100}
+                                className="rounded-xl"
                               ></img>
                             </>
                           ) : (
