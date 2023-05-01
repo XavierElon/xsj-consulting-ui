@@ -2,6 +2,7 @@
 import { CSSProperties, useContext, useEffect, useState } from 'react'
 import { NextPage } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import axios from 'axios'
 import Layout from '@/components/Layout'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
@@ -13,11 +14,31 @@ import { useAuthorization } from '@/hooks/useAuthorization'
 const Profile: NextPage = () => {
   const [isHovering, setIsHovering] = useState<boolean>(false)
   const [file, setFile] = useState<any>(null)
+  const [imageUrl, setImageUrl] = useState<any>(null)
+  const authorized = useAuthorization()
   const { authState } = useContext(AuthStateContext)
   const { email } = authState.user
   const { provider } = authState
 
-  const authorized = useAuthorization()
+  useEffect(() => {
+    console.log('here')
+    if (authState.provider === 'local') {
+      const imageBuffer = authState.user.profilePicture.data.data
+      const imageType = authState.user.profilePicture.contentType
+      const url = URL.createObjectURL(
+        new Blob([imageBuffer], { type: imageType })
+      )
+      console.log(imageBuffer)
+      console.log(url)
+      setImageUrl(url)
+      console.log(authState)
+    }
+  }, [authState])
+
+  useEffect(() => {
+    console.log(imageUrl)
+  }, [imageUrl])
+
   console.log(authState)
 
   useEffect(() => {
@@ -54,6 +75,12 @@ const Profile: NextPage = () => {
     }
   }
 
+  const readFile = (input: any) => {
+    const fr = new FileReader()
+
+    fr.readAsDataURL(input)
+  }
+
   if (authorized === null) {
     return (
       <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-white"></div>
@@ -86,11 +113,22 @@ const Profile: NextPage = () => {
                           onMouseLeave={() => setIsHovering(false)}
                           className="relative"
                         >
-                          <AccountCircleIcon
-                            fontSize="inherit"
-                            color="primary"
-                            sx={{ fontSize: '100px' }}
-                          ></AccountCircleIcon>
+                          {imageUrl ? (
+                            <>
+                              <img
+                                src={imageUrl}
+                                alt="profilePicture"
+                                width={100}
+                                height={100}
+                              ></img>
+                            </>
+                          ) : (
+                            <AccountCircleIcon
+                              fontSize="inherit"
+                              color="primary"
+                              sx={{ fontSize: '100px' }}
+                            ></AccountCircleIcon>
+                          )}
 
                           <>
                             <form>
