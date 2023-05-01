@@ -27,13 +27,10 @@ const Profile: NextPage = () => {
       const base64String = Buffer.from(imageBuffer).toString('base64')
 
       const url = `data:${imageType};base64,${base64String}`
-      console.log(url)
       setImageUrl(url)
       console.log(authState)
     }
   }, [authState])
-
-  console.log(authState)
 
   useEffect(() => {
     if (!file) {
@@ -61,18 +58,12 @@ const Profile: NextPage = () => {
     sendImage()
   }, [file])
 
-  const handleFileChange = async (event: any) => {
+  const handleFileUpload = async (event: any) => {
     console.log(event.target.files)
     if (event.target.files && event.target.files.length > 0) {
       const selectedFile = event.target.files[0]
       setFile(selectedFile)
     }
-  }
-
-  const readFile = (input: any) => {
-    const fr = new FileReader()
-
-    fr.readAsDataURL(input)
   }
 
   if (authorized === null) {
@@ -109,13 +100,15 @@ const Profile: NextPage = () => {
                         >
                           {imageUrl ? (
                             <>
-                              <img
-                                src={imageUrl}
-                                alt="profilePicture"
-                                width={100}
-                                height={100}
-                                className="rounded-xl"
-                              ></img>
+                              <div className="w-[100px] h-[100px] rounded-full overflow-hidden">
+                                <img
+                                  src={imageUrl}
+                                  alt="profilePicture"
+                                  // width="4%"
+                                  // height="4%"
+                                  className="w-full h-full rounded-full"
+                                ></img>
+                              </div>
                             </>
                           ) : (
                             <AccountCircleIcon
@@ -131,7 +124,7 @@ const Profile: NextPage = () => {
                                 type="file"
                                 accept="image/*"
                                 name="file"
-                                onChange={handleFileChange}
+                                onChange={handleFileUpload}
                                 className="hidden"
                                 id="fileInput"
                               ></input>
@@ -195,10 +188,3 @@ const Profile: NextPage = () => {
 }
 
 export default Profile
-
-const submitButtonStyle: CSSProperties = {
-  width: '20%',
-  height: '4%',
-  paddingTop: '2%',
-  paddingBottom: '2%',
-}
