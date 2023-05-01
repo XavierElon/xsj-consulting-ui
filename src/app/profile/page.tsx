@@ -28,7 +28,6 @@ const Profile: NextPage = () => {
 
       const url = `data:${imageType};base64,${base64String}`
       setImageUrl(url)
-      console.log(authState)
     }
   }, [authState])
 

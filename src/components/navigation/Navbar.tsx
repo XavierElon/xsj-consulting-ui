@@ -1,6 +1,13 @@
 'use client'
-import React, { CSSProperties, useContext, useEffect, useState } from 'react'
+import React, {
+  CSSProperties,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { CgMenuGridR } from 'react-icons/cg'
@@ -32,19 +39,27 @@ const Navbar = (props: Props) => {
   const authorized = useAuthorization()
   const {
     provider,
-    user: { firstName, lastName },
+    user: { firstName, lastName, profilePicture },
   } = authState
+  const localUser = provider === 'local'
+  const googleUser = provider === 'firebaseGoogle'
 
   useEffect(() => {
-    if (authState.provider === 'local') {
-      const imageBuffer = authState.user.profilePicture.data.data
-      const imageType = authState.user.profilePicture.contentType
+    if (localUser) {
+      setDisplayName(firstName + ' ' + lastName)
+    }
+  })
+
+  useEffect(() => {
+    if (localUser && profilePicture) {
+      const imageBuffer = profilePicture.data.data
+      const imageType = profilePicture.contentType
       const base64String = Buffer.from(imageBuffer).toString('base64')
 
       const url = `data:${imageType};base64,${base64String}`
       setImageUrl(url)
     }
-  }, [authState])
+  }, [authState, localUser])
 
   const handleLogout = async () => {
     try {
@@ -129,7 +144,7 @@ const Navbar = (props: Props) => {
       {authorized && (
         <div>
           <div className="flex justify-end items-center">
-            {authState.provider === 'firebaseGoogle' ? (
+            {googleUser ? (
               <>
                 <p className="text-black mr-2">{user?.displayName}</p>
                 <img
@@ -144,10 +159,13 @@ const Navbar = (props: Props) => {
               <>
                 {imageUrl ? (
                   <>
+                    <p className="text-black mr-2">{displayName}</p>
                     <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
                       <img
                         src={imageUrl}
                         alt="profilePicture"
+                        width="50"
+                        height="50"
                         className="w-full h-full rounded-full"
                       ></img>
                     </div>
