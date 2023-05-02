@@ -48,7 +48,7 @@ const Navbar = (props: Props) => {
     if (localUser) {
       setDisplayName(firstName + ' ' + lastName)
     }
-  })
+  }, [localUser, firstName, lastName])
 
   useEffect(() => {
     if (localUser && profilePicture) {
@@ -88,6 +88,23 @@ const Navbar = (props: Props) => {
 
   const handleDropdownClose = () => {
     setAnchorEl(null)
+  }
+
+  const returnProfilePicture = () => {
+    return (
+      <>
+        <p className="text-black mr-2">{displayName}</p>
+        <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
+          <img
+            src={imageUrl}
+            alt="profilePicture"
+            width="50"
+            height="50"
+            className="w-full h-full rounded-full"
+          ></img>
+        </div>
+      </>
+    )
   }
 
   return (

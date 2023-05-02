@@ -10,7 +10,7 @@ export const useAuthorization = () => {
       const id = localStorage.getItem('id')
       getLoggedInUser(id)
     }
-  }, [])
+  }, [getLoggedInUser])
 
   useEffect(() => {
     if (authState.provider !== null && authState.provider !== '') {
