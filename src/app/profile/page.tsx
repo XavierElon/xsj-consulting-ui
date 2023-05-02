@@ -13,6 +13,9 @@ import { useAuthorization } from '@/hooks/useAuthorization'
 
 const Profile: NextPage = () => {
   const [isHovering, setIsHovering] = useState<boolean>(false)
+  const [accountSelected, setAccountSelected] = useState<boolean>(true)
+  const [settingsSelected, setSettingsSelected] = useState<boolean>(false)
+  const [paymentsSelected, setPaymentsSelected] = useState<boolean>(false)
   const [file, setFile] = useState<any>(null)
   const [imageUrl, setImageUrl] = useState<any>(null)
   const authorized = useAuthorization()
@@ -85,13 +88,34 @@ const Profile: NextPage = () => {
               </div>
             </div>
 
-            <div className="w-full bg-white py-4 mr-10 border-t-slate-200 border-b-slate-200 border-t-2 border-b-2">
+            <div className="w-full bg-white mr-10 border-t-slate-200 border-b-slate-200 border-t-2 border-b-2">
               <div className="container mx-auto ">
                 <div className="w-5/6 ml-auto">
-                  <ul className="flex space-x-8">
-                    <li className="text-gray-500 text-sm">Account</li>
-                    <li className="text-gray-500 text-sm">Settings</li>
-                    <li className="text-gray-500 text-sm">Payment</li>
+                  <ul className="flex items-stretch space-x-8 h-full">
+                    <li
+                      className={`text-gray-500 text-sm hover:bg-slate-100 hover:cursor-pointer flex items-center py-2 px-2 ${
+                        settingsSelected ? 'bg-slate-200' : ''
+                      }`}
+                      onClick={() => setAccountSelected(true)}
+                    >
+                      Account
+                    </li>
+                    <li
+                      className={`text-gray-500 text-sm hover:bg-slate-100 hover:cursor-pointer flex items-center py-2 px-2 ${
+                        accountSelected ? 'bg-slate-200' : ''
+                      }`}
+                      onClick={() => setSettingsSelected(true)}
+                    >
+                      Settings
+                    </li>
+                    <li
+                      className={`text-gray-500 text-sm hover:bg-slate-100 hover:cursor-pointer flex items-center py-2 px-2 ${
+                        paymentsSelected ? 'bg-slate-200' : ''
+                      }`}
+                      onClick={() => setPaymentsSelected(true)}
+                    >
+                      Payment
+                    </li>
                   </ul>
                 </div>
               </div>

@@ -14,16 +14,16 @@ export const Footer = () => {
                   <Link href="/">xsj.com</Link>
                 </li>
                 <li className="text-gray-400 text-sm">Blog</li>
-                <li className="text-gray-500 text-sm">Careers</li>
+                <li className="text-gray-400 text-sm">Careers</li>
                 <li className="text-gray-500 text-sm">Documentation</li>
               </ul>
             </div>
             <div className="flex items-center">
               <ul className="flex space-x-4">
-                <li className="text-gray-500 text-sm">Terms of Service</li>
-                <li className="text-gray-500 text-sm">Privacy</li>
-                <li className="text-gray-500 text-sm">Cookies</li>
-                <li className="text-gray-500 text-sm">© 2023 xsj.com</li>
+                <li className="text-gray-400 text-sm">Terms of Service</li>
+                <li className="text-gray-400 text-sm">Privacy</li>
+                <li className="text-gray-400 text-sm">Cookies</li>
+                <li className="text-gray-400 text-sm">© 2023 xsj.com</li>
               </ul>
             </div>
           </div>
