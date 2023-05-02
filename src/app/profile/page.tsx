@@ -69,6 +69,24 @@ const Profile: NextPage = () => {
     }
   }
 
+  const handleAccountTab = () => {
+    setPaymentsSelected(false)
+    setSettingsSelected(false)
+    setAccountSelected(true)
+  }
+
+  const handleSettingsTab = () => {
+    setPaymentsSelected(false)
+    setAccountSelected(false)
+    setSettingsSelected(true)
+  }
+
+  const handlePaymentsTab = () => {
+    setSettingsSelected(false)
+    setAccountSelected(false)
+    setPaymentsSelected(true)
+  }
+
   if (authorized === null) {
     return (
       <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-white"></div>
@@ -91,28 +109,28 @@ const Profile: NextPage = () => {
             <div className="w-full bg-white mr-10 border-t-slate-200 border-b-slate-200 border-t-2 border-b-2">
               <div className="container mx-auto ">
                 <div className="w-5/6 ml-auto">
-                  <ul className="flex items-stretch space-x-8 h-full">
+                  <ul className="flex h-full">
                     <li
-                      className={`text-gray-500 text-sm hover:bg-slate-100 hover:cursor-pointer flex items-center py-2 px-2 ${
-                        settingsSelected ? 'bg-slate-200' : ''
+                      className={`text-gray-500 rounded-sm text-sm hover:bg-slate-100 hover:cursor-pointer flex items-center py-2 px-4 ${
+                        accountSelected ? 'bg-slate-200' : ''
                       }`}
-                      onClick={() => setAccountSelected(true)}
+                      onClick={handleAccountTab}
                     >
                       Account
                     </li>
                     <li
-                      className={`text-gray-500 text-sm hover:bg-slate-100 hover:cursor-pointer flex items-center py-2 px-2 ${
-                        accountSelected ? 'bg-slate-200' : ''
+                      className={`text-gray-500 rounded-sm text-sm hover:bg-slate-100 hover:cursor-pointer flex items-center py-2 px-4 ${
+                        settingsSelected ? 'bg-slate-200' : ''
                       }`}
-                      onClick={() => setSettingsSelected(true)}
+                      onClick={handleSettingsTab}
                     >
                       Settings
                     </li>
                     <li
-                      className={`text-gray-500 text-sm hover:bg-slate-100 hover:cursor-pointer flex items-center py-2 px-2 ${
+                      className={`text-gray-500 rounded-sm text-sm hover:bg-slate-100 hover:cursor-pointer flex items-center py-2 px-4 ${
                         paymentsSelected ? 'bg-slate-200' : ''
                       }`}
-                      onClick={() => setPaymentsSelected(true)}
+                      onClick={handlePaymentsTab}
                     >
                       Payment
                     </li>
