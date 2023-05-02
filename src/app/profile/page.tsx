@@ -77,9 +77,9 @@ const Profile: NextPage = () => {
       {authorized ? (
         <>
           <Layout>
-            <div className="w-full bg-slate-100 py-4 mt-16 border-t-[#79589F] border-4">
+            <div className="w-full bg-slate-100 py-4 mt-16 border-t-[#79589F] border-t-4">
               <div className="container mx-auto">
-                <p className="text-xl text-[#323B49]">Manage Account</p>
+                <p className="mx-16 text-md text-[#323B49]">Manage Account</p>
               </div>
             </div>
 
