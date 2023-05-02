@@ -90,23 +90,6 @@ const Navbar = (props: Props) => {
     setAnchorEl(null)
   }
 
-  const returnProfilePicture = () => {
-    return (
-      <>
-        <p className="text-black mr-2">{displayName}</p>
-        <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
-          <img
-            src={imageUrl}
-            alt="profilePicture"
-            width="50"
-            height="50"
-            className="w-full h-full rounded-full"
-          ></img>
-        </div>
-      </>
-    )
-  }
-
   return (
     <nav
       className={classNames({
@@ -117,17 +100,17 @@ const Navbar = (props: Props) => {
     >
       {props.open ? (
         <button onClick={props.handleClick} className="z-50">
-          <XMarkIcon className="h-6 w-6" />
+          <XMarkIcon className="h-6 w-6 text-[#0061EB]" />
         </button>
       ) : (
-        <div className="flex flex-col justify-start px-10">
+        <div className="flex flex-col justify-start px-10 text-[#0061EB]">
           <button onClick={props.handleClick}>
             <CgMenuGridR className="h-10 w-10" />
           </button>
         </div>
       )}
       <Link href="/">
-        <div className="flex flex-col justify-start font-bold text-lg text-black px-5">
+        <div className="flex flex-col justify-start font-bold text-lg text-[#0061EB] px-5">
           DevGru
         </div>
       </Link>

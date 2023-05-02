@@ -6,6 +6,7 @@ import './stars.css'
 import '@fontsource/epilogue'
 import { CartStateProvider } from '@/context/CartContext'
 import { AuthStateProvider } from '@/context/AuthContext'
+import Footer from '@/components/navigation/Footer'
 
 export default function RootLayout({
   children,
@@ -22,6 +23,9 @@ export default function RootLayout({
           </CartStateProvider>
         </AuthStateProvider>
       </body>
+      <footer>
+        <Footer></Footer>
+      </footer>
     </html>
   )
 }

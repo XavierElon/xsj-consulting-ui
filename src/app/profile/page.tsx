@@ -77,100 +77,104 @@ const Profile: NextPage = () => {
       {authorized ? (
         <>
           <Layout>
-            <div className="flex items-center justify-start min-h-screen pt-16">
-              <div className="absolute top-0 left-0 w-full h-full bg-white flex items-center justify-center">
-                <div className="relative w-4/5 bg-white border-none flex flex-wrap flex-col items-start">
-                  <div className="flex items-center mr-2">
-                    {provider === 'firebaseGoogle' ? (
-                      <>
-                        <img
-                          src={authState.user?.photoURL || ''}
-                          width="100"
-                          height="100"
-                          referrerPolicy="no-referrer"
-                          className="rounded-md transform hover:scale-110 transition-all duration-300 cursor-pointer"
-                        ></img>
-                      </>
-                    ) : (
-                      <>
-                        <div
-                          onMouseEnter={() => setIsHovering(true)}
-                          onMouseLeave={() => setIsHovering(false)}
-                          className="relative"
-                        >
-                          {imageUrl ? (
-                            <>
-                              <div className="w-[100px] h-[100px] rounded-full overflow-hidden">
-                                <img
-                                  src={imageUrl}
-                                  alt="profilePicture"
-                                  className="w-full h-full rounded-full"
-                                ></img>
-                              </div>
-                            </>
-                          ) : (
-                            <AccountCircleIcon
-                              fontSize="inherit"
-                              color="primary"
-                              sx={{ fontSize: '100px' }}
-                            ></AccountCircleIcon>
-                          )}
+            <div className="w-full bg-slate-100 py-4 mt-16 border-t-[#79589F] border-4">
+              <div className="container mx-auto">
+                <p className="text-xl text-[#323B49]">Manage Account</p>
+              </div>
+            </div>
 
+            <div className="mx-auto bg-white min-h-screen min-w-screen">
+              <div className="flex flex-col h-full w-full">
+                <div className="flex mb-4 pt-20">
+                  {provider === 'firebaseGoogle' ? (
+                    <>
+                      <img
+                        src={authState.user?.photoURL || ''}
+                        width="100"
+                        height="100"
+                        referrerPolicy="no-referrer"
+                        className="rounded-md transform hover:scale-110 transition-all duration-300 cursor-pointer"
+                      ></img>
+                    </>
+                  ) : (
+                    <>
+                      <div
+                        onMouseEnter={() => setIsHovering(true)}
+                        onMouseLeave={() => setIsHovering(false)}
+                        className="relative"
+                      >
+                        {imageUrl ? (
                           <>
-                            <form>
-                              <input
-                                type="file"
-                                accept="image/*"
-                                name="file"
-                                onChange={handleFileUpload}
-                                className="hidden"
-                                id="fileInput"
-                              ></input>
-
-                              <label htmlFor="fileInput">
-                                {isHovering && (
-                                  <FileUploadIcon
-                                    fontSize="inherit"
-                                    color="primary"
-                                    sx={{
-                                      fontSize: '40px',
-                                      position: 'absolute',
-                                      top: '80%',
-                                      left: '50%',
-                                      transform: 'translate(-50%, -50%)',
-                                      backgroundColor: 'white',
-                                      borderRadius: '50px',
-                                      cursor: 'pointer',
-                                    }}
-                                  />
-                                )}
-                              </label>
-                            </form>
+                            <div className="w-[100px] h-[100px] rounded-full overflow-hidden">
+                              <img
+                                src={imageUrl}
+                                alt="profilePicture"
+                                className="w-full h-full rounded-full"
+                              ></img>
+                            </div>
                           </>
-                        </div>
-                      </>
-                    )}
+                        ) : (
+                          <AccountCircleIcon
+                            fontSize="inherit"
+                            color="primary"
+                            sx={{ fontSize: '100px' }}
+                          ></AccountCircleIcon>
+                        )}
 
-                    <div className="flex flex-col ml-4">
-                      <p className="font-bold text-black text-3xl mb-1">
-                        {email}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center mt-2 px-24">
-                    <p className="font-bold text-black text-3xl mr-2">
-                      Sign-in method:
+                        <>
+                          <form>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              name="file"
+                              onChange={handleFileUpload}
+                              className="hidden"
+                              id="fileInput"
+                            ></input>
+
+                            <label htmlFor="fileInput">
+                              {isHovering && (
+                                <FileUploadIcon
+                                  fontSize="inherit"
+                                  color="primary"
+                                  sx={{
+                                    fontSize: '40px',
+                                    position: 'absolute',
+                                    top: '80%',
+                                    left: '50%',
+                                    transform: 'translate(-50%, -50%)',
+                                    backgroundColor: 'white',
+                                    borderRadius: '50px',
+                                    cursor: 'pointer',
+                                  }}
+                                />
+                              )}
+                            </label>
+                          </form>
+                        </>
+                      </div>
+                    </>
+                  )}
+
+                  <div className="flex flex-col ml-4">
+                    <p className="font-bold text-black text-3xl mb-1">
+                      {email}
                     </p>
-                    <p className="text-slate-500 text-xl mx-2">
-                      {authState.provider.charAt(0).toUpperCase() +
-                        authState.provider.slice(1)}
-                    </p>
-                    {provider === 'local' && (
-                      <Link href="/profile/settings/changepassword">
-                        <p className="text-black">Change Password</p>
-                      </Link>
-                    )}
                   </div>
+                </div>
+                <div className="flex items-center mt-2 px-24">
+                  <p className="font-bold text-black text-3xl mr-2">
+                    Sign-in method:
+                  </p>
+                  <p className="text-slate-500 text-xl mx-2">
+                    {authState.provider.charAt(0).toUpperCase() +
+                      authState.provider.slice(1)}
+                  </p>
+                  {provider === 'local' && (
+                    <Link href="/profile/settings/changepassword">
+                      <p className="text-black">Change Password</p>
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>

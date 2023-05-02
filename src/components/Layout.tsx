@@ -2,7 +2,7 @@
 import React, { PropsWithChildren, useEffect, useState } from 'react'
 import Navbar from './navigation/Navbar'
 import Sidebar from './navigation/Sidebar'
-import Footer from './cards/navigation/Footer'
+import Footer from './navigation/Footer'
 
 const Layout = (props: PropsWithChildren) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -15,11 +15,6 @@ const Layout = (props: PropsWithChildren) => {
 
         <div>{props.children}</div>
       </div>
-      {/* <div className="flex justify-center relative bottom-0 w-full">
-        <div className="flex flex-col">
-          <Footer />
-        </div>
-      </div> */}
     </div>
   )
 }
