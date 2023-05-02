@@ -16,7 +16,7 @@ const Profile: NextPage = () => {
   const [file, setFile] = useState<any>(null)
   const [imageUrl, setImageUrl] = useState<any>(null)
   const authorized = useAuthorization()
-  const { authState } = useContext(AuthStateContext)
+  const { authState, getLoggedInUser } = useContext(AuthStateContext)
   const { email } = authState.user
   const { provider } = authState
 
@@ -50,12 +50,13 @@ const Profile: NextPage = () => {
             },
           }
         )
+        getLoggedInUser(id)
       } catch (error) {
         console.log(error)
       }
     }
     sendImage()
-  }, [file])
+  }, [file, getLoggedInUser])
 
   const handleFileUpload = async (event: any) => {
     console.log(event.target.files)
