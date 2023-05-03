@@ -8,6 +8,8 @@ import { AuthStateContext } from '@/context/AuthContext'
 import { useAuthorization } from '@/hooks/useAuthorization'
 import AccountTab from '@/components/tabs/AccounTab'
 import TabsMenu from '@/components/tabs/TabsMenu'
+import SettingsTab from '@/components/tabs/SettingsTab'
+import PaymentsTab from '@/components/tabs/PaymentsTab'
 
 const Profile: NextPage = () => {
   const [accountSelected, setAccountSelected] = useState<boolean>(true)
@@ -33,7 +35,8 @@ const Profile: NextPage = () => {
     if (!file) {
       return
     }
-    const sendImage = async () => {
+
+    const sendImage = async (): Promise<void> => {
       try {
         const formData = new FormData()
         formData.append('image', file)
@@ -53,10 +56,11 @@ const Profile: NextPage = () => {
         console.log(error)
       }
     }
+
     sendImage()
   }, [file, getLoggedInUser])
 
-  const handleFileUpload = async (event: any) => {
+  const handleFileUpload = (event: any): void => {
     console.log(event.target.files)
     if (event.target.files && event.target.files.length > 0) {
       const selectedFile = event.target.files[0]
@@ -80,6 +84,21 @@ const Profile: NextPage = () => {
     setSettingsSelected(false)
     setAccountSelected(false)
     setPaymentsSelected(true)
+  }
+
+  const renderTab = () => {
+    if (accountSelected) {
+      return (
+        <AccountTab
+          imageUrl={imageUrl}
+          handleFileUpload={handleFileUpload}
+        ></AccountTab>
+      )
+    } else if (settingsSelected) {
+      return <SettingsTab></SettingsTab>
+    } else if (paymentsSelected) {
+      return <PaymentsTab></PaymentsTab>
+    }
   }
 
   if (authorized === null) {
@@ -109,14 +128,7 @@ const Profile: NextPage = () => {
               paymentsSelected={paymentsSelected}
               handlePaymentsTab={handlePaymentsTab}
             ></TabsMenu>
-            {accountSelected && (
-              <>
-                <AccountTab
-                  imageUrl={imageUrl}
-                  handleFileUpload={handleFileUpload}
-                ></AccountTab>
-              </>
-            )}
+            {renderTab()}
           </Layout>
         </>
       ) : (
