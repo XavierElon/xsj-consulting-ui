@@ -10,12 +10,12 @@ export const Footer = () => {
           <div className="flex justify-between items-center h-full px-2 md:px-4 lg:px-6">
             <div className="flex items-center">
               <ul className="flex space-x-4">
-                <li className="text-gray-500 text-sm">
+                <li className="text-gray-400 text-sm">
                   <Link href="/">xsj.com</Link>
                 </li>
                 <li className="text-gray-400 text-sm">Blog</li>
                 <li className="text-gray-400 text-sm">Careers</li>
-                <li className="text-gray-500 text-sm">Documentation</li>
+                <li className="text-gray-400 text-sm">Documentation</li>
               </ul>
             </div>
             <div className="flex items-center">

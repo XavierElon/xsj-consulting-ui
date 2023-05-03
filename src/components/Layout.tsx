@@ -14,6 +14,7 @@ const Layout = (props: PropsWithChildren) => {
         <Sidebar open={isOpen} setOpen={setIsOpen} />
 
         <div>{props.children}</div>
+        <Footer></Footer>
       </div>
     </div>
   )

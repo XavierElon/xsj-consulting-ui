@@ -7,6 +7,7 @@ import Forbidden from '../forbidden/page'
 import { AuthStateContext } from '@/context/AuthContext'
 import { useAuthorization } from '@/hooks/useAuthorization'
 import AccountTab from '@/components/tabs/AccounTab'
+import TabsMenu from '@/components/tabs/TabsMenu'
 
 const Profile: NextPage = () => {
   const [accountSelected, setAccountSelected] = useState<boolean>(true)
@@ -100,38 +101,14 @@ const Profile: NextPage = () => {
               </div>
             </div>
 
-            <div className="w-full bg-white mr-10 border-t-slate-200 border-b-slate-200 border-t-2 border-b-2">
-              <div className="container mx-auto ">
-                <div className="w-5/6 ml-auto">
-                  <ul className="flex h-full">
-                    <li
-                      className={`text-gray-500 rounded-sm text-sm hover:bg-slate-100 hover:cursor-pointer flex items-center py-2 px-4 ${
-                        accountSelected ? 'bg-slate-200' : ''
-                      }`}
-                      onClick={handleAccountTab}
-                    >
-                      Account
-                    </li>
-                    <li
-                      className={`text-gray-500 rounded-sm text-sm hover:bg-slate-100 hover:cursor-pointer flex items-center py-2 px-4 ${
-                        settingsSelected ? 'bg-slate-200' : ''
-                      }`}
-                      onClick={handleSettingsTab}
-                    >
-                      Settings
-                    </li>
-                    <li
-                      className={`text-gray-500 rounded-sm text-sm hover:bg-slate-100 hover:cursor-pointer flex items-center py-2 px-4 ${
-                        paymentsSelected ? 'bg-slate-200' : ''
-                      }`}
-                      onClick={handlePaymentsTab}
-                    >
-                      Payment
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+            <TabsMenu
+              accountSelected={accountSelected}
+              handleAccountTab={handleAccountTab}
+              settingsSelected={settingsSelected}
+              handleSettingsTab={handleSettingsTab}
+              paymentsSelected={paymentsSelected}
+              handlePaymentsTab={handlePaymentsTab}
+            ></TabsMenu>
             {accountSelected && (
               <>
                 <AccountTab

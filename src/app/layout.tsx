@@ -23,9 +23,6 @@ export default function RootLayout({
           </CartStateProvider>
         </AuthStateProvider>
       </body>
-      <footer>
-        <Footer></Footer>
-      </footer>
     </html>
   )
 }
