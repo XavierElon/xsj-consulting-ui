@@ -32,7 +32,7 @@ type Props = {
 const Navbar = (props: Props) => {
   const [anchorEl, setAnchorEl] = useState<any>(null)
   const [imageUrl, setImageUrl] = useState<any>(null)
-  const [displayName, setDisplayName] = useState<string>('')
+  const [displayName, setDisplayName] = useState<any>(null)
   const [user] = useAuthState(auth)
   const { authState } = useContext(AuthStateContext)
   const router = useRouter()
@@ -46,7 +46,13 @@ const Navbar = (props: Props) => {
 
   useEffect(() => {
     if (localUser) {
-      setDisplayName(firstName + ' ' + lastName)
+      setDisplayName(
+        <>
+          <span>{firstName}</span>
+          <br />
+          <span>{lastName}</span>
+        </>
+      )
     }
   }, [localUser, firstName, lastName])
 

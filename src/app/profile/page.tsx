@@ -17,7 +17,8 @@ const Profile: NextPage = () => {
   const [paymentsSelected, setPaymentsSelected] = useState<boolean>(false)
   const [file, setFile] = useState<any>(null)
   const [imageUrl, setImageUrl] = useState<any>(null)
-  const authorized = useAuthorization()
+  let authorized = null
+  authorized = useAuthorization()
   const { authState, getLoggedInUser } = useContext(AuthStateContext)
 
   useEffect(() => {
@@ -102,6 +103,7 @@ const Profile: NextPage = () => {
   }
 
   if (authorized === null) {
+    console.log(authorized)
     return (
       <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-white"></div>
     )
