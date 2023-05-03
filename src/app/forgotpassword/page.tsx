@@ -139,7 +139,7 @@ const ForgotPassword: NextPage = () => {
                       Submit OTP
                     </button>
                     <div className="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
-                      <p>Didn't recieve code?</p>{' '}
+                      <p>Did not recieve your code?</p>
                       <button
                         className="flex flex-row items-center"
                         style={{

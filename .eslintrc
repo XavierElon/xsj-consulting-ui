@@ -1,0 +1,24 @@
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+        "@typescript-eslint",
+        "unused-imports",
+        "react-hooks"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+        "no-console": 1,
+        "quotes": [2, "single", { "avoidEscape": true }],
+        "no-useless-return": 2,
+        "no-unused-vars": 2,
+        "unused-imports/no-unused-imports": "warn",
+        "react-hooks/rules-of-hooks": "warn",
+        "react-hooks/exhaustive-deps": "warn",
+        "react/no-unescaped-entities": "warn"
+    } 
+}

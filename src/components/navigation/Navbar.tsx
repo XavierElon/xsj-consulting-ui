@@ -32,7 +32,7 @@ type Props = {
 const Navbar = (props: Props) => {
   const [anchorEl, setAnchorEl] = useState<any>(null)
   const [imageUrl, setImageUrl] = useState<any>(null)
-  const [displayName, setDisplayName] = useState<string>('')
+  const [displayName, setDisplayName] = useState<any>(null)
   const [user] = useAuthState(auth)
   const { authState } = useContext(AuthStateContext)
   const router = useRouter()
@@ -46,9 +46,15 @@ const Navbar = (props: Props) => {
 
   useEffect(() => {
     if (localUser) {
-      setDisplayName(firstName + ' ' + lastName)
+      setDisplayName(
+        <>
+          <span>{firstName}</span>
+          <br />
+          <span>{lastName}</span>
+        </>
+      )
     }
-  })
+  }, [localUser, firstName, lastName])
 
   useEffect(() => {
     if (localUser && profilePicture) {
@@ -100,17 +106,17 @@ const Navbar = (props: Props) => {
     >
       {props.open ? (
         <button onClick={props.handleClick} className="z-50">
-          <XMarkIcon className="h-6 w-6" />
+          <XMarkIcon className="h-6 w-6 text-[#0061EB]" />
         </button>
       ) : (
-        <div className="flex flex-col justify-start px-10">
+        <div className="flex flex-col justify-start px-10 text-[#0061EB]">
           <button onClick={props.handleClick}>
             <CgMenuGridR className="h-10 w-10" />
           </button>
         </div>
       )}
       <Link href="/">
-        <div className="flex flex-col justify-start font-bold text-lg text-black px-5">
+        <div className="flex flex-col justify-start font-bold text-lg text-[#0061EB] px-5">
           DevGru
         </div>
       </Link>

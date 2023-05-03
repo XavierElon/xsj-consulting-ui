@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
 
 type ContextInterface = {
@@ -19,7 +19,7 @@ const AuthStateProvider = (props: any) => {
     provider: '',
   })
 
-  const getLoggedInUser = async (id: any) => {
+  const getLoggedInUser = useCallback(async (id: any) => {
     axios
       .get(`http://localhost:1017/profile/${id}`, { withCredentials: true })
       .then((result) => {
@@ -36,9 +36,10 @@ const AuthStateProvider = (props: any) => {
         }
       })
       .catch((error) => {
+        localStorage.clear()
         console.log(error)
       })
-  }
+  }, [])
 
   const setUserState = (userData: any, authToken: any, provider: string) => {
     setAuthState({

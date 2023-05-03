@@ -10,14 +10,20 @@ export const useAuthorization = () => {
       const id = localStorage.getItem('id')
       getLoggedInUser(id)
     }
-  }, [])
+  }, [getLoggedInUser])
 
   useEffect(() => {
-    if (authState.provider !== null && authState.provider !== '') {
+    if (authState.provider === null || authState.provider === '') {
+      // If authState.provider is null or an empty string, don't update authorized
+      return
+    }
+
+    if (authState.provider) {
       setAuthorized(true)
     } else {
       setAuthorized(false)
     }
   }, [authState])
+
   return authorized
 }

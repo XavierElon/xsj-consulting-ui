@@ -1,24 +1,25 @@
 'use client'
-import { CSSProperties, useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { NextPage } from 'next'
-import Link from 'next/link'
-import Image from 'next/image'
 import axios from 'axios'
 import Layout from '@/components/Layout'
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import FileUploadIcon from '@mui/icons-material/FileUpload'
 import Forbidden from '../forbidden/page'
 import { AuthStateContext } from '@/context/AuthContext'
 import { useAuthorization } from '@/hooks/useAuthorization'
+import AccountTab from '@/components/tabs/AccounTab'
+import TabsMenu from '@/components/tabs/TabsMenu'
+import SettingsTab from '@/components/tabs/SettingsTab'
+import PaymentsTab from '@/components/tabs/PaymentsTab'
 
 const Profile: NextPage = () => {
-  const [isHovering, setIsHovering] = useState<boolean>(false)
+  const [accountSelected, setAccountSelected] = useState<boolean>(true)
+  const [settingsSelected, setSettingsSelected] = useState<boolean>(false)
+  const [paymentsSelected, setPaymentsSelected] = useState<boolean>(false)
   const [file, setFile] = useState<any>(null)
   const [imageUrl, setImageUrl] = useState<any>(null)
-  const authorized = useAuthorization()
-  const { authState } = useContext(AuthStateContext)
-  const { email } = authState.user
-  const { provider } = authState
+  let authorized = null
+  authorized = useAuthorization()
+  const { authState, getLoggedInUser } = useContext(AuthStateContext)
 
   useEffect(() => {
     if (authState.provider === 'local') {
@@ -35,7 +36,8 @@ const Profile: NextPage = () => {
     if (!file) {
       return
     }
-    const sendImage = async () => {
+
+    const sendImage = async (): Promise<void> => {
       try {
         const formData = new FormData()
         formData.append('image', file)
@@ -50,14 +52,16 @@ const Profile: NextPage = () => {
             },
           }
         )
+        getLoggedInUser(id)
       } catch (error) {
         console.log(error)
       }
     }
-    sendImage()
-  }, [file])
 
-  const handleFileUpload = async (event: any) => {
+    sendImage()
+  }, [file, getLoggedInUser])
+
+  const handleFileUpload = (event: any): void => {
     console.log(event.target.files)
     if (event.target.files && event.target.files.length > 0) {
       const selectedFile = event.target.files[0]
@@ -65,7 +69,41 @@ const Profile: NextPage = () => {
     }
   }
 
+  const handleAccountTab = () => {
+    setPaymentsSelected(false)
+    setSettingsSelected(false)
+    setAccountSelected(true)
+  }
+
+  const handleSettingsTab = () => {
+    setPaymentsSelected(false)
+    setAccountSelected(false)
+    setSettingsSelected(true)
+  }
+
+  const handlePaymentsTab = () => {
+    setSettingsSelected(false)
+    setAccountSelected(false)
+    setPaymentsSelected(true)
+  }
+
+  const renderTab = () => {
+    if (accountSelected) {
+      return (
+        <AccountTab
+          imageUrl={imageUrl}
+          handleFileUpload={handleFileUpload}
+        ></AccountTab>
+      )
+    } else if (settingsSelected) {
+      return <SettingsTab></SettingsTab>
+    } else if (paymentsSelected) {
+      return <PaymentsTab></PaymentsTab>
+    }
+  }
+
   if (authorized === null) {
+    console.log(authorized)
     return (
       <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-white"></div>
     )
@@ -76,103 +114,23 @@ const Profile: NextPage = () => {
       {authorized ? (
         <>
           <Layout>
-            <div className="flex items-center justify-start min-h-screen pt-16">
-              <div className="absolute top-0 left-0 w-full h-full bg-white flex items-center justify-center">
-                <div className="relative w-4/5 bg-white border-none flex flex-wrap flex-col items-start">
-                  <div className="flex items-center mr-2">
-                    {provider === 'firebaseGoogle' ? (
-                      <>
-                        <img
-                          src={authState.user?.photoURL || ''}
-                          width="100"
-                          height="100"
-                          referrerPolicy="no-referrer"
-                          className="rounded-md transform hover:scale-110 transition-all duration-300 cursor-pointer"
-                        ></img>
-                      </>
-                    ) : (
-                      <>
-                        <div
-                          onMouseEnter={() => setIsHovering(true)}
-                          onMouseLeave={() => setIsHovering(false)}
-                          className="relative"
-                        >
-                          {imageUrl ? (
-                            <>
-                              <div className="w-[100px] h-[100px] rounded-full overflow-hidden">
-                                <img
-                                  src={imageUrl}
-                                  alt="profilePicture"
-                                  className="w-full h-full rounded-full"
-                                ></img>
-                              </div>
-                            </>
-                          ) : (
-                            <AccountCircleIcon
-                              fontSize="inherit"
-                              color="primary"
-                              sx={{ fontSize: '100px' }}
-                            ></AccountCircleIcon>
-                          )}
-
-                          <>
-                            <form>
-                              <input
-                                type="file"
-                                accept="image/*"
-                                name="file"
-                                onChange={handleFileUpload}
-                                className="hidden"
-                                id="fileInput"
-                              ></input>
-
-                              <label htmlFor="fileInput">
-                                {isHovering && (
-                                  <FileUploadIcon
-                                    fontSize="inherit"
-                                    color="primary"
-                                    sx={{
-                                      fontSize: '40px',
-                                      position: 'absolute',
-                                      top: '80%',
-                                      left: '50%',
-                                      transform: 'translate(-50%, -50%)',
-                                      backgroundColor: 'white',
-                                      borderRadius: '50px',
-                                      cursor: 'pointer',
-                                    }}
-                                  />
-                                )}
-                              </label>
-                            </form>
-                          </>
-                        </div>
-                      </>
-                    )}
-
-                    <div className="flex flex-col ml-4">
-                      <p className="font-bold text-black text-3xl mb-1">
-                        {email}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center mt-2 px-24">
-                    <p className="font-bold text-black text-3xl mr-2">
-                      Sign-in method:
-                    </p>
-                    <p className="text-slate-500 text-xl mx-2">
-                      {authState.provider.charAt(0).toUpperCase() +
-                        authState.provider.slice(1)}
-                    </p>
-                    {provider === 'local' && (
-                      <Link href="/profile/settings/changepassword">
-                        <p className="text-black">Change Password</p>
-                      </Link>
-                    )}
-                  </div>
+            <div className="w-full bg-slate-100 py-4 mt-16 border-t-[#79589F] border-t-4">
+              <div className="container mx-auto">
+                <div className="w-5/6 ml-auto">
+                  <p className="text-md text-[#323B49]">Manage Account</p>
                 </div>
               </div>
             </div>
+
+            <TabsMenu
+              accountSelected={accountSelected}
+              handleAccountTab={handleAccountTab}
+              settingsSelected={settingsSelected}
+              handleSettingsTab={handleSettingsTab}
+              paymentsSelected={paymentsSelected}
+              handlePaymentsTab={handlePaymentsTab}
+            ></TabsMenu>
+            {renderTab()}
           </Layout>
         </>
       ) : (
