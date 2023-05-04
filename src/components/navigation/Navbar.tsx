@@ -1,11 +1,5 @@
 'use client'
-import React, {
-  CSSProperties,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import React, { CSSProperties, useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import axios from 'axios'
@@ -13,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import { CgMenuGridR } from 'react-icons/cg'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
-import { Button } from 'react-bootstrap'
+import { Button, Modal } from 'react-bootstrap'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { AuthStateContext } from '@/context/AuthContext'
 import { auth } from '@/firebase/firebase'
@@ -153,13 +147,14 @@ const Navbar = (props: Props) => {
             {googleUser ? (
               <>
                 <p className="text-black mr-2">{user?.displayName}</p>
-                <img
+                <Image
                   src={authState?.user.photoURL || ''}
                   width="50"
                   height="50"
+                  alt="profilePic"
                   className="rounded-md transform hover:scale-110 transition-all duration-300 cursor-pointer"
                   onClick={handleDropdownOpen}
-                ></img>
+                ></Image>
               </>
             ) : (
               <>
@@ -167,13 +162,14 @@ const Navbar = (props: Props) => {
                   <>
                     <p className="text-black mr-2">{displayName}</p>
                     <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
-                      <img
+                      <Image
                         src={imageUrl}
                         alt="profilePicture"
                         width="50"
                         height="50"
-                        className="w-full h-full rounded-full"
-                      ></img>
+                        className="rounded-md transform hover:scale-110 transition-all duration-300 cursor-pointer"
+                        onClick={handleDropdownOpen}
+                      ></Image>
                     </div>
                   </>
                 ) : (
@@ -186,7 +182,7 @@ const Navbar = (props: Props) => {
               </>
             )}
             <ExpandMoreIcon
-              className=" transform hover:scale-150 transition-all duration-300"
+              className=" transform hover:scale-150 transition-all duration-300 cursor-pointer"
               onClick={handleDropdownOpen}
             ></ExpandMoreIcon>
             <Menu
