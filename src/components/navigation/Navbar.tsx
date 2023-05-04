@@ -180,12 +180,14 @@ const Navbar = (props: Props) => {
         {authorized && (
           <div>
             <div className="flex justify-end items-center">
-              <Button
-                onClick={handleShowModal}
-                className="bg-blue-500 text-white px-2 mx-2 py-1 rounded-md"
-              >
-                Cart {productsCount} Items
-              </Button>
+              <Link href="/store/cart">
+                <Button
+                  onClick={handleShowModal}
+                  className="bg-blue-500 text-white px-2 mx-2 py-1 rounded-md"
+                >
+                  Cart {productsCount} Items
+                </Button>
+              </Link>
               {googleUser ? (
                 <>
                   <p className="text-black mr-2">{user?.displayName}</p>
@@ -244,47 +246,6 @@ const Navbar = (props: Props) => {
           </div>
         )}
       </nav>
-
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title className="text-center">Shopping Cart</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {productsCount > 0 ? (
-            <>
-              <p>Items in your cart: </p>
-              {cart.items.map(
-                (
-                  currentProduct: { id: string; quantity: number },
-                  idx: any
-                ) => (
-                  <CartProduct
-                    key={idx}
-                    id={currentProduct.id}
-                    quantity={currentProduct.quantity}
-                  />
-                )
-              )}
-            </>
-          ) : (
-            <>
-              <h1>No products in your cart</h1>
-            </>
-          )}
-          <h1 className="text-center">
-            Total: {cart.getTotalCost().toFixed(2)}
-          </h1>
-          <div className="flex flex-col items-center justify-center py-3">
-            <Button
-              variant="success"
-              className="bg-green-600"
-              onClick={checkout}
-            >
-              Purchase items!
-            </Button>
-          </div>
-        </Modal.Body>
-      </Modal>
     </>
   )
 }
