@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import { CgMenuGridR } from 'react-icons/cg'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
-import { Button, Modal } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { AuthStateContext } from '@/context/AuthContext'
 import { auth } from '@/firebase/firebase'
@@ -26,7 +26,6 @@ type Props = {
 }
 
 const Navbar = (props: Props) => {
-  const [showModal, setShowModal] = useState<boolean>(false)
   const [anchorEl, setAnchorEl] = useState<any>(null)
   const [imageUrl, setImageUrl] = useState<any>(null)
   const [displayName, setDisplayName] = useState<any>(null)
@@ -94,32 +93,6 @@ const Navbar = (props: Props) => {
     setAnchorEl(null)
   }
 
-  const handleCloseModal = () => {
-    setShowModal(false)
-  }
-
-  const handleShowModal = () => {
-    setShowModal(true)
-  }
-
-  const checkout = async () => {
-    await axios
-      .post('http://localhost:1017/checkout', {
-        body: JSON.stringify({ items: cart.items }),
-      })
-      .then((response) => {
-        console.log(response)
-      })
-      .then((response) => {
-        // if (response.url!) {
-        //   router.push(response.url)
-        // }
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
-
   const productsCount = cart.items.reduce(
     (sum: any, product: { quantity: any }) => sum + product.quantity,
     0
@@ -181,10 +154,7 @@ const Navbar = (props: Props) => {
           <div>
             <div className="flex justify-end items-center">
               <Link href="/store/cart">
-                <Button
-                  onClick={handleShowModal}
-                  className="bg-blue-500 text-white px-2 mx-2 py-1 rounded-md"
-                >
+                <Button className="bg-blue-500 text-white px-2 mx-2 py-1 rounded-md">
                   Cart {productsCount} Items
                 </Button>
               </Link>

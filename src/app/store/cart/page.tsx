@@ -9,7 +9,6 @@ const Cart: NextPage = () => {
         <div className="flex items-center justify-center min-h-screen">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-[#77cafe] to-[#0069FF] flex items-center justify-center">
             <div className="relative">
-              {/* <div className="mask-ellipsis"></div> */}
               <CartModal></CartModal>
             </div>
           </div>
