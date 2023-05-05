@@ -112,8 +112,8 @@ const LoginModal = (props: any) => {
         <h2 style={headerStyle} className="text-black text-center">
           Log in to your account
         </h2>
-        <form>
-          <div className="al">
+        <form className="w-full flex flex-col items-center">
+          <div className="w-full flex flex-col items-center">
             <p style={pStyle} className="mx-10">
               <span className="text-[#0069FF]">email </span>
               <span className="text-red-600 relative top-1">*</span>
