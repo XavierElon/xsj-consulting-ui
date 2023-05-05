@@ -1,3 +1,4 @@
+'use client'
 import { NextPage } from 'next'
 import Layout from '@/components/Layout'
 import CartModal from '@/components/store/CartModal'

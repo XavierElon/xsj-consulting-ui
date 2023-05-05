@@ -1,5 +1,4 @@
 'use client'
-import { Row, Col } from 'react-bootstrap'
 import { CSSProperties } from 'react'
 import { productsArray } from '@/__mock__/productStore'
 import ProductCard from '@/components/store/ProductCard'
@@ -21,18 +20,6 @@ const Store = () => {
       </Layout>
     </>
   )
-}
-
-const gridContainerStyle: CSSProperties = {
-  display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-  gap: '16px',
-}
-
-const productCardContainerStyle: CSSProperties = {
-  display: 'inline-block',
-  width: '100%',
-  maxWidth: '400px',
 }
 
 export default Store
