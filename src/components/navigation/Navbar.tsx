@@ -10,6 +10,7 @@ import classNames from 'classnames'
 import { Button } from 'react-bootstrap'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { AuthStateContext } from '@/context/AuthContext'
+import { CartStateContext } from '@/context/CartContext'
 import { auth } from '@/firebase/firebase'
 import { signOut } from 'firebase/auth'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
@@ -17,8 +18,6 @@ import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import { useAuthorization } from '@/hooks/useAuthorization'
-import { CartStateContext } from '@/context/CartContext'
-import CartProduct from '../store/CartProduct'
 
 type Props = {
   open: boolean
