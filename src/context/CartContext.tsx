@@ -1,4 +1,5 @@
 'use client'
+import { getProductData } from '@/__mock__/productStore'
 import { createContext, useState } from 'react'
 
 type ContextInterface = {
@@ -7,6 +8,7 @@ type ContextInterface = {
   addOneToCart: any
   removeOneFromCart: any
   deleteFromCart: any
+  getTotalCost: any
 }
 const CartStateContext = createContext<ContextInterface>({
   items: [],
@@ -14,6 +16,7 @@ const CartStateContext = createContext<ContextInterface>({
   addOneToCart: () => {},
   removeOneFromCart: () => {},
   deleteFromCart: () => {},
+  getTotalCost: () => {},
 })
 
 const CartStateProvider = (props: any) => {
@@ -78,12 +81,22 @@ const CartStateProvider = (props: any) => {
     )
   }
 
+  const getTotalCost = () => {
+    let totalCost = 0
+    cartProducts.map((cartItem: any) => {
+      const productData: any = getProductData(cartItem.id)
+      totalCost += productData.price * cartItem.quantity
+    })
+    return totalCost
+  }
+
   const contextValue = {
     items: cartProducts,
     getProductQuantity,
     addOneToCart,
     removeOneFromCart,
     deleteFromCart,
+    getTotalCost,
   }
 
   return (
