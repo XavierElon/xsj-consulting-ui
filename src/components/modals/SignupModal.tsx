@@ -275,10 +275,3 @@ const googleButtonStyle: CSSProperties = {
   width: '80%',
   height: '4%',
 }
-function setAuthState(arg0: {
-  authToken: string
-  user: any
-  provider: string
-}) {
-  throw new Error('Function not implemented.')
-}
