@@ -49,7 +49,7 @@ const SignupModal = (props: any) => {
       return
     } else {
       axios
-        .post('http://localhost:1017/signup', {
+        .post(process.env.NEXT_PUBLIC_USERS_SIGNUP_ROUTE!, {
           local: {
             firstName: firstName,
             lastName: lastName,
@@ -137,10 +137,12 @@ const SignupModal = (props: any) => {
         </h2>
         <form className="w-full flex flex-col items-center">
           <div className="w-full flex flex-col items-center">
-            <p style={pStyle} className="mx-10">
-              <span className="text-[#0069FF]">first name </span>
-              <span className="text-red-600 relative top-1">*</span>
-            </p>
+            <div className-="w-full flex flex-col items-start">
+              <p style={pStyle} className="mx-10">
+                <span className="text-[#0069FF]">first name </span>
+                <span className="text-red-600 relative top-1">*</span>
+              </p>
+            </div>
             <TextField
               required
               id="outlined-required"
@@ -150,7 +152,7 @@ const SignupModal = (props: any) => {
             />
           </div>
           <p style={pStyle} className="mx-10">
-            <span className="text-[#0069FF] justify-start">last name </span>
+            <span className="text-[#0069FF]">last name </span>
             <span className="text-red-600 relative top-1">*</span>
           </p>
           <TextField
