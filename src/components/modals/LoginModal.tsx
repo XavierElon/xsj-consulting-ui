@@ -45,7 +45,7 @@ const LoginModal = (props: any) => {
           provider: 'local',
         })
 
-        localStorage.setItem('id', response.data.user._id)
+        window.localStorage.setItem('id', response.data.user._id)
         localStorage.setItem('isLoggedIn', 'true')
         localStorage.setItem('firstName', response.data.user.local.firstName)
         localStorage.setItem('lastName', response.data.user.local.lastName)
