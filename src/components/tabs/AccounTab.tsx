@@ -3,6 +3,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import { AuthStateContext } from '@/context/AuthContext'
 import Link from 'next/link'
+import Image from 'next/image'
 
 interface Props {
   imageUrl: string
@@ -23,13 +24,14 @@ const AccountTab = (props: Props) => {
           <div className="flex mb-4 pt-20">
             {provider === 'firebaseGoogle' ? (
               <>
-                <img
+                <Image
                   src={authState.user?.photoURL || ''}
                   width="100"
                   height="100"
+                  alt="profilePicture"
                   referrerPolicy="no-referrer"
                   className="rounded-md transform hover:scale-110 transition-all duration-300 cursor-pointer"
-                ></img>
+                ></Image>
               </>
             ) : (
               <>
@@ -41,11 +43,11 @@ const AccountTab = (props: Props) => {
                   {imageUrl ? (
                     <>
                       <div className="w-[100px] h-[100px] rounded-full overflow-hidden">
-                        <img
+                        <Image
                           src={imageUrl}
                           alt="profilePicture"
                           className="w-full h-full rounded-full"
-                        ></img>
+                        ></Image>
                       </div>
                     </>
                   ) : (

@@ -3,6 +3,7 @@ import { AuthStateContext } from '@/context/AuthContext'
 import { useAuthorization } from '@/hooks/useAuthorization'
 import { useContext, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import Forbidden from '@/app/forbidden/page'
 import Layout from '@/components/Layout'
@@ -35,13 +36,14 @@ const ProfileSettings = () => {
                   <div className="flex items-center mr-2">
                     {authState.provider === 'firebaseGoogle ' ? (
                       <>
-                        <img
+                        <Image
                           src={user?.photoURL || ''}
                           width="50"
                           height="50"
                           referrerPolicy="no-referrer"
+                          alt="profilePicture"
                           className="rounded-md transform hover:scale-110 transition-all duration-300 cursor-pointer"
-                        ></img>
+                        ></Image>
                       </>
                     ) : (
                       <>

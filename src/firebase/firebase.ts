@@ -8,7 +8,7 @@ import axios from 'axios'
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_GOOGLE_AUTH_API_KEY!,
+  apiKey: 'AIzaSyCSzygTY3XEfrBv6p30tre_HO58NKi_sS4',
   authDomain: 'xsj-consulting-ui-7c9e0.firebaseapp.com',
   projectId: 'xsj-consulting-ui-7c9e0',
   storageBucket: 'xsj-consulting-ui-7c9e0.appspot.com',

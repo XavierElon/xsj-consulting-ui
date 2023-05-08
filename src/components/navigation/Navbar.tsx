@@ -61,7 +61,7 @@ const Navbar = (props: Props) => {
       const url = `data:${imageType};base64,${base64String}`
       setImageUrl(url)
     }
-  }, [authState, localUser])
+  }, [authState, localUser, profilePicture])
 
   const handleLogout = async () => {
     try {

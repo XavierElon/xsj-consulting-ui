@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 
 type ProfilePictureProps = {
   src: string
@@ -14,7 +15,7 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({
   return (
     <>
       <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
-        <img src={src} alt={alt} className={className}></img>
+        <Image src={src} alt={alt} className={className}></Image>
       </div>
     </>
   )
