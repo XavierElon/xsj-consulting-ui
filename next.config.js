@@ -7,7 +7,7 @@ const nextConfig = {
   swcMinify: true,
   //configure the images loader
   images: {
-    domains: ['cdn-icons-png.flaticon.com'],
+    domains: ['cdn-icons-png.flaticon.com', 'lh3.googleusercontent.com'],
   },
 }
 
