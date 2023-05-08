@@ -45,15 +45,15 @@ const LoginModal = (props: any) => {
           provider: 'local',
         })
 
-        window.localStorage.setItem('id', response.data.user._id)
+        sessionStorage.setItem('id', response.data.user._id)
         sessionStorage.setItem('isLoggedIn', 'true')
-        localStorage.setItem('firstName', response.data.user.local.firstName)
-        localStorage.setItem('lastName', response.data.user.local.lastName)
-        localStorage.setItem('email', response.data.user.local.email)
-        localStorage.setItem('provider', 'local')
-        // setTimeout(() => {
-        //   router.push('/')
-        // }, 1000)
+        sessionStorage.setItem('firstName', response.data.user.local.firstName)
+        sessionStorage.setItem('lastName', response.data.user.local.lastName)
+        sessionStorage.setItem('email', response.data.user.local.email)
+        sessionStorage.setItem('provider', 'local')
+        setTimeout(() => {
+          router.push('/')
+        }, 1000)
       }
     } catch (error: any) {
       console.log(error)
