@@ -1,3 +1,4 @@
+'use client'
 import { createContext, useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
 
@@ -18,6 +19,11 @@ const AuthStateProvider = (props: any) => {
     user: '',
     provider: '',
   })
+
+  useEffect(() => {
+    const id = localStorage.getItem('id')
+    console.log(id)
+  }, [])
 
   const getLoggedInUser = useCallback(async (id: any) => {
     axios
