@@ -69,7 +69,7 @@ const Navbar = (props: Props) => {
         await signOut(auth)
       }
       axios
-        .post('http://localhost:1017/logout')
+        .post(process.env.NEXT_PUBLIC_USERS_LOGOUT_ROUTE!)
         .then((result) => {
           console.log(result)
         })

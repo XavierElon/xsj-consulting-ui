@@ -38,7 +38,7 @@ const ForgotPassword: NextPage = () => {
     })
     setOtp(OTP)
     axios
-      .post('http://localhost:1017/send_recovery_email', {
+      .post(process.env.NEXT_PUBLIC_USERS_SEND_RECOVERY_EMAIL_ROUTE!, {
         OTP,
         recipientEmail,
       })
@@ -80,7 +80,7 @@ const ForgotPassword: NextPage = () => {
       return
     } else {
       axios
-        .put('http://localhost:1017/resetpassword', {
+        .put(process.env.NEXT_PUBLIC_USERS_SEND_RESET_PASSWORD_ROUTE!, {
           password,
           recipientEmail,
         })

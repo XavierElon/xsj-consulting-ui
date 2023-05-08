@@ -54,7 +54,7 @@ const ChangePassword: NextPage = () => {
     } else {
       axios
         .put(
-          'http://localhost:1017/changepassword',
+          process.env.NEXT_PUBLIC_USERS_CHANGE_PASSWORD_ROUTE!,
           {
             oldPassword,
             newPassword,

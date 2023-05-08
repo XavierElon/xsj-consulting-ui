@@ -1,20 +1,13 @@
 'use client'
 import React, { CSSProperties, useContext, useEffect, useState } from 'react'
-import { TextField, Box, Button } from '@mui/material'
+import { TextField } from '@mui/material'
 import axios from 'axios'
-import { useAuthState } from 'react-firebase-hooks/auth'
-import { auth } from '@/firebase/firebase'
-import { AuthStateContext } from '@/context/AuthContext'
 
-const ChangePasswordModal = (props: any) => {
+const ChangePasswordModal = () => {
   const [oldPassword, setOldPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmNewPassword, setConfirmNewPassword] = useState('')
-  const { authState } = useContext(AuthStateContext)
-  // const [user] = useAuthState(auth)
-  // console.log(user)
-  console.log('auth state')
-  console.log(authState)
+  // const { authState } = useContext(AuthStateContext)
 
   const handlePasswordChange = (e: any) => {
     e.preventDefault()
@@ -23,7 +16,7 @@ const ChangePasswordModal = (props: any) => {
       return
     } else {
       axios
-        .put('http://localhost:4269/profile/settings/changepassword', {
+        .put(process.env.NEXT_PUBLIC_USERS_CHANGE_PASSWORD_ROUTE!, {
           oldPassword: oldPassword,
           newPassword: newPassword,
           // email: user?.email,

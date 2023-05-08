@@ -8,7 +8,7 @@ import axios from 'axios'
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: 'AIzaSyC14bKfPFgMgmJ7PO09Gsi0dpkwE0GvXno',
+  apiKey: process.env.NEXT_PUBLIC_GOOGLE_AUTH_API_KEY!,
   authDomain: 'xsj-consulting-ui-7c9e0.firebaseapp.com',
   projectId: 'xsj-consulting-ui-7c9e0',
   storageBucket: 'xsj-consulting-ui-7c9e0.appspot.com',
@@ -35,7 +35,7 @@ export const signInWithGooglePopup = () => {
 
     
         return axios
-          .post('http://localhost:1017/auth/firebase/google', {
+          .post(process.env.NEXT_PUBLIC_USERS_GOOGLE_AUTH_ROUTE!, {
             firebaseGoogle: {
               firebaseUid: firebaseUid,
               accessToken: accessToken,

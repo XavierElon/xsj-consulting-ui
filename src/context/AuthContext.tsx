@@ -21,7 +21,9 @@ const AuthStateProvider = (props: any) => {
 
   const getLoggedInUser = useCallback(async (id: any) => {
     axios
-      .get(`http://localhost:1017/profile/${id}`, { withCredentials: true })
+      .get(`${process.env.NEXT_PUBLIC_USERS_GET_PROFILE_ROUTE}/${id}`, {
+        withCredentials: true,
+      })
       .then((result) => {
         const provider = result.data.user.provider
         const authToken = result.data.authToken
