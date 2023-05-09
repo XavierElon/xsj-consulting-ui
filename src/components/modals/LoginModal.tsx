@@ -52,9 +52,9 @@ const LoginModal = (props: any) => {
         sessionStorage.setItem('email', response.data.user.local.email)
         sessionStorage.setItem('provider', 'local')
         console.log('test')
-        setTimeout(() => {
-          router.push('/store')
-        }, 1000)
+        // setTimeout(() => {
+        //   router.push('/')
+        // }, 1000)
       }
     } catch (error: any) {
       console.log(error)

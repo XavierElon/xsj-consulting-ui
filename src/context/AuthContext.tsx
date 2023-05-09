@@ -21,7 +21,7 @@ const AuthStateProvider = (props: any) => {
   })
 
   useEffect(() => {
-    const id = localStorage.getItem('id')
+    const id = sessionStorage.getItem('id')
     console.log(id)
   }, [])
 
