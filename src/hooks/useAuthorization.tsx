@@ -7,7 +7,7 @@ export const useAuthorization = () => {
 
   useEffect(() => {
     if (sessionStorage.getItem('isLoggedIn') === 'true') {
-      const id = sessionStorage.getItem('id')
+      const id = sessionStorage.getItem('id') || authState.id
       getLoggedInUser(id)
     }
   }, [getLoggedInUser])
