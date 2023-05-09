@@ -66,13 +66,15 @@ const SignupModal = (props: any) => {
             authToken: result.data.accessToken,
             user: result.data.user.local,
             provider: 'local',
+            id: userId,
+            isLoggedIn: true,
           })
-          localStorage.setItem('id', userId)
-          localStorage.setItem('isLoggedIn', 'true')
-          localStorage.setItem('firstName', result.data.user.local.firstName)
-          localStorage.setItem('lastName', result.data.user.local.lastName)
-          localStorage.setItem('email', result.data.user.local.email)
-          localStorage.setItem('provider', 'local')
+          sessionStorage.setItem('id', userId)
+          sessionStorage.setItem('isLoggedIn', 'true')
+          sessionStorage.setItem('firstName', result.data.user.local.firstName)
+          sessionStorage.setItem('lastName', result.data.user.local.lastName)
+          sessionStorage.setItem('email', result.data.user.local.email)
+          sessionStorage.setItem('provider', 'local')
           setTimeout(() => {
             router.push('/')
           }, 1000)
@@ -92,8 +94,11 @@ const SignupModal = (props: any) => {
     const googleAuthResult: any = data?.result
     const axiosResult: any = data?.response
     setGoogleAuthState(googleAuthResult, axiosResult)
-    localStorage.setItem('isLoggedIn', 'true')
-    localStorage.setItem('id', googleAuthResult.user.uid)
+    sessionStorage.setItem('isLoggedIn', 'true')
+    sessionStorage.setItem('id', googleAuthResult.user.uid)
+    sessionStorage.setItem('displayName', googleAuthResult.user.displayName)
+    sessionStorage.setItem('email', googleAuthResult.user.email)
+
     setTimeout(() => {
       router.push('/')
     }, 1000)
@@ -122,6 +127,8 @@ const SignupModal = (props: any) => {
       authToken: accessToken,
       user: firebaseObj,
       provider: 'firebaseGoogle',
+      id: firebaseUid,
+      isLoggedIn: true,
     })
   }
 

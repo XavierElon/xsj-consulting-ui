@@ -6,8 +6,6 @@ import axios from 'axios'
 import { TextField, Button } from '@mui/material'
 import { ToastContainer } from 'react-toastify'
 import Image from 'next/image'
-import { sign, verify } from 'jsonwebtoken'
-import { getCookie, getCookies, setCookie } from 'cookies-next'
 import GoogleLogo from 'public/google-logo.svg'
 import { signInWithGooglePopup } from '@/firebase/firebase'
 import 'react-toastify/dist/ReactToastify.css'
@@ -76,8 +74,11 @@ const LoginModal = (props: any) => {
     const data = await signInWithGooglePopup()
     const googleAuthResult: any = data?.result
     setGoogleAuthState(googleAuthResult)
-    localStorage.setItem('isLoggedIn', 'true')
-    localStorage.setItem('id', googleAuthResult.user.uid)
+    sessionStorage.setItem('isLoggedIn', 'true')
+    sessionStorage.setItem('id', googleAuthResult.user.uid)
+    sessionStorage.setItem('displayName', googleAuthResult.user.displayName)
+    sessionStorage.setItem('email', googleAuthResult.user.email)
+
     showLoginSuccessToastMessage()
     setTimeout(() => {
       router.push('/')
@@ -105,6 +106,8 @@ const LoginModal = (props: any) => {
       authToken: accessToken,
       user: firebaseObj,
       provider: 'firebaseGoogle',
+      id: firebaseUid,
+      isLoggedIn: true,
     })
   }
 

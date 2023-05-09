@@ -1,5 +1,5 @@
 'use client'
-import { createContext, useCallback, useEffect, useState } from 'react'
+import { createContext, useCallback, useState } from 'react'
 import axios from 'axios'
 
 type ContextInterface = {
@@ -22,18 +22,6 @@ const AuthStateProvider = (props: any) => {
     isLoggedIn: false,
   })
 
-  // useEffect(() => {
-  //   console.log('here')
-  //   if (authState.user) {
-  //     sessionStorage.setItem('id', authState.id)
-  //     sessionStorage.setItem('isLoggedIn', 'true')
-  //     sessionStorage.setItem('firstName', authState?.user.firstName)
-  //     sessionStorage.setItem('lastName', authState?.user.lastName)
-  //     sessionStorage.setItem('email', authState?.user.email)
-  //     sessionStorage.setItem('provider', authState.provider)
-  //   }
-  // })
-
   const getLoggedInUser = useCallback(async (id: any) => {
     axios
       .get(`${process.env.NEXT_PUBLIC_USERS_GET_PROFILE_ROUTE}/${id}`, {
@@ -55,14 +43,15 @@ const AuthStateProvider = (props: any) => {
         }
       })
       .catch((error) => {
-        // sessionStorage.clear()
+        sessionStorage.clear()
+        setUserState('', '', '', '', false)
         console.log(error)
       })
   }, [])
 
   const setUserState = (
-    userData: any,
     authToken: any,
+    userData: any,
     provider: string,
     id: string,
     isLoggedIn: boolean
