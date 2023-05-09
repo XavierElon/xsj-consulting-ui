@@ -76,7 +76,7 @@ const Navbar = (props: Props) => {
         .catch((error) => {
           console.log(error)
         })
-      localStorage.clear()
+      sessionStorage.clear()
 
       window.location.assign('/')
     } catch (error) {
