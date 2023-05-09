@@ -6,6 +6,8 @@ import axios from 'axios'
 import { TextField, Button } from '@mui/material'
 import { ToastContainer } from 'react-toastify'
 import Image from 'next/image'
+import { cookies } from 'next/headers'
+import { getCookie, getCookies, setCookie } from 'cookies-next'
 import GoogleLogo from 'public/google-logo.svg'
 import { signInWithGooglePopup } from '@/firebase/firebase'
 import 'react-toastify/dist/ReactToastify.css'
@@ -25,6 +27,7 @@ const LoginModal = (props: any) => {
   const router = useRouter()
 
   const handleLogin = async (e: any) => {
+    'use server'
     e.preventDefault()
     try {
       console.log(process.env.NEXT_PUBLIC_USERS_LOGIN_ROUTE)
@@ -44,7 +47,14 @@ const LoginModal = (props: any) => {
           user: response.data.user.local,
           provider: 'local',
         })
-
+        // cookies().set({
+        //   name: 'access-token',
+        //   value: response.data.accessToken,
+        //   maxAge: 60 * 60 * 24 * 1000,
+        //   httpOnly: true,
+        //   secure: true,
+        // })
+        setCookie('access-token', response.data.accessToken)
         sessionStorage.setItem('id', response.data.user._id)
         sessionStorage.setItem('isLoggedIn', 'true')
         sessionStorage.setItem('firstName', response.data.user.local.firstName)
@@ -55,6 +65,9 @@ const LoginModal = (props: any) => {
         // setTimeout(() => {
         //   router.push('/')
         // }, 1000)
+        setTimeout(() => {
+          getCookie('access-token')
+        }, 2000)
       }
     } catch (error: any) {
       console.log(error)
