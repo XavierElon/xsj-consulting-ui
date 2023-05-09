@@ -47,13 +47,7 @@ const LoginModal = (props: any) => {
           user: response.data.user.local,
           provider: 'local',
         })
-        // cookies().set({
-        //   name: 'access-token',
-        //   value: response.data.accessToken,
-        //   maxAge: 60 * 60 * 24 * 1000,
-        //   httpOnly: true,
-        //   secure: true,
-        // })
+
         setCookie('access-token', response.data.accessToken)
         sessionStorage.setItem('id', response.data.user._id)
         sessionStorage.setItem('isLoggedIn', 'true')
@@ -62,12 +56,9 @@ const LoginModal = (props: any) => {
         sessionStorage.setItem('email', response.data.user.local.email)
         sessionStorage.setItem('provider', 'local')
         console.log('test')
-        // setTimeout(() => {
-        //   router.push('/')
-        // }, 1000)
         setTimeout(() => {
-          getCookie('access-token')
-        }, 2000)
+          router.push('/')
+        }, 1000)
       }
     } catch (error: any) {
       console.log(error)
