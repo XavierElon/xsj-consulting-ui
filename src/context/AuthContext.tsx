@@ -20,6 +20,7 @@ const AuthStateProvider = (props: any) => {
     user: '',
     provider: '',
     id: '',
+    isLoggedIn: false,
   })
 
   useEffect(() => {
@@ -45,13 +46,14 @@ const AuthStateProvider = (props: any) => {
         const provider = result.data.user.provider
         const authToken = result.data.authToken
         if (provider === 'local') {
-          setUserState(result.data.user.local, authToken, 'local', id)
+          setUserState(result.data.user.local, authToken, 'local', id, true)
         } else {
           setUserState(
             result.data.user.firebaseGoogle,
             authToken,
             'firebaseGoogle',
-            id
+            id,
+            true
           )
         }
       })
@@ -65,13 +67,15 @@ const AuthStateProvider = (props: any) => {
     userData: any,
     authToken: any,
     provider: string,
-    id: string
+    id: string,
+    isLoggedIn: boolean
   ) => {
     setAuthState({
       authToken: authToken,
       user: userData,
       provider: provider,
       id: id,
+      isLoggedIn: isLoggedIn,
     })
   }
 
