@@ -1,5 +1,5 @@
 'use client'
-import React, { CSSProperties, useContext, useState } from 'react'
+import React, { CSSProperties, useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
@@ -16,7 +16,7 @@ import {
 } from '@/utils/toast.helpers'
 import { AuthStateContext } from '@/context/AuthContext'
 
-const LoginModal = () => {
+const LoginModal = (props: any) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
