@@ -23,27 +23,24 @@ const AuthStateProvider = (props: any) => {
     isLoggedIn: false,
   })
 
-  useEffect(() => {
-    console.log('here')
-    if (authState.user) {
-      console.log(authState)
-      sessionStorage.setItem('id', authState.id)
-      sessionStorage.setItem('isLoggedIn', 'true')
-      sessionStorage.setItem('firstName', authState?.user.firstName)
-      sessionStorage.setItem('lastName', authState?.user.lastName)
-      sessionStorage.setItem('email', authState?.user.email)
-      sessionStorage.setItem('provider', authState.provider)
-    }
-  })
+  // useEffect(() => {
+  //   console.log('here')
+  //   if (authState.user) {
+  //     sessionStorage.setItem('id', authState.id)
+  //     sessionStorage.setItem('isLoggedIn', 'true')
+  //     sessionStorage.setItem('firstName', authState?.user.firstName)
+  //     sessionStorage.setItem('lastName', authState?.user.lastName)
+  //     sessionStorage.setItem('email', authState?.user.email)
+  //     sessionStorage.setItem('provider', authState.provider)
+  //   }
+  // })
 
   const getLoggedInUser = useCallback(async (id: any) => {
-    // authJwt()
     axios
       .get(`${process.env.NEXT_PUBLIC_USERS_GET_PROFILE_ROUTE}/${id}`, {
         withCredentials: true,
       })
       .then((result) => {
-        console.log(result.data)
         const provider = result.data.user.provider
         const authToken = result.data.authToken
         if (provider === 'local') {
