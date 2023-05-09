@@ -50,7 +50,7 @@ const LoginModal = (props: any) => {
           id: response.data.user._id,
         })
 
-        setCookie('access-token', response.data.accessToken)
+        // setCookie('access-token', response.data.accessToken)
         sessionStorage.setItem('id', response.data.user._id)
         sessionStorage.setItem('isLoggedIn', 'true')
         sessionStorage.setItem('firstName', response.data.user.local.firstName)
