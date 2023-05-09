@@ -42,10 +42,12 @@ const LoginModal = (props: any) => {
       if (response.status === 200) {
         setErrorMessage('')
         showLoginSuccessToastMessage()
+        console.log(response.data)
         setAuthState({
           authToken: response.data.accessToken,
           user: response.data.user.local,
           provider: 'local',
+          id: response.data.user._id,
         })
 
         setCookie('access-token', response.data.accessToken)

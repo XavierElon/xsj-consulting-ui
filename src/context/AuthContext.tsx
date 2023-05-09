@@ -14,16 +14,25 @@ const AuthStateContext = createContext<ContextInterface>({
 })
 
 const AuthStateProvider = (props: any) => {
-  const [authState, setAuthState] = useState({
+  const [authState, setAuthState] = useState<any>({
     authToken: '',
     user: '',
     provider: '',
+    id: '',
   })
 
   useEffect(() => {
-    const id = sessionStorage.getItem('id')
-    console.log(id)
-  }, [])
+    console.log('here')
+    if (authState.user) {
+      console.log(authState)
+      sessionStorage.setItem('id', authState.id)
+      sessionStorage.setItem('isLoggedIn', 'true')
+      sessionStorage.setItem('firstName', authState?.user.firstName)
+      sessionStorage.setItem('lastName', authState?.user.lastName)
+      sessionStorage.setItem('email', authState?.user.email)
+      sessionStorage.setItem('provider', authState.provider)
+    }
+  })
 
   const getLoggedInUser = useCallback(async (id: any) => {
     axios
@@ -34,12 +43,13 @@ const AuthStateProvider = (props: any) => {
         const provider = result.data.user.provider
         const authToken = result.data.authToken
         if (provider === 'local') {
-          setUserState(result.data.user.local, authToken, 'local')
+          setUserState(result.data.user.local, authToken, 'local', id)
         } else {
           setUserState(
             result.data.user.firebaseGoogle,
             authToken,
-            'firebaseGoogle'
+            'firebaseGoogle',
+            id
           )
         }
       })
@@ -49,11 +59,17 @@ const AuthStateProvider = (props: any) => {
       })
   }, [])
 
-  const setUserState = (userData: any, authToken: any, provider: string) => {
+  const setUserState = (
+    userData: any,
+    authToken: any,
+    provider: string,
+    id: string
+  ) => {
     setAuthState({
       authToken: authToken,
       user: userData,
       provider: provider,
+      id: id,
     })
   }
 
