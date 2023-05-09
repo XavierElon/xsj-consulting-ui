@@ -29,6 +29,7 @@ const LoginModal = (props: any) => {
   const handleLogin = async (e: any) => {
     'use server'
     e.preventDefault()
+    fetch('/api/hello')
     try {
       console.log(process.env.NEXT_PUBLIC_USERS_LOGIN_ROUTE)
       const response = await axios.post(
@@ -50,11 +51,11 @@ const LoginModal = (props: any) => {
           id: response.data.user._id,
         })
 
-        setCookie('access-token', response.data.accessToken, {
-          maxAge: 60 * 60 * 24,
-          httpOnly: true,
-          secure: true,
-        })
+        // setCookie('access-token', response.data.accessToken, {
+        //   maxAge: 60 * 60 * 24,
+        //   httpOnly: true,
+        //   secure: true,
+        // })
         sessionStorage.setItem('id', response.data.user._id)
         sessionStorage.setItem('isLoggedIn', 'true')
         sessionStorage.setItem('firstName', response.data.user.local.firstName)
