@@ -43,6 +43,7 @@ const AuthStateProvider = (props: any) => {
         withCredentials: true,
       })
       .then((result) => {
+        console.log(result.data)
         const provider = result.data.user.provider
         const authToken = result.data.authToken
         if (provider === 'local') {
