@@ -51,6 +51,7 @@ const LoginModal = (props: any) => {
         sessionStorage.setItem('lastName', response.data.user.local.lastName)
         sessionStorage.setItem('email', response.data.user.local.email)
         sessionStorage.setItem('provider', 'local')
+        console.log('test')
         setTimeout(() => {
           router.push('/store')
         }, 1000)
