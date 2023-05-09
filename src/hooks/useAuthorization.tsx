@@ -11,7 +11,6 @@ export const useAuthorization = () => {
       authState.isLoggedIn
     ) {
       const id = sessionStorage.getItem('id') || authState.id
-      console.log(id)
       getLoggedInUser(id)
     }
   }, [getLoggedInUser])

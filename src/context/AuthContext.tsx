@@ -1,7 +1,6 @@
 'use client'
 import { createContext, useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
-import { authJwt } from '@/utils/auth'
 
 type ContextInterface = {
   authState: any
