@@ -59,9 +59,9 @@ const SignupModal = (props: any) => {
           provider: 'local',
         })
         .then((result) => {
-          console.log(result)
-          const userId = result.data.user._id.toString()
           showSignupSuccessToastMessage()
+
+          const userId = result.data.user._id.toString()
           setAuthState({
             authToken: result.data.accessToken,
             user: result.data.user.local,
@@ -69,12 +69,14 @@ const SignupModal = (props: any) => {
             id: userId,
             isLoggedIn: true,
           })
+
           sessionStorage.setItem('id', userId)
           sessionStorage.setItem('isLoggedIn', 'true')
           sessionStorage.setItem('firstName', result.data.user.local.firstName)
           sessionStorage.setItem('lastName', result.data.user.local.lastName)
           sessionStorage.setItem('email', result.data.user.local.email)
           sessionStorage.setItem('provider', 'local')
+
           setTimeout(() => {
             router.push('/')
           }, 1000)

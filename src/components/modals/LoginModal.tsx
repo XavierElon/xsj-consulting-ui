@@ -1,5 +1,5 @@
 'use client'
-import React, { CSSProperties, useContext, useEffect, useState } from 'react'
+import React, { CSSProperties, useContext, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
@@ -16,7 +16,7 @@ import {
 } from '@/utils/toast.helpers'
 import { AuthStateContext } from '@/context/AuthContext'
 
-const LoginModal = (props: any) => {
+const LoginModal = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
@@ -73,7 +73,9 @@ const LoginModal = (props: any) => {
   const handleGoogleLogin = async () => {
     const data = await signInWithGooglePopup()
     const googleAuthResult: any = data?.result
+
     setGoogleAuthState(googleAuthResult)
+
     sessionStorage.setItem('isLoggedIn', 'true')
     sessionStorage.setItem('id', googleAuthResult.user.uid)
     sessionStorage.setItem('displayName', googleAuthResult.user.displayName)
@@ -86,7 +88,6 @@ const LoginModal = (props: any) => {
   }
 
   const setGoogleAuthState = (googleAuthResult: any) => {
-    console.log(googleAuthResult)
     const displayName: string = googleAuthResult.user.displayName!
     const email: string = googleAuthResult.user.email!
     const photoURL: string = googleAuthResult.user.photoURL!
