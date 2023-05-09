@@ -1,6 +1,7 @@
 'use client'
 import { createContext, useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
+import { authJwt } from '@/utils/auth'
 
 type ContextInterface = {
   authState: any
@@ -35,6 +36,7 @@ const AuthStateProvider = (props: any) => {
   })
 
   const getLoggedInUser = useCallback(async (id: any) => {
+    authJwt()
     axios
       .get(`${process.env.NEXT_PUBLIC_USERS_GET_PROFILE_ROUTE}/${id}`, {
         withCredentials: true,
