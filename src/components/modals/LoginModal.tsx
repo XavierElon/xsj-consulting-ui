@@ -27,9 +27,7 @@ const LoginModal = (props: any) => {
   const router = useRouter()
 
   const handleLogin = async (e: any) => {
-    'use server'
     e.preventDefault()
-    fetch('/api/hello')
     try {
       console.log(process.env.NEXT_PUBLIC_USERS_LOGIN_ROUTE)
       const response = await axios.post(
@@ -51,20 +49,15 @@ const LoginModal = (props: any) => {
           id: response.data.user._id,
         })
 
-        // setCookie('access-token', response.data.accessToken, {
-        //   maxAge: 60 * 60 * 24,
-        //   httpOnly: true,
-        //   secure: true,
-        // })
         sessionStorage.setItem('id', response.data.user._id)
         sessionStorage.setItem('isLoggedIn', 'true')
         sessionStorage.setItem('firstName', response.data.user.local.firstName)
         sessionStorage.setItem('lastName', response.data.user.local.lastName)
         sessionStorage.setItem('email', response.data.user.local.email)
         sessionStorage.setItem('provider', 'local')
-        // setTimeout(() => {
-        //   router.push('/')
-        // }, 1000)
+        setTimeout(() => {
+          router.push('/')
+        }, 1000)
       }
     } catch (error: any) {
       console.log(error)
