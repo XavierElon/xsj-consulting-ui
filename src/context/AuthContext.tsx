@@ -1,5 +1,5 @@
 'use client'
-import { createContext, useCallback, useEffect, useState } from 'react'
+import { createContext, useCallback, useState } from 'react'
 import axios from 'axios'
 
 type ContextInterface = {
@@ -14,16 +14,13 @@ const AuthStateContext = createContext<ContextInterface>({
 })
 
 const AuthStateProvider = (props: any) => {
-  const [authState, setAuthState] = useState({
+  const [authState, setAuthState] = useState<any>({
     authToken: '',
     user: '',
     provider: '',
+    id: '',
+    isLoggedIn: false,
   })
-
-  useEffect(() => {
-    const id = sessionStorage.getItem('id')
-    console.log(id)
-  }, [])
 
   const getLoggedInUser = useCallback(async (id: any) => {
     axios
@@ -34,26 +31,37 @@ const AuthStateProvider = (props: any) => {
         const provider = result.data.user.provider
         const authToken = result.data.authToken
         if (provider === 'local') {
-          setUserState(result.data.user.local, authToken, 'local')
+          setUserState(result.data.user.local, authToken, 'local', id, true)
         } else {
           setUserState(
             result.data.user.firebaseGoogle,
             authToken,
-            'firebaseGoogle'
+            'firebaseGoogle',
+            id,
+            true
           )
         }
       })
       .catch((error) => {
         sessionStorage.clear()
+        setUserState('', '', '', '', false)
         console.log(error)
       })
   }, [])
 
-  const setUserState = (userData: any, authToken: any, provider: string) => {
+  const setUserState = (
+    authToken: any,
+    userData: any,
+    provider: string,
+    id: string,
+    isLoggedIn: boolean
+  ) => {
     setAuthState({
       authToken: authToken,
       user: userData,
       provider: provider,
+      id: id,
+      isLoggedIn: isLoggedIn,
     })
   }
 

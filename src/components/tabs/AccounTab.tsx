@@ -45,6 +45,8 @@ const AccountTab = (props: Props) => {
                       <div className="w-[100px] h-[100px] rounded-full overflow-hidden">
                         <Image
                           src={imageUrl}
+                          width="100"
+                          height="100"
                           alt="profilePicture"
                           className="w-full h-full rounded-full"
                         ></Image>

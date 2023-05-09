@@ -39,10 +39,12 @@ const LoginModal = (props: any) => {
       if (response.status === 200) {
         setErrorMessage('')
         showLoginSuccessToastMessage()
+        console.log(response.data)
         setAuthState({
           authToken: response.data.accessToken,
           user: response.data.user.local,
           provider: 'local',
+          id: response.data.user._id,
         })
 
         sessionStorage.setItem('id', response.data.user._id)
@@ -51,10 +53,9 @@ const LoginModal = (props: any) => {
         sessionStorage.setItem('lastName', response.data.user.local.lastName)
         sessionStorage.setItem('email', response.data.user.local.email)
         sessionStorage.setItem('provider', 'local')
-        console.log('test')
-        // setTimeout(() => {
-        //   router.push('/')
-        // }, 1000)
+        setTimeout(() => {
+          router.push('/')
+        }, 1000)
       }
     } catch (error: any) {
       console.log(error)
@@ -72,9 +73,14 @@ const LoginModal = (props: any) => {
   const handleGoogleLogin = async () => {
     const data = await signInWithGooglePopup()
     const googleAuthResult: any = data?.result
+
     setGoogleAuthState(googleAuthResult)
-    localStorage.setItem('isLoggedIn', 'true')
-    localStorage.setItem('id', googleAuthResult.user.uid)
+
+    sessionStorage.setItem('isLoggedIn', 'true')
+    sessionStorage.setItem('id', googleAuthResult.user.uid)
+    sessionStorage.setItem('displayName', googleAuthResult.user.displayName)
+    sessionStorage.setItem('email', googleAuthResult.user.email)
+
     showLoginSuccessToastMessage()
     setTimeout(() => {
       router.push('/')
@@ -82,7 +88,6 @@ const LoginModal = (props: any) => {
   }
 
   const setGoogleAuthState = (googleAuthResult: any) => {
-    console.log(googleAuthResult)
     const displayName: string = googleAuthResult.user.displayName!
     const email: string = googleAuthResult.user.email!
     const photoURL: string = googleAuthResult.user.photoURL!
@@ -102,6 +107,8 @@ const LoginModal = (props: any) => {
       authToken: accessToken,
       user: firebaseObj,
       provider: 'firebaseGoogle',
+      id: firebaseUid,
+      isLoggedIn: true,
     })
   }
 
