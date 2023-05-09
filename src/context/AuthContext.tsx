@@ -39,8 +39,8 @@ const AuthStateProvider = (props: any) => {
   const getLoggedInUser = useCallback(async (id: any) => {
     authJwt()
     axios
-      .post(`${process.env.NEXT_PUBLIC_USERS_GET_PROFILE_ROUTE}/${id}`, {
-        accessToken: authState.authToken,
+      .get(`${process.env.NEXT_PUBLIC_USERS_GET_PROFILE_ROUTE}/${id}`, {
+        withCredentials: true,
       })
       .then((result) => {
         const provider = result.data.user.provider
