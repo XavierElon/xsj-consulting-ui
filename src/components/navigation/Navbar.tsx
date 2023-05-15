@@ -33,10 +33,12 @@ const Navbar = (props: Props) => {
   const cart = useContext(CartStateContext)
   const router = useRouter()
   const authorized = useAuthorization()
+  console.log(authState)
   const {
     provider,
     user: { firstName, lastName, profilePicture },
   } = authState
+
   const localUser = provider === 'local'
   const googleUser = provider === 'firebaseGoogle'
 
@@ -189,7 +191,7 @@ const Navbar = (props: Props) => {
                     <AccountCircleIcon
                       fontSize="inherit"
                       color="primary"
-                      sx={{ fontSize: '100px' }}
+                      sx={{ fontSize: '50px' }}
                     ></AccountCircleIcon>
                   )}
                 </>
