@@ -37,6 +37,7 @@ const Navbar = (props: Props) => {
     provider,
     user: { firstName, lastName, profilePicture },
   } = authState
+
   const localUser = provider === 'local'
   const googleUser = provider === 'firebaseGoogle'
 
@@ -189,7 +190,7 @@ const Navbar = (props: Props) => {
                     <AccountCircleIcon
                       fontSize="inherit"
                       color="primary"
-                      sx={{ fontSize: '100px' }}
+                      sx={{ fontSize: '50px' }}
                     ></AccountCircleIcon>
                   )}
                 </>

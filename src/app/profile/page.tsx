@@ -22,7 +22,7 @@ const Profile: NextPage = () => {
   const { authState, getLoggedInUser } = useContext(AuthStateContext)
 
   useEffect(() => {
-    if (authState.provider === 'local') {
+    if (authState.provider === 'local' && authState.user.profilePicture) {
       const imageBuffer = authState.user.profilePicture.data.data
       const imageType = authState.user.profilePicture.contentType
       const base64String = Buffer.from(imageBuffer).toString('base64')
@@ -41,7 +41,7 @@ const Profile: NextPage = () => {
       try {
         const formData = new FormData()
         formData.append('image', file)
-        const id = localStorage.getItem('id')
+        const id = sessionStorage.getItem('id')
 
         await axios.post(
           `${process.env.NEXT_PUBLIC_USERS_UPLOAD_PROFILE_PICTURE_ROUTE}/${id}`,

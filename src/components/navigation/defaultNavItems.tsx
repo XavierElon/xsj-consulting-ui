@@ -20,18 +20,18 @@ export const defaultNavItems: NavItem[] = [
     icon: <StoreIcon className="w-6 h-6" />,
   },
   {
-    label: 'Team',
-    href: '/team',
+    label: 'Chat',
+    href: '/chat',
     icon: <UserGroupIcon className="w-6 h-6" />,
   },
-  {
-    label: 'Projects',
-    href: '/projects',
-    icon: <FolderIcon className="w-6 h-6" />,
-  },
-  {
-    label: 'Calendar',
-    href: '/calendar',
-    icon: <CalendarIcon className="w-6 h-6" />,
-  },
+  // {
+  //   label: 'Projects',
+  //   href: '/projects',
+  //   icon: <FolderIcon className="w-6 h-6" />,
+  // },
+  // {
+  //   label: 'Calendar',
+  //   href: '/calendar',
+  //   icon: <CalendarIcon className="w-6 h-6" />,
+  // },
 ]
