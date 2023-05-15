@@ -2,6 +2,7 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import axios from 'axios'
+import { getFirestore } from 'firebase/firestore'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -20,6 +21,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
+export const db = getFirestore(app)
 
 const GoogleProvider = new GoogleAuthProvider()
 
@@ -33,27 +35,26 @@ export const signInWithGooglePopup = () => {
       const accessToken: string = result.user.accessToken
       const refreshToken: string = result._tokenResponse.refreshToken
 
-    
-        return axios
-          .post(process.env.NEXT_PUBLIC_USERS_GOOGLE_AUTH_ROUTE!, {
-            firebaseGoogle: {
-              firebaseUid: firebaseUid,
-              accessToken: accessToken,
-              email: email,
-              displayName: displayName,
-              photoURL: profilePic,
-              refreshToken: refreshToken,
-            },
-          })
-          .then((response) => {
-            localStorage.setItem('name', displayName)
-            localStorage.setItem('email', email)
-            localStorage.setItem('profilePic', profilePic)
-            return { result, response }
-          })
-          .catch((error) => {
-            console.error(error)
-          })
+      return axios
+        .post(process.env.NEXT_PUBLIC_USERS_GOOGLE_AUTH_ROUTE!, {
+          firebaseGoogle: {
+            firebaseUid: firebaseUid,
+            accessToken: accessToken,
+            email: email,
+            displayName: displayName,
+            photoURL: profilePic,
+            refreshToken: refreshToken,
+          },
+        })
+        .then((response) => {
+          localStorage.setItem('name', displayName)
+          localStorage.setItem('email', email)
+          localStorage.setItem('profilePic', profilePic)
+          return { result, response }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     })
     .catch((error) => {
       console.log(error)
