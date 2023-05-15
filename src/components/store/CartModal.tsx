@@ -1,11 +1,20 @@
 'use clientee'
 import { useContext, useState } from 'react'
+import axios from 'axios'
 import { CartStateContext } from '@/context/CartContext'
 import CartProduct from '../store/CartProduct'
 import { Button } from 'react-bootstrap'
 
 const CartModal = () => {
   const cart = useContext(CartStateContext)
+
+  const checkout = async () => {
+    await axios.post(
+      process.env.NEXT_PUBLIC_STORE_CHECKOUT_ROUTE!,
+      { items: cart.items },
+      { withCredentials: true }
+    )
+  }
 
   const productsCount = cart.items.reduce(
     (sum: any, product: { quantity: any }) => sum + product.quantity,
