@@ -8,12 +8,21 @@ import { Button } from 'react-bootstrap'
 const CartModal = () => {
   const cart = useContext(CartStateContext)
 
-  const checkout = async () => {
-    await axios.post(
-      process.env.NEXT_PUBLIC_STORE_CHECKOUT_ROUTE!,
-      { items: cart.items },
-      { withCredentials: true }
-    )
+  const handleCheckout = async () => {
+    await axios
+      .post(
+        process.env.NEXT_PUBLIC_STORE_CHECKOUT_ROUTE!,
+        { items: cart.items },
+        { withCredentials: true }
+      )
+      .then((response) => {
+        return response.data
+      })
+      .then((response) => {
+        if (response.url) {
+          window.location.assign(response.url)
+        }
+      })
   }
 
   const productsCount = cart.items.reduce(
@@ -42,6 +51,7 @@ const CartModal = () => {
             <Button
               variant="light"
               className="bg-slate-50 hover:bg-slate-200 transform hover:scale-110 transition-all duration-300 px-2 py-2 rounded-lg text-black"
+              onClick={handleCheckout}
             >
               Checkout
             </Button>
