@@ -2,7 +2,17 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import axios from 'axios'
-import { getFirestore } from 'firebase/firestore'
+import firebase from 'firebase/app'
+import 'firebase/firestore'
+import {
+  getFirestore,
+  collection,
+  doc,
+  addDoc,
+  serverTimestamp,
+} from 'firebase/firestore'
+import { Conversation, Message } from '@/models/chat.interfaces'
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -22,6 +32,44 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
 export const db = getFirestore(app)
+
+// const admin = require('firebase-admin');
+
+// const serviceAccount = require('./path/to/your/serviceAccountKey.json');
+
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount)
+// });
+
+// const db = admin.firestore();
+
+export const addMessage = async (): Promise<void> => {
+  // Define the message data
+  const message = {
+    senderID: '9nerH93NsQVn763sNbb5ReaBBtf2',
+    text: 'Achilles',
+    createdAt: serverTimestamp(), // Use server timestamp
+  }
+
+  // Add a new document to the 'messages' sub-collection of the specified conversation
+  await addDoc(
+    collection(db, 'conversations', 'UmynCD80XhdUWlPnuh5E', 'messages'),
+    message
+  )
+}
+
+export const createConversation = async (): Promise<void> => {
+  const conversation: Omit<Conversation, 'messages'> = {
+    user1ID: '9nerH93NsQVn763sNbb5ReaBBtf2',
+    user2ID: '64625b547fd59b990d3d29e2',
+  }
+  console.log('here')
+
+  await addDoc(collection(db, 'conversations'), {
+    ...conversation,
+    createdAt: serverTimestamp(),
+  })
+}
 
 const GoogleProvider = new GoogleAuthProvider()
 

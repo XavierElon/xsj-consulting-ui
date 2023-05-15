@@ -14,7 +14,7 @@ const Message = (message: any) => {
   console.log(message)
   return (
     <div>
-      <div className={}>
+      <div>
         <div className="chat-image avatar">
           <div className="w-10 rounded-full">
             <img src={message.avatar} />

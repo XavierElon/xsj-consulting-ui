@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from 'react'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { AuthStateContext } from '@/context/AuthContext'
 import { db } from '@/firebase/firebase'
+import { addMessage, createConversation } from '@/firebase/firebase'
 
 const SendMessage = () => {
   const [value, setValue] = useState('')
@@ -46,6 +47,7 @@ const SendMessage = () => {
         />
         <button
           type="submit"
+          onClick={addMessage}
           className="w-auto btn btn-primary text-white rounded-r-lg px-5 text-sm"
         >
           Send
