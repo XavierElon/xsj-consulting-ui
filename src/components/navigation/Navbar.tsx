@@ -33,7 +33,6 @@ const Navbar = (props: Props) => {
   const cart = useContext(CartStateContext)
   const router = useRouter()
   const authorized = useAuthorization()
-  console.log(authState)
   const {
     provider,
     user: { firstName, lastName, profilePicture },
