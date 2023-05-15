@@ -6,12 +6,11 @@ const Chat: NextPage = () => {
   return (
     <>
       <Layout>
-        <div className="fle flex-col items-center justify-center min-h-screen">
+        <div className="flex flex-col justify-between min-h-screen">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-[#77cafe] to-[#0069FF] flex flex-col items-center justify-center">
-            <div className="relative">
-              <SendMessage></SendMessage>
-            </div>
+            {/* Place the main content of your chat here */}
           </div>
+          <SendMessage />
         </div>
       </Layout>
     </>

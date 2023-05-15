@@ -36,7 +36,7 @@ const SendMessage = () => {
   //   }
 
   return (
-    <div className="bg-gray-200 fixed bottom-0 w-full py-10 shadow-lg">
+    <div className="bg-gray-200 fixed bottom-16 w-full py-10 shadow-lg">
       <form className="px-2 containerWrap flex">
         <input
           value={value}
@@ -46,7 +46,7 @@ const SendMessage = () => {
         />
         <button
           type="submit"
-          className="w-auto bg-gray-500 text-white rounded-r-lg px-5 text-sm"
+          className="w-auto btn btn-primary text-white rounded-r-lg px-5 text-sm"
         >
           Send
         </button>
