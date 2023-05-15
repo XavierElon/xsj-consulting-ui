@@ -19,11 +19,11 @@ export const defaultNavItems: NavItem[] = [
     href: '/store',
     icon: <StoreIcon className="w-6 h-6" />,
   },
-  // {
-  //   label: 'Team',
-  //   href: '/team',
-  //   icon: <UserGroupIcon className="w-6 h-6" />,
-  // },
+  {
+    label: 'Chat',
+    href: '/chat',
+    icon: <UserGroupIcon className="w-6 h-6" />,
+  },
   // {
   //   label: 'Projects',
   //   href: '/projects',
