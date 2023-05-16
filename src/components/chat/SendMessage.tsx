@@ -12,10 +12,6 @@ const SendMessage = () => {
   const { id } = authState
   const { getFirebaseUserConversations } = useContext(ChatStateContext)
 
-  useEffect(() => {
-    console.log(authState)
-  }, [])
-
   //   const handleSendMessage = async (e) => {
   //     e.preventDefault();
 
@@ -41,7 +37,7 @@ const SendMessage = () => {
 
   const handleSendMessage = async (e: any) => {
     e.preventDefault()
-    await createOrUpdateConversation('9nerH93NsQVn763sNbb5ReaBBtf2', '64625b547fd59b990d3d29e2', value)
+    await createOrUpdateConversation('6463887e6e2eb904fb9db56a', '64625b547fd59b990d3d29e2', value)
     await getFirebaseUserConversations(id)
   }
 

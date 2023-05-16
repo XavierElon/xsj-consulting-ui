@@ -8,6 +8,6 @@ export interface Message {
 }
 
 export interface Conversation {
-  users: string[]
+  usersCombined: string
   createdAt: firebase.firestore.FieldValue
 }

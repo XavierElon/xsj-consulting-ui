@@ -29,25 +29,28 @@ const ChatStateProvider = (props: any) => {
   const [senderID, setSenderID] = useState<string>('')
   const [conversations, setConversations] = useState<Conversation[]>([])
 
-  const getFirebaseUserConversations = useCallback((userID: string) => {
-    const unsubscribe = onSnapshot(
-      query(collection(db, 'conversations'), where('users', 'array-contains', userID)),
-      async (snapshot) => {
-        const updatedConversations = await Promise.all(
-          snapshot.docs.map(async (doc) => {
-            const data = doc.data() as any
-            const messages = await getMessagesForConversation(doc.id)
-            return { ...data, messages } as Conversation
-          })
-        )
+  const getFirebaseUserConversations = useCallback(async (userID: string) => {
+    // const unsubscribe = onSnapshot(
+    //   query(collection(db, 'conversations'), where('users', 'array-contains', userID)),
+    //   async (snapshot) => {
+    //     const updatedConversations = await Promise.all(
+    //       snapshot.docs.map(async (doc) => {
+    //         const data = doc.data() as any
+    //         const messages = await getMessagesForConversation(doc.id)
+    //         return { ...data, messages } as Conversation
+    //       })
+    //     )
 
-        // This will run every time a new conversation is added to the Firestore
-        setConversations(updatedConversations)
-      },
-      (error) => {
-        console.error('Error fetching conversations: ', error)
-      }
-    )
+    //     // This will run every time a new conversation is added to the Firestore
+    //     setConversations(updatedConversations)
+    //   },
+    //   (error) => {
+    //     console.error('Error fetching conversations: ', error)
+    //   }
+    // )
+    console.log('here')
+    const conversations = await getConversationsForUser(userID)
+    console.log(conversations)
   }, [])
 
   useEffect(() => {
