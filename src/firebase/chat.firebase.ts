@@ -49,29 +49,31 @@ export const getConversationsForUser = async (userID: string): Promise<Conversat
   // Query the 'conversations' collection where 'users' array contains the userID
   const q = collection(db, 'conversations')
   const querySnapshot = await getDocs(q)
-  console.log(userID)
-  const conversations = querySnapshot.docs
-    .map((doc) => {
-      const data = doc.data()
-      return {
-        usersCombined: data.usersCombined,
-        createdAt: data.createdAt,
-        messages: getMessagesForConversation(doc.id)
-      } as Conversation
-    })
-    .filter((conversation) => {
-      console.log(conversation.usersCombined)
-      conversation.usersCombined.includes(userID)
-    })
+
+  const conversationPromises = querySnapshot.docs.map(async (doc) => {
+    const data = doc.data()
+    const messages = await getMessagesForConversation(doc.id)
+    console.log(messages)
+    return {
+      usersCombined: data.usersCombined,
+      createdAt: data.createdAt,
+      messages: messages
+    } as Conversation
+  })
+  const conversations = await Promise.all(conversationPromises)
   console.log(conversations)
-  return conversations
+  const userConversations = conversations.filter((conversation) => {
+    return conversation.usersCombined.includes(userID)
+  })
+
+  return userConversations
 }
 
 export const getMessagesForConversation = async (conversationID: string): Promise<Message[]> => {
   const messagesCollection = collection(db, 'conversations', conversationID, 'messages')
   const querySnapshot = await getDocs(messagesCollection)
 
-  const messages = querySnapshot.docs.map((doc) => {
+  const messagePromises = querySnapshot.docs.map((doc) => {
     const data = doc.data()
     return {
       senderID: data.senderID,
@@ -79,6 +81,7 @@ export const getMessagesForConversation = async (conversationID: string): Promis
       createdAt: data.createdAt
     } as Message
   })
-
+  const messages = await Promise.all(messagePromises)
+  console.log(messages)
   return messages
 }
