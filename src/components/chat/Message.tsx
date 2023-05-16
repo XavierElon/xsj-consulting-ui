@@ -29,9 +29,9 @@ const Message = (message: any) => {
   console.log(message.message.text)
   return (
     <div>
-      <div>
+      <div className="flex items-start">
         <div className="chat-image avatar">
-          <div className="w-10 rounded-full">
+          <div className="w-10 rounded-full mr-2">
             {imageUrl ? (
               <Image alt="profilePicture" width="15" height="15" src={imageUrl} />
             ) : (
@@ -39,8 +39,12 @@ const Message = (message: any) => {
             )}
           </div>
         </div>
-        <div className="chat-header text-black">{email}</div>
-        <div className="chat-bubble bg-blue-500 text-white">{message.message.text}</div>
+        <div className="chat-header font-bold mb-1 text-black">{email}</div>
+        <div className="flex-col flex">
+          <div className="mb-2">
+            <div className="chat-bubble bg-blue-500 text-white">{message.message.text}</div>
+          </div>
+        </div>
       </div>
     </div>
   )
