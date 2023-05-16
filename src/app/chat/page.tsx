@@ -22,7 +22,7 @@ const Chat: NextPage = () => {
             <div className="absolute top left-0 w-full h-full bg-white flex flex-col items-center justify-center">
               <ChatBox></ChatBox>
             </div>
-            <SendMessage />
+            {/* <SendMessage /> */}
           </div>
           {/* <Footer></Footer> */}
         </div>

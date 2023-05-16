@@ -42,7 +42,7 @@ const SendMessage = () => {
   }
 
   return (
-    <div className="bg-gray-200 fixed bottom-16 w-full py-10 shadow-lg">
+    <div className="bg-gray-200 fixed bottom-0 w-full py-10 shadow-lg">
       <form className="px-2 containerWrap flex">
         <input
           value={value}
@@ -50,7 +50,7 @@ const SendMessage = () => {
           className="input w-full focus:outline-none bg-gray-100 rounded-r-none"
           type="text"
         />
-        <button type="submit" onClick={handleSendMessage} className="w-auto btn btn-primary text-white rounded-r-lg px-5 text-sm">
+        <button type="submit" onClick={handleSendMessage} className="w-auto btn btn-primary text-white rounded-r-lg text-sm">
           Send
         </button>
       </form>

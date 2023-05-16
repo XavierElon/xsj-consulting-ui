@@ -38,32 +38,15 @@ const ChatBox = () => {
 
   useEffect(scrollToBottom, [messages])
 
-  //   useEffect(() => {
-  //     const q = query(
-  //       collection(db, "messages"),
-  //       orderBy("createdAt"),
-  //       limit(50),
-  //     );
-  //     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-  //       const messages = [];
-  //       querySnapshot.forEach((doc) => {
-  //         messages.push({ ...doc.data(), id: doc.id });
-  //       });
-  //       setMassages(messages);
-  //     });
-
-  //     return () => unsubscribe;
-  //   }, []);
-
   return (
-    <div className="pb-60 w-full pl-28">
-      <div style={messagesContainer}>
+    <div className="w-full flex flex-col justify-between min-h-screen">
+      <div className="pl-20" style={messagesContainer}>
         {messages.map((message, idx) => (
           <Message key={idx} message={message} />
         ))}
         <div ref={messagesEndRef}></div>
       </div>
-      {/* <SendMessage /> */}
+      <SendMessage />
     </div>
   )
 }
@@ -71,6 +54,6 @@ const ChatBox = () => {
 export default ChatBox
 
 const messagesContainer: CSSProperties = {
-  maxHeight: '100%',
+  maxHeight: '90%',
   overflowY: 'auto'
 }

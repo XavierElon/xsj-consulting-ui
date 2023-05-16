@@ -30,7 +30,6 @@ const ChatStateProvider = (props: any) => {
   const getFirebaseUserConversations = useCallback(async (userID: string) => {
     try {
       const userConversations = await getConversationsForUser(userID)
-      console.log('here')
       setConversations(userConversations)
       //   const messages = await conversations[0].messages
       //   console.log(messages)
