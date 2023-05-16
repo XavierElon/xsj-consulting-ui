@@ -6,12 +6,13 @@ const Message = (message: any) => {
 
   const {
     authState: {
-      user: { email },
+      user: { email }
     },
-    authState: { provider },
+    authState: { provider }
   } = useContext(AuthStateContext)
 
   console.log(message)
+  console.log(message.message.text)
   return (
     <div>
       <div>
@@ -20,8 +21,8 @@ const Message = (message: any) => {
             <img src={message.avatar} />
           </div>
         </div>
-        <div className="chat-header">{message.name}</div>
-        <div className="chat-bubble">{message.text}</div>
+        <div className="chat-header text-black">{message.message.senderID}</div>
+        <div className="chat-bubbl text-black">{message.message.text}</div>
       </div>
     </div>
   )

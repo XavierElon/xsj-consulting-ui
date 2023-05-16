@@ -8,11 +8,15 @@ export const useAuthorization = () => {
   const { getFirebaseUserConversations } = useContext(ChatStateContext)
 
   useEffect(() => {
-    if (sessionStorage.getItem('isLoggedIn') === 'true' || authState.isLoggedIn) {
-      const id = sessionStorage.getItem('id') || authState.id
-      getLoggedInUser(id)
-      getFirebaseUserConversations(id)
+    const getUserInfo = async () => {
+      if (sessionStorage.getItem('isLoggedIn') === 'true' || authState.isLoggedIn) {
+        const id = sessionStorage.getItem('id') || authState.id
+        await getLoggedInUser(id)
+        console.log('calling')
+        await getFirebaseUserConversations(id)
+      }
     }
+    getUserInfo()
   }, [getLoggedInUser, getFirebaseUserConversations])
 
   useEffect(() => {

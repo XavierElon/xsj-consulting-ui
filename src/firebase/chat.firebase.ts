@@ -2,7 +2,7 @@ import firebase from 'firebase/compat/app'
 import 'firebase/firestore'
 import { db } from './firebase'
 import { arrayUnion, collection, doc, addDoc, serverTimestamp, getDoc, setDoc, updateDoc, where, query, getDocs } from 'firebase/firestore'
-import { Conversation, Message } from '@/models/chat.interfaces'
+import { ConversationInterface, MessageInterface } from '@/models/chat.interfaces'
 
 // export const addMessage = async (conversationID: string, senderID: string, text: string): Promise<void> => {
 //   // Define the message data
@@ -28,7 +28,7 @@ export const createOrUpdateConversation = async (user1ID: string, user2ID: strin
   if (!querySnapshot.empty) {
     conversationRef = doc(db, 'conversations', querySnapshot.docs[0].id)
   } else {
-    const conversation: Conversation = {
+    const conversation: ConversationInterface = {
       usersCombined: userIDsCombined,
       createdAt: serverTimestamp()
     }
@@ -36,7 +36,7 @@ export const createOrUpdateConversation = async (user1ID: string, user2ID: strin
     conversationRef = doc(db, 'conversations', docRef.id)
   }
 
-  const newMessage: Message = {
+  const newMessage: MessageInterface = {
     senderID: user1ID,
     text: text,
     createdAt: serverTimestamp()
@@ -45,7 +45,7 @@ export const createOrUpdateConversation = async (user1ID: string, user2ID: strin
   await addDoc(collection(conversationRef, 'messages'), newMessage)
 }
 
-export const getConversationsForUser = async (userID: string): Promise<Conversation[]> => {
+export const getConversationsForUser = async (userID: string): Promise<ConversationInterface[]> => {
   // Query the 'conversations' collection where 'users' array contains the userID
   const q = collection(db, 'conversations')
   const querySnapshot = await getDocs(q)
@@ -53,12 +53,11 @@ export const getConversationsForUser = async (userID: string): Promise<Conversat
   const conversationPromises = querySnapshot.docs.map(async (doc) => {
     const data = doc.data()
     const messages = await getMessagesForConversation(doc.id)
-    console.log(messages)
     return {
       usersCombined: data.usersCombined,
       createdAt: data.createdAt,
       messages: messages
-    } as Conversation
+    } as ConversationInterface
   })
   const conversations = await Promise.all(conversationPromises)
   console.log(conversations)
@@ -69,7 +68,7 @@ export const getConversationsForUser = async (userID: string): Promise<Conversat
   return userConversations
 }
 
-export const getMessagesForConversation = async (conversationID: string): Promise<Message[]> => {
+export const getMessagesForConversation = async (conversationID: string): Promise<MessageInterface[]> => {
   const messagesCollection = collection(db, 'conversations', conversationID, 'messages')
   const querySnapshot = await getDocs(messagesCollection)
 
@@ -79,9 +78,8 @@ export const getMessagesForConversation = async (conversationID: string): Promis
       senderID: data.senderID,
       text: data.text,
       createdAt: data.createdAt
-    } as Message
+    } as MessageInterface
   })
   const messages = await Promise.all(messagePromises)
-  console.log(messages)
   return messages
 }

@@ -1,6 +1,6 @@
 'use client'
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
-import { Conversation } from '@/models/chat.interfaces'
+import { ConversationInterface } from '@/models/chat.interfaces'
 import { useAuthorization } from '@/hooks/useAuthorization'
 import { AuthStateContext } from './AuthContext'
 import { getConversationsForUser, getMessagesForConversation } from '@/firebase/chat.firebase'
@@ -10,10 +10,11 @@ import { db } from '@/firebase/firebase'
 type ContextInterface = {
   senderID: string
   setSenderID: (value: string) => void
-  conversations: Conversation[]
-  setConversations: (value: Conversation[]) => void
+  conversations: ConversationInterface[]
+  setConversations: (value: ConversationInterface[]) => void
   getFirebaseUserConversations: (value: string) => any
 }
+
 const ChatStateContext = createContext<ContextInterface>({
   senderID: '',
   setSenderID: () => {},
@@ -23,19 +24,17 @@ const ChatStateContext = createContext<ContextInterface>({
 })
 
 const ChatStateProvider = (props: any) => {
-  const authorized = useAuthorization()
-  //   const { authState } = useContext(AuthStateContext)
-
   const [senderID, setSenderID] = useState<string>('')
-  const [conversations, setConversations] = useState<Conversation[]>([])
+  const [conversations, setConversations] = useState<ConversationInterface[]>([])
 
   const getFirebaseUserConversations = useCallback(async (userID: string) => {
     try {
       const userConversations = await getConversationsForUser(userID)
-      //   console.log(conversations)
+      console.log('here')
       setConversations(userConversations)
       //   const messages = await conversations[0].messages
       //   console.log(messages)
+      return userConversations
     } catch (error) {
       console.log(error)
     }
