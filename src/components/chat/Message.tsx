@@ -39,10 +39,10 @@ const Message = (message: any) => {
             )}
           </div>
         </div>
-        <div className="chat-header font-bold mb-1 text-black">{email}</div>
-        <div className="flex-col flex">
-          <div className="mb-2">
-            <div className="chat-bubble bg-blue-500 text-white">{message.message.text}</div>
+        <div className="chat-details">
+          <div className="mt-4 chat-header font-sm text-black">{email}</div>
+          <div className="flex flex-wrap">
+            <div className=" pr-6 chat-bubble bg-blue-500 text-white">{message.message.text}</div>
           </div>
         </div>
       </div>

@@ -30,17 +30,6 @@ const ChatBox = () => {
     getConversations()
   }, [getFirebaseUserConversations])
 
-  useEffect(() => {
-    if (authState.provider === 'local' && authState.user.profilePicture) {
-      const imageBuffer = authState.user.profilePicture.data.data
-      const imageType = authState.user.profilePicture.contentType
-      const base64String = Buffer.from(imageBuffer).toString('base64')
-
-      const url = `data:${imageType};base64,${base64String}`
-      setImageUrl(url)
-    }
-  }, [authState])
-
   const scrollToBottom = () => {
     if (messagesEndRef.current !== null) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
