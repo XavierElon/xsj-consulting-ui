@@ -10,7 +10,7 @@ type ContextInterface = {
 const AuthStateContext = createContext<ContextInterface>({
   authState: null,
   setAuthState: null,
-  getLoggedInUser: null,
+  getLoggedInUser: null
 })
 
 const AuthStateProvider = (props: any) => {
@@ -19,13 +19,13 @@ const AuthStateProvider = (props: any) => {
     user: '',
     provider: '',
     id: '',
-    isLoggedIn: false,
+    isLoggedIn: false
   })
 
   const getLoggedInUser = useCallback(async (id: any) => {
     axios
       .get(`${process.env.NEXT_PUBLIC_USERS_GET_PROFILE_ROUTE}/${id}`, {
-        withCredentials: true,
+        withCredentials: true
       })
       .then((result) => {
         const provider = result.data.user.provider
@@ -33,13 +33,7 @@ const AuthStateProvider = (props: any) => {
         if (provider === 'local') {
           setUserState(authToken, result.data.user.local, 'local', id, true)
         } else {
-          setUserState(
-            authToken,
-            result.data.user.firebaseGoogle,
-            'firebaseGoogle',
-            id,
-            true
-          )
+          setUserState(authToken, result.data.user.firebaseGoogle, 'firebaseGoogle', id, true)
         }
       })
       .catch((error) => {
@@ -49,29 +43,17 @@ const AuthStateProvider = (props: any) => {
       })
   }, [])
 
-  const setUserState = (
-    authToken: any,
-    userData: any,
-    provider: string,
-    id: string,
-    isLoggedIn: boolean
-  ) => {
+  const setUserState = (authToken: any, userData: any, provider: string, id: string, isLoggedIn: boolean) => {
     setAuthState({
       authToken: authToken,
       user: userData,
       provider: provider,
       id: id,
-      isLoggedIn: isLoggedIn,
+      isLoggedIn: isLoggedIn
     })
   }
 
-  return (
-    <AuthStateContext.Provider
-      value={{ authState, setAuthState, getLoggedInUser }}
-    >
-      {props.children}
-    </AuthStateContext.Provider>
-  )
+  return <AuthStateContext.Provider value={{ authState, setAuthState, getLoggedInUser }}>{props.children}</AuthStateContext.Provider>
 }
 
 export { AuthStateContext, AuthStateProvider }

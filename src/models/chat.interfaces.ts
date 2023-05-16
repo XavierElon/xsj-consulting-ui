@@ -7,12 +7,7 @@ export interface Message {
   createdAt: firebase.firestore.FieldValue
 }
 
-export interface NewMessage extends Omit<Message, 'createdAt'> {
-  createdAt?: firebase.firestore.Timestamp | firebase.firestore.FieldValue
-}
-
 export interface Conversation {
   users: string[]
-  messages: Message[]
-  createdAt: firebase.firestore.Timestamp
+  createdAt: firebase.firestore.FieldValue
 }
