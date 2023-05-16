@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { AuthStateContext } from '@/context/AuthContext'
 import { db } from '@/firebase/firebase'
-import { addMessage, createConversation } from '@/firebase/firebase'
+import { createOrUpdateConversation } from '@/firebase/chat.firebase'
 
 const SendMessage = () => {
   const [value, setValue] = useState('')
@@ -36,6 +36,11 @@ const SendMessage = () => {
   //     setValue("");
   //   }
 
+  const handleSendMessage = async (e: any) => {
+    e.preventDefault()
+    await createOrUpdateConversation('9nerH93NsQVn763sNbb5ReaBBtf2', '64625b547fd59b990d3d29e2', value)
+  }
+
   return (
     <div className="bg-gray-200 fixed bottom-16 w-full py-10 shadow-lg">
       <form className="px-2 containerWrap flex">
@@ -45,11 +50,7 @@ const SendMessage = () => {
           className="input w-full focus:outline-none bg-gray-100 rounded-r-none"
           type="text"
         />
-        <button
-          type="submit"
-          onClick={addMessage}
-          className="w-auto btn btn-primary text-white rounded-r-lg px-5 text-sm"
-        >
+        <button type="submit" onClick={handleSendMessage} className="w-auto btn btn-primary text-white rounded-r-lg px-5 text-sm">
           Send
         </button>
       </form>

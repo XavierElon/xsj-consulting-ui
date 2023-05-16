@@ -4,11 +4,15 @@ import 'firebase/compat/firestore'
 export interface Message {
   senderID: string
   text: string
-  createdAt: firebase.firestore.Timestamp
+  createdAt: firebase.firestore.FieldValue
+}
+
+export interface NewMessage extends Omit<Message, 'createdAt'> {
+  createdAt?: firebase.firestore.Timestamp | firebase.firestore.FieldValue
 }
 
 export interface Conversation {
-  user1ID: string
-  user2ID: string
+  users: string[]
   messages: Message[]
+  createdAt: firebase.firestore.Timestamp
 }

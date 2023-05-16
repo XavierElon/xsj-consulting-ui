@@ -4,13 +4,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import axios from 'axios'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
-import {
-  getFirestore,
-  collection,
-  doc,
-  addDoc,
-  serverTimestamp,
-} from 'firebase/firestore'
+import { getFirestore, collection, doc, addDoc, serverTimestamp } from 'firebase/firestore'
 import { Conversation, Message } from '@/models/chat.interfaces'
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -25,7 +19,7 @@ const firebaseConfig = {
   storageBucket: 'xsj-consulting-ui-7c9e0.appspot.com',
   messagingSenderId: '144214686445',
   appId: '1:144214686445:web:6769cbe4c47bc262dbeae4',
-  measurementId: 'G-50JHYVBK16',
+  measurementId: 'G-50JHYVBK16'
 }
 
 // Initialize Firebase
@@ -33,43 +27,33 @@ const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
 export const db = getFirestore(app)
 
-// const admin = require('firebase-admin');
+// export const addMessage = async (coversationID: string, sendID: string, text: string): Promise<void> => {
+//   // Define the message data
+//   const message = {
+//     senderID: '9nerH93NsQVn763sNbb5ReaBBtf2',
+//     text: 'Achilles',
+//     createdAt: serverTimestamp(), // Use server timestamp
+//   }
 
-// const serviceAccount = require('./path/to/your/serviceAccountKey.json');
+//   // Add a new document to the 'messages' sub-collection of the specified conversation
+//   await addDoc(
+//     collection(db, 'conversations', 'UmynCD80XhdUWlPnuh5E', 'messages'),
+//     message
+//   )
+// }
 
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount)
-// });
+// export const createConversation = async (): Promise<void> => {
+//   const conversation: Omit<Conversation, 'messages'> = {
+//     user1ID: '9nerH93NsQVn763sNbb5ReaBBtf2',
+//     user2ID: '64625b547fd59b990d3d29e2',
+//   }
+//   console.log('here')
 
-// const db = admin.firestore();
-
-export const addMessage = async (): Promise<void> => {
-  // Define the message data
-  const message = {
-    senderID: '9nerH93NsQVn763sNbb5ReaBBtf2',
-    text: 'Achilles',
-    createdAt: serverTimestamp(), // Use server timestamp
-  }
-
-  // Add a new document to the 'messages' sub-collection of the specified conversation
-  await addDoc(
-    collection(db, 'conversations', 'UmynCD80XhdUWlPnuh5E', 'messages'),
-    message
-  )
-}
-
-export const createConversation = async (): Promise<void> => {
-  const conversation: Omit<Conversation, 'messages'> = {
-    user1ID: '9nerH93NsQVn763sNbb5ReaBBtf2',
-    user2ID: '64625b547fd59b990d3d29e2',
-  }
-  console.log('here')
-
-  await addDoc(collection(db, 'conversations'), {
-    ...conversation,
-    createdAt: serverTimestamp(),
-  })
-}
+//   await addDoc(collection(db, 'conversations'), {
+//     ...conversation,
+//     createdAt: serverTimestamp(),
+//   })
+// }
 
 const GoogleProvider = new GoogleAuthProvider()
 
@@ -91,8 +75,8 @@ export const signInWithGooglePopup = () => {
             email: email,
             displayName: displayName,
             photoURL: profilePic,
-            refreshToken: refreshToken,
-          },
+            refreshToken: refreshToken
+          }
         })
         .then((response) => {
           localStorage.setItem('name', displayName)

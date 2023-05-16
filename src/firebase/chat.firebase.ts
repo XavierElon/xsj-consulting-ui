@@ -1,30 +1,44 @@
 import firebase from 'firebase/compat/app'
 import 'firebase/firestore'
 import { db } from './firebase'
-import { getFirestore, collection, doc, addDoc, serverTimestamp } from 'firebase/firestore'
-import { Conversation, Message } from '@/models/chat.interfaces'
+import { arrayUnion, collection, doc, addDoc, serverTimestamp, getDoc, setDoc, updateDoc, where, query, getDocs } from 'firebase/firestore'
+import { Conversation, Message, NewMessage } from '@/models/chat.interfaces'
 
-export const addMessage = async (coversationID: string, sendID: string, text: string): Promise<void> => {
+export const addMessage = async (conversationID: string, senderID: string, text: string): Promise<void> => {
   // Define the message data
   const message = {
-    senderID: '9nerH93NsQVn763sNbb5ReaBBtf2',
-    text: 'Achilles',
+    senderID: senderID,
+    text: text,
     createdAt: serverTimestamp() // Use server timestamp
   }
 
   // Add a new document to the 'messages' sub-collection of the specified conversation
-  await addDoc(collection(db, 'conversations', 'UmynCD80XhdUWlPnuh5E', 'messages'), message)
+  await updateDoc(doc(db, 'conversations', conversationID), {
+    messages: arrayUnion(message)
+  })
 }
 
-export const createConversation = async (): Promise<void> => {
-  const conversation: Omit<Conversation, 'messages'> = {
-    user1ID: '9nerH93NsQVn763sNbb5ReaBBtf2',
-    user2ID: '64625b547fd59b990d3d29e2'
-  }
-  console.log('here')
+export const createOrUpdateConversation = async (user1ID: string, user2ID: string, text: string): Promise<void> => {
+  const q = query(collection(db, 'conversations'), where('users', 'array-contains-any', [user1ID, user2ID]))
+  const querySnapshot = await getDocs(q)
 
-  await addDoc(collection(db, 'conversations'), {
-    ...conversation,
+  let conversationRef
+  if (!querySnapshot.empty) {
+    conversationRef = doc(db, 'conversations', querySnapshot.docs[0].id)
+  } else {
+    const conversation = {
+      users: [user1ID, user2ID],
+      createdAt: serverTimestamp()
+    }
+    const docRef = await addDoc(collection(db, 'conversations'), conversation)
+    conversationRef = doc(db, 'conversations', docRef.id)
+  }
+
+  const newMessage: Message = {
+    senderID: user1ID,
+    text: text,
     createdAt: serverTimestamp()
-  })
+  }
+
+  await addDoc(collection(conversationRef, 'messages'), newMessage)
 }
