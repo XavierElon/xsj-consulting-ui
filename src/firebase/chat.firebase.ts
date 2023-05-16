@@ -42,3 +42,38 @@ export const createOrUpdateConversation = async (user1ID: string, user2ID: strin
 
   await addDoc(collection(conversationRef, 'messages'), newMessage)
 }
+
+export const getConversationsForUser = async (userID: string): Promise<Conversation[]> => {
+  // Query the 'conversations' collection where 'users' array contains the userID
+  const q = query(collection(db, 'conversations'), where('users', 'array-contains', userID))
+  const querySnapshot = await getDocs(q)
+
+  const conversations = querySnapshot.docs.map((doc) => {
+    const data = doc.data()
+    return {
+      users: data.users,
+      createdAt: data.createdAt,
+      messages: getMessagesForConversation(doc.id)
+    } as Conversation
+  })
+  console.log(conversations)
+  return conversations
+}
+
+export const getMessagesForConversation = async (conversationID: string): Promise<Message[]> => {
+  const messagesCollection = collection(db, 'conversations', conversationID, 'messages')
+  console.log('here')
+  const querySnapshot = await getDocs(messagesCollection)
+
+  const messages = querySnapshot.docs.map((doc) => {
+    const data = doc.data()
+    return {
+      senderID: data.senderID,
+      text: data.text,
+      createdAt: data.createdAt
+    } as Message
+  })
+  console.log(messages)
+
+  return messages
+}
