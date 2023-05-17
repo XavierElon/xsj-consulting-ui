@@ -48,7 +48,7 @@ const LoginModal = (props: any) => {
         sessionStorage.setItem('firstName', response.data.user.local.firstName)
         sessionStorage.setItem('lastName', response.data.user.local.lastName)
         sessionStorage.setItem('email', response.data.user.local.email)
-        sessionStorage.setItem('username', response.data.username)
+        sessionStorage.setItem('username', response.data.user.username)
         sessionStorage.setItem('provider', 'local')
         setTimeout(() => {
           router.push('/')
@@ -99,7 +99,7 @@ const LoginModal = (props: any) => {
       authToken: accessToken,
       user: firebaseObj,
       provider: 'firebaseGoogle',
-      id: firebaseUid,
+      id: googleAuthResult.user._id,
       isLoggedIn: true,
       username: displayName
     })
