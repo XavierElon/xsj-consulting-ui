@@ -18,13 +18,14 @@ const Chat: NextPage = () => {
         <div className="grid grid-cols-sidebar-content">
           <Sidebar open={isOpen} setOpen={setIsOpen} />
 
-          <div className="flex flex-col justify-between min-h-screen">
-            <div className="absolute top left-0 w-full h-full bg-white flex flex-col items-center justify-center">
-              <ChatBox></ChatBox>
+          <div className="flex flex-col h-screen">
+            <div className="overflow-auto flex-grow relative">
+              <div className="absolute inset-0">
+                <ChatBox />
+              </div>
             </div>
-            {/* <SendMessage /> */}
+            <SendMessage />
           </div>
-          {/* <Footer></Footer> */}
         </div>
       </div>
     </>

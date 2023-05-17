@@ -39,14 +39,13 @@ const ChatBox = () => {
   useEffect(scrollToBottom, [messages])
 
   return (
-    <div className="w-full flex flex-col justify-between min-h-screen">
-      <div className="pl-20" style={messagesContainer}>
+    <div className="w-full flex flex-col min-h-screen">
+      <div className="pl-20 pt-16 pb-10 flex-grow overflow-y-auto" style={messagesContainer}>
         {messages.map((message, idx) => (
           <Message key={idx} message={message} />
         ))}
         <div ref={messagesEndRef}></div>
       </div>
-      <SendMessage />
     </div>
   )
 }

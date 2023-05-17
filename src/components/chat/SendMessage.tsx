@@ -12,29 +12,6 @@ const SendMessage = () => {
   const { id } = authState
   const { getFirebaseUserConversations } = useContext(ChatStateContext)
 
-  //   const handleSendMessage = async (e) => {
-  //     e.preventDefault();
-
-  //     if(value.trim() === "") {
-  //       alert("Enter valid message!");
-  //       return;
-  //     }
-
-  //     try {
-  //       const { uid, displayName, photoURL } = currentUser;
-  //       await addDoc(collection(db, "messages"), {
-  //         text: value,
-  //         name: displayName,
-  //         avatar: photoURL,
-  //         createdAt: serverTimestamp(),
-  //         uid
-  //       })
-  //     } catch(error) {
-  //       console.log(error);
-  //     }
-  //     setValue("");
-  //   }
-
   const handleSendMessage = async (e: any) => {
     e.preventDefault()
     await createOrUpdateConversation('6463887e6e2eb904fb9db56a', '64625b547fd59b990d3d29e2', value)
@@ -42,7 +19,7 @@ const SendMessage = () => {
   }
 
   return (
-    <div className="bg-gray-200 fixed bottom-0 w-full py-10 shadow-lg">
+    <div className="bg-gray-200 w-full py-6 shadow-lg">
       <form className="px-2 containerWrap flex">
         <input
           value={value}

@@ -2,10 +2,8 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import axios from 'axios'
-import firebase from 'firebase/app'
 import 'firebase/firestore'
-import { getFirestore, collection, doc, addDoc, serverTimestamp } from 'firebase/firestore'
-import { Conversation, Message } from '@/models/chat.interfaces'
+import { getFirestore } from 'firebase/firestore'
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
