@@ -1,0 +1,38 @@
+'use client'
+import { useContext, useEffect, useState } from 'react'
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
+import { AuthStateContext } from '@/context/AuthContext'
+import { ChatStateContext } from '@/context/ChatContext'
+import { createOrUpdateConversation } from '@/firebase/chat.firebase'
+
+const SendMessage = () => {
+  const [value, setValue] = useState('')
+  const { authState } = useContext(AuthStateContext)
+  const id = sessionStorage.getItem('id')!
+  const { getFirebaseUserConversations } = useContext(ChatStateContext)
+
+  const handleSendMessage = async (e: any) => {
+    e.preventDefault()
+
+    await createOrUpdateConversation('646522b03977f5050bf04d9d', '64625b547fd59b990d3d29e2', value)
+    await getFirebaseUserConversations(id)
+  }
+
+  return (
+    <div className="bg-gray-200 w-full py-6 shadow-lg">
+      <form className="px-2 containerWrap flex">
+        <input
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          className="input w-full focus:outline-none bg-gray-100 rounded-r-none"
+          type="text"
+        />
+        <button type="submit" onClick={handleSendMessage} className="w-auto btn btn-primary text-white rounded-r-lg text-sm">
+          Send
+        </button>
+      </form>
+    </div>
+  )
+}
+
+export default SendMessage

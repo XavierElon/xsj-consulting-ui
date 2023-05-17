@@ -2,6 +2,8 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import axios from 'axios'
+import { getFirestore } from 'firebase/firestore'
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -14,12 +16,13 @@ const firebaseConfig = {
   storageBucket: 'xsj-consulting-ui-7c9e0.appspot.com',
   messagingSenderId: '144214686445',
   appId: '1:144214686445:web:6769cbe4c47bc262dbeae4',
-  measurementId: 'G-50JHYVBK16',
+  measurementId: 'G-50JHYVBK16'
 }
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
+export const db = getFirestore(app)
 
 const GoogleProvider = new GoogleAuthProvider()
 
@@ -33,27 +36,30 @@ export const signInWithGooglePopup = () => {
       const accessToken: string = result.user.accessToken
       const refreshToken: string = result._tokenResponse.refreshToken
 
-    
-        return axios
-          .post(process.env.NEXT_PUBLIC_USERS_GOOGLE_AUTH_ROUTE!, {
-            firebaseGoogle: {
-              firebaseUid: firebaseUid,
-              accessToken: accessToken,
-              email: email,
-              displayName: displayName,
-              photoURL: profilePic,
-              refreshToken: refreshToken,
-            },
-          })
-          .then((response) => {
-            localStorage.setItem('name', displayName)
-            localStorage.setItem('email', email)
-            localStorage.setItem('profilePic', profilePic)
-            return { result, response }
-          })
-          .catch((error) => {
-            console.error(error)
-          })
+      return axios
+        .post(process.env.NEXT_PUBLIC_USERS_GOOGLE_AUTH_ROUTE!, {
+          firebaseGoogle: {
+            firebaseUid: firebaseUid,
+            accessToken: accessToken,
+            email: email,
+            displayName: displayName,
+            photoURL: profilePic,
+            refreshToken: refreshToken
+          },
+          username: displayName
+        })
+        .then((response) => {
+          console.log(response.data.user._id)
+          sessionStorage.setItem('isLoggedIn', 'true')
+          sessionStorage.setItem('username', displayName)
+          sessionStorage.setItem('email', email)
+          sessionStorage.setItem('profilePic', profilePic)
+          sessionStorage.setItem('id', response.data.user._id.toString())
+          return { result, response }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     })
     .catch((error) => {
       console.log(error)

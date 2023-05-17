@@ -12,7 +12,7 @@ import {
   showEmailNotValidErrorToastMessage,
   showPasswordMatchErrorToastMessage,
   showPasswordNotValidErrorToastMessage,
-  showSignupSuccessToastMessage,
+  showSignupSuccessToastMessage
 } from '@/utils/toast.helpers'
 import { ToastContainer } from 'react-toastify'
 import { AuthStateContext } from '@/context/AuthContext'
@@ -21,6 +21,7 @@ const SignupModal = (props: any) => {
   const [firstName, setFirstName] = useState<string>('')
   const [lastName, setLastName] = useState<string>('')
   const [email, setEmail] = useState<string>('')
+  const [username, setUsername] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [confirmPassword, setConfirmPassword] = useState<string>('')
   const [passwordsMatch, setPasswordsMatch] = useState<any>(true)
@@ -54,9 +55,10 @@ const SignupModal = (props: any) => {
             firstName: firstName,
             lastName: lastName,
             email: email,
-            password: password,
+            password: password
           },
-          provider: 'local',
+          username: username,
+          provider: 'local'
         })
         .then((result) => {
           showSignupSuccessToastMessage()
@@ -68,14 +70,8 @@ const SignupModal = (props: any) => {
             provider: 'local',
             id: userId,
             isLoggedIn: true,
+            username: username
           })
-
-          sessionStorage.setItem('id', userId)
-          sessionStorage.setItem('isLoggedIn', 'true')
-          sessionStorage.setItem('firstName', result.data.user.local.firstName)
-          sessionStorage.setItem('lastName', result.data.user.local.lastName)
-          sessionStorage.setItem('email', result.data.user.local.email)
-          sessionStorage.setItem('provider', 'local')
 
           setTimeout(() => {
             router.push('/')
@@ -96,20 +92,13 @@ const SignupModal = (props: any) => {
     const googleAuthResult: any = data?.result
     const axiosResult: any = data?.response
     setGoogleAuthState(googleAuthResult, axiosResult)
-    sessionStorage.setItem('isLoggedIn', 'true')
-    sessionStorage.setItem('id', googleAuthResult.user.uid)
-    sessionStorage.setItem('displayName', googleAuthResult.user.displayName)
-    sessionStorage.setItem('email', googleAuthResult.user.email)
 
     setTimeout(() => {
       router.push('/')
     }, 1000)
   }
 
-  const setGoogleAuthState = async (
-    googleAuthResult: any,
-    axiosResult: any
-  ) => {
+  const setGoogleAuthState = async (googleAuthResult: any, axiosResult: any) => {
     const displayName: string = googleAuthResult.user.displayName!
     const email: string = googleAuthResult.user.email!
     const photoURL: string = googleAuthResult.user.photoURL!
@@ -122,7 +111,7 @@ const SignupModal = (props: any) => {
       email: email,
       firebaseUid: firebaseUid,
       photoURL: photoURL,
-      refreshToken: refreshToken,
+      refreshToken: refreshToken
     }
 
     await setAuthState({
@@ -130,7 +119,7 @@ const SignupModal = (props: any) => {
       user: firebaseObj,
       provider: 'firebaseGoogle',
       id: firebaseUid,
-      isLoggedIn: true,
+      isLoggedIn: true
     })
   }
 
@@ -182,14 +171,23 @@ const SignupModal = (props: any) => {
             className="transform hover:scale-110 transition-all duration-300 w-80"
             onChange={(e) => setEmail(e.target.value)}
           />
-          {errorMessage && validEmail && (
-            <p className="text-red-600 relative mx-10 top-1">{errorMessage}</p>
-          )}
+          {errorMessage && validEmail && <p className="text-red-600 relative mx-10 top-1">{errorMessage}</p>}
           {!validEmail && (
             <div className="h-6">
               <p className="text-red-600 mx-10">Email address must be valid</p>
             </div>
           )}
+          <p style={pStyle} className="mx-10">
+            <span className="text-[#0069FF]">username </span>
+            <span className="text-red-600 relative top-1">*</span>
+          </p>
+          <TextField
+            id="outlined-email-input"
+            size="small"
+            autoComplete="current-email"
+            className="transform hover:scale-110 transition-all duration-300 w-80"
+            onChange={(e) => setUsername(e.target.value)}
+          />
           <p style={pStyle} className="mx-10">
             <span className="text-[#0069FF]">password </span>
             <span className="text-red-600 relative top-1">*</span>
@@ -238,13 +236,7 @@ const SignupModal = (props: any) => {
             sx={googleButtonStyle}
             onClick={() => handleGoogleLogin()}
           >
-            <Image
-              src={GoogleLogo}
-              width="16"
-              height="16"
-              alt="Google"
-              className="inline-block mx-2"
-            />
+            <Image src={GoogleLogo} width="16" height="16" alt="Google" className="inline-block mx-2" />
             Sign Up with Google
           </Button>
         </form>
@@ -258,7 +250,7 @@ export default SignupModal
 const containerStyle: CSSProperties = {
   width: '90%',
   height: '36%',
-  marginLeft: '3%',
+  marginLeft: '3%'
 }
 
 const headerStyle: CSSProperties = {
@@ -266,21 +258,21 @@ const headerStyle: CSSProperties = {
   fontSize: '32px',
   letterSpacing: '-.5px',
   lineHeight: '40px',
-  fontWeight: '700',
+  fontWeight: '700'
 }
 
 const pStyle: CSSProperties = {
-  marginTop: '15px',
+  marginTop: '15px'
 }
 
 const submitButtonStyle: CSSProperties = {
   width: '79%',
   height: '4%',
   paddingTop: '2%',
-  paddingBottom: '2%',
+  paddingBottom: '2%'
 }
 
 const googleButtonStyle: CSSProperties = {
   width: '80%',
-  height: '4%',
+  height: '4%'
 }
