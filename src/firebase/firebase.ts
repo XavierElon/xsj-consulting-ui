@@ -45,12 +45,13 @@ export const signInWithGooglePopup = () => {
             displayName: displayName,
             photoURL: profilePic,
             refreshToken: refreshToken
-          }
+          },
+          username: displayName
         })
         .then((response) => {
           console.log(response.data.user._id)
           sessionStorage.setItem('isLoggedIn', 'true')
-          sessionStorage.setItem('name', displayName)
+          sessionStorage.setItem('username', displayName)
           sessionStorage.setItem('email', email)
           sessionStorage.setItem('profilePic', profilePic)
           sessionStorage.setItem('id', response.data.user._id.toString())

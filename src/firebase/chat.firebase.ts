@@ -37,7 +37,7 @@ export const createOrUpdateConversation = async (user1ID: string, user2ID: strin
   }
 
   const newMessage: MessageInterface = {
-    senderID: user1ID,
+    senderID: user2ID,
     text: text,
     createdAt: serverTimestamp()
   }
@@ -46,6 +46,7 @@ export const createOrUpdateConversation = async (user1ID: string, user2ID: strin
 }
 
 export const getConversationsForUser = async (userID: string): Promise<ConversationInterface[]> => {
+  console.log(userID)
   // Query the 'conversations' collection where 'users' array contains the userID
   const q = collection(db, 'conversations')
   const querySnapshot = await getDocs(q)

@@ -21,6 +21,7 @@ const SignupModal = (props: any) => {
   const [firstName, setFirstName] = useState<string>('')
   const [lastName, setLastName] = useState<string>('')
   const [email, setEmail] = useState<string>('')
+  const [username, setUsername] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [confirmPassword, setConfirmPassword] = useState<string>('')
   const [passwordsMatch, setPasswordsMatch] = useState<any>(true)
@@ -56,6 +57,7 @@ const SignupModal = (props: any) => {
             email: email,
             password: password
           },
+          username: username,
           provider: 'local'
         })
         .then((result) => {
@@ -67,15 +69,9 @@ const SignupModal = (props: any) => {
             user: result.data.user.local,
             provider: 'local',
             id: userId,
-            isLoggedIn: true
+            isLoggedIn: true,
+            username: username
           })
-
-          // sessionStorage.setItem('id', userId)
-          // sessionStorage.setItem('isLoggedIn', 'true')
-          // sessionStorage.setItem('firstName', result.data.user.local.firstName)
-          // sessionStorage.setItem('lastName', result.data.user.local.lastName)
-          // sessionStorage.setItem('email', result.data.user.local.email)
-          // sessionStorage.setItem('provider', 'local')
 
           setTimeout(() => {
             router.push('/')
@@ -96,14 +92,10 @@ const SignupModal = (props: any) => {
     const googleAuthResult: any = data?.result
     const axiosResult: any = data?.response
     setGoogleAuthState(googleAuthResult, axiosResult)
-    // sessionStorage.setItem('isLoggedIn', 'true')
-    // sessionStorage.setItem('id', googleAuthResult.user.uid)
-    // sessionStorage.setItem('displayName', googleAuthResult.user.displayName)
-    // sessionStorage.setItem('email', googleAuthResult.user.email)
 
-    // setTimeout(() => {
-    //   router.push('/')
-    // }, 1000)
+    setTimeout(() => {
+      router.push('/')
+    }, 1000)
   }
 
   const setGoogleAuthState = async (googleAuthResult: any, axiosResult: any) => {
@@ -185,6 +177,17 @@ const SignupModal = (props: any) => {
               <p className="text-red-600 mx-10">Email address must be valid</p>
             </div>
           )}
+          <p style={pStyle} className="mx-10">
+            <span className="text-[#0069FF]">username </span>
+            <span className="text-red-600 relative top-1">*</span>
+          </p>
+          <TextField
+            id="outlined-email-input"
+            size="small"
+            autoComplete="current-email"
+            className="transform hover:scale-110 transition-all duration-300 w-80"
+            onChange={(e) => setUsername(e.target.value)}
+          />
           <p style={pStyle} className="mx-10">
             <span className="text-[#0069FF]">password </span>
             <span className="text-red-600 relative top-1">*</span>

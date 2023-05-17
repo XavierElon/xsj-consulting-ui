@@ -19,7 +19,8 @@ const AuthStateProvider = (props: any) => {
     user: '',
     provider: '',
     id: '',
-    isLoggedIn: false
+    isLoggedIn: false,
+    username: ''
   })
 
   const getLoggedInUser = useCallback(async (id: any) => {
@@ -30,26 +31,28 @@ const AuthStateProvider = (props: any) => {
       .then((result) => {
         const provider = result.data.user.provider
         const authToken = result.data.authToken
+        console.log(result)
         if (provider === 'local') {
-          setUserState(authToken, result.data.user.local, 'local', id, true)
+          setUserState(authToken, result.data.user.local, 'local', id, true, 'test')
         } else {
-          setUserState(authToken, result.data.user.firebaseGoogle, 'firebaseGoogle', id, true)
+          setUserState(authToken, result.data.user.firebaseGoogle, 'firebaseGoogle', id, true, 'test')
         }
       })
       .catch((error) => {
         // sessionStorage.clear()
-        setUserState('', '', '', '', false)
+        setUserState('', '', '', '', false, '')
         console.log(error)
       })
   }, [])
 
-  const setUserState = (authToken: any, userData: any, provider: string, id: string, isLoggedIn: boolean) => {
+  const setUserState = (authToken: any, userData: any, provider: string, id: string, isLoggedIn: boolean, username: string) => {
     setAuthState({
       authToken: authToken,
       user: userData,
       provider: provider,
       id: id,
-      isLoggedIn: isLoggedIn
+      isLoggedIn: isLoggedIn,
+      username: username
     })
   }
 
