@@ -2,7 +2,6 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import axios from 'axios'
-import 'firebase/firestore'
 import { getFirestore } from 'firebase/firestore'
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -49,9 +48,12 @@ export const signInWithGooglePopup = () => {
           }
         })
         .then((response) => {
-          localStorage.setItem('name', displayName)
-          localStorage.setItem('email', email)
-          localStorage.setItem('profilePic', profilePic)
+          console.log(response.data.user._id)
+          sessionStorage.setItem('isLoggedIn', 'true')
+          sessionStorage.setItem('name', displayName)
+          sessionStorage.setItem('email', email)
+          sessionStorage.setItem('profilePic', profilePic)
+          sessionStorage.setItem('id', response.data.user._id.toString())
           return { result, response }
         })
         .catch((error) => {

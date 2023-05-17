@@ -12,7 +12,6 @@ export const useAuthorization = () => {
       if (sessionStorage.getItem('isLoggedIn') === 'true' || authState.isLoggedIn) {
         const id = sessionStorage.getItem('id') || authState.id
         await getLoggedInUser(id)
-        console.log('calling')
         await getFirebaseUserConversations(id)
       }
     }

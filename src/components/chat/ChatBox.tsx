@@ -1,5 +1,5 @@
 'use client'
-import { collection, query, onSnapshot, orderBy, limit } from 'firebase/firestore'
+import { collection, doc, query, onSnapshot, orderBy, limit } from 'firebase/firestore'
 import { CSSProperties, useContext, useEffect, useRef, useState } from 'react'
 import { db } from '@/firebase/firebase'
 import { AuthStateContext } from '@/context/AuthContext'
@@ -8,6 +8,7 @@ import { MessageInterface } from '@/models/chat.interfaces'
 import Message from './Message'
 import { useAuthorization } from '@/hooks/useAuthorization'
 import SendMessage from './SendMessage'
+import { getConversationsForUser } from '@/firebase/chat.firebase'
 
 const ChatBox = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -16,19 +17,43 @@ const ChatBox = () => {
   const { conversations, setConversations, getFirebaseUserConversations } = useContext(ChatStateContext)
   const authorized = useAuthorization()
   const { authState } = useContext(AuthStateContext)
-  const { id } = authState
 
   useEffect(() => {
     const id: any = sessionStorage.getItem('id')
+
     const getConversations = async () => {
-      const convos = await getFirebaseUserConversations(id)
+      console.log(id)
+      const convos = await getConversationsForUser(id)
+      console.log('convos')
       console.log(convos)
       setConversations(convos)
-      setMessages(convos[0].messages)
-      console.log(messages)
+      if (convos[0]) {
+        const conversationId = convos[0].id
+        console.log(conversationId)
+        const messagesRef = collection(doc(collection(db, 'conversations'), conversationId), 'messages')
+        const messagesQuery = query(messagesRef, orderBy('createdAt'))
+
+        const unsubscribe = onSnapshot(messagesQuery, (snapshot: any) => {
+          const newMessages = snapshot.docs.map((doc: any) => ({
+            senderID: doc.data().senderID,
+            text: doc.data().text,
+            createdAt: doc.data().createdAt
+          }))
+          console.log(newMessages)
+          setMessages(newMessages)
+        })
+
+        // Cleanup function
+        return () => unsubscribe()
+      }
     }
+
     getConversations()
-  }, [getFirebaseUserConversations])
+  }, [])
+
+  useEffect(() => {
+    console.log(messages)
+  }, [messages])
 
   const scrollToBottom = () => {
     if (messagesEndRef.current !== null) {

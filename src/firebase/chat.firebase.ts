@@ -54,6 +54,7 @@ export const getConversationsForUser = async (userID: string): Promise<Conversat
     const data = doc.data()
     const messages = await getMessagesForConversation(doc.id)
     return {
+      id: doc.id,
       usersCombined: data.usersCombined,
       createdAt: data.createdAt,
       messages: messages

@@ -15,6 +15,10 @@ const Message = (message: any) => {
   } = useContext(AuthStateContext)
 
   useEffect(() => {
+    console.log(message)
+  }, [])
+
+  useEffect(() => {
     if (authState.provider === 'local' && authState.user.profilePicture) {
       const imageBuffer = authState.user.profilePicture.data.data
       const imageType = authState.user.profilePicture.contentType
@@ -25,8 +29,6 @@ const Message = (message: any) => {
     }
   }, [authState])
 
-  console.log(message)
-  console.log(message.message.text)
   return (
     <div>
       <div className="flex items-start">

@@ -9,11 +9,7 @@ import Image from 'next/image'
 import GoogleLogo from 'public/google-logo.svg'
 import { signInWithGooglePopup } from '@/firebase/firebase'
 import 'react-toastify/dist/ReactToastify.css'
-import {
-  showEmailDoesNotExistErrorToastMessage,
-  showIncorrectLoginInfoErrorToastMessage,
-  showLoginSuccessToastMessage,
-} from '@/utils/toast.helpers'
+import { showEmailDoesNotExistErrorToastMessage, showIncorrectLoginInfoErrorToastMessage, showLoginSuccessToastMessage } from '@/utils/toast.helpers'
 import { AuthStateContext } from '@/context/AuthContext'
 
 const LoginModal = (props: any) => {
@@ -32,7 +28,7 @@ const LoginModal = (props: any) => {
         process.env.NEXT_PUBLIC_USERS_LOGIN_ROUTE!,
         {
           email,
-          password,
+          password
         },
         { withCredentials: true }
       )
@@ -44,7 +40,7 @@ const LoginModal = (props: any) => {
           authToken: response.data.accessToken,
           user: response.data.user.local,
           provider: 'local',
-          id: response.data.user._id,
+          id: response.data.user._id
         })
 
         sessionStorage.setItem('id', response.data.user._id)
@@ -76,15 +72,15 @@ const LoginModal = (props: any) => {
 
     setGoogleAuthState(googleAuthResult)
 
-    sessionStorage.setItem('isLoggedIn', 'true')
-    sessionStorage.setItem('id', googleAuthResult.user.uid)
-    sessionStorage.setItem('displayName', googleAuthResult.user.displayName)
-    sessionStorage.setItem('email', googleAuthResult.user.email)
+    // sessionStorage.setItem('isLoggedIn', 'true')
+    // sessionStorage.setItem('id', googleAuthResult.user.uid)
+    // sessionStorage.setItem('displayName', googleAuthResult.user.displayName)
+    // sessionStorage.setItem('email', googleAuthResult.user.email)
 
     showLoginSuccessToastMessage()
-    setTimeout(() => {
-      router.push('/')
-    }, 1000)
+    // setTimeout(() => {
+    //   router.push('/')
+    // }, 1000)
   }
 
   const setGoogleAuthState = (googleAuthResult: any) => {
@@ -100,7 +96,7 @@ const LoginModal = (props: any) => {
       email: email,
       firebaseUid: firebaseUid,
       photoURL: photoURL,
-      refreshToken: refreshToken,
+      refreshToken: refreshToken
     }
 
     setAuthState({
@@ -108,16 +104,13 @@ const LoginModal = (props: any) => {
       user: firebaseObj,
       provider: 'firebaseGoogle',
       id: firebaseUid,
-      isLoggedIn: true,
+      isLoggedIn: true
     })
   }
 
   return (
     <div className="flex flex-col container fixed left-1/2 -translate-x-1/2 top-1/2 transform -translate-y-1/2">
-      <div
-        style={containerStyle}
-        className="left-24 w-96 h-96 bg-white border-b-2 border-gray-200 rounded-lg p-4 shadow-md"
-      >
+      <div style={containerStyle} className="left-24 w-96 h-96 bg-white border-b-2 border-gray-200 rounded-lg p-4 shadow-md">
         <ToastContainer />
         <h2 style={headerStyle} className="text-black text-center">
           Log in to your account
@@ -135,9 +128,7 @@ const LoginModal = (props: any) => {
               className="transform hover:scale-110 transition-all duration-300 w-80 mx-10"
               onChange={(e) => setEmail(e.target.value)}
             />
-            {errorMessage && (
-              <p className="text-red-600 relative top-1">{errorMessage}</p>
-            )}
+            {errorMessage && <p className="text-red-600 relative top-1">{errorMessage}</p>}
           </div>
           <p style={pStyle} className="mx-10">
             <span className="text-[#0069FF]">password </span>
@@ -166,19 +157,11 @@ const LoginModal = (props: any) => {
             sx={googleButtonStyle}
             onClick={() => handleGoogleLogin()}
           >
-            <Image
-              src={GoogleLogo}
-              width="16"
-              height="16"
-              alt="Google"
-              className="inline-block mx-2"
-            />
+            <Image src={GoogleLogo} width="16" height="16" alt="Google" className="inline-block mx-2" />
             Sign In with Google
           </Button>
           <Link href="/forgotpassword">
-            <p className="underline text-[#0069FF] font-jetbrains">
-              Forgot Password?
-            </p>
+            <p className="underline text-[#0069FF] font-jetbrains">Forgot Password?</p>
           </Link>
         </form>
       </div>
@@ -191,7 +174,7 @@ export default LoginModal
 const containerStyle: CSSProperties = {
   width: '440px',
   height: '496px',
-  marginLeft: '3%',
+  marginLeft: '3%'
 }
 
 const headerStyle: CSSProperties = {
@@ -199,23 +182,23 @@ const headerStyle: CSSProperties = {
   fontSize: '32px',
   letterSpacing: '-.5px',
   lineHeight: '40px',
-  fontWeight: '700',
+  fontWeight: '700'
 }
 
 const pStyle: CSSProperties = {
-  marginTop: '15px',
+  marginTop: '15px'
 }
 
 const submitButtonStyle: CSSProperties = {
   width: '79%',
   height: '4%',
   paddingTop: '2%',
-  paddingBottom: '2%',
+  paddingBottom: '2%'
 }
 
 const googleButtonStyle: CSSProperties = {
   width: '80%',
   height: '4%',
   paddingTop: '2%',
-  paddingBottom: '2%',
+  paddingBottom: '2%'
 }
