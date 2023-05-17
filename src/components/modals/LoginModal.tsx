@@ -48,6 +48,7 @@ const LoginModal = (props: any) => {
         sessionStorage.setItem('firstName', response.data.user.local.firstName)
         sessionStorage.setItem('lastName', response.data.user.local.lastName)
         sessionStorage.setItem('email', response.data.user.local.email)
+        sessionStorage.setItem('username', response.data.username)
         sessionStorage.setItem('provider', 'local')
         setTimeout(() => {
           router.push('/')
@@ -72,15 +73,10 @@ const LoginModal = (props: any) => {
 
     setGoogleAuthState(googleAuthResult)
 
-    // sessionStorage.setItem('isLoggedIn', 'true')
-    // sessionStorage.setItem('id', googleAuthResult.user.uid)
-    // sessionStorage.setItem('displayName', googleAuthResult.user.displayName)
-    // sessionStorage.setItem('email', googleAuthResult.user.email)
-
     showLoginSuccessToastMessage()
-    // setTimeout(() => {
-    //   router.push('/')
-    // }, 1000)
+    setTimeout(() => {
+      router.push('/')
+    }, 1000)
   }
 
   const setGoogleAuthState = (googleAuthResult: any) => {
@@ -104,7 +100,8 @@ const LoginModal = (props: any) => {
       user: firebaseObj,
       provider: 'firebaseGoogle',
       id: firebaseUid,
-      isLoggedIn: true
+      isLoggedIn: true,
+      username: displayName
     })
   }
 
