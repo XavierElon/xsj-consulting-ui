@@ -65,7 +65,7 @@ const ChatBox = () => {
 
   return (
     <div className="w-full flex flex-col min-h-screen">
-      <div className="pl-20 pt-16 pb-10 flex-grow overflow-y-auto" style={messagesContainer}>
+      <div className="pl-20 pt-16 pb-10 flex-grow overflow-y-auto flex flex-col-reverse" style={messagesContainer}>
         {messages.map((message, idx) => (
           <Message key={idx} message={message} />
         ))}
@@ -78,6 +78,6 @@ const ChatBox = () => {
 export default ChatBox
 
 const messagesContainer: CSSProperties = {
-  maxHeight: '90%',
+  maxHeight: '50%',
   overflowY: 'auto'
 }

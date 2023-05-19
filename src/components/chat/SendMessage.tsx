@@ -14,8 +14,8 @@ const SendMessage = () => {
   const handleSendMessage = async (e: any) => {
     e.preventDefault()
 
-    await createOrUpdateConversation('646522b03977f5050bf04d9d', '64625b547fd59b990d3d29e2', value)
-    await getFirebaseUserConversations(id)
+    await createOrUpdateConversation('64653f3c16ddd13c44e1dbb3', '6465403492504b04b44a1462', value)
+    setValue('')
   }
 
   return (
