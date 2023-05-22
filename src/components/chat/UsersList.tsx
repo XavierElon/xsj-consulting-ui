@@ -27,27 +27,14 @@ const UsersList = () => {
 
   useEffect(() => {
     setCurrentUserID(id)
-    console.log(id)
     getUsers()
   }, [])
-
-  useEffect(() => {}, [])
-
-  useEffect(() => {
-    console.log(users)
-  }, [[users]])
-
-  //   useEffect(() => {
-  //     console.log(secondUserID)
-  //     console.log(secondUser)
-  //   }, [secondUserID, secondUser])
 
   const getUsers = async () => {
     try {
       const res = await axios.get('http://localhost:1017/users', {
         withCredentials: true
       })
-      console.log(id)
       let filteredUsers = res.data.users.filter((user: any) => user.id !== sessionStorage.getItem('id'))
       setUsers(filteredUsers)
     } catch (error) {
@@ -56,7 +43,6 @@ const UsersList = () => {
   }
 
   const handleUserClick = (user: any) => {
-    console.log(user)
     setSecondUser(user)
     setSecondUserID(user.id)
     const filteredConversation = getConversationWithUser(conversations, user.id)
@@ -64,7 +50,7 @@ const UsersList = () => {
       setCurrentConversation(filteredConversation!)
       setCurrentConversationID(filteredConversation.id!)
     } else {
-      setCurrentConversation({ users: [], createdAt: firebase.firestore.FieldValue.serverTimestamp() })
+      setCurrentConversation({ id: '', users: [], createdAt: firebase.firestore.FieldValue.serverTimestamp() })
       setCurrentConversationID('')
     }
   }
@@ -74,24 +60,26 @@ const UsersList = () => {
   }
 
   return (
-    <div className="pl-20 pt-16 pb-10 flex-none justify-end overflow-y-auto flex flex-col-reverse">
-      {users.map((user, idx) => (
-        <div key={idx} className="flex items-center mt-4 cursor-pointer" onClick={() => handleUserClick(user)}>
-          {/* Render user information here */}
-          <div className="chat-image avatar">
-            <div className="w-10 rounded-full mr-2">
-              {user.provider === 'firebaseGoogle' ? (
-                <Image alt="profilePicture" width="15" height="15" src={user.profilePicture}></Image>
-              ) : user.provider === 'local' && user.profilePicture.url ? (
-                <Image alt="profilePicture" width="15" height="15" src={user.profilePicture.url}></Image>
-              ) : (
-                <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '45px' }}></AccountCircleIcon>
-              )}
+    <div className="flex min-h-screen">
+      <div className="flex flex-col-reverse">
+        {users.map((user, idx) => (
+          <div key={idx} className="flex items-center mt-4 cursor-pointer" onClick={() => handleUserClick(user)}>
+            {/* Render user information here */}
+            <div className="chat-image avatar">
+              <div className="w-10 rounded-full mr-2">
+                {user.provider === 'firebaseGoogle' ? (
+                  <Image alt="profilePicture" width="15" height="15" src={user.profilePicture}></Image>
+                ) : user.provider === 'local' && user.profilePicture.url ? (
+                  <Image alt="profilePicture" width="15" height="15" src={user.profilePicture.url}></Image>
+                ) : (
+                  <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '45px' }}></AccountCircleIcon>
+                )}
+              </div>
             </div>
+            <p className="text-black font-bold">{user.username}</p>
           </div>
-          <p className="text-black font-bold">{user.username}</p>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }

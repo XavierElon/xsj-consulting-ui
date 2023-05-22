@@ -40,7 +40,7 @@ const ChatStateContext = createContext<ContextInterface>({
   setConversations: () => {},
   currentConversationID: '',
   setCurrentConversationID: () => {},
-  currentConversation: { users: [], createdAt: firebase.firestore.FieldValue.serverTimestamp() },
+  currentConversation: { id: '', users: [], createdAt: firebase.firestore.FieldValue.serverTimestamp() },
   setCurrentConversation: () => {},
   getFirebaseUserConversations: () => {}
 })

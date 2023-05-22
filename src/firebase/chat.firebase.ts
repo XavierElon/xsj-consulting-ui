@@ -59,7 +59,6 @@ import { ConversationInterface, MessageInterface } from '@/models/chat.interface
 // }
 
 export const createConversation = async (user1ID: string, user2ID: string, text: string): Promise<void> => {
-  console.log('creat')
   const conversation: ConversationInterface = {
     users: [user1ID, user2ID],
     createdAt: serverTimestamp()

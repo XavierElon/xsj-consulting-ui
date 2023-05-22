@@ -24,11 +24,12 @@ const ChatBox = () => {
     setCurrentUserID(id)
   }, [])
 
-  useEffect(() => {
-    console.log(messages)
-  }, [messages])
+  // useEffect(() => {
+  //   console.log(messages)
+  // }, [messages])
 
   useEffect(() => {
+    //
     console.log(conversations)
   }, [conversations])
 
@@ -65,7 +66,6 @@ const ChatBox = () => {
         setMessages(newMessages.reverse())
       })
 
-      // Cleanup function
       return () => unsubscribe()
     }
   }
@@ -88,7 +88,6 @@ const ChatBox = () => {
           <div ref={messagesEndRef}></div>
         </div>
       </div>
-      {/* <div className="w-1/4 flex flex-col"></div> */}
     </div>
   )
 }
