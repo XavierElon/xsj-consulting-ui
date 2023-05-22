@@ -9,32 +9,49 @@ import { MessageInterface } from '@/models/chat.interfaces'
 import Message from './Message'
 import { useAuthorization } from '@/hooks/useAuthorization'
 import SendMessage from './SendMessage'
-import { getConversationsForUser } from '@/firebase/chat.firebase'
+import { getConversationsForUser, getMessagesForConversation } from '@/firebase/chat.firebase'
 
 const ChatBox = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const [messages, setMessages] = useState<MessageInterface[]>([])
-  const [imageUrl, setImageUrl] = useState<string>('')
-  const { currentUserID, setCurrentUserID, conversations, setConversations, getFirebaseUserConversations } = useContext(ChatStateContext)
+  const { currentUserID, setCurrentUserID, conversations, setConversations, currentConversationID } = useContext(ChatStateContext)
   const authorized = useAuthorization()
-  const { authState: id } = useContext(AuthStateContext)
+  const { authState } = useContext(AuthStateContext)
+  const { id } = authState
 
   useEffect(() => {
     getConversations()
-    // getUsers()
     setCurrentUserID(id)
-    // console.log(users)
   }, [])
 
+  useEffect(() => {
+    console.log(messages)
+  }, [messages])
+
+  useEffect(() => {
+    console.log(conversations)
+  }, [conversations])
+
+  useEffect(() => {
+    if (currentConversationID) {
+      getMessages(currentConversationID)
+    }
+  }, [currentConversationID])
+
   const getConversations = async () => {
-    // console.log(id)
     const convos = await getConversationsForUser(id)
-    // console.log(convos)
     setConversations(convos)
-    if (convos[0]) {
-      const conversationId = convos[0].id
-      // console.log(conversationId)
-      const messagesRef = collection(doc(collection(db, 'conversations'), conversationId), 'messages')
+  }
+
+  const getMessages = async (conversationID: string) => {
+    const currentMessages = await getMessagesForConversation(conversationID)
+    setMessages(currentMessages)
+    setupConversationListener()
+  }
+
+  const setupConversationListener = () => {
+    if (currentConversationID) {
+      const messagesRef = collection(doc(collection(db, 'conversations'), currentConversationID), 'messages')
       const messagesQuery = query(messagesRef, orderBy('createdAt'))
 
       const unsubscribe = onSnapshot(messagesQuery, (snapshot: any) => {
@@ -53,7 +70,7 @@ const ChatBox = () => {
 
   const scrollToBottom = () => {
     if (messagesEndRef.current !== null) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' })
     }
   }
 
@@ -61,7 +78,7 @@ const ChatBox = () => {
 
   return (
     <div className="flex min-h-screen">
-      <div className="flex flex-col">
+      <div className="flex flex-col-reverse">
         <div className="pl-20 pt-16 pb-10 flex-none flex flex-col-reverse">
           {messages.map((message, idx) => (
             <Message key={idx} message={message} />
@@ -75,8 +92,3 @@ const ChatBox = () => {
 }
 
 export default ChatBox
-
-const messagesContainer: CSSProperties = {
-  maxHeight: '100%',
-  overflowY: 'auto'
-}

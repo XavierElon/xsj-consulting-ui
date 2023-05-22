@@ -14,9 +14,9 @@ const Message = (message: any) => {
     }
   } = useContext(AuthStateContext)
 
-  // useEffect(() => {
-  //   console.log(authState)
-  // }, [])
+  useEffect(() => {
+    console.log(message)
+  }, [])
 
   useEffect(() => {
     if (authState.provider === 'local' && authState.user.profilePicture) {

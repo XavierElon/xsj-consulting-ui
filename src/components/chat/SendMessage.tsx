@@ -1,9 +1,8 @@
 'use client'
 import { useContext, useEffect, useState } from 'react'
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
-import { createConversation } from '@/firebase/chat.firebase'
+import { addMessageToConversation, createConversation } from '@/firebase/chat.firebase'
 import { useAuthorization } from '@/hooks/useAuthorization'
 
 const SendMessage = () => {
@@ -11,7 +10,7 @@ const SendMessage = () => {
   const { authState } = useContext(AuthStateContext)
   let id: string
   const authorized = useAuthorization()
-  const { getFirebaseUserConversations, currentUserID, secondUserID, currentConversationID, setCurrentConversationID } = useContext(ChatStateContext)
+  const { currentUserID, secondUserID, currentConversationID } = useContext(ChatStateContext)
 
   useEffect(() => {
     if (authorized) {
@@ -19,10 +18,13 @@ const SendMessage = () => {
       console.log(id)
     }
   }, [])
+
   const handleSendMessage = async (e: any) => {
     e.preventDefault()
     if (!currentConversationID) {
       await createConversation(currentUserID, secondUserID, value)
+    } else if (currentConversationID) {
+      await addMessageToConversation(currentConversationID, currentUserID, value)
     }
 
     setValue('')

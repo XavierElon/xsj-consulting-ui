@@ -4,34 +4,46 @@ import axios from 'axios'
 import Image from 'next/image'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
+import { ConversationInterface } from '@/models/chat.interfaces'
 
 const UsersList = () => {
   const [users, setUsers] = useState<any[]>([])
-  const { secondUserID, setSecondUserID, secondUser, setSecondUser, currentUserID, setCurrentUserID } = useContext(ChatStateContext)
+  const {
+    secondUserID,
+    setSecondUserID,
+    secondUser,
+    setSecondUser,
+    currentUserID,
+    setCurrentUserID,
+    conversations,
+    setCurrentConversation,
+    setCurrentConversationID
+  } = useContext(ChatStateContext)
   const { authState } = useContext(AuthStateContext)
   const { id } = authState
 
   useEffect(() => {
-    getUsers()
     setCurrentUserID(id)
+    console.log(id)
+    getUsers()
   }, [])
 
   useEffect(() => {
-    console.log()
     console.log(users)
   }, [[users]])
 
-  useEffect(() => {
-    console.log(secondUserID)
-    console.log(secondUser)
-  }, [secondUserID, secondUser])
+  //   useEffect(() => {
+  //     console.log(secondUserID)
+  //     console.log(secondUser)
+  //   }, [secondUserID, secondUser])
 
   const getUsers = async () => {
     try {
       const res = await axios.get('http://localhost:1017/users', {
         withCredentials: true
       })
-      let filteredUsers = res.data.users.filter((user: any) => user.id !== id)
+      console.log(id)
+      let filteredUsers = res.data.users.filter((user: any) => user.id !== sessionStorage.getItem('id'))
       setUsers(filteredUsers)
     } catch (error) {
       console.error(error)
@@ -39,9 +51,18 @@ const UsersList = () => {
   }
 
   const handleUserClick = (user: any) => {
-    console.log(user)
     setSecondUser(user)
     setSecondUserID(user.id)
+    const filteredConversation = getConversationWithUser(conversations, user.id)
+    console.log(filteredConversation)
+    if (filteredConversation) {
+      setCurrentConversation(filteredConversation!)
+      setCurrentConversationID(filteredConversation.id!)
+    }
+  }
+
+  const getConversationWithUser = (conversations: ConversationInterface[], userID: string): ConversationInterface | undefined => {
+    return conversations.find((conversation) => conversation.users.includes(userID))
   }
 
   return (
