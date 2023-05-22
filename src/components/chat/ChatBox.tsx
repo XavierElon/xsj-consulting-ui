@@ -35,6 +35,8 @@ const ChatBox = () => {
   useEffect(() => {
     if (currentConversationID) {
       getMessages(currentConversationID)
+    } else {
+      setMessages([])
     }
   }, [currentConversationID])
 

@@ -9,18 +9,16 @@ const Message = (message: any) => {
   const [imageUrl, setImageUrl] = useState<string>('')
   const [username, setUsername] = useState<string>('')
   const { authState } = useContext(AuthStateContext)
-  const { secondUser, secondUserID, senderID } = useContext(ChatStateContext)
-
-  useEffect(() => {
-    console.log(message)
-  }, [])
+  const { secondUser, secondUserID } = useContext(ChatStateContext)
 
   useEffect(() => {
     const getProfilePic = async () => {
+      setImageUrl('')
       if (message.message.senderID === secondUserID) {
-        console.log(secondUser)
-        setImageUrl(secondUser.profilePicture)
         setUsername(secondUser.username)
+        if (Object.keys(secondUser.profilePicture).length !== 0) {
+          setImageUrl(secondUser.profilePicture)
+        }
       } else if (message.message.senderID === sessionStorage.getItem('id')) {
         setUsername(authState.username)
         if (authState.provider === 'local' && authState.user.profilePicture) {
@@ -32,7 +30,7 @@ const Message = (message: any) => {
     }
 
     getProfilePic()
-  }, [message])
+  }, [message, secondUser, secondUserID])
 
   return (
     <div>
@@ -42,7 +40,7 @@ const Message = (message: any) => {
             {imageUrl ? (
               <Image alt="profilePicture" width="15" height="15" src={imageUrl} />
             ) : (
-              <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '50px' }}></AccountCircleIcon>
+              <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '45px' }}></AccountCircleIcon>
             )}
           </div>
         </div>
