@@ -31,7 +31,6 @@ const AuthStateProvider = (props: any) => {
       .then((result) => {
         const provider = result.data.user.provider
         const authToken = result.data.authToken
-        console.log(result)
         if (provider === 'local') {
           setUserState(authToken, result.data.user.local, 'local', id, true, 'test')
         } else {

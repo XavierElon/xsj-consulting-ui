@@ -1,6 +1,7 @@
 'use client'
 import { collection, doc, query, onSnapshot, orderBy, limit } from 'firebase/firestore'
 import { CSSProperties, useContext, useEffect, useRef, useState } from 'react'
+import axios from 'axios'
 import { db } from '@/firebase/firebase'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
@@ -22,14 +23,13 @@ const ChatBox = () => {
     const id: any = sessionStorage.getItem('id')
 
     const getConversations = async () => {
-      console.log(id)
+      // console.log(id)
       const convos = await getConversationsForUser(id)
-      console.log('convos')
-      console.log(convos)
+      // console.log(convos)
       setConversations(convos)
       if (convos[0]) {
         const conversationId = convos[0].id
-        console.log(conversationId)
+        // console.log(conversationId)
         const messagesRef = collection(doc(collection(db, 'conversations'), conversationId), 'messages')
         const messagesQuery = query(messagesRef, orderBy('createdAt'))
 
@@ -39,8 +39,7 @@ const ChatBox = () => {
             text: doc.data().text,
             createdAt: doc.data().createdAt
           }))
-          console.log(newMessages)
-          setMessages(newMessages)
+          setMessages(newMessages.reverse())
         })
 
         // Cleanup function
@@ -49,11 +48,9 @@ const ChatBox = () => {
     }
 
     getConversations()
+    // getUsers()
+    // console.log(users)
   }, [])
-
-  useEffect(() => {
-    console.log(messages)
-  }, [messages])
 
   const scrollToBottom = () => {
     if (messagesEndRef.current !== null) {
@@ -64,13 +61,16 @@ const ChatBox = () => {
   useEffect(scrollToBottom, [messages])
 
   return (
-    <div className="w-full flex flex-col min-h-screen">
-      <div className="pl-20 pt-16 pb-10 flex-grow overflow-y-auto flex flex-col-reverse" style={messagesContainer}>
-        {messages.map((message, idx) => (
-          <Message key={idx} message={message} />
-        ))}
-        <div ref={messagesEndRef}></div>
+    <div className="flex min-h-screen">
+      <div className="flex flex-col">
+        <div className="pl-20 pt-16 pb-10 flex-none flex flex-col-reverse">
+          {messages.map((message, idx) => (
+            <Message key={idx} message={message} />
+          ))}
+          <div ref={messagesEndRef}></div>
+        </div>
       </div>
+      <div className="w-1/4 flex flex-col"></div>
     </div>
   )
 }
@@ -78,6 +78,6 @@ const ChatBox = () => {
 export default ChatBox
 
 const messagesContainer: CSSProperties = {
-  maxHeight: '50%',
+  maxHeight: '100%',
   overflowY: 'auto'
 }

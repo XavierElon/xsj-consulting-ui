@@ -4,13 +4,21 @@ import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
 import { createOrUpdateConversation } from '@/firebase/chat.firebase'
+import { useAuthorization } from '@/hooks/useAuthorization'
 
 const SendMessage = () => {
   const [value, setValue] = useState('')
   const { authState } = useContext(AuthStateContext)
-  const id = sessionStorage.getItem('id')!
+  let id: string
+  const authorized = useAuthorization()
   const { getFirebaseUserConversations } = useContext(ChatStateContext)
 
+  useEffect(() => {
+    if (authorized) {
+      id = authState.id
+      console.log(id)
+    }
+  }, [])
   const handleSendMessage = async (e: any) => {
     e.preventDefault()
 

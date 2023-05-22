@@ -7,6 +7,7 @@ import ChatBox from '@/components/chat/ChatBox'
 import Footer from '@/components/navigation/Footer'
 import Sidebar from '@/components/navigation/Sidebar'
 import Navbar from '@/components/navigation/Navbar'
+import UsersList from '@/components/chat/UsersList'
 
 const Chat: NextPage = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -18,13 +19,18 @@ const Chat: NextPage = () => {
         <div className="grid grid-cols-sidebar-content">
           <Sidebar open={isOpen} setOpen={setIsOpen} />
 
-          <div className="flex flex-col h-screen">
-            <div className="overflow-auto flex-grow relative">
-              <div className="absolute inset-0">
+          <div className="flex flex-row">
+            <div className="w-3/4 flex flex-col h-full">
+              <div className="overflow-y-scroll relative flex-none">
                 <ChatBox />
               </div>
+              <SendMessage />
             </div>
-            <SendMessage />
+            <div className="w-1/4 flex flex-col-reverse h-full bg-slate-50">
+              <div className="overflow-y-scroll relative flex-none h-3/4">
+                <UsersList />
+              </div>
+            </div>
           </div>
         </div>
       </div>
