@@ -7,7 +7,13 @@ export interface MessageInterface {
   createdAt: firebase.firestore.FieldValue
 }
 
+// export interface ConversationInterface {
+//   usersCombined: string
+//   createdAt: firebase.firestore.FieldValue
+// }
+//
+
 export interface ConversationInterface {
-  usersCombined: string
+  users: string[]
   createdAt: firebase.firestore.FieldValue
 }
