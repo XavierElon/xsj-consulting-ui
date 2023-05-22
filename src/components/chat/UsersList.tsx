@@ -2,24 +2,35 @@
 import { CSSProperties, useContext, useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import Image from 'next/image'
+import { AuthStateContext } from '@/context/AuthContext'
+import { ChatStateContext } from '@/context/ChatContext'
 
 const UsersList = () => {
   const [users, setUsers] = useState<any[]>([])
+  const { secondUserID, setSecondUserID, setCurrentUserID } = useContext(ChatStateContext)
+  const { authState } = useContext(AuthStateContext)
+  const { id } = authState
 
   useEffect(() => {
     getUsers()
+    setCurrentUserID(id)
   }, [])
 
   useEffect(() => {
     console.log(users)
   }, [[users]])
 
+  useEffect(() => {
+    console.log(secondUserID)
+  }, [secondUserID])
+
   const getUsers = async () => {
     try {
       const res = await axios.get('http://localhost:1017/users', {
         withCredentials: true
       })
-      setUsers(res.data.users)
+      let filteredUsers = res.data.users.filter((user: any) => user.id !== id)
+      setUsers(filteredUsers)
     } catch (error) {
       console.error(error)
     }
@@ -28,6 +39,7 @@ const UsersList = () => {
   const handleUserClick = (user: any) => {
     console.log('clicked')
     console.log(user)
+    setSecondUserID(user.id)
   }
 
   return (
@@ -52,8 +64,3 @@ const UsersList = () => {
 }
 
 export default UsersList
-
-const messagesContainer: CSSProperties = {
-  //   maxHeight: '100%',
-  overflowY: 'auto'
-}

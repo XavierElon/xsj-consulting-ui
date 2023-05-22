@@ -15,42 +15,41 @@ const ChatBox = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const [messages, setMessages] = useState<MessageInterface[]>([])
   const [imageUrl, setImageUrl] = useState<string>('')
-  const { conversations, setConversations, getFirebaseUserConversations } = useContext(ChatStateContext)
+  const { currentUserID, setCurrentUserID, conversations, setConversations, getFirebaseUserConversations } = useContext(ChatStateContext)
   const authorized = useAuthorization()
-  const { authState } = useContext(AuthStateContext)
+  const { authState: id } = useContext(AuthStateContext)
 
   useEffect(() => {
-    const id: any = sessionStorage.getItem('id')
-
-    const getConversations = async () => {
-      // console.log(id)
-      const convos = await getConversationsForUser(id)
-      // console.log(convos)
-      setConversations(convos)
-      if (convos[0]) {
-        const conversationId = convos[0].id
-        // console.log(conversationId)
-        const messagesRef = collection(doc(collection(db, 'conversations'), conversationId), 'messages')
-        const messagesQuery = query(messagesRef, orderBy('createdAt'))
-
-        const unsubscribe = onSnapshot(messagesQuery, (snapshot: any) => {
-          const newMessages = snapshot.docs.map((doc: any) => ({
-            senderID: doc.data().senderID,
-            text: doc.data().text,
-            createdAt: doc.data().createdAt
-          }))
-          setMessages(newMessages.reverse())
-        })
-
-        // Cleanup function
-        return () => unsubscribe()
-      }
-    }
-
     getConversations()
     // getUsers()
+    setCurrentUserID(id)
     // console.log(users)
   }, [])
+
+  const getConversations = async () => {
+    // console.log(id)
+    const convos = await getConversationsForUser(id)
+    // console.log(convos)
+    setConversations(convos)
+    if (convos[0]) {
+      const conversationId = convos[0].id
+      // console.log(conversationId)
+      const messagesRef = collection(doc(collection(db, 'conversations'), conversationId), 'messages')
+      const messagesQuery = query(messagesRef, orderBy('createdAt'))
+
+      const unsubscribe = onSnapshot(messagesQuery, (snapshot: any) => {
+        const newMessages = snapshot.docs.map((doc: any) => ({
+          senderID: doc.data().senderID,
+          text: doc.data().text,
+          createdAt: doc.data().createdAt
+        }))
+        setMessages(newMessages.reverse())
+      })
+
+      // Cleanup function
+      return () => unsubscribe()
+    }
+  }
 
   const scrollToBottom = () => {
     if (messagesEndRef.current !== null) {
