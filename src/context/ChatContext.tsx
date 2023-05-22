@@ -14,6 +14,8 @@ type ContextInterface = {
   setCurrentUserID: (value: string) => void
   secondUserID: string
   setSecondUserID: (value: string) => void
+  secondUser: any
+  setSecondUser: (value: any) => void
   senderID: string
   setSenderID: (value: string) => void
   conversations: ConversationInterface[]
@@ -30,6 +32,8 @@ const ChatStateContext = createContext<ContextInterface>({
   setCurrentUserID: () => {},
   secondUserID: '',
   setSecondUserID: () => {},
+  secondUser: null,
+  setSecondUser: () => {},
   senderID: '',
   setSenderID: () => {},
   conversations: [],
@@ -44,6 +48,7 @@ const ChatStateContext = createContext<ContextInterface>({
 const ChatStateProvider = (props: any) => {
   const [currentUserID, setCurrentUserID] = useState<string>('')
   const [secondUserID, setSecondUserID] = useState<string>('')
+  const [secondUser, setSecondUser] = useState<any>()
   const [senderID, setSenderID] = useState<string>('')
   const [conversations, setConversations] = useState<ConversationInterface[]>([])
   const [currentConversationID, setCurrentConversationID] = useState<string>('')
@@ -73,6 +78,8 @@ const ChatStateProvider = (props: any) => {
         setCurrentUserID,
         secondUserID,
         setSecondUserID,
+        secondUser,
+        setSecondUser,
         senderID,
         setSenderID,
         conversations,

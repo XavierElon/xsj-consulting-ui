@@ -7,7 +7,7 @@ import { ChatStateContext } from '@/context/ChatContext'
 
 const UsersList = () => {
   const [users, setUsers] = useState<any[]>([])
-  const { secondUserID, setSecondUserID, setCurrentUserID } = useContext(ChatStateContext)
+  const { secondUserID, setSecondUserID, secondUser, setSecondUser, currentUserID, setCurrentUserID } = useContext(ChatStateContext)
   const { authState } = useContext(AuthStateContext)
   const { id } = authState
 
@@ -17,12 +17,14 @@ const UsersList = () => {
   }, [])
 
   useEffect(() => {
+    console.log()
     console.log(users)
   }, [[users]])
 
   useEffect(() => {
     console.log(secondUserID)
-  }, [secondUserID])
+    console.log(secondUser)
+  }, [secondUserID, secondUser])
 
   const getUsers = async () => {
     try {
@@ -37,8 +39,8 @@ const UsersList = () => {
   }
 
   const handleUserClick = (user: any) => {
-    console.log('clicked')
     console.log(user)
+    setSecondUser(user)
     setSecondUserID(user.id)
   }
 

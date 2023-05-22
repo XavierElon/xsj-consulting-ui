@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
-import { createOrUpdateConversation } from '@/firebase/chat.firebase'
+import { createConversation } from '@/firebase/chat.firebase'
 import { useAuthorization } from '@/hooks/useAuthorization'
 
 const SendMessage = () => {
@@ -11,7 +11,7 @@ const SendMessage = () => {
   const { authState } = useContext(AuthStateContext)
   let id: string
   const authorized = useAuthorization()
-  const { getFirebaseUserConversations } = useContext(ChatStateContext)
+  const { getFirebaseUserConversations, currentUserID, secondUserID, currentConversationID, setCurrentConversationID } = useContext(ChatStateContext)
 
   useEffect(() => {
     if (authorized) {
@@ -21,8 +21,10 @@ const SendMessage = () => {
   }, [])
   const handleSendMessage = async (e: any) => {
     e.preventDefault()
+    if (!currentConversationID) {
+      await createConversation(currentUserID, secondUserID, value)
+    }
 
-    await createOrUpdateConversation('64653f3c16ddd13c44e1dbb3', '6465403492504b04b44a1462', value)
     setValue('')
   }
 
