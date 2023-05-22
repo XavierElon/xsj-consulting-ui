@@ -15,17 +15,14 @@ const Message = (message: any) => {
   } = useContext(AuthStateContext)
 
   // useEffect(() => {
-  //   console.log(message)
+  //   console.log(authState)
   // }, [])
 
   useEffect(() => {
     if (authState.provider === 'local' && authState.user.profilePicture) {
-      const imageBuffer = authState.user.profilePicture.data.data
-      const imageType = authState.user.profilePicture.contentType
-      const base64String = Buffer.from(imageBuffer).toString('base64')
-
-      const url = `data:${imageType};base64,${base64String}`
-      setImageUrl(url)
+      setImageUrl(authState.user.profilePicture.url)
+    } else if (authState.provider === 'firebaseGoogle' && authState.user.photoURL) {
+      setImageUrl(authState.user.photoURL)
     }
   }, [authState])
 

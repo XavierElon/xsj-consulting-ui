@@ -8,19 +8,6 @@ const UsersList = () => {
 
   useEffect(() => {
     getUsers()
-    console.log(users)
-    // for (let i = 0; i < users.length; i++) {
-    //   let user = users[i]
-    //   if (user.provider === 'local' && user.local.profilePicture) {
-    //     const imageBuffer = user.local.profilePicture.data
-    //     const imageType = user.local.profilePicture.contentType
-    //     const base64String = Buffer.from(imageBuffer).toString('base64')
-
-    //     const url = `data:${imageType};base64,${base64String}`
-    //     user.local.profilePicture.url = url
-    //     console.log(user.local.profilePicure)
-    //   }
-    // }
   }, [])
 
   useEffect(() => {
@@ -38,10 +25,15 @@ const UsersList = () => {
     }
   }
 
+  const handleUserClick = (user: any) => {
+    console.log('clicked')
+    console.log(user)
+  }
+
   return (
     <div className="pl-20 pt-16 pb-10 flex-none overflow-y-auto flex flex-col-reverse">
       {users.map((user, idx) => (
-        <div key={idx}>
+        <div key={idx} className="flex items-center mt-4 cursor-pointer" onClick={() => handleUserClick(user)}>
           {/* Render user information here */}
           <div className="chat-image avatar">
             <div className="w-10 rounded-full mr-2">

@@ -24,9 +24,10 @@ const ChatStateContext = createContext<ContextInterface>({
 })
 
 const ChatStateProvider = (props: any) => {
+  const [currentUserID, setCurrentUserID] = useState<string>('')
   const [senderID, setSenderID] = useState<string>('')
   const [conversations, setConversations] = useState<ConversationInterface[]>([])
-  const [currentConversation, setCurrentConversation] = useState<string>([])
+  const [currentConversation, setCurrentConversation] = useState<string>()
 
   const getFirebaseUserConversations = useCallback(async (userID: string) => {
     try {
