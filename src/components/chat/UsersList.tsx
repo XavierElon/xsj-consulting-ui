@@ -74,7 +74,7 @@ const UsersList = () => {
   }
 
   return (
-    <div className="pl-20 pt-16 pb-10 flex-none overflow-y-auto flex flex-col-reverse">
+    <div className="pl-20 pt-16 pb-10 flex-none justify-end overflow-y-auto flex flex-col-reverse">
       {users.map((user, idx) => (
         <div key={idx} className="flex items-center mt-4 cursor-pointer" onClick={() => handleUserClick(user)}>
           {/* Render user information here */}

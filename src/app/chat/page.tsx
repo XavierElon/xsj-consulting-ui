@@ -27,7 +27,7 @@ const Chat: NextPage = () => {
               <SendMessage />
             </div>
             <div className="w-1/4 flex flex-col-reverse h-full bg-slate-50">
-              <div className="overflow-y-scroll relative flex-none h-3/4">
+              <div className="overflow-y-scroll relative flex-none h-full">
                 <UsersList />
               </div>
             </div>

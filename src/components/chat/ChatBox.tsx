@@ -88,7 +88,7 @@ const ChatBox = () => {
           <div ref={messagesEndRef}></div>
         </div>
       </div>
-      <div className="w-1/4 flex flex-col"></div>
+      {/* <div className="w-1/4 flex flex-col"></div> */}
     </div>
   )
 }
