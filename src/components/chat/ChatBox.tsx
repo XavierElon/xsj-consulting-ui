@@ -80,8 +80,8 @@ const ChatBox = () => {
     <div className="flex min-h-screen">
       <div className="flex flex-col-reverse">
         <div className="pl-20 pt-16 pb-10 flex-none flex flex-col-reverse">
-          {messages.map((message, idx) => (
-            <Message key={idx} message={message} />
+          {messages.map((message) => (
+            <Message key={message.id} message={message} />
           ))}
           <div ref={messagesEndRef}></div>
         </div>

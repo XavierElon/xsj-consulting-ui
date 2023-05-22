@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from 'react'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
 import Image from 'next/image'
-import axios from 'axios'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 
 const Message = (message: any) => {
@@ -12,19 +11,12 @@ const Message = (message: any) => {
   const { authState } = useContext(AuthStateContext)
   const { secondUser, secondUserID, senderID } = useContext(ChatStateContext)
 
-  const {
-    authState: {
-      user: { email }
-    }
-  } = useContext(AuthStateContext)
-
   useEffect(() => {
     console.log(message)
   }, [])
 
   useEffect(() => {
     const getProfilePic = async () => {
-      console.log(secondUserID)
       if (message.message.senderID === secondUserID) {
         console.log(secondUser)
         setImageUrl(secondUser.profilePicture)
@@ -40,7 +32,7 @@ const Message = (message: any) => {
     }
 
     getProfilePic()
-  }, [])
+  }, [message])
 
   return (
     <div>
