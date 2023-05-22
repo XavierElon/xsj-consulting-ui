@@ -12,28 +12,14 @@ const SendMessage = () => {
   const authorized = useAuthorization()
   const { currentUserID, secondUserID, currentConversationID } = useContext(ChatStateContext)
 
-  useEffect(() => {
-    if (authorized) {
-      // id = sessionStorage.getItem('id')!
-      // console.log(id)
-    }
-  }, [])
-
   const handleSendMessage = async (e: any) => {
     id = sessionStorage.getItem('id')!
     e.preventDefault()
-    console.log(currentConversationID)
     if (!currentConversationID) {
-      console.log(id)
-      console.log(secondUserID)
       await createConversation(id, secondUserID, value)
     } else if (currentConversationID) {
-      console.log('elkse')
       await addMessageToConversation(currentConversationID, id, value)
-    } else {
-      console.log('else')
     }
-
     setValue('')
   }
 

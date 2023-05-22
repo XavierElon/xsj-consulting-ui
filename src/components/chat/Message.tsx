@@ -22,39 +22,25 @@ const Message = (message: any) => {
     console.log(message)
   }, [])
 
-  // useEffect(() => {
-  //   console.log(secondUser)
-  //   console.log(secondUserID)
-  //   console.log(senderID)
-  // }, [secondUser, secondUserID, senderID])
-
   useEffect(() => {
     const getProfilePic = async () => {
       console.log(secondUserID)
       if (message.message.senderID === secondUserID) {
         console.log(secondUser)
         setImageUrl(secondUser.profilePicture)
+        setUsername(secondUser.username)
       } else if (message.message.senderID === sessionStorage.getItem('id')) {
+        setUsername(authState.username)
         if (authState.provider === 'local' && authState.user.profilePicture) {
           setImageUrl(authState.user.profilePicture.url)
         } else if (authState.provider === 'firebaseGoogle' && authState.user.photoURL) {
           setImageUrl(authState.user.photoURL)
         }
-      } else {
-        console.log('else')
       }
     }
 
     getProfilePic()
   }, [])
-
-  // useEffect(() => {
-  //   if (authState.provider === 'local' && authState.user.profilePicture) {
-  //     setImageUrl(authState.user.profilePicture.url)
-  //   } else if (authState.provider === 'firebaseGoogle' && authState.user.photoURL) {
-  //     setImageUrl(authState.user.photoURL)
-  //   }
-  // }, [authState])
 
   return (
     <div>

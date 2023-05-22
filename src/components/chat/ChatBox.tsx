@@ -44,8 +44,8 @@ const ChatBox = () => {
   }
 
   const getMessages = async (conversationID: string) => {
-    const currentMessages = await getMessagesForConversation(conversationID)
-    setMessages(currentMessages)
+    // const currentMessages = await getMessagesForConversation(conversationID)
+    // setMessages(currentMessages)
     setupConversationListener()
   }
 
