@@ -14,17 +14,24 @@ const SendMessage = () => {
 
   useEffect(() => {
     if (authorized) {
-      id = authState.id
-      console.log(id)
+      // id = sessionStorage.getItem('id')!
+      // console.log(id)
     }
   }, [])
 
   const handleSendMessage = async (e: any) => {
+    id = sessionStorage.getItem('id')!
     e.preventDefault()
+    console.log(currentConversationID)
     if (!currentConversationID) {
-      await createConversation(currentUserID, secondUserID, value)
+      console.log(id)
+      console.log(secondUserID)
+      await createConversation(id, secondUserID, value)
     } else if (currentConversationID) {
-      await addMessageToConversation(currentConversationID, currentUserID, value)
+      console.log('elkse')
+      await addMessageToConversation(currentConversationID, id, value)
+    } else {
+      console.log('else')
     }
 
     setValue('')

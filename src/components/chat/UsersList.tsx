@@ -51,6 +51,7 @@ const UsersList = () => {
   }
 
   const handleUserClick = (user: any) => {
+    console.log(user)
     setSecondUser(user)
     setSecondUserID(user.id)
     const filteredConversation = getConversationWithUser(conversations, user.id)
