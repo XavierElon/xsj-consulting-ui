@@ -24,8 +24,17 @@ const UsersList = () => {
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const [searchField, setSearchField] = useState<string>('')
-  const { setSecondUserID, secondUser, setSecondUser, setCurrentUserID, conversations, setCurrentConversation, setCurrentConversationID } =
-    useContext(ChatStateContext)
+  const {
+    setSecondUserID,
+    secondUser,
+    setSecondUser,
+    setCurrentUserID,
+    conversations,
+    setCurrentConversation,
+    setCurrentConversationID,
+    chatGPTConversation,
+    setChatGPTConversation
+  } = useContext(ChatStateContext)
   const { authState } = useContext(AuthStateContext)
   const { id } = authState
 
@@ -45,6 +54,14 @@ const UsersList = () => {
     console.log(conversations)
   }, [])
 
+  useEffect(() => {
+    const convo = getConversationWithChatGPT(conversations)
+    console.log(conversations)
+    console.log('gpt')
+    console.log(convo)
+    setChatGPTConversation(convo)
+  }, [conversations])
+
   // const timeout = (milliseconds: number) => {
   //   return new Promise((resolve, reject) => setTimeout(() => resolve('Timeout done')))
   // }
@@ -61,6 +78,17 @@ const UsersList = () => {
     }
   }
 
+  const getConversationWithUser = (conversations: ConversationInterface[], userID: string): ConversationInterface | undefined => {
+    return conversations.find((conversation) => conversation.users.includes(userID))
+  }
+
+  const getConversationWithChatGPT = (conversations: ConversationInterface[]): ConversationInterface | undefined => {
+    return conversations.find((conversation) => conversation.users.includes('chatGPT-3.5'))
+  }
+
+  const handleChange = (e: any) => {
+    setSearchField(e.target.value)
+  }
   const handleUserClick = (user: any) => {
     setSecondUser(user)
     setSecondUserID(user.id)
@@ -74,21 +102,19 @@ const UsersList = () => {
     }
   }
 
-  const getConversationWithUser = (conversations: ConversationInterface[], userID: string): ConversationInterface | undefined => {
-    return conversations.find((conversation) => conversation.users.includes(userID))
-  }
-
-  const handleChange = (e: any) => {
-    setSearchField(e.target.value)
-  }
-
   const handleChatGPTClick = async () => {
     console.log('clicked')
-    try {
-      const conversationId = await createChatGPTConversation(id)
-      console.log(conversationId)
-    } catch (error) {
-      console.error(error)
+    if (!chatGPTConversation) {
+      try {
+        const conversationId = await createChatGPTConversation(id)
+        console.log(conversationId)
+        setCurrentConversationID(conversationId)
+      } catch (error) {
+        console.error(error)
+      }
+    } else {
+      setCurrentConversation(chatGPTConversation)
+      setCurrentConversationID(chatGPTConversation.id!)
     }
   }
 

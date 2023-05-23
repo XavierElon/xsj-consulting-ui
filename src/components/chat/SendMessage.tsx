@@ -8,12 +8,12 @@ import { useAuthorization } from '@/hooks/useAuthorization'
 const SendMessage = () => {
   const [value, setValue] = useState('')
   const { authState } = useContext(AuthStateContext)
-  let id: string
+  let { id } = authState
   const authorized = useAuthorization()
-  const { currentUserID, secondUserID, currentConversationID } = useContext(ChatStateContext)
+  const { secondUserID, currentConversationID, chatGPTConversation, chatGPTConversationID } = useContext(ChatStateContext)
 
   const handleSendMessage = async (e: any) => {
-    id = sessionStorage.getItem('id')!
+    // id = sessionStorage.getItem('id')!
     e.preventDefault()
     if (!currentConversationID) {
       await createConversation(id, secondUserID, value)
