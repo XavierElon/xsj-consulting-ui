@@ -4,9 +4,7 @@ import axios from 'axios'
 import Image from 'next/image'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import Tooltip from '@mui/material/Tooltip'
-import { AiFillRobot } from 'react-icons/ai'
 import SmartToyIcon from '@mui/icons-material/SmartToy'
-import AddIcon from '@mui/icons-material/Add'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
 import { ConversationInterface } from '@/models/chat.interfaces'
@@ -15,14 +13,9 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
 import './UsersList.css'
 
-const actions = [{ icon: <AddIcon />, name: 'Open ChatGPT Chat' }]
-
 const UsersList = () => {
   const [users, setUsers] = useState<any[]>([])
-  const [open, setOpen] = useState<boolean>(false)
 
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
   const [searchField, setSearchField] = useState<string>('')
   const {
     setSecondUserID,
@@ -61,6 +54,11 @@ const UsersList = () => {
     console.log(convo)
     setChatGPTConversation(convo)
   }, [conversations])
+
+  useEffect(() => {
+    console.log('chat gpt convo')
+    console.log(chatGPTConversation)
+  }, [chatGPTConversation])
 
   // const timeout = (milliseconds: number) => {
   //   return new Promise((resolve, reject) => setTimeout(() => resolve('Timeout done')))
@@ -106,9 +104,11 @@ const UsersList = () => {
     console.log('clicked')
     if (!chatGPTConversation) {
       try {
-        const conversationId = await createChatGPTConversation(id)
-        console.log(conversationId)
-        setCurrentConversationID(conversationId)
+        const conversation = await createChatGPTConversation(id)
+        console.log(conversation)
+        setCurrentConversation(conversation)
+        setCurrentConversationID(conversation.id)
+        setChatGPTConversation(conversation)
       } catch (error) {
         console.error(error)
       }
@@ -134,22 +134,20 @@ const UsersList = () => {
         </Tooltip>
 
         {filteredUsers.map((user: any) => (
-          <Tooltip title="User">
-            <div key={user.id} className="flex items-center mt-4 ml-4 cursor-pointer" onClick={() => handleUserClick(user)}>
-              <div className="chat-image avatar">
-                <div className="w-10 rounded-full mr-2">
-                  {user.provider === 'firebaseGoogle' ? (
-                    <Image alt="profilePicture" width="15" height="15" src={user.profilePicture}></Image>
-                  ) : user.provider === 'local' && user.profilePicture.url ? (
-                    <Image alt="profilePicture" width="15" height="15" src={user.profilePicture.url}></Image>
-                  ) : (
-                    <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '45px' }}></AccountCircleIcon>
-                  )}
-                </div>
+          <div key={user.id} className="flex items-center mt-4 ml-4 cursor-pointer" onClick={() => handleUserClick(user)}>
+            <div className="chat-image avatar">
+              <div className="w-10 rounded-full mr-2">
+                {user.provider === 'firebaseGoogle' ? (
+                  <Image alt="profilePicture" width="15" height="15" src={user.profilePicture}></Image>
+                ) : user.provider === 'local' && user.profilePicture.url ? (
+                  <Image alt="profilePicture" width="15" height="15" src={user.profilePicture.url}></Image>
+                ) : (
+                  <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '45px' }}></AccountCircleIcon>
+                )}
               </div>
-              <p className="text-black font-bold">{user.username}</p>
             </div>
-          </Tooltip>
+            <p className="text-black font-bold">{user.username}</p>
+          </div>
         ))}
       </div>
     </div>

@@ -24,12 +24,7 @@ const ChatBox = () => {
     setCurrentUserID(id)
   }, [])
 
-  // useEffect(() => {
-  //   console.log(messages)
-  // }, [messages])
-
   useEffect(() => {
-    //
     console.log(conversations)
   }, [conversations])
 

@@ -10,7 +10,7 @@ const SendMessage = () => {
   const { authState } = useContext(AuthStateContext)
   let { id } = authState
   const authorized = useAuthorization()
-  const { secondUserID, currentConversationID, chatGPTConversation, chatGPTConversationID } = useContext(ChatStateContext)
+  const { secondUserID, currentConversationID, chatGPTConversation } = useContext(ChatStateContext)
 
   const handleSendMessage = async (e: any) => {
     // id = sessionStorage.getItem('id')!
