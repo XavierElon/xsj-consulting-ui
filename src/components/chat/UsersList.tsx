@@ -3,27 +3,27 @@ import { CSSProperties, useContext, useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import Image from 'next/image'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import SpeedDial from '@mui/material/SpeedDial'
+import SpeedDialIcon from '@mui/material/SpeedDialIcon'
+import SpeedDialAction from '@mui/material/SpeedDialAction'
 import { AiFillRobot } from 'react-icons/ai'
+import AddIcon from '@mui/icons-material/Add'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
 import { ConversationInterface } from '@/models/chat.interfaces'
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
 
+const actions = [{ icon: <AddIcon />, name: 'Open ChatGPT Chat' }]
+
 const UsersList = () => {
   const [users, setUsers] = useState<any[]>([])
+  const [open, setOpen] = useState<boolean>(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
   const [searchField, setSearchField] = useState<string>('')
-  const {
-    secondUserID,
-    setSecondUserID,
-    secondUser,
-    setSecondUser,
-    currentUserID,
-    setCurrentUserID,
-    conversations,
-    setCurrentConversation,
-    setCurrentConversationID
-  } = useContext(ChatStateContext)
+  const { setSecondUserID, secondUser, setSecondUser, setCurrentUserID, conversations, setCurrentConversation, setCurrentConversationID } =
+    useContext(ChatStateContext)
   const { authState } = useContext(AuthStateContext)
   const { id } = authState
 
@@ -80,15 +80,26 @@ const UsersList = () => {
       <div className="flex flex-col-reverse">
         <div className="p-2">
           <input
-            className="border rounded-lg py-2 px-4 focus:outline-none text-white focus:ring-2 focus:ring-blue-500"
+            className="border rounded-lg py-2 px-4 focus:outline-none bg-gray-400 text-white placeholder-white focus:ring-1 focus:ring-blue-500"
             type="search"
             placeholder="Search Users"
             onChange={handleChange}
           />
         </div>
+        <SpeedDial
+          ariaLabel="SpeedDial controlled open example"
+          sx={{ position: 'absolute', bottom: 16, right: 16, color: 'black' }}
+          icon={<AiFillRobot style={buttonStyle} />}
+          onClose={handleClose}
+          onOpen={handleOpen}
+          open={open}
+        >
+          {actions.map((action) => (
+            <SpeedDialAction key={action.name} icon={action.icon} tooltipTitle={action.name} onClick={handleClose} />
+          ))}
+        </SpeedDial>
         {filteredUsers.map((user: any) => (
           <div key={user.id} className="flex items-center mt-4 cursor-pointer" onClick={() => handleUserClick(user)}>
-            {/* Render user information here */}
             <div className="chat-image avatar">
               <div className="w-10 rounded-full mr-2">
                 {user.provider === 'firebaseGoogle' ? (
@@ -109,3 +120,11 @@ const UsersList = () => {
 }
 
 export default UsersList
+
+const buttonStyle = {
+  fontSize: 30,
+  color: 'black',
+  '&:hover': {
+    color: 'white'
+  }
+}
