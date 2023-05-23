@@ -20,13 +20,13 @@ const Chat: NextPage = () => {
           <Sidebar open={isOpen} setOpen={setIsOpen} />
 
           <div className="flex flex-row">
-            <div className="w-3/4 flex flex-col h-full">
+            <div className="w-5/6 flex flex-col h-full">
               <div className="overflow-y-scroll relative flex-none">
                 <ChatBox />
               </div>
               <SendMessage />
             </div>
-            <div className="w-1/4 flex flex-col h-full bg-slate-50">
+            <div className="w-1/6 flex flex-col h-full bg-slate-50">
               <div className="overflow-y-scroll relative flex-none">
                 <UsersList />
               </div>

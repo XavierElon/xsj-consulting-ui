@@ -3,6 +3,7 @@ import { CSSProperties, useContext, useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import Image from 'next/image'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import { AiFillRobot } from 'react-icons/ai'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
 import { ConversationInterface } from '@/models/chat.interfaces'
@@ -11,6 +12,7 @@ import 'firebase/compat/firestore'
 
 const UsersList = () => {
   const [users, setUsers] = useState<any[]>([])
+  const [searchField, setSearchField] = useState<string>('')
   const {
     secondUserID,
     setSecondUserID,
@@ -24,6 +26,16 @@ const UsersList = () => {
   } = useContext(ChatStateContext)
   const { authState } = useContext(AuthStateContext)
   const { id } = authState
+
+  let filteredUsers = users.filter((user: any) => {
+    return user.username.toLowerCase().includes(searchField.toLowerCase())
+  })
+
+  useEffect(() => {
+    filteredUsers = users.filter((user: any) => {
+      return user.username.toLowerCase().includes(searchField.toLowerCase())
+    })
+  }, [])
 
   useEffect(() => {
     setCurrentUserID(id)
@@ -59,11 +71,23 @@ const UsersList = () => {
     return conversations.find((conversation) => conversation.users.includes(userID))
   }
 
+  const handleChange = (e: any) => {
+    setSearchField(e.target.value)
+  }
+
   return (
     <div className="flex min-h-screen">
       <div className="flex flex-col-reverse">
-        {users.map((user, idx) => (
-          <div key={idx} className="flex items-center mt-4 cursor-pointer" onClick={() => handleUserClick(user)}>
+        <div className="p-2">
+          <input
+            className="border rounded-lg py-2 px-4 focus:outline-none text-white focus:ring-2 focus:ring-blue-500"
+            type="search"
+            placeholder="Search Users"
+            onChange={handleChange}
+          />
+        </div>
+        {filteredUsers.map((user: any) => (
+          <div key={user.id} className="flex items-center mt-4 cursor-pointer" onClick={() => handleUserClick(user)}>
             {/* Render user information here */}
             <div className="chat-image avatar">
               <div className="w-10 rounded-full mr-2">
