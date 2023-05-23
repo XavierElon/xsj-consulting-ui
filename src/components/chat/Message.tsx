@@ -1,33 +1,36 @@
 'use client'
 import { useContext, useEffect, useState } from 'react'
 import { AuthStateContext } from '@/context/AuthContext'
+import { ChatStateContext } from '@/context/ChatContext'
 import Image from 'next/image'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 
 const Message = (message: any) => {
   const [imageUrl, setImageUrl] = useState<string>('')
+  const [username, setUsername] = useState<string>('')
   const { authState } = useContext(AuthStateContext)
-
-  const {
-    authState: {
-      user: { email }
-    }
-  } = useContext(AuthStateContext)
+  const { secondUser, secondUserID } = useContext(ChatStateContext)
 
   useEffect(() => {
-    console.log(message)
-  }, [])
-
-  useEffect(() => {
-    if (authState.provider === 'local' && authState.user.profilePicture) {
-      const imageBuffer = authState.user.profilePicture.data.data
-      const imageType = authState.user.profilePicture.contentType
-      const base64String = Buffer.from(imageBuffer).toString('base64')
-
-      const url = `data:${imageType};base64,${base64String}`
-      setImageUrl(url)
+    const getProfilePic = async () => {
+      setImageUrl('')
+      if (message.message.senderID === secondUserID) {
+        setUsername(secondUser.username)
+        if (Object.keys(secondUser.profilePicture).length !== 0) {
+          setImageUrl(secondUser.profilePicture)
+        }
+      } else if (message.message.senderID === sessionStorage.getItem('id')) {
+        setUsername(authState.username)
+        if (authState.provider === 'local' && authState.user.profilePicture) {
+          setImageUrl(authState.user.profilePicture.url)
+        } else if (authState.provider === 'firebaseGoogle' && authState.user.photoURL) {
+          setImageUrl(authState.user.photoURL)
+        }
+      }
     }
-  }, [authState])
+
+    getProfilePic()
+  }, [message, secondUser, secondUserID])
 
   return (
     <div>
@@ -37,12 +40,12 @@ const Message = (message: any) => {
             {imageUrl ? (
               <Image alt="profilePicture" width="15" height="15" src={imageUrl} />
             ) : (
-              <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '50px' }}></AccountCircleIcon>
+              <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '45px' }}></AccountCircleIcon>
             )}
           </div>
         </div>
         <div className="chat-details">
-          <div className="mt-4 chat-header font-sm text-black">{email}</div>
+          <div className="mt-4 chat-header font-sm text-black">{username}</div>
           <div className="flex flex-wrap">
             <div className=" pr-6 chat-bubble bg-blue-500 text-white">{message.message.text}</div>
           </div>
