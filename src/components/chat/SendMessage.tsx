@@ -7,10 +7,17 @@ import { useAuthorization } from '@/hooks/useAuthorization'
 
 const SendMessage = () => {
   const [value, setValue] = useState('')
+  const [conversationSelected, setConversationSelected] = useState<boolean>(false)
   const { authState } = useContext(AuthStateContext)
   let { id } = authState
   const authorized = useAuthorization()
   const { secondUserID, currentConversationID, chatGPTConversation } = useContext(ChatStateContext)
+
+  useEffect(() => {
+    if (currentConversationID) {
+      setConversationSelected(true)
+    }
+  }, [currentConversationID])
 
   const handleSendMessage = async (e: any) => {
     // id = sessionStorage.getItem('id')!
@@ -32,7 +39,12 @@ const SendMessage = () => {
           className="input w-full focus:outline-none bg-gray-100 rounded-r-none"
           type="text"
         />
-        <button type="submit" onClick={handleSendMessage} className="w-auto btn btn-primary text-white rounded-r-lg text-sm">
+        <button
+          type="submit"
+          onClick={handleSendMessage}
+          className={`w-auto btn text-white rounded-r-lg text-sm ${conversationSelected ? 'btn-primary' : 'bg-gray-500 cursor-not-allowed'}`}
+          disabled={!conversationSelected}
+        >
           Send
         </button>
       </form>
