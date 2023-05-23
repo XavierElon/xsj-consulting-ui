@@ -13,6 +13,7 @@ import { ChatStateContext } from '@/context/ChatContext'
 import { ConversationInterface } from '@/models/chat.interfaces'
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
+import './UsersList.css'
 
 const actions = [{ icon: <AddIcon />, name: 'Open ChatGPT Chat' }]
 
@@ -86,7 +87,8 @@ const UsersList = () => {
             onChange={handleChange}
           />
         </div>
-        <SpeedDial
+        <AiFillRobot className="robot-icon" title="Start a new chat with ChatGPT" />
+        {/* <SpeedDial
           ariaLabel="SpeedDial controlled open example"
           sx={{ position: 'absolute', bottom: 16, right: 16, color: 'black' }}
           icon={<AiFillRobot style={buttonStyle} />}
@@ -97,7 +99,7 @@ const UsersList = () => {
           {actions.map((action) => (
             <SpeedDialAction key={action.name} icon={action.icon} tooltipTitle={action.name} onClick={handleClose} />
           ))}
-        </SpeedDial>
+        </SpeedDial> */}
         {filteredUsers.map((user: any) => (
           <div key={user.id} className="flex items-center mt-4 cursor-pointer" onClick={() => handleUserClick(user)}>
             <div className="chat-image avatar">
@@ -120,11 +122,3 @@ const UsersList = () => {
 }
 
 export default UsersList
-
-const buttonStyle = {
-  fontSize: 30,
-  color: 'black',
-  '&:hover': {
-    color: 'white'
-  }
-}
