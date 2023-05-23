@@ -1,27 +1,22 @@
 'use client'
-import { collection, doc, query, onSnapshot, orderBy, limit } from 'firebase/firestore'
-import { CSSProperties, useContext, useEffect, useRef, useState } from 'react'
-import axios from 'axios'
+import { collection, doc, query, onSnapshot, orderBy } from 'firebase/firestore'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { db } from '@/firebase/firebase'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
 import { MessageInterface } from '@/models/chat.interfaces'
 import Message from './Message'
-import { useAuthorization } from '@/hooks/useAuthorization'
-import SendMessage from './SendMessage'
 import { getConversationsForUser, getMessagesForConversation } from '@/firebase/chat.firebase'
 
 const ChatBox = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const [messages, setMessages] = useState<MessageInterface[]>([])
-  const { currentUserID, setCurrentUserID, conversations, setConversations, currentConversationID } = useContext(ChatStateContext)
-  const authorized = useAuthorization()
+  const { conversations, setConversations, currentConversationID } = useContext(ChatStateContext)
   const { authState } = useContext(AuthStateContext)
   const { id } = authState
 
   useEffect(() => {
     getConversations()
-    setCurrentUserID(id)
   }, [])
 
   useEffect(() => {
@@ -29,8 +24,12 @@ const ChatBox = () => {
   }, [conversations])
 
   useEffect(() => {
+    console.log(messages)
+  }, [messages])
+
+  useEffect(() => {
     if (currentConversationID) {
-      getMessages(currentConversationID)
+      setupConversationListener()
     } else {
       setMessages([])
     }
@@ -41,12 +40,6 @@ const ChatBox = () => {
     setConversations(convos)
   }
 
-  const getMessages = async (conversationID: string) => {
-    // const currentMessages = await getMessagesForConversation(conversationID)
-    // setMessages(currentMessages)
-    setupConversationListener()
-  }
-
   const setupConversationListener = () => {
     if (currentConversationID) {
       const messagesRef = collection(doc(collection(db, 'conversations'), currentConversationID), 'messages')
@@ -54,6 +47,7 @@ const ChatBox = () => {
 
       const unsubscribe = onSnapshot(messagesQuery, (snapshot: any) => {
         const newMessages = snapshot.docs.map((doc: any) => ({
+          id: doc.id,
           senderID: doc.data().senderID,
           text: doc.data().text,
           createdAt: doc.data().createdAt

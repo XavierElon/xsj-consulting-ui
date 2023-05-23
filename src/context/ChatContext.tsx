@@ -22,8 +22,8 @@ type ContextInterface = {
   setConversations: (value: ConversationInterface[]) => void
   currentConversationID: string
   setCurrentConversationID: (value: string) => void
-  currentConversation: ConversationInterface
-  setCurrentConversation: (value: ConversationInterface) => void
+  currentConversation: ConversationInterface | null
+  setCurrentConversation: (value: ConversationInterface | null) => void
   chatGPTConversation: ConversationInterface
   setChatGPTConversation: (value: ConversationInterface | undefined) => void
   getFirebaseUserConversations: (value: string) => any

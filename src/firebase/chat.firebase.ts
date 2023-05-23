@@ -10,7 +10,7 @@ export const createChatGPTConversation = async (userID: string): Promise<any> =>
     createdAt: serverTimestamp()
   }
   const docRef = await addDoc(collection(db, 'conversations'), conversation)
-  return docRef
+  return docRef.id
 }
 
 export const createConversation = async (user1ID: string, user2ID: string, text: string): Promise<void> => {
@@ -66,6 +66,7 @@ export const getMessagesForConversation = async (conversationID: string): Promis
   const messagePromises = querySnapshot.docs.map((doc) => {
     const data = doc.data()
     return {
+      id: doc.id,
       senderID: data.senderID,
       text: data.text,
       createdAt: data.createdAt

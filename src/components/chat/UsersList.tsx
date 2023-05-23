@@ -101,14 +101,12 @@ const UsersList = () => {
   }
 
   const handleChatGPTClick = async () => {
-    console.log('clicked')
     if (!chatGPTConversation) {
       try {
-        const conversation = await createChatGPTConversation(id)
-        console.log(conversation)
-        setCurrentConversation(conversation)
-        setCurrentConversationID(conversation.id)
-        setChatGPTConversation(conversation)
+        const conversationID = await createChatGPTConversation(id)
+        console.log(conversationID)
+        setCurrentConversation(null)
+        setCurrentConversationID(conversationID)
       } catch (error) {
         console.error(error)
       }
