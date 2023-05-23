@@ -1,7 +1,6 @@
-import firebase from 'firebase/compat/app'
 import 'firebase/firestore'
 import { db } from './firebase'
-import { arrayUnion, collection, doc, addDoc, serverTimestamp, getDoc, setDoc, updateDoc, where, query, getDocs } from 'firebase/firestore'
+import { addDoc, collection, doc, getDocs, onSnapshot, orderBy, query, serverTimestamp, where } from 'firebase/firestore'
 import { ConversationInterface, MessageInterface } from '@/models/chat.interfaces'
 
 export const createChatGPTConversation = async (userID: string): Promise<any> => {
@@ -41,7 +40,6 @@ export const addMessageToConversation = async (conversationID: string, senderID:
 }
 
 export const getConversationsForUser = async (userID: string): Promise<ConversationInterface[]> => {
-  // console.log(userID)
   // Query the 'conversations' collection where 'users' array contains the userID
   const q = query(collection(db, 'conversations'), where('users', 'array-contains', userID))
   const querySnapshot = await getDocs(q)
