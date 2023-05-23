@@ -3,15 +3,13 @@ import { useContext, useEffect, useState } from 'react'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
 import { addMessageToConversation, createConversation } from '@/firebase/chat.firebase'
-import { useAuthorization } from '@/hooks/useAuthorization'
 
 const SendMessage = () => {
   const [value, setValue] = useState('')
   const [conversationSelected, setConversationSelected] = useState<boolean>(false)
   const { authState } = useContext(AuthStateContext)
   let { id } = authState
-  const authorized = useAuthorization()
-  const { secondUserID, currentConversationID, chatGPTConversation } = useContext(ChatStateContext)
+  const { secondUserID, currentConversationID } = useContext(ChatStateContext)
 
   useEffect(() => {
     if (currentConversationID) {
@@ -20,7 +18,6 @@ const SendMessage = () => {
   }, [currentConversationID])
 
   const handleSendMessage = async (e: any) => {
-    // id = sessionStorage.getItem('id')!
     e.preventDefault()
     if (!currentConversationID) {
       await createConversation(id, secondUserID, value)
