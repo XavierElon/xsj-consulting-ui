@@ -20,10 +20,6 @@ const ChatBox = () => {
     getConversations()
   }, [])
 
-  useEffect(() => {
-    console.log(conversations)
-  }, [conversations])
-
   const getConversations = async () => {
     const convos = await getConversationsForUser(id)
     setConversations(convos)
