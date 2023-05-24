@@ -1,0 +1,14 @@
+.robot-icon {
+    position: absolute;
+    bottom: 14px;
+    right: 18px;
+    color: #0061EB;
+    cursor: pointer;
+    font-size: 65px;
+    transition: transform 0.3s ease, color 0.3s ease, font-size 0.3s ease;
+  }
+  
+  .robot-icon:hover {
+    color: #4e89de;
+    transform: scale(1.6);
+  }

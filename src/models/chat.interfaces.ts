@@ -8,12 +8,6 @@ export interface MessageInterface {
   createdAt: firebase.firestore.FieldValue
 }
 
-// export interface ConversationInterface {
-//   usersCombined: string
-//   createdAt: firebase.firestore.FieldValue
-// }
-//
-
 export interface ConversationInterface {
   id?: string
   users: string[]

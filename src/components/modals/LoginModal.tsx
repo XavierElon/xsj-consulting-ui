@@ -23,7 +23,6 @@ const LoginModal = (props: any) => {
   const handleLogin = async (e: any) => {
     e.preventDefault()
     try {
-      console.log(process.env.NEXT_PUBLIC_USERS_LOGIN_ROUTE)
       const response = await axios.post(
         process.env.NEXT_PUBLIC_USERS_LOGIN_ROUTE!,
         {
@@ -35,7 +34,7 @@ const LoginModal = (props: any) => {
       if (response.status === 200) {
         setErrorMessage('')
         showLoginSuccessToastMessage()
-        console.log(response.data)
+
         setAuthState({
           authToken: response.data.accessToken,
           user: response.data.user.local,

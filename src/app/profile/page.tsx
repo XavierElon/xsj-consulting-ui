@@ -43,15 +43,11 @@ const Profile: NextPage = () => {
         formData.append('image', file)
         const id = sessionStorage.getItem('id')
 
-        await axios.post(
-          `${process.env.NEXT_PUBLIC_USERS_UPLOAD_PROFILE_PICTURE_ROUTE}/${id}`,
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
+        await axios.post(`${process.env.NEXT_PUBLIC_USERS_UPLOAD_PROFILE_PICTURE_ROUTE}/${id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
           }
-        )
+        })
         getLoggedInUser(id)
       } catch (error) {
         console.log(error)
@@ -62,7 +58,6 @@ const Profile: NextPage = () => {
   }, [file, getLoggedInUser])
 
   const handleFileUpload = (event: any): void => {
-    console.log(event.target.files)
     if (event.target.files && event.target.files.length > 0) {
       const selectedFile = event.target.files[0]
       setFile(selectedFile)
@@ -89,12 +84,7 @@ const Profile: NextPage = () => {
 
   const renderTab = () => {
     if (accountSelected) {
-      return (
-        <AccountTab
-          imageUrl={imageUrl}
-          handleFileUpload={handleFileUpload}
-        ></AccountTab>
-      )
+      return <AccountTab imageUrl={imageUrl} handleFileUpload={handleFileUpload}></AccountTab>
     } else if (settingsSelected) {
       return <SettingsTab></SettingsTab>
     } else if (paymentsSelected) {
@@ -103,10 +93,7 @@ const Profile: NextPage = () => {
   }
 
   if (authorized === null) {
-    console.log(authorized)
-    return (
-      <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-white"></div>
-    )
+    return <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-white"></div>
   }
 
   return (

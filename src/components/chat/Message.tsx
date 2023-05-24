@@ -17,7 +17,11 @@ const Message = (message: any) => {
       if (message.message.senderID === secondUserID) {
         setUsername(secondUser.username)
         if (Object.keys(secondUser.profilePicture).length !== 0) {
-          setImageUrl(secondUser.profilePicture)
+          if (secondUser.provider === 'firebaseGoogle' && secondUser.profilePicture) {
+            setImageUrl(secondUser.profilePicture)
+          } else {
+            setImageUrl(secondUser.profilePicture.url)
+          }
         }
       } else if (message.message.senderID === sessionStorage.getItem('id')) {
         setUsername(authState.username)
