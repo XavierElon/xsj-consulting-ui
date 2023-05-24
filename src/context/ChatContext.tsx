@@ -20,8 +20,8 @@ type ContextInterface = {
   setSenderID: (value: string) => void
   conversations: ConversationInterface[]
   setConversations: (value: ConversationInterface[]) => void
-  currentConversationID: string
-  setCurrentConversationID: (value: string) => void
+  currentConversationID: string | null
+  setCurrentConversationID: (value: string | null) => void
   currentConversation: ConversationInterface | null
   setCurrentConversation: (value: ConversationInterface | null) => void
   chatGPTConversation: ConversationInterface
@@ -40,7 +40,7 @@ const ChatStateContext = createContext<ContextInterface>({
   setSenderID: () => {},
   conversations: [],
   setConversations: () => {},
-  currentConversationID: '',
+  currentConversationID: null,
   setCurrentConversationID: () => {},
   currentConversation: { users: [], createdAt: firebase.firestore.FieldValue.serverTimestamp() },
   setCurrentConversation: () => {},
@@ -55,7 +55,7 @@ const ChatStateProvider = (props: any) => {
   const [secondUser, setSecondUser] = useState<any>()
   const [senderID, setSenderID] = useState<string>('')
   const [conversations, setConversations] = useState<ConversationInterface[]>([])
-  const [currentConversationID, setCurrentConversationID] = useState<string>('')
+  const [currentConversationID, setCurrentConversationID] = useState<string | null>(null)
   const [currentConversation, setCurrentConversation] = useState<any>(null)
   const [chatGPTConversation, setChatGPTConversation] = useState<any>(null)
 

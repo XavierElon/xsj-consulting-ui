@@ -19,6 +19,7 @@ export const createConversation = async (user1ID: string, user2ID: string, text:
   }
   const docRef = await addDoc(collection(db, 'conversations'), conversation)
   const conversationRef = doc(db, 'conversations', docRef.id)
+  console.log(conversationRef.id)
 
   const newMessage: MessageInterface = {
     senderID: user2ID,

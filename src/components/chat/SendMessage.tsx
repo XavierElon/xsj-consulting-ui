@@ -12,15 +12,16 @@ const SendMessage = () => {
   const { secondUserID, currentConversationID } = useContext(ChatStateContext)
 
   useEffect(() => {
-    if (currentConversationID) {
+    if (currentConversationID || currentConversationID === '') {
       setConversationSelected(true)
     }
   }, [currentConversationID])
 
   const handleSendMessage = async (e: any) => {
     e.preventDefault()
-    if (!currentConversationID) {
+    if (!currentConversationID || currentConversationID === '') {
       await createConversation(id, secondUserID, value)
+      setConversationSelected(true)
     } else if (currentConversationID) {
       await addMessageToConversation(currentConversationID, id, value)
     }

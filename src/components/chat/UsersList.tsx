@@ -15,13 +15,12 @@ import './UsersList.css'
 
 const UsersList = () => {
   const [users, setUsers] = useState<any[]>([])
-
   const [searchField, setSearchField] = useState<string>('')
   const {
+    secondUserID,
     setSecondUserID,
     secondUser,
     setSecondUser,
-    setCurrentUserID,
     conversations,
     setCurrentConversation,
     setCurrentConversationID,
@@ -42,23 +41,29 @@ const UsersList = () => {
   }, [])
 
   useEffect(() => {
-    setCurrentUserID(id)
     getUsers()
     console.log(conversations)
-  }, [])
+  }, [conversations])
 
   useEffect(() => {
     const convo = getConversationWithChatGPT(conversations)
-    console.log(conversations)
-    console.log('gpt')
-    console.log(convo)
     setChatGPTConversation(convo)
   }, [conversations])
 
   useEffect(() => {
-    console.log('chat gpt convo')
-    console.log(chatGPTConversation)
-  }, [chatGPTConversation])
+    console.log(secondUser)
+    console.log(secondUserID)
+    const filteredConversation = getConversationWithUser(conversations, secondUserID)
+    console.log(filteredConversation)
+    if (filteredConversation) {
+      setCurrentConversation(filteredConversation!)
+      setCurrentConversationID(filteredConversation.id!)
+    } else {
+      console.log('else')
+      setCurrentConversation({ id: '', users: [], createdAt: firebase.firestore.FieldValue.serverTimestamp() })
+      setCurrentConversationID('')
+    }
+  }, [secondUser, secondUserID])
 
   // const timeout = (milliseconds: number) => {
   //   return new Promise((resolve, reject) => setTimeout(() => resolve('Timeout done')))
@@ -77,6 +82,8 @@ const UsersList = () => {
   }
 
   const getConversationWithUser = (conversations: ConversationInterface[], userID: string): ConversationInterface | undefined => {
+    console.log(conversations)
+    console.log(userID)
     return conversations.find((conversation) => conversation.users.includes(userID))
   }
 
@@ -90,14 +97,6 @@ const UsersList = () => {
   const handleUserClick = (user: any) => {
     setSecondUser(user)
     setSecondUserID(user.id)
-    const filteredConversation = getConversationWithUser(conversations, user.id)
-    if (filteredConversation) {
-      setCurrentConversation(filteredConversation!)
-      setCurrentConversationID(filteredConversation.id!)
-    } else {
-      setCurrentConversation({ id: '', users: [], createdAt: firebase.firestore.FieldValue.serverTimestamp() })
-      setCurrentConversationID('')
-    }
   }
 
   const handleChatGPTClick = async () => {
