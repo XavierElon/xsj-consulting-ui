@@ -24,25 +24,25 @@ const Chat: NextPage = () => {
         <div className="flex-grid min-h-screen grid-rows-header">
           <Navbar open={isOpen} handleClick={() => setIsOpen(!isOpen)} />
 
-          <div className="grid grid-cols-sidebar-content">
-            <Sidebar open={isOpen} setOpen={setIsOpen} />
+          {/* <div className="grid grid-cols-sidebar-content">
+            <Sidebar open={isOpen} setOpen={setIsOpen} /> */}
 
-            <div className="flex flex-row">
-              <div className="w-5/6 flex flex-col h-full">
-                <div className="overflow-y-scroll relative flex-none">
-                  <ChatBox />
-                </div>
-                <SendMessage />
+          <div className="flex flex-row">
+            <div className="w-5/6 flex flex-col h-full">
+              <div className="overflow-y-scroll relative flex-none">
+                <ChatBox />
               </div>
-              <div className="w-1/6 flex flex-col h-full bg-slate-50">
-                <div className="overflow-y-scroll relative flex-none">
-                  <UsersList />
-                </div>
+              <SendMessage />
+            </div>
+            <div className="w-1/6 flex flex-col h-full bg-slate-50">
+              <div className="overflow-y-scroll relative flex-none">
+                <UsersList />
               </div>
             </div>
           </div>
         </div>
       ) : (
+        // </div>
         <>
           <Forbidden />
         </>

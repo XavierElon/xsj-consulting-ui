@@ -31,5 +31,6 @@ export const useAuthorization = () => {
     }
   }, [authState])
 
-  return authorized
+  if (authorized === null) return false
+  else return authorized
 }
