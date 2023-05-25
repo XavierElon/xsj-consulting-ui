@@ -23,6 +23,11 @@ const SignUp: NextPage = () => {
   const returnHome = () => {
     router.push('/')
   }
+
+  if (loading) {
+    return <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-white"></div>
+  }
+
   return (
     <>
       {!authorized ? (
