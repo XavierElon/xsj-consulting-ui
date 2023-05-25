@@ -1,10 +1,10 @@
 .robot-icon {
-    position: absolute;
+    position: fixed;
     bottom: 14px;
-    right: 18px;
+    left: 24px;
     color: #0061EB;
     cursor: pointer;
-    font-size: 65px;
+    font-size: 50px;
     transition: transform 0.3s ease, color 0.3s ease, font-size 0.3s ease;
   }
   

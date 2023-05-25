@@ -50,28 +50,30 @@ const ChatGPTList = () => {
 
   return (
     <div className="flex min-h-screen">
-      <div className="flex flex-col-reverse">
-        <div className="p-2 my-4 ml-2">
-          <input
-            className="border rounded-lg py-2 px-4 focus:outline-none bg-gray-400 text-white placeholder-white focus:ring-1 focus:ring-blue-500"
-            type="search"
-            placeholder="Search Users"
-          />
+      <div className="border-4 border-black">
+        <div className="mt-10">
+          <Tooltip title="Start conversation with ChatGPT" placement="left-start" arrow>
+            <SmartToyIcon className="robot-icon" onClick={handleChatGPTClick} />
+          </Tooltip>
         </div>
-        <Tooltip title="Start conversation with ChatGPT" placement="left-start" arrow>
-          <SmartToyIcon className="robot-icon" onClick={handleChatGPTClick} />
-        </Tooltip>
 
-        {chats.map((chat: any, idx: any) => (
-          <div key={idx} className="flex items-center mt-4 ml-4 cursor-pointer">
-            {/* <div className="chat-image avatar">
+        <div className="flex ml-14 fixed bottom-5 border-white border-4 px-20 py-3">
+          <p className="text-black text-xl">New chat</p>
+        </div>
+      </div>
+      <div className="flex flex-col-reverse">
+        <div className="mb-16 ml-8">
+          {chats.map((chat: any, idx: any) => (
+            <div key={idx} className="flex items-center mt-4 ml-4 cursor-pointer">
+              {/* <div className="chat-image avatar">
               <div className="w-10 rounded-full mr-2">
                 <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '45px' }}></AccountCircleIcon> */}
-            <h1 className="text-black">{chat.name}</h1>
-            {/* </div>
+              <h1 className="text-black">{chat.name}</h1>
+              {/* </div>
             </div> */}
-          </div>
-        ))}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )

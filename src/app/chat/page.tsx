@@ -52,11 +52,7 @@ const Chat: NextPage = () => {
                 <ChatGPTList />
               </div>
             </div>
-            {/* <div className="w-2/12 flex flex-col h-full bg-black">
-              <div className="overflow-y-scroll flex-grow" onScroll={handleLeftDivScroll}>
-                <h1 className="text-black">Hello world</h1>
-              </div>
-            </div> */}
+
             <div className="w-8/12 flex flex-col h-full relative">
               <div className="overflow-y-scroll flex-grow" onScroll={handleChatBoxScroll}>
                 <ChatBox />
