@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation'
 import Layout from '@/components/Layout'
 import { useAuthorization } from '@/hooks/useAuthorization'
 import LoginModal from '@/components/modals/LoginModal'
-import '../../css/ellipsis.css'
 import { useEffect, useState } from 'react'
 
 const Login: NextPage = () => {
@@ -39,9 +38,7 @@ const Login: NextPage = () => {
               <LoginModal className=""></LoginModal>
             </div>
             <div className="w-1/2 bg-gradient-to-t from-[#77cafe] to-[#0069FF] p-8">
-              <div className="relative">
-                <div className="mask-ellipsis"></div>
-              </div>
+              <div className="relative"></div>
             </div>
           </div>
         </Layout>
