@@ -21,25 +21,6 @@ const Chat: NextPage = () => {
     return <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-white"></div>
   }
 
-  const [chatBoxScrollPosition, setChatBoxScrollPosition] = useState(0)
-  const [usersListScrollPosition, setUsersListScrollPosition] = useState(0)
-  const [leftDivScrollPosition, setLeftDivScrollPosition] = useState(0)
-
-  const handleChatBoxScroll = (event: any) => {
-    const { scrollTop } = event.target
-    setChatBoxScrollPosition(scrollTop)
-  }
-
-  const handleUsersListScroll = (event: any) => {
-    const { scrollTop } = event.target
-    setUsersListScrollPosition(scrollTop)
-  }
-
-  const handleLeftDivScroll = (event: any) => {
-    const { scrollTop } = event.target
-    setLeftDivScrollPosition(scrollTop)
-  }
-
   return (
     <>
       {authorized ? (
@@ -48,21 +29,21 @@ const Chat: NextPage = () => {
 
           <div className="flex flex-row flex-grow">
             <div className="w-2/12 flex flex-col-reverse bg-slate-200">
-              <div className="overflow-y-scroll flex-grow" onScroll={handleLeftDivScroll}>
+              <div className="overflow-y-scroll flex-grow">
                 <ChatGPTList />
               </div>
             </div>
 
             <div className="w-8/12 flex flex-col h-full relative">
-              <div className="overflow-y-scroll flex-grow" onScroll={handleChatBoxScroll}>
+              <div className="overflow-y-scroll flex-grow">
                 <ChatBox />
               </div>
-              <div className="fixed bottom-0 w-2/3" style={{ bottom: chatBoxScrollPosition }}>
+              <div className="fixed bottom-0 w-2/3">
                 <SendMessage />
               </div>
             </div>
             <div className="w-2/12 flex flex-col bg-slate-200">
-              <div className="overflow-y-scroll flex-grow" onScroll={handleUsersListScroll}>
+              <div className="overflow-y-scroll flex-grow">
                 <UsersList />
               </div>
             </div>
