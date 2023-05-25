@@ -52,9 +52,9 @@ const ChatGPTList = () => {
     <div className="flex min-h-screen">
       <div className="border-4 border-black">
         <div className="mt-10">
-          <Tooltip title="Start conversation with ChatGPT" placement="left-start" arrow>
-            <SmartToyIcon className="robot-icon" onClick={handleChatGPTClick} />
-          </Tooltip>
+          {/* <Tooltip title="Start conversation with ChatGPT" placement="left-start" arrow> */}
+          <SmartToyIcon className="robot-icon" onClick={handleChatGPTClick} />
+          {/* </Tooltip> */}
         </div>
 
         <div className="flex ml-14 fixed bottom-5 border-white border-4 px-20 py-3">
@@ -69,8 +69,6 @@ const ChatGPTList = () => {
               <div className="w-10 rounded-full mr-2">
                 <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '45px' }}></AccountCircleIcon> */}
               <h1 className="text-black">{chat.name}</h1>
-              {/* </div>
-            </div> */}
             </div>
           ))}
         </div>

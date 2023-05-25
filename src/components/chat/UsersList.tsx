@@ -126,9 +126,6 @@ const UsersList = () => {
             onChange={handleChange}
           />
         </div>
-        {/* <Tooltip title="Start conversation with ChatGPT" placement="left-start" arrow>
-          <SmartToyIcon className="robot-icon" onClick={handleChatGPTClick} />
-        </Tooltip> */}
 
         {filteredUsers.map((user: any) => (
           <div key={user.id} className="flex items-center mt-4 ml-4 cursor-pointer" onClick={() => handleUserClick(user)}>
