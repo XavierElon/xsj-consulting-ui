@@ -8,6 +8,9 @@ import Sidebar from '@/components/navigation/Sidebar'
 import Navbar from '@/components/navigation/Navbar'
 import UsersList from '@/components/chat/UsersList'
 import Forbidden from '../forbidden/page'
+import ChatGPTList from '@/components/chat/ChatGPTlList'
+
+const items = [{ name: 'x' }, { name: 'achilles' }]
 
 const Chat: NextPage = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -19,38 +22,57 @@ const Chat: NextPage = () => {
   }
 
   const [chatBoxScrollPosition, setChatBoxScrollPosition] = useState(0)
+  const [usersListScrollPosition, setUsersListScrollPosition] = useState(0)
+  const [leftDivScrollPosition, setLeftDivScrollPosition] = useState(0)
 
   const handleChatBoxScroll = (event: any) => {
     const { scrollTop } = event.target
     setChatBoxScrollPosition(scrollTop)
   }
 
+  const handleUsersListScroll = (event: any) => {
+    const { scrollTop } = event.target
+    setUsersListScrollPosition(scrollTop)
+  }
+
+  const handleLeftDivScroll = (event: any) => {
+    const { scrollTop } = event.target
+    setLeftDivScrollPosition(scrollTop)
+  }
+
   return (
     <>
       {authorized ? (
-        <>
-          <div className="flex-grid min-h-screen grid-rows-header">
-            <Navbar open={isOpen} handleClick={() => setIsOpen(!isOpen)} />
+        <div className="flex-grid min-h-screen grid-rows-header">
+          <Navbar open={isOpen} handleClick={() => setIsOpen(!isOpen)} />
 
-            <div className="flex flex-row flex-grow">
-              <div className="w-5/6 flex flex-col h-full relative">
-                <div className="overflow-y-scroll flex-grow" onScroll={handleChatBoxScroll}>
-                  <ChatBox />
-                </div>
-                <div className="fixed bottom-0 w-5/6" style={{ bottom: chatBoxScrollPosition }}>
-                  <SendMessage />
-                </div>
+          <div className="flex flex-row flex-grow">
+            <div className="w-2/12 flex flex-col-reverse bg-slate-200">
+              <div className="overflow-y-scroll flex-grow" onScroll={handleLeftDivScroll}>
+                <ChatGPTList />
               </div>
-              <div className="w-1/6 flex flex-col min-h-screen bg-slate-50">
-                <div className="overflow-y-scroll">
-                  <UsersList />
-                </div>
+            </div>
+            {/* <div className="w-2/12 flex flex-col h-full bg-black">
+              <div className="overflow-y-scroll flex-grow" onScroll={handleLeftDivScroll}>
+                <h1 className="text-black">Hello world</h1>
+              </div>
+            </div> */}
+            <div className="w-8/12 flex flex-col h-full relative">
+              <div className="overflow-y-scroll flex-grow" onScroll={handleChatBoxScroll}>
+                <ChatBox />
+              </div>
+              <div className="fixed bottom-0 w-2/3" style={{ bottom: chatBoxScrollPosition }}>
+                <SendMessage />
+              </div>
+            </div>
+            <div className="w-2/12 flex flex-col bg-slate-200">
+              <div className="overflow-y-scroll flex-grow" onScroll={handleUsersListScroll}>
+                <UsersList />
               </div>
             </div>
           </div>
-        </>
+        </div>
       ) : (
-        // </div>
         <>
           <Forbidden />
         </>
