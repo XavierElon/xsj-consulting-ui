@@ -8,6 +8,7 @@ import { MessageInterface } from '@/models/chat.interfaces'
 import Message from './Message'
 import { getConversationsForUser } from '@/firebase/chat.firebase'
 import useChatListener from '@/hooks/useChatListener'
+import SendMessage from './SendMessage'
 
 const ChatBox = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -36,7 +37,7 @@ const ChatBox = () => {
   return (
     <div className="flex min-h-screen">
       <div className="flex flex-col-reverse">
-        <div className="pl-20 pt-16 pb-10 flex-none flex flex-col-reverse">
+        <div className="pl-20 pt-16 pb-10 mb-20 flex-none flex flex-col-reverse">
           {messages.map((message: any) => (
             <Message key={message.id} message={message} />
           ))}

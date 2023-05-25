@@ -1,3 +1,4 @@
+'use client'
 import { NextPage } from 'next'
 import { useRouter } from 'next/navigation'
 import Layout from '@/components/Layout'
