@@ -53,12 +53,13 @@ const ChatGPTList = () => {
       <div className="border-4 border-black">
         <div className="mt-10">
           {/* <Tooltip title="Start conversation with ChatGPT" placement="left-start" arrow> */}
-          <SmartToyIcon className="robot-icon" onClick={handleChatGPTClick} />
+
           {/* </Tooltip> */}
         </div>
 
-        <div className="flex ml-14 fixed bottom-5 border-white border-4 px-20 py-3">
-          <p className="text-black text-xl">New chat</p>
+        <div className="flex ml-14 fixed bottom-5 border-white rounded-xl border-4 px-20 py-3">
+          <SmartToyIcon className="robot-icon" onClick={handleChatGPTClick} />
+          <p className=" justify-center text-black text-xl">New chat</p>
         </div>
       </div>
       <div className="flex flex-col-reverse">

@@ -10,8 +10,6 @@ import UsersList from '@/components/chat/UsersList'
 import Forbidden from '../forbidden/page'
 import ChatGPTList from '@/components/chat/ChatGPTlList'
 
-const items = [{ name: 'x' }, { name: 'achilles' }]
-
 const Chat: NextPage = () => {
   const [isOpen, setIsOpen] = useState(false)
   let authorized = null
