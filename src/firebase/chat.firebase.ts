@@ -12,22 +12,24 @@ export const createChatGPTConversation = async (userID: string): Promise<any> =>
   return docRef.id
 }
 
-export const createConversation = async (user1ID: string, user2ID: string, text: string): Promise<void> => {
+export const createConversation = async (user1ID: string, user2ID: string): Promise<string> => {
   const conversation: ConversationInterface = {
     users: [user1ID, user2ID],
     createdAt: serverTimestamp()
   }
   const docRef = await addDoc(collection(db, 'conversations'), conversation)
+  // console.log(docRef
   const conversationRef = doc(db, 'conversations', docRef.id)
-  console.log(conversationRef.id)
+  return conversationRef.id
+  // console.log(conversationRef.id)
 
-  const newMessage: MessageInterface = {
-    senderID: user2ID,
-    text: text,
-    createdAt: serverTimestamp()
-  }
+  // const newMessage: MessageInterface = {
+  //   senderID: user2ID,
+  //   text: text,
+  //   createdAt: serverTimestamp()
+  // }
 
-  await addDoc(collection(conversationRef, 'messages'), newMessage)
+  // await addDoc(collection(conversationRef, 'messages'), newMessage)
 }
 
 export const addMessageToConversation = async (conversationID: string, senderID: string, text: string): Promise<void> => {

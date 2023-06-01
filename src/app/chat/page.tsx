@@ -8,7 +8,7 @@ import Sidebar from '@/components/navigation/Sidebar'
 import Navbar from '@/components/navigation/Navbar'
 import UsersList from '@/components/chat/UsersList'
 import Forbidden from '../forbidden/page'
-import ChatGPTList from '@/components/chat/ChatGPTlList'
+import ChatGPTList from '@/components/chat/ChatGPTList'
 
 const Chat: NextPage = () => {
   const [isOpen, setIsOpen] = useState(false)

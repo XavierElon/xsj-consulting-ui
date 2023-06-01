@@ -8,13 +8,14 @@ import SmartToyIcon from '@mui/icons-material/SmartToy'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
 import { ConversationInterface } from '@/models/chat.interfaces'
-import { createChatGPTConversation } from '@/firebase/chat.firebase'
+import { createChatGPTConversation, createConversation } from '@/firebase/chat.firebase'
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
 import './UsersList.css'
 
 const UsersList = () => {
   const [users, setUsers] = useState<any[]>([])
+  const [listedUsers, setListedUsers] = useState<any[]>([])
   const [searchField, setSearchField] = useState<string>('')
   const {
     secondUserID,
@@ -45,6 +46,13 @@ const UsersList = () => {
     console.log(conversations)
   }, [conversations])
 
+  // useEffect(() => {
+  //   console.log('users')
+  //   console.log(users)
+  //   console.log('filteredUsers')
+  //   console.log(filteredUsers)
+  // })
+
   useEffect(() => {
     const convo = getConversationWithChatGPT(conversations)
     setChatGPTConversation(convo)
@@ -60,10 +68,19 @@ const UsersList = () => {
       setCurrentConversationID(filteredConversation.id!)
     } else {
       console.log('else')
-      setCurrentConversation({ id: '', users: [], createdAt: firebase.firestore.FieldValue.serverTimestamp() })
-      setCurrentConversationID('')
+      // setCurrentConversation({ id: '', users: [], createdAt: firebase.firestore.FieldValue.serverTimestamp() })
+      // setCurrentConversationID('')
+      createNewConversation()
     }
   }, [secondUser, secondUserID])
+
+  const createNewConversation = async () => {
+    console.log('here')
+    console.log(id)
+    console.log(secondUserID)
+    const newConversationId = await createConversation(id, secondUserID)
+    console.log(newConversationId)
+  }
 
   // const timeout = (milliseconds: number) => {
   //   return new Promise((resolve, reject) => setTimeout(() => resolve('Timeout done')))
