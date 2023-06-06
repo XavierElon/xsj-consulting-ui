@@ -19,12 +19,17 @@ const SendMessage = () => {
 
   const handleSendMessage = async (e: any) => {
     e.preventDefault()
-    if (!currentConversationID || currentConversationID === '') {
-      await createConversation(id, secondUserID, value)
-      setConversationSelected(true)
-    } else if (currentConversationID) {
+    // if (!currentConversationID || currentConversationID === '') {
+    //   await createConversation(id, secondUserID, value)
+    // setConversationSelected(true)
+    // } else if (currentConversationID) {
+    if (currentConversationID !== null) {
+      console.log(currentConversationID)
+      console.log('being sent')
       await addMessageToConversation(currentConversationID, id, value)
     }
+
+    // }
     setValue('')
   }
 

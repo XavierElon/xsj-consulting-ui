@@ -31,6 +31,7 @@ const LoginModal = (props: any) => {
         },
         { withCredentials: true }
       )
+      console.log(response)
       if (response.status === 200) {
         setErrorMessage('')
         showLoginSuccessToastMessage()

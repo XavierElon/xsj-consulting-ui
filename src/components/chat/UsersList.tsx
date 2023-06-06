@@ -45,13 +45,12 @@ const UsersList = () => {
     getUsers()
     console.log(conversations)
   }, [conversations])
-
-  // useEffect(() => {
-  //   console.log('users')
-  //   console.log(users)
-  //   console.log('filteredUsers')
-  //   console.log(filteredUsers)
-  // })
+  useEffect(() => {
+    console.log('users')
+    console.log(users)
+    console.log('filteredUsers')
+    console.log(filteredUsers)
+  })
 
   useEffect(() => {
     const convo = getConversationWithChatGPT(conversations)
@@ -59,11 +58,13 @@ const UsersList = () => {
   }, [conversations])
 
   useEffect(() => {
-    console.log(secondUser)
-    console.log(secondUserID)
+    // console.log(secondUser)
+    // console.log(secondUserID)
+    // console.log(conversations)
     const filteredConversation = getConversationWithUser(conversations, secondUserID)
-    console.log(filteredConversation)
-    if (filteredConversation) {
+    // console.log('filtered conveo')
+    // console.log(filteredConversation)
+    if (filteredConversation !== undefined) {
       setCurrentConversation(filteredConversation!)
       setCurrentConversationID(filteredConversation.id!)
     } else {
@@ -75,11 +76,11 @@ const UsersList = () => {
   }, [secondUser, secondUserID])
 
   const createNewConversation = async () => {
-    console.log('here')
-    console.log(id)
-    console.log(secondUserID)
+    // console.log(secondUserID)
     const newConversationId = await createConversation(id, secondUserID)
-    console.log(newConversationId)
+    setCurrentConversationID(newConversationId)
+    const conversation = getConversationWithUser(conversations, secondUserID)
+    setCurrentConversation(conversation!)
   }
 
   // const timeout = (milliseconds: number) => {
@@ -99,8 +100,8 @@ const UsersList = () => {
   }
 
   const getConversationWithUser = (conversations: ConversationInterface[], userID: string): ConversationInterface | undefined => {
-    console.log(conversations)
-    console.log(userID)
+    // console.log(conversations)
+    // console.log(userID)
     return conversations.find((conversation) => conversation.users.includes(userID))
   }
 
@@ -120,7 +121,6 @@ const UsersList = () => {
     if (!chatGPTConversation) {
       try {
         const conversationID = await createChatGPTConversation(id)
-        console.log(conversationID)
         setCurrentConversation(null)
         setCurrentConversationID(conversationID)
       } catch (error) {

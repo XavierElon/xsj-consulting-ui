@@ -20,6 +20,7 @@ const Profile: NextPage = () => {
   let authorized = null
   authorized = useAuthorization()
   const { authState, getLoggedInUser } = useContext(AuthStateContext)
+  const { id } = authState
 
   useEffect(() => {
     if (authState.provider === 'local' && authState.user.profilePicture) {
