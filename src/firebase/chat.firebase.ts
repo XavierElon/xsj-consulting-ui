@@ -18,18 +18,8 @@ export const createConversation = async (user1ID: string, user2ID: string): Prom
     createdAt: serverTimestamp()
   }
   const docRef = await addDoc(collection(db, 'conversations'), conversation)
-  // console.log(docRef
   const conversationRef = doc(db, 'conversations', docRef.id)
   return conversationRef.id
-  // console.log(conversationRef.id)
-
-  // const newMessage: MessageInterface = {
-  //   senderID: user2ID,
-  //   text: text,
-  //   createdAt: serverTimestamp()
-  // }
-
-  // await addDoc(collection(conversationRef, 'messages'), newMessage)
 }
 
 export const addMessageToConversation = async (conversationID: string, senderID: string, text: string): Promise<void> => {
@@ -42,7 +32,7 @@ export const addMessageToConversation = async (conversationID: string, senderID:
   await addDoc(collection(db, 'conversations', conversationID, 'messages'), newMessage)
 }
 
-export const getConversationsForUser = async (userID: string): Promise<ConversationInterface[]> => {
+export const getUsersConversations = async (userID: string): Promise<ConversationInterface[]> => {
   // Query the 'conversations' collection where 'users' array contains the userID
   const q = query(collection(db, 'conversations'), where('users', 'array-contains', userID))
   const querySnapshot = await getDocs(q)
