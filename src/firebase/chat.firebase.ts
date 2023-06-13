@@ -9,7 +9,8 @@ export const createChatGPTConversation = async (userID: string): Promise<any> =>
     createdAt: serverTimestamp()
   }
   const docRef = await addDoc(collection(db, 'conversations'), conversation)
-  return docRef.id
+  const conversationRef = doc(db, 'conversations', docRef.id)
+  return conversationRef.id
 }
 
 export const createConversation = async (user1ID: string, user2ID: string): Promise<string> => {
