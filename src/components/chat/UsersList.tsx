@@ -3,19 +3,15 @@ import { useContext, useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import Image from 'next/image'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import Tooltip from '@mui/material/Tooltip'
-import SmartToyIcon from '@mui/icons-material/SmartToy'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
 import { ConversationInterface } from '@/models/chat.interfaces'
 import { createChatGPTConversation, createConversation } from '@/firebase/chat.firebase'
-import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
 import './UsersList.css'
 
 const UsersList = () => {
   const [users, setUsers] = useState<any[]>([])
-  const [listedUsers, setListedUsers] = useState<any[]>([])
   const [searchField, setSearchField] = useState<string>('')
   const {
     secondUserID,
@@ -25,7 +21,6 @@ const UsersList = () => {
     conversations,
     setCurrentConversation,
     setCurrentConversationID,
-    chatGPTConversation,
     setChatGPTConversation
   } = useContext(ChatStateContext)
   const { authState } = useContext(AuthStateContext)
@@ -43,14 +38,7 @@ const UsersList = () => {
 
   useEffect(() => {
     getUsers()
-    console.log(conversations)
   }, [conversations])
-  useEffect(() => {
-    console.log('users')
-    console.log(users)
-    console.log('filteredUsers')
-    console.log(filteredUsers)
-  })
 
   useEffect(() => {
     const convo = getConversationWithChatGPT(conversations)
@@ -58,25 +46,16 @@ const UsersList = () => {
   }, [conversations])
 
   useEffect(() => {
-    // console.log(secondUser)
-    // console.log(secondUserID)
-    // console.log(conversations)
     const filteredConversation = getConversationWithUser(conversations, secondUserID)
-    // console.log('filtered conveo')
-    // console.log(filteredConversation)
     if (filteredConversation !== undefined) {
       setCurrentConversation(filteredConversation!)
       setCurrentConversationID(filteredConversation.id!)
     } else {
-      console.log('else')
-      // setCurrentConversation({ id: '', users: [], createdAt: firebase.firestore.FieldValue.serverTimestamp() })
-      // setCurrentConversationID('')
       createNewConversation()
     }
   }, [secondUser, secondUserID])
 
   const createNewConversation = async () => {
-    // console.log(secondUserID)
     const newConversationId = await createConversation(id, secondUserID)
     setCurrentConversationID(newConversationId)
     const conversation = getConversationWithUser(conversations, secondUserID)
@@ -100,8 +79,6 @@ const UsersList = () => {
   }
 
   const getConversationWithUser = (conversations: ConversationInterface[], userID: string): ConversationInterface | undefined => {
-    // console.log(conversations)
-    // console.log(userID)
     return conversations.find((conversation) => conversation.users.includes(userID))
   }
 
@@ -115,21 +92,6 @@ const UsersList = () => {
   const handleUserClick = (user: any) => {
     setSecondUser(user)
     setSecondUserID(user.id)
-  }
-
-  const handleChatGPTClick = async () => {
-    if (!chatGPTConversation) {
-      try {
-        const conversationID = await createChatGPTConversation(id)
-        setCurrentConversation(null)
-        setCurrentConversationID(conversationID)
-      } catch (error) {
-        console.error(error)
-      }
-    } else {
-      setCurrentConversation(chatGPTConversation)
-      setCurrentConversationID(chatGPTConversation.id!)
-    }
   }
 
   return (
