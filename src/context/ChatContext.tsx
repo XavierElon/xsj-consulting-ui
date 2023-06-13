@@ -3,7 +3,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from 'rea
 import { ConversationInterface } from '@/models/chat.interfaces'
 import { useAuthorization } from '@/hooks/useAuthorization'
 import { AuthStateContext } from './AuthContext'
-import { getConversationsForUser, getMessagesForConversation } from '@/firebase/chat.firebase'
+import { getUsersConversations, getMessagesForConversation } from '@/firebase/chat.firebase'
 import { FieldValue, collection, onSnapshot, query, where } from 'firebase/firestore'
 import { db } from '@/firebase/firebase'
 import firebase from 'firebase/compat/app'
@@ -61,7 +61,7 @@ const ChatStateProvider = (props: any) => {
 
   const getFirebaseUserConversations = useCallback(async (userID: string) => {
     try {
-      const userConversations = await getConversationsForUser(userID)
+      const userConversations = await getUsersConversations(userID)
       setConversations(userConversations)
       return userConversations
     } catch (error) {

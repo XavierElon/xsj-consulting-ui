@@ -32,6 +32,16 @@ const ChatGPTList = () => {
 
   let chats = [{ name: 'achilles' }, { name: 'musk' }, { anme: 'flocka' }]
 
+  const getConversationsWithChatGPT = (conversations: ConversationInterface[]) => {
+    console.log(conversations)
+    return conversations.filter((conversation) => conversation.users.includes('chatGPT-3.5'))
+  }
+
+  const chatGPTConversations = getConversationsWithChatGPT(conversations)
+
+  console.log('chat')
+  console.log(chatGPTConversations)
+
   const handleChatGPTClick = async () => {
     if (!chatGPTConversation) {
       try {
@@ -49,8 +59,8 @@ const ChatGPTList = () => {
   }
 
   return (
-    <div className="flex min-h-screen">
-      <div className="flex ml-14 fixed bottom-5 border-white rounded-xl border-4 px-20 py-3">
+    <div className="flex min-h-screen cursor-pointer">
+      <div className="c flex ml-14 fixed bottom-5 border-white rounded-xl border-4 px-20 py-3 mx-12">
         <SmartToyIcon className="robot-icon" onClick={handleChatGPTClick} />
         <p className=" justify-center text-black text-xl">New chat</p>
       </div>
