@@ -35,7 +35,7 @@ const Navbar = (props: Props) => {
   const authorized = useAuthorization()
   const {
     provider,
-    user: { firstName, lastName, profilePicture }
+    user: { firstName, lastName, profilePicture },
   } = authState
 
   const localUser = provider === 'local'
@@ -93,7 +93,10 @@ const Navbar = (props: Props) => {
     setAnchorEl(null)
   }
 
-  const productsCount = cart.items.reduce((sum: any, product: { quantity: any }) => sum + product.quantity, 0)
+  const productsCount = cart.items.reduce(
+    (sum: any, product: { quantity: any }) => sum + product.quantity,
+    0
+  )
 
   return (
     <>
@@ -101,7 +104,7 @@ const Navbar = (props: Props) => {
         className={classNames({
           'text-black bg-white border-b-1 border-slate-300 shadow-md': true, // colors
           'flex items-center': true, // layout
-          'w-full fixed z-50 px-4 h-16': true //positioning & styling
+          'w-full fixed z-50 px-4 h-16': true, //positioning & styling
         })}
       >
         {props.open ? (
@@ -116,7 +119,9 @@ const Navbar = (props: Props) => {
           </div>
         )}
         <Link href="/">
-          <div className="flex flex-col justify-start font-bold text-lg text-[#0061EB] px-5">DevGru</div>
+          <div className="flex flex-col justify-start font-bold text-lg text-[#0061EB] px-5">
+            DevGru
+          </div>
         </Link>
         <div className="flex-grow"></div>
         {!authorized && (
@@ -149,7 +154,9 @@ const Navbar = (props: Props) => {
           <div>
             <div className="flex justify-end items-center">
               <Link href="/store/cart">
-                <Button className="bg-blue-500 text-white px-2 mx-2 py-1 rounded-md">Cart {productsCount} Items</Button>
+                <Button className="bg-blue-500 text-white px-2 mx-2 py-1 rounded-md">
+                  Cart {productsCount} Items
+                </Button>
               </Link>
               {googleUser ? (
                 <>
@@ -180,7 +187,11 @@ const Navbar = (props: Props) => {
                       </div>
                     </>
                   ) : (
-                    <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '50px' }}></AccountCircleIcon>
+                    <AccountCircleIcon
+                      fontSize="inherit"
+                      color="primary"
+                      sx={{ fontSize: '50px' }}
+                    ></AccountCircleIcon>
                   )}
                 </>
               )}
@@ -188,9 +199,17 @@ const Navbar = (props: Props) => {
                 className=" transform hover:scale-150 transition-all duration-300 cursor-pointer"
                 onClick={handleDropdownOpen}
               ></ExpandMoreIcon>
-              <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleDropdownClose}>
-                <MenuItem onClick={() => router.push('/profile')}>Profile</MenuItem>
-                <MenuItem onClick={() => router.push('/profile/settings')}>Settings</MenuItem>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleDropdownClose}
+              >
+                <MenuItem onClick={() => router.push('/profile')}>
+                  Profile
+                </MenuItem>
+                <MenuItem onClick={() => router.push('/profile/settings')}>
+                  Settings
+                </MenuItem>
                 <MenuItem onClick={handleLogout}>Log Out</MenuItem>
               </Menu>
             </div>
@@ -205,5 +224,5 @@ export default Navbar
 
 const buttonStyle: CSSProperties = {
   width: '86px',
-  height: '40px'
+  height: '40px',
 }

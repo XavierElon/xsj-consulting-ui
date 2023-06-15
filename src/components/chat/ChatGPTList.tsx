@@ -22,23 +22,20 @@ const ChatGPTList = () => {
 
   let chats = [{ name: 'achilles' }, { name: 'musk' }, { anme: 'flocka' }]
 
-  useEffect(() => {}, [])
-
-  const getConversationsWithChatGPT = (conversations: ConversationInterface[]) => {
-    console.log(conversations)
-    return conversations.filter((conversation) => conversation.users.includes('chatGPT-3.5'))
-  }
-
-  // const chatGPTConversations = getConversationsWithChatGPT(conversations)
-
-  console.log('chat')
-  console.log(chatGPTConversations)
-
-  const createNewChatGPTConversation = async () => {
-    console.log('clicked')
-    console.log(conversations.filter((conversation) => conversation.users.includes('chatGPT-3.5')))
-    // const newConversationID = await createChatGPTConversation(id)
-    // console.log(newConversationID)
+  const handleChatGPTClick = async () => {
+    if (!chatGPTConversation) {
+      try {
+        const conversationID = await createChatGPTConversation(id)
+        console.log(conversationID)
+        setCurrentConversation(null)
+        setCurrentConversationID(conversationID)
+      } catch (error) {
+        console.error(error)
+      }
+    } else {
+      setCurrentConversation(chatGPTConversation)
+      setCurrentConversationID(chatGPTConversation.id!)
+    }
   }
   // const handleChatGPTClick = async () => {
   //   if (!chatGPTConversation) {
@@ -58,11 +55,8 @@ const ChatGPTList = () => {
 
   return (
     <div className="flex min-h-screen">
-      <div
-        className="c flex ml-14 fixed bottom-5 border-white rounded-xl border-4 px-20 py-3 mx-12 cursor-pointer"
-        onClick={createNewChatGPTConversation}
-      >
-        <SmartToyIcon className="robot-icon" />
+      <div className="flex ml-14 fixed bottom-5 border-white rounded-xl border-4 px-20 py-3">
+        <SmartToyIcon className="robot-icon" onClick={handleChatGPTClick} />
         <p className=" justify-center text-black text-xl">New chat</p>
       </div>
       <div className="flex flex-col-reverse">
