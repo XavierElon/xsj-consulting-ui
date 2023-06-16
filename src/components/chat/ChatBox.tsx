@@ -6,7 +6,7 @@ import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
 import { MessageInterface } from '@/models/chat.interfaces'
 import Message from './Message'
-import { getConversationsForUser } from '@/firebase/chat.firebase'
+import { getUsersConversations } from '@/firebase/chat.firebase'
 import useChatListener from '@/hooks/useChatListener'
 import SendMessage from './SendMessage'
 
@@ -22,7 +22,7 @@ const ChatBox = () => {
   }, [])
 
   const getConversations = async () => {
-    const convos = await getConversationsForUser(id)
+    const convos = await getUsersConversations(id)
     setConversations(convos)
   }
 
