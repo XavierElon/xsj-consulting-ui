@@ -23,7 +23,7 @@ const Message = (message: any) => {
             setImageUrl(secondUser.profilePicture.url)
           }
         }
-      } else if (message.message.senderID === sessionStorage.getItem('id')) {
+      } else if (message.message.senderID === localStorage.getItem('id')) {
         setUsername(authState.username)
         if (authState.provider === 'local' && authState.user.profilePicture) {
           setImageUrl(authState.user.profilePicture.url)
@@ -49,7 +49,7 @@ const Message = (message: any) => {
           </div>
         </div>
         <div className="chat-details">
-          <div className="mt-4 chat-header font-sm text-black">{username}</div>
+          <div className="mt-4 chat-header font-sm text-black"></div>
           <div className="flex flex-wrap">
             <div className=" pr-6 chat-bubble bg-blue-500 text-white">{message.message.text}</div>
           </div>

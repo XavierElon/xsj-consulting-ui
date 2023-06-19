@@ -35,6 +35,7 @@ const Navbar = (props: Props) => {
   const authorized = useAuthorization()
   const {
     provider,
+    username,
     user: { firstName, lastName, profilePicture }
   } = authState
 
@@ -77,7 +78,7 @@ const Navbar = (props: Props) => {
         .catch((error) => {
           console.log(error)
         })
-      sessionStorage.clear()
+      localStorage.clear()
 
       window.location.assign('/')
     } catch (error) {
@@ -153,7 +154,7 @@ const Navbar = (props: Props) => {
               </Link>
               {googleUser ? (
                 <>
-                  <p className="text-black mr-2">{user?.displayName}</p>
+                  <p className="text-black mr-2">{username}</p>
                   <Image
                     src={authState?.user.photoURL || ''}
                     width="50"
@@ -167,7 +168,7 @@ const Navbar = (props: Props) => {
                 <>
                   {imageUrl ? (
                     <>
-                      <p className="text-black mr-2">{displayName}</p>
+                      <p className="text-black mr-2">{username}</p>
                       <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
                         <Image
                           src={imageUrl}

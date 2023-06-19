@@ -1,5 +1,5 @@
 'use client'
-import { createContext, useCallback, useState } from 'react'
+import { createContext, useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
 
 type ContextInterface = {
@@ -39,7 +39,7 @@ const AuthStateProvider = (props: any) => {
       })
       .catch((error) => {
         console.error(error)
-        sessionStorage.clear()
+        localStorage.clear()
         setUserState('', '', '', '', false, '')
       })
   }, [])
@@ -54,6 +54,14 @@ const AuthStateProvider = (props: any) => {
       username: username
     })
   }
+
+  // Sets auth state every time user opens tab and is already logged in
+  useEffect(() => {
+    if (localStorage.getItem('isLoggedIn') === 'true' && localStorage.getItem('id')) {
+      const id = localStorage.getItem('id')
+      getLoggedInUser(id)
+    }
+  }, [])
 
   return <AuthStateContext.Provider value={{ authState, setAuthState, getLoggedInUser }}>{props.children}</AuthStateContext.Provider>
 }
