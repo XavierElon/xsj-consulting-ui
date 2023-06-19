@@ -43,10 +43,6 @@ const Navbar = (props: Props) => {
   const googleUser = provider === 'firebaseGoogle'
 
   useEffect(() => {
-    console.log(authState?.user.photoURL)
-  }, [])
-
-  useEffect(() => {
     if (localUser) {
       setDisplayName(
         <>
@@ -65,7 +61,6 @@ const Navbar = (props: Props) => {
       const base64String = Buffer.from(imageBuffer).toString('base64')
 
       const url = `data:${imageType};base64,${base64String}`
-      console.log(url)
       setImageUrl(url)
     }
   }, [authState, localUser, profilePicture])
