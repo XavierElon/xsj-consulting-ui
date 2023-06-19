@@ -4,7 +4,6 @@ import { ConversationInterface } from '@/models/chat.interfaces'
 import { useAuthorization } from '@/hooks/useAuthorization'
 import { AuthStateContext } from './AuthContext'
 import { getUsersConversations, getMessagesForConversation } from '@/firebase/chat.firebase'
-import { FieldValue, collection, onSnapshot, query, where } from 'firebase/firestore'
 import { db } from '@/firebase/firebase'
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
@@ -58,6 +57,8 @@ const ChatStateProvider = (props: any) => {
   const [currentConversationID, setCurrentConversationID] = useState<string | null>(null)
   const [currentConversation, setCurrentConversation] = useState<any>(null)
   const [chatGPTConversation, setChatGPTConversation] = useState<any>(null)
+  const { authState } = useContext(AuthStateContext)
+  const { id } = authState
 
   const getFirebaseUserConversations = useCallback(async (userID: string) => {
     try {
@@ -67,6 +68,10 @@ const ChatStateProvider = (props: any) => {
     } catch (error) {
       console.log(error)
     }
+  }, [])
+
+  useEffect(() => {
+    getFirebaseUserConversations(id)
   }, [])
 
   return (

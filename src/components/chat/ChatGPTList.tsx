@@ -14,13 +14,17 @@ import 'firebase/compat/firestore'
 import './UsersList.css'
 
 const ChatGPTList = () => {
-  const [chatGPTConversations, setChatGPTConversations] = useState<string[]>([])
+  const [chatGPTConversations, setChatGPTConversations] = useState<any[]>([])
   const { conversations, setCurrentConversation, setCurrentConversationID, chatGPTConversation, setChatGPTConversation } =
     useContext(ChatStateContext)
   const { authState } = useContext(AuthStateContext)
   const { id } = authState
 
   let chats = [{ name: 'achilles' }, { name: 'musk' }, { anme: 'flocka' }]
+
+  const getConversationsWithChatGPT = (conversations: ConversationInterface[]): ConversationInterface | undefined => {
+    return conversations.find((conversation) => conversation.users.includes('chatGPT-3.5'))
+  }
 
   const handleChatGPTClick = async () => {
     if (!chatGPTConversation) {
@@ -52,6 +56,12 @@ const ChatGPTList = () => {
   //     setCurrentConversationID(chatGPTConversation.id!)
   //   }
   // }
+
+  useEffect(() => {
+    console.log(conversations)
+    const convos = getConversationsWithChatGPT(conversations)
+    console.log(convos)
+  }, [conversations])
 
   return (
     <div className="flex min-h-screen">
