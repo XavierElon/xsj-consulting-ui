@@ -28,7 +28,6 @@ const useChatListener = (currentConversationID: string) => {
         setMessages(newMessages.reverse())
       })
     }
-    // setUnsubscribe(() => unsubscribeFromSnapshot)
 
     return () => {
       if (unsubscribeFromSnapshot) {
