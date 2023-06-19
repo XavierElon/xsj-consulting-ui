@@ -2,10 +2,9 @@
 import { useContext, useEffect, useState } from 'react'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
-import { addMessageToConversation, createConversation } from '@/firebase/chat.firebase'
+import { addMessageToConversation } from '@/firebase/chat.firebase'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import Image from 'next/image'
-import { LinearToSRGB } from 'three/src/math/ColorManagement'
 
 const SendMessage = () => {
   const [value, setValue] = useState('')
@@ -15,29 +14,14 @@ const SendMessage = () => {
   let { id } = authState
   const { secondUser, secondUserID, currentConversationID } = useContext(ChatStateContext)
 
-  // useEffect(() => {
-  //   console.log(secondUser)
-  //   if (secondUser.provider === 'firebaseGoogle') {
-  //     profilePictureUrl = secondUser.profilePitcure
-  //   } else if (secondUser.provider === 'local') {
-  //     profilePictureUrl = secondUser.profilePicture.url
-  //   }
-  // }, [secondUser])
-
   useEffect(() => {
     if (secondUser) {
-      console.log(secondUser)
-      console.log(secondUser.provider)
-
       if (secondUser.provider === 'firebaseGoogle') {
-        console.log('google')
         setSecondUserProfilePictureUrl(secondUser.profilePicture)
       } else if (secondUser.provider === 'local') {
-        console.log('local')
         setSecondUserProfilePictureUrl(secondUser.profilePicture.url)
       }
     }
-    console.log(secondUserProfilePictureUrl)
   }, [secondUser])
 
   useEffect(() => {
@@ -48,8 +32,6 @@ const SendMessage = () => {
 
   const returnSecondUserDisplay = () => {
     if (secondUser && Object.keys(secondUser.profilePicture).length !== 0) {
-      console.log(secondUser)
-      console.log(secondUserProfilePictureUrl)
       return (
         <div className="flex items-center w-1/6">
           <div className="chat-image avatar">
@@ -63,7 +45,6 @@ const SendMessage = () => {
         </div>
       )
     } else if (secondUser && Object.keys(secondUser.profilePicture).length === 0) {
-      console.log('here')
       return (
         <div className="flex items-center w-1/6">
           <div className="chat-image avatar">
@@ -77,7 +58,6 @@ const SendMessage = () => {
         </div>
       )
     } else {
-      console.log('null')
       return null
     }
   }
