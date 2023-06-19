@@ -47,6 +47,7 @@ const UsersList = () => {
 
   useEffect(() => {
     const filteredConversation = getConversationWithUser(conversations, secondUserID)
+    console.log(filteredConversation)
     if (filteredConversation !== undefined) {
       setCurrentConversation(filteredConversation!)
       setCurrentConversationID(filteredConversation.id!)
