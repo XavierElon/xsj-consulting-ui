@@ -67,7 +67,6 @@ const LoginModal = (props: any) => {
   const handleGoogleLogin = async () => {
     const data = await signInWithGooglePopup()
     const googleAuthResult: any = data?.result
-    console.log(googleAuthResult)
 
     setGoogleAuthState(googleAuthResult)
 

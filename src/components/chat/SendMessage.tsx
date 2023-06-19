@@ -9,12 +9,11 @@ import { LinearToSRGB } from 'three/src/math/ColorManagement'
 
 const SendMessage = () => {
   const [value, setValue] = useState('')
+  const [secondUserProfilePictureUrl, setSecondUserProfilePictureUrl] = useState<string>('')
   const [conversationSelected, setConversationSelected] = useState<boolean>(false)
   const { authState } = useContext(AuthStateContext)
   let { id } = authState
   const { secondUser, secondUserID, currentConversationID } = useContext(ChatStateContext)
-  let isGoogleUser: boolean = false
-  let profilePictureUrl: string
 
   // useEffect(() => {
   //   console.log(secondUser)
@@ -29,16 +28,16 @@ const SendMessage = () => {
     if (secondUser) {
       console.log(secondUser)
       console.log(secondUser.provider)
-      console.log(profilePictureUrl)
+
       if (secondUser.provider === 'firebaseGoogle') {
         console.log('google')
-        profilePictureUrl = secondUser.profilePicture
-        console.log(profilePictureUrl)
+        setSecondUserProfilePictureUrl(secondUser.profilePicture)
       } else if (secondUser.provider === 'local') {
         console.log('local')
-        profilePictureUrl = secondUser.profilePicture.url
+        setSecondUserProfilePictureUrl(secondUser.profilePicture.url)
       }
     }
+    console.log(secondUserProfilePictureUrl)
   }, [secondUser])
 
   useEffect(() => {
@@ -50,11 +49,12 @@ const SendMessage = () => {
   const returnSecondUserDisplay = () => {
     if (secondUser && Object.keys(secondUser.profilePicture).length !== 0) {
       console.log(secondUser)
+      console.log(secondUserProfilePictureUrl)
       return (
         <div className="flex items-center w-1/6">
           <div className="chat-image avatar">
             <div className="w-10 h-10 rounded-full mr-2 overflow-hidden">
-              <Image src={profilePictureUrl} width="25" height="25" alt="profilePic" className="rounded-full" />
+              <Image src={secondUserProfilePictureUrl} width="25" height="25" alt="profilePic" className="rounded-full" />
             </div>
           </div>
           <div className="flex flex-col items-center">
@@ -77,6 +77,7 @@ const SendMessage = () => {
         </div>
       )
     } else {
+      console.log('null')
       return null
     }
   }
