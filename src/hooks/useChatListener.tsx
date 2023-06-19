@@ -1,15 +1,10 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
 import { collection, doc, query, onSnapshot, orderBy } from 'firebase/firestore'
 import { db } from '@/firebase/firebase'
 import { MessageInterface } from '@/models/chat.interfaces'
-import { AuthStateContext } from '@/context/AuthContext'
-import { createConversation } from '@/firebase/chat.firebase'
 
 const useChatListener = (currentConversationID: string) => {
   const [messages, setMessages] = useState<MessageInterface[]>([])
-  const [unsubscribe, setUnsubscribe] = useState<any>(null)
-  const { authState } = useContext(AuthStateContext)
-  const { id } = authState
 
   useEffect(() => {
     let unsubscribeFromSnapshot: any = null
@@ -36,7 +31,7 @@ const useChatListener = (currentConversationID: string) => {
     }
   }, [currentConversationID])
 
-  return [messages, unsubscribe]
+  return messages
 }
 
 export default useChatListener
