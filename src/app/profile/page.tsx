@@ -42,7 +42,7 @@ const Profile: NextPage = () => {
       try {
         const formData = new FormData()
         formData.append('image', file)
-        const id = sessionStorage.getItem('id')
+        const id = localStorage.getItem('id')
 
         await axios.post(`${process.env.NEXT_PUBLIC_USERS_UPLOAD_PROFILE_PICTURE_ROUTE}/${id}`, formData, {
           headers: {

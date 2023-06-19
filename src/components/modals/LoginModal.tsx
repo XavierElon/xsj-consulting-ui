@@ -43,13 +43,10 @@ const LoginModal = (props: any) => {
           id: response.data.user._id
         })
 
-        sessionStorage.setItem('id', response.data.user._id)
-        sessionStorage.setItem('isLoggedIn', 'true')
-        sessionStorage.setItem('firstName', response.data.user.local.firstName)
-        sessionStorage.setItem('lastName', response.data.user.local.lastName)
-        sessionStorage.setItem('email', response.data.user.local.email)
-        sessionStorage.setItem('username', response.data.user.username)
-        sessionStorage.setItem('provider', 'local')
+        localStorage.setItem('id', response.data.user._id)
+        localStorage.setItem('isLoggedIn', 'true')
+        localStorage.setItem('username', response.data.user.username)
+        localStorage.setItem('provider', 'local')
         setTimeout(() => {
           router.push('/')
         }, 1000)
@@ -70,6 +67,7 @@ const LoginModal = (props: any) => {
   const handleGoogleLogin = async () => {
     const data = await signInWithGooglePopup()
     const googleAuthResult: any = data?.result
+    console.log(googleAuthResult)
 
     setGoogleAuthState(googleAuthResult)
 

@@ -50,11 +50,9 @@ export const signInWithGooglePopup = () => {
         })
         .then((response) => {
           console.log(response.data.user._id)
-          sessionStorage.setItem('isLoggedIn', 'true')
-          sessionStorage.setItem('username', displayName)
-          sessionStorage.setItem('email', email)
-          sessionStorage.setItem('profilePic', profilePic)
-          sessionStorage.setItem('id', response.data.user._id.toString())
+          localStorage.setItem('isLoggedIn', 'true')
+          localStorage.setItem('username', displayName)
+          localStorage.setItem('id', response.data.user._id.toString())
           return { result, response }
         })
         .catch((error) => {

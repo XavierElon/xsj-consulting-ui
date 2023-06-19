@@ -71,7 +71,7 @@ const UsersList = () => {
       const res = await axios.get(process.env.NEXT_PUBLIC_USERS_GET_ALL_USERS_ROUTE!, {
         withCredentials: true
       })
-      let filteredUsers = res.data.users.filter((user: any) => user.id !== sessionStorage.getItem('id'))
+      let filteredUsers = res.data.users.filter((user: any) => user.id !== localStorage.getItem('id'))
       setUsers(filteredUsers)
     } catch (error) {
       console.error(error)

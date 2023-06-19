@@ -39,7 +39,7 @@ const AuthStateProvider = (props: any) => {
       })
       .catch((error) => {
         console.error(error)
-        sessionStorage.clear()
+        localStorage.clear()
         setUserState('', '', '', '', false, '')
       })
   }, [])

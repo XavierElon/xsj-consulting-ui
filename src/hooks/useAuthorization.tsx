@@ -9,8 +9,8 @@ export const useAuthorization = () => {
 
   useEffect(() => {
     const getUserInfo = async () => {
-      if (sessionStorage.getItem('isLoggedIn') === 'true' || authState.isLoggedIn) {
-        const id = sessionStorage.getItem('id') || authState.id
+      if (localStorage.getItem('isLoggedIn') === 'true' || authState.isLoggedIn) {
+        const id = localStorage.getItem('id') || authState.id
         await getLoggedInUser(id)
         await getFirebaseUserConversations(id)
       }
