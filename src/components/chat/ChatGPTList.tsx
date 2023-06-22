@@ -6,6 +6,7 @@ import { ConversationInterface } from '@/models/chat.interfaces'
 import { createChatGPTConversation, getUsersConversations } from '@/firebase/chat.firebase'
 import 'firebase/compat/firestore'
 import './UsersList.css'
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
 
 const ChatGPTList = () => {
   const [chatGPTConversations, setChatGPTConversations] = useState<any[]>([])
@@ -17,6 +18,11 @@ const ChatGPTList = () => {
   const getConversationsWithChatGPT = (conversations: ConversationInterface[]): ConversationInterface[] => {
     const chatGPTConversations = conversations.filter((conversation) => conversation.users.includes('chatGPT-3.5'))
     return chatGPTConversations ? chatGPTConversations : []
+  }
+
+  const handleSetConversation = (id: string) => {
+    console.log('clicked')
+    console.log(id)
   }
 
   const handleNewChatGPTClick = async () => {
@@ -51,10 +57,11 @@ const ChatGPTList = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <div className="flex-grow overflow-auto">
-        <div className="ml-8 my-20">
+        <div className="my-20">
           {chatGPTConversations.map((chat: any) => (
-            <div key={chat.id} className="flex items-center mt-4 ml-4 cursor-pointer">
-              <h1 className="text-black">{chat.id}</h1>
+            <div key={chat.id} className="flex items-start mt-4 cursor-pointer" onClick={() => handleSetConversation(chat.id)}>
+              <ChatBubbleOutlineIcon className="mx-4"></ChatBubbleOutlineIcon>
+              <h1 className="text-black font-semibold">{chat.id}</h1>
             </div>
           ))}
         </div>
@@ -64,7 +71,7 @@ const ChatGPTList = () => {
     cursor-pointer mb-5"
         onClick={handleNewChatGPTClick}
       >
-        <p className="justify-center text-black text-xl">New Chat</p>
+        <p className="justify-center text-black text-xl font-bold">New Chat</p>
       </div>
     </div>
   )
