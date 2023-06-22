@@ -1,10 +1,8 @@
 'use client'
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import { ConversationInterface } from '@/models/chat.interfaces'
-import { useAuthorization } from '@/hooks/useAuthorization'
 import { AuthStateContext } from './AuthContext'
-import { getUsersConversations, getMessagesForConversation } from '@/firebase/chat.firebase'
-import { db } from '@/firebase/firebase'
+import { getUsersConversations } from '@/firebase/chat.firebase'
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
 
