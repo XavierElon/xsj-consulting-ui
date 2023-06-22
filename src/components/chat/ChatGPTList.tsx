@@ -10,8 +10,15 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
 
 const ChatGPTList = () => {
   const [chatGPTConversations, setChatGPTConversations] = useState<any[]>([])
-  const { conversations, setCurrentConversation, setCurrentConversationID, chatGPTConversation, setChatGPTConversation, setConversations } =
-    useContext(ChatStateContext)
+  const {
+    conversations,
+    setCurrentConversation,
+    setCurrentConversationID,
+    chatGPTConversation,
+    setChatGPTConversation,
+    setConversations,
+    setIsChatGPTConversation
+  } = useContext(ChatStateContext)
   const { authState } = useContext(AuthStateContext)
   const { id } = authState
 
@@ -34,12 +41,14 @@ const ChatGPTList = () => {
         console.log(conversationID)
         setCurrentConversation(null)
         setCurrentConversationID(conversationID)
+        setIsChatGPTConversation(true)
       } catch (error) {
         console.error(error)
       }
     } else {
       setCurrentConversation(chatGPTConversation)
       setCurrentConversationID(chatGPTConversation.id!)
+      setIsChatGPTConversation(true)
     }
   }
 

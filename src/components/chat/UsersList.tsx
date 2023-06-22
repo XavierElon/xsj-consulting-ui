@@ -13,8 +13,16 @@ import './UsersList.css'
 const UsersList = () => {
   const [users, setUsers] = useState<any[]>([])
   const [searchField, setSearchField] = useState<string>('')
-  const { secondUserID, setSecondUserID, secondUser, setSecondUser, conversations, setCurrentConversation, setCurrentConversationID } =
-    useContext(ChatStateContext)
+  const {
+    secondUserID,
+    setSecondUserID,
+    secondUser,
+    setSecondUser,
+    conversations,
+    setCurrentConversation,
+    setCurrentConversationID,
+    setIsChatGPTConversation
+  } = useContext(ChatStateContext)
   const { authState } = useContext(AuthStateContext)
   const { id } = authState
 
@@ -71,6 +79,7 @@ const UsersList = () => {
   const handleUserClick = (user: any) => {
     setSecondUser(user)
     setSecondUserID(user.id)
+    setIsChatGPTConversation(false)
   }
 
   return (

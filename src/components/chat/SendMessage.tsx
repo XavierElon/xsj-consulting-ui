@@ -12,7 +12,7 @@ const SendMessage = () => {
   const [conversationSelected, setConversationSelected] = useState<boolean>(false)
   const { authState } = useContext(AuthStateContext)
   let { id } = authState
-  const { secondUser, secondUserID, currentConversationID } = useContext(ChatStateContext)
+  const { secondUser, secondUserID, currentConversationID, isChatGPTConversation } = useContext(ChatStateContext)
 
   useEffect(() => {
     if (secondUser) {
@@ -64,7 +64,7 @@ const SendMessage = () => {
 
   const handleSendMessage = async (e: any) => {
     e.preventDefault()
-    if (currentConversationID !== null) {
+    if (currentConversationID !== null && isChatGPTConversation === false) {
       await addMessageToConversation(currentConversationID, id, value)
     }
     setValue('')

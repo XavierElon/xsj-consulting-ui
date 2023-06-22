@@ -23,6 +23,8 @@ type ContextInterface = {
   setCurrentConversation: (value: ConversationInterface | null) => void
   chatGPTConversation: ConversationInterface
   setChatGPTConversation: (value: ConversationInterface | undefined) => void
+  isChatGPTConversation: boolean
+  setIsChatGPTConversation: (value: boolean) => void
   getFirebaseUserConversations: (value: string) => any
 }
 
@@ -43,6 +45,8 @@ const ChatStateContext = createContext<ContextInterface>({
   setCurrentConversation: () => {},
   chatGPTConversation: { users: [], createdAt: firebase.firestore.FieldValue.serverTimestamp() },
   setChatGPTConversation: () => {},
+  isChatGPTConversation: false,
+  setIsChatGPTConversation: () => {},
   getFirebaseUserConversations: () => {}
 })
 
@@ -55,6 +59,7 @@ const ChatStateProvider = (props: any) => {
   const [currentConversationID, setCurrentConversationID] = useState<string | null>(null)
   const [currentConversation, setCurrentConversation] = useState<any>(null)
   const [chatGPTConversation, setChatGPTConversation] = useState<any>(null)
+  const [isChatGPTConversation, setIsChatGPTConversation] = useState<boolean>(false)
   const { authState } = useContext(AuthStateContext)
   const { id } = authState
 
@@ -91,6 +96,8 @@ const ChatStateProvider = (props: any) => {
         setCurrentConversation,
         chatGPTConversation,
         setChatGPTConversation,
+        isChatGPTConversation,
+        setIsChatGPTConversation,
         getFirebaseUserConversations
       }}
     >
