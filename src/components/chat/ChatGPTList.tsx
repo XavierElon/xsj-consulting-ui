@@ -20,9 +20,9 @@ const ChatGPTList = () => {
     return chatGPTConversations ? chatGPTConversations : []
   }
 
-  const handleSetConversation = (id: string) => {
-    console.log('clicked')
-    console.log(id)
+  const handleSetConversation = (chatID: string) => {
+    console.log(chatID)
+    setCurrentConversationID(chatID)
   }
 
   const handleNewChatGPTClick = async () => {
@@ -61,7 +61,11 @@ const ChatGPTList = () => {
           {chatGPTConversations.map((chat: any) => (
             <div key={chat.id} className="flex items-start mt-4 cursor-pointer" onClick={() => handleSetConversation(chat.id)}>
               <ChatBubbleOutlineIcon className="mx-4"></ChatBubbleOutlineIcon>
-              <h1 className="text-black font-semibold">{chat.id}</h1>
+              {chat.messages.length === 0 ? (
+                <h1 className="text-black font-semibold">New Chat</h1>
+              ) : (
+                <h1 className="text-black font-semibold">{chat.id}</h1>
+              )}
             </div>
           ))}
         </div>
