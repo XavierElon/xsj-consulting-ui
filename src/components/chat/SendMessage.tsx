@@ -18,6 +18,10 @@ const SendMessage = () => {
   const messages = useChatListener(currentConversationID!)
 
   useEffect(() => {
+    console.log(messages)
+  }, [messages])
+
+  useEffect(() => {
     if (secondUser) {
       if (secondUser.provider === 'firebaseGoogle') {
         setSecondUserProfilePictureUrl(secondUser.profilePicture)
@@ -68,19 +72,28 @@ const SendMessage = () => {
   const handleSendMessage = async (e: any) => {
     e.preventDefault()
     console.log(isChatGPTConversation)
-    if (currentConversationID !== null && isChatGPTConversation === false) {
+    if (currentConversationID !== null) {
       await addMessageToConversation(currentConversationID, id, value)
-    } else if (currentConversationID !== null && isChatGPTConversation === true) {
+    }
+    if (currentConversationID !== null && isChatGPTConversation === true) {
       console.log('chat gpt')
       const response = await axios.post(
         process.env.NEXT_PUBLIC_CHATGPT_CONVERSATION_ROUTE!,
         {
           message: value,
-          conversation: messages
+          conversationID: currentConversationID,
+          messages: messages
         },
         { withCredentials: true }
       )
       console.log(response)
+      if (response.status === 200) {
+        try {
+          await addMessageToConversation(currentConversationID, 'chatGPT-3.5', response.data.message)
+        } catch (error) {
+          console.error(error)
+        }
+      }
     }
     setValue('')
   }
