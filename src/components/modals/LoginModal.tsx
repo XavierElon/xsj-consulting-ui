@@ -16,7 +16,7 @@ const LoginModal = (props: any) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
-  const { authState, setAuthState } = useContext(AuthStateContext)
+  const { setAuthState } = useContext(AuthStateContext)
 
   const router = useRouter()
 

@@ -1,10 +1,12 @@
 'use client'
 import { useContext, useEffect, useState } from 'react'
+import axios from 'axios'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
 import { addMessageToConversation } from '@/firebase/chat.firebase'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import Image from 'next/image'
+import useChatListener from '@/hooks/useChatListener'
 
 const SendMessage = () => {
   const [value, setValue] = useState('')
@@ -12,7 +14,8 @@ const SendMessage = () => {
   const [conversationSelected, setConversationSelected] = useState<boolean>(false)
   const { authState } = useContext(AuthStateContext)
   let { id } = authState
-  const { secondUser, secondUserID, currentConversationID, isChatGPTConversation } = useContext(ChatStateContext)
+  const { secondUser, secondUserID, currentConversation, currentConversationID, isChatGPTConversation } = useContext(ChatStateContext)
+  const messages = useChatListener(currentConversationID!)
 
   useEffect(() => {
     if (secondUser) {
@@ -64,8 +67,20 @@ const SendMessage = () => {
 
   const handleSendMessage = async (e: any) => {
     e.preventDefault()
+    console.log(isChatGPTConversation)
     if (currentConversationID !== null && isChatGPTConversation === false) {
       await addMessageToConversation(currentConversationID, id, value)
+    } else if (currentConversationID !== null && isChatGPTConversation === true) {
+      console.log('chat gpt')
+      const response = await axios.post(
+        process.env.NEXT_PUBLIC_CHATGPT_CONVERSATION_ROUTE!,
+        {
+          message: value,
+          conversation: messages
+        },
+        { withCredentials: true }
+      )
+      console.log(response)
     }
     setValue('')
   }

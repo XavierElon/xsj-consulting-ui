@@ -30,9 +30,11 @@ const ChatGPTList = () => {
   const handleSetConversation = (chatID: string) => {
     console.log(chatID)
     setCurrentConversationID(chatID)
+    setIsChatGPTConversation(true)
   }
 
   const handleNewChatGPTClick = async () => {
+    console.log(chatGPTConversation)
     if (!chatGPTConversation) {
       try {
         const conversationID = await createChatGPTConversation(id)
