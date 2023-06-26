@@ -1,6 +1,6 @@
 import 'firebase/firestore'
 import { db } from './firebase'
-import { addDoc, collection, doc, getDocs, onSnapshot, orderBy, query, serverTimestamp, where } from 'firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, getDocs, query, serverTimestamp, where } from 'firebase/firestore'
 import { ConversationInterface, MessageInterface } from '@/models/chat.interfaces'
 
 export const createChatGPTConversation = async (userID: string): Promise<any> => {
@@ -66,4 +66,14 @@ export const getMessagesForConversation = async (conversationID: string): Promis
   })
   const messages = await Promise.all(messagePromises)
   return messages
+}
+
+export const deleteConversation = async (conversationID: string): Promise<void> => {
+  try {
+    const conversationRef = doc(db, 'conversations', conversationID)
+    await deleteDoc(conversationRef)
+  } catch (error) {
+    console.error('Error deleting conversation: ' + error)
+    throw error
+  }
 }
