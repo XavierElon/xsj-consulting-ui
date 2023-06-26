@@ -1,11 +1,8 @@
 'use client'
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import { ConversationInterface } from '@/models/chat.interfaces'
-import { useAuthorization } from '@/hooks/useAuthorization'
 import { AuthStateContext } from './AuthContext'
-import { getUsersConversations, getMessagesForConversation } from '@/firebase/chat.firebase'
-import { FieldValue, collection, onSnapshot, query, where } from 'firebase/firestore'
-import { db } from '@/firebase/firebase'
+import { getUsersConversations } from '@/firebase/chat.firebase'
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
 
@@ -26,6 +23,8 @@ type ContextInterface = {
   setCurrentConversation: (value: ConversationInterface | null) => void
   chatGPTConversation: ConversationInterface
   setChatGPTConversation: (value: ConversationInterface | undefined) => void
+  isChatGPTConversation: boolean
+  setIsChatGPTConversation: (value: boolean) => void
   getFirebaseUserConversations: (value: string) => any
 }
 
@@ -46,6 +45,8 @@ const ChatStateContext = createContext<ContextInterface>({
   setCurrentConversation: () => {},
   chatGPTConversation: { users: [], createdAt: firebase.firestore.FieldValue.serverTimestamp() },
   setChatGPTConversation: () => {},
+  isChatGPTConversation: false,
+  setIsChatGPTConversation: () => {},
   getFirebaseUserConversations: () => {}
 })
 
@@ -58,6 +59,9 @@ const ChatStateProvider = (props: any) => {
   const [currentConversationID, setCurrentConversationID] = useState<string | null>(null)
   const [currentConversation, setCurrentConversation] = useState<any>(null)
   const [chatGPTConversation, setChatGPTConversation] = useState<any>(null)
+  const [isChatGPTConversation, setIsChatGPTConversation] = useState<boolean>(false)
+  const { authState } = useContext(AuthStateContext)
+  const { id } = authState
 
   const getFirebaseUserConversations = useCallback(async (userID: string) => {
     try {
@@ -67,6 +71,10 @@ const ChatStateProvider = (props: any) => {
     } catch (error) {
       console.log(error)
     }
+  }, [])
+
+  useEffect(() => {
+    getFirebaseUserConversations(id)
   }, [])
 
   return (
@@ -88,6 +96,8 @@ const ChatStateProvider = (props: any) => {
         setCurrentConversation,
         chatGPTConversation,
         setChatGPTConversation,
+        isChatGPTConversation,
+        setIsChatGPTConversation,
         getFirebaseUserConversations
       }}
     >

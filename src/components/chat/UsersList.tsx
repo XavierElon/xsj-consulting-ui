@@ -6,7 +6,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
 import { ConversationInterface } from '@/models/chat.interfaces'
-import { createChatGPTConversation, createConversation } from '@/firebase/chat.firebase'
+import { createConversation } from '@/firebase/chat.firebase'
 import 'firebase/compat/firestore'
 import './UsersList.css'
 
@@ -21,7 +21,7 @@ const UsersList = () => {
     conversations,
     setCurrentConversation,
     setCurrentConversationID,
-    setChatGPTConversation
+    setIsChatGPTConversation
   } = useContext(ChatStateContext)
   const { authState } = useContext(AuthStateContext)
   const { id } = authState
@@ -31,28 +31,18 @@ const UsersList = () => {
   })
 
   useEffect(() => {
-    filteredUsers = users.filter((user: any) => {
-      return user.username.toLowerCase().includes(searchField.toLowerCase())
-    })
-  }, [])
-
-  useEffect(() => {
     getUsers()
   }, [conversations])
 
   useEffect(() => {
-    const convo = getConversationWithChatGPT(conversations)
-    setChatGPTConversation(convo)
-  }, [conversations])
-
-  useEffect(() => {
     const filteredConversation = getConversationWithUser(conversations, secondUserID)
-    console.log(filteredConversation)
     if (filteredConversation !== undefined) {
       setCurrentConversation(filteredConversation!)
       setCurrentConversationID(filteredConversation.id!)
-    } else {
+    } else if (secondUserID) {
       createNewConversation()
+    } else {
+      return
     }
   }, [secondUser, secondUserID])
 
@@ -83,16 +73,13 @@ const UsersList = () => {
     return conversations.find((conversation) => conversation.users.includes(userID))
   }
 
-  const getConversationWithChatGPT = (conversations: ConversationInterface[]): ConversationInterface | undefined => {
-    return conversations.find((conversation) => conversation.users.includes('chatGPT-3.5'))
-  }
-
   const handleChange = (e: any) => {
     setSearchField(e.target.value)
   }
   const handleUserClick = (user: any) => {
     setSecondUser(user)
     setSecondUserID(user.id)
+    setIsChatGPTConversation(false)
   }
 
   return (
@@ -107,22 +94,24 @@ const UsersList = () => {
           />
         </div>
 
-        {filteredUsers.map((user: any) => (
-          <div key={user.id} className="flex items-center mt-4 ml-4 cursor-pointer" onClick={() => handleUserClick(user)}>
-            <div className="chat-image avatar">
-              <div className="w-10 rounded-full mr-2">
-                {user.provider === 'firebaseGoogle' ? (
-                  <Image alt="profilePicture" width="15" height="15" src={user.profilePicture}></Image>
-                ) : user.provider === 'local' && user.profilePicture.url ? (
-                  <Image alt="profilePicture" width="15" height="15" src={user.profilePicture.url}></Image>
-                ) : (
-                  <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '45px' }}></AccountCircleIcon>
-                )}
+        {filteredUsers.map((user: any) => {
+          return (
+            <div key={user.id} className="flex items-center mt-4 ml-4 cursor-pointer" onClick={() => handleUserClick(user)}>
+              <div className="chat-image avatar">
+                <div className="w-10 rounded-full mr-2">
+                  {user.provider === 'firebaseGoogle' ? (
+                    <Image alt="profilePicture" width="15" height="15" src={user.profilePicture}></Image>
+                  ) : user.provider === 'local' && user.profilePicture.url ? (
+                    <Image alt="profilePicture" width="15" height="15" src={user.profilePicture.url}></Image>
+                  ) : (
+                    <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '45px' }}></AccountCircleIcon>
+                  )}
+                </div>
               </div>
+              <p className="text-black font-bold">{user.username}</p>
             </div>
-            <p className="text-black font-bold">{user.username}</p>
-          </div>
-        ))}
+          )
+        })}
       </div>
     </div>
   )

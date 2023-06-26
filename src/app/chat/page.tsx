@@ -1,6 +1,7 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { NextPage } from 'next'
+import { useRouter } from 'next/navigation'
 import SendMessage from '@/components/chat/SendMessage'
 import ChatBox from '@/components/chat/ChatBox'
 import { useAuthorization } from '@/hooks/useAuthorization'
@@ -11,12 +12,24 @@ import Forbidden from '../forbidden/page'
 import ChatGPTList from '@/components/chat/ChatGPTList'
 
 const Chat: NextPage = () => {
+  const [loading, setLoading] = useState<boolean>(true)
   const [isOpen, setIsOpen] = useState(false)
-  let authorized = null
+  const router = useRouter()
+  let authorized: boolean | null = null
   authorized = useAuthorization()
 
-  if (authorized === null) {
+  useEffect(() => {
+    if (authorized !== null) {
+      setLoading(false)
+    }
+  }, [authorized])
+
+  if (loading) {
     return <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-white"></div>
+  }
+
+  const returnHome = () => {
+    router.push('/')
   }
 
   return (
@@ -48,9 +61,7 @@ const Chat: NextPage = () => {
           </div>
         </div>
       ) : (
-        <>
-          <Forbidden />
-        </>
+        <>{returnHome()}</>
       )}
     </>
   )

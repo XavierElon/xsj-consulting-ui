@@ -9,7 +9,7 @@ import useChatListener from '@/hooks/useChatListener'
 const ChatBox = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const { setConversations, currentConversationID } = useContext(ChatStateContext)
-  const [messages] = useChatListener(currentConversationID!)
+  const messages = useChatListener(currentConversationID!)
   const { authState } = useContext(AuthStateContext)
   const { id } = authState
 
