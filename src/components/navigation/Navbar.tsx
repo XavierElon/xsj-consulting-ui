@@ -117,7 +117,7 @@ const Navbar = (props: Props) => {
           </div>
         )}
         <Link href="/">
-          <div className="flex flex-col justify-start font-bold text-lg text-[#0061EB] px-5">DevGru</div>
+          <div className="flex flex-col justify-start font-bold text-lg text-[#0061EB] px-5">XXX</div>
         </Link>
         <div className="flex-grow"></div>
         {!authorized && (
