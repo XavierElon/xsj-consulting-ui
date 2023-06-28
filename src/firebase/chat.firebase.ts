@@ -3,9 +3,19 @@ import { db } from './firebase'
 import { addDoc, collection, deleteDoc, doc, getDocs, query, serverTimestamp, where } from 'firebase/firestore'
 import { ConversationInterface, MessageInterface } from '@/models/chat.interfaces'
 
-export const createChatGPTConversation = async (userID: string): Promise<any> => {
+export const createChatGPTConversation3 = async (userID: string): Promise<any> => {
   const conversation: ConversationInterface = {
     users: [userID, 'chatGPT-3.5'],
+    createdAt: serverTimestamp()
+  }
+  const docRef = await addDoc(collection(db, 'conversations'), conversation)
+  const conversationRef = doc(db, 'conversations', docRef.id)
+  return conversationRef.id
+}
+
+export const createChatGPTConversation4 = async (userID: string): Promise<any> => {
+  const conversation: ConversationInterface = {
+    users: [userID, 'chatGPT-4'],
     createdAt: serverTimestamp()
   }
   const docRef = await addDoc(collection(db, 'conversations'), conversation)
