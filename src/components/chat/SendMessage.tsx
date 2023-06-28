@@ -7,6 +7,7 @@ import { addMessageToConversation } from '@/firebase/chat.firebase'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import Image from 'next/image'
 import useChatListener from '@/hooks/useChatListener'
+import BoltIcon from '@mui/icons-material/Bolt'
 
 const SendMessage = () => {
   const [value, setValue] = useState('')
@@ -78,7 +79,7 @@ const SendMessage = () => {
     if (currentConversationID !== null && isChatGPTConversation === true) {
       console.log('chat gpt')
       const response = await axios.post(
-        process.env.NEXT_PUBLIC_CHATGPT_CONVERSATION_ROUTE!,
+        process.env.NEXT_PUBLIC_CHATGPT_CONVERSATION_ROUTE4!,
         {
           message: value,
           conversationID: currentConversationID,
@@ -101,7 +102,15 @@ const SendMessage = () => {
   return (
     <div className="bg-gray-200 w-full py-6 shadow-lg px-2">
       <div className="flex items-center justify-between">
-        <div className="flex items-center">{returnSecondUserDisplay()}</div>
+        {isChatGPTConversation ? (
+          <div className="flex">
+            <BoltIcon style={{ color: 'purple', fontSize: '40px' }}></BoltIcon>
+            <p className="mr-2 my-2 text-black">ChatGPT 4</p>
+          </div>
+        ) : (
+          <div className="flex items-center">{returnSecondUserDisplay()}</div>
+        )}
+
         <form className="containerWrap flex justify-end flex-grow">
           <input
             value={value}

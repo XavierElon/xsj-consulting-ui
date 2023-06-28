@@ -11,5 +11,6 @@ export interface MessageInterface {
 export interface ConversationInterface {
   id?: string
   users: string[]
+  title?: string
   createdAt: firebase.firestore.FieldValue
 }

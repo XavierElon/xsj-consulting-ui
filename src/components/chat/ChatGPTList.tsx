@@ -7,6 +7,7 @@ import { createChatGPTConversation3, createChatGPTConversation4, deleteConversat
 import 'firebase/compat/firestore'
 import './UsersList.css'
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
+import EditIcon from '@mui/icons-material/Edit'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CheckIcon from '@mui/icons-material/Check'
 import CloseIcon from '@mui/icons-material/Close'
@@ -27,7 +28,9 @@ const ChatGPTList = () => {
   const { id } = authState
 
   const getConversationsWithChatGPT = (conversations: ConversationInterface[]): ConversationInterface[] => {
-    const chatGPTConversations = conversations.filter((conversation) => conversation.users.includes('chatGPT-3.5' || 'chatGPT-4'))
+    const chatGPTConversations = conversations.filter(
+      (conversation) => conversation.users.includes('chatGPT-4') || conversation.users.includes('chatGPT-3.5')
+    )
     return chatGPTConversations ? chatGPTConversations : []
   }
 
@@ -39,7 +42,7 @@ const ChatGPTList = () => {
   const handleNewChatGPTClick = async () => {
     if (!chatGPTConversation) {
       try {
-        const conversationID = await createChatGPTConversation3(id)
+        const conversationID = await createChatGPTConversation4(id)
         const convos = await getUsersConversations(id)
         setConversations(convos)
         setCurrentConversation(null)
@@ -54,6 +57,8 @@ const ChatGPTList = () => {
       setIsChatGPTConversation(true)
     }
   }
+
+  // const handleEditChatGPTTitle = async (ConversationID: string)
 
   const handleDeleteChatGPTConversation = async (ConversationID: string) => {
     console.log(ConversationID)
@@ -71,7 +76,6 @@ const ChatGPTList = () => {
   }
 
   useEffect(() => {
-    console.log(conversations)
     const convos = getConversationsWithChatGPT(conversations)
     console.log(convos)
     setChatGPTConversations(convos)
@@ -109,11 +113,18 @@ const ChatGPTList = () => {
                   ></CloseIcon>
                 </div>
               ) : (
-                <DeleteOutlineIcon
-                  style={{ color: 'black', fontSize: '30px' }}
-                  className="justify-end mx-4 font-black cursor-pointer"
-                  onClick={() => setShowDeleteIcons(true)}
-                ></DeleteOutlineIcon>
+                <div>
+                  <EditIcon
+                    style={{ color: 'black', fontSize: '30px' }}
+                    className="justify-end mx-4 font-black cursor-pointer"
+                    onClick={() => setShowDeleteIcons(true)}
+                  ></EditIcon>
+                  <DeleteOutlineIcon
+                    style={{ color: 'black', fontSize: '30px' }}
+                    className="justify-end mx-4 font-black cursor-pointer"
+                    onClick={() => setShowDeleteIcons(true)}
+                  ></DeleteOutlineIcon>
+                </div>
               )}
             </div>
           ))}
