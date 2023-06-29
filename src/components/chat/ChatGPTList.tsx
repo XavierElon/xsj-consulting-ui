@@ -92,7 +92,7 @@ const ChatGPTList = () => {
           {chatGPTConversations.map((chat: any) => (
             <div key={chat.id} className="flex items-start justify-between mt-4 ">
               <div className="flex items-center cursor-pointer" onClick={() => handleSetConversation(chat.id)}>
-                <ChatBubbleOutlineIcon className="mx-4"></ChatBubbleOutlineIcon>
+                <ChatBubbleOutlineIcon className="mx-4">4</ChatBubbleOutlineIcon>
                 {chat.messages.length === 0 ? (
                   <h1 className="text-black font-semibold">New Chat</h1>
                 ) : (

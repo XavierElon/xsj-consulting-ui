@@ -10,7 +10,11 @@ const Message = (message: any) => {
   const [username, setUsername] = useState<string>('')
   const { authState } = useContext(AuthStateContext)
   const { secondUser, secondUserID } = useContext(ChatStateContext)
+  const isChatGpt: boolean = false
 
+  useEffect(() => {
+    console.log(message.message)
+  }, [])
   useEffect(() => {
     const getProfilePic = async () => {
       setImageUrl('')
