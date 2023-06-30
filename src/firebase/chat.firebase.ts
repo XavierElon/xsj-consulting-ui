@@ -5,6 +5,7 @@ import { ConversationInterface, MessageInterface } from '@/models/chat.interface
 
 export const createChatGPTConversation3 = async (userID: string): Promise<any> => {
   const conversation: ConversationInterface = {
+    title: 'New Chat',
     users: [userID, 'chatGPT-3.5'],
     createdAt: serverTimestamp()
   }
@@ -15,6 +16,7 @@ export const createChatGPTConversation3 = async (userID: string): Promise<any> =
 
 export const createChatGPTConversation4 = async (userID: string): Promise<any> => {
   const conversation: ConversationInterface = {
+    title: 'New Chat',
     users: [userID, 'chatGPT-4'],
     createdAt: serverTimestamp()
   }

@@ -21,10 +21,12 @@ type ContextInterface = {
   setCurrentConversationID: (value: string | null) => void
   currentConversation: ConversationInterface | null
   setCurrentConversation: (value: ConversationInterface | null) => void
-  chatGPTConversation: ConversationInterface
-  setChatGPTConversation: (value: ConversationInterface | undefined) => void
   isChatGPTConversation: boolean
   setIsChatGPTConversation: (value: boolean) => void
+  isChatGPTConversation3: boolean
+  setIsChatGPTConversation3: (value: boolean) => void
+  isChatGPTConversation4: boolean
+  setIsChatGPTConversation4: (value: boolean) => void
   getFirebaseUserConversations: (value: string) => any
 }
 
@@ -43,10 +45,12 @@ const ChatStateContext = createContext<ContextInterface>({
   setCurrentConversationID: () => {},
   currentConversation: { users: [], createdAt: firebase.firestore.FieldValue.serverTimestamp() },
   setCurrentConversation: () => {},
-  chatGPTConversation: { users: [], createdAt: firebase.firestore.FieldValue.serverTimestamp() },
-  setChatGPTConversation: () => {},
   isChatGPTConversation: false,
   setIsChatGPTConversation: () => {},
+  isChatGPTConversation3: false,
+  setIsChatGPTConversation3: () => {},
+  isChatGPTConversation4: false,
+  setIsChatGPTConversation4: () => {},
   getFirebaseUserConversations: () => {}
 })
 
@@ -58,8 +62,9 @@ const ChatStateProvider = (props: any) => {
   const [conversations, setConversations] = useState<ConversationInterface[]>([])
   const [currentConversationID, setCurrentConversationID] = useState<string | null>(null)
   const [currentConversation, setCurrentConversation] = useState<any>(null)
-  const [chatGPTConversation, setChatGPTConversation] = useState<any>(null)
   const [isChatGPTConversation, setIsChatGPTConversation] = useState<boolean>(false)
+  const [isChatGPTConversation3, setIsChatGPTConversation3] = useState<boolean>(false)
+  const [isChatGPTConversation4, setIsChatGPTConversation4] = useState<boolean>(false)
   const { authState } = useContext(AuthStateContext)
   const { id } = authState
 
@@ -94,10 +99,12 @@ const ChatStateProvider = (props: any) => {
         setCurrentConversationID,
         currentConversation,
         setCurrentConversation,
-        chatGPTConversation,
-        setChatGPTConversation,
         isChatGPTConversation,
         setIsChatGPTConversation,
+        isChatGPTConversation3,
+        setIsChatGPTConversation3,
+        isChatGPTConversation4,
+        setIsChatGPTConversation4,
         getFirebaseUserConversations
       }}
     >

@@ -15,7 +15,7 @@ const SendMessage = () => {
   const [conversationSelected, setConversationSelected] = useState<boolean>(false)
   const { authState } = useContext(AuthStateContext)
   let { id } = authState
-  const { secondUser, secondUserID, currentConversation, currentConversationID, isChatGPTConversation } = useContext(ChatStateContext)
+  const { secondUser, secondUserID, currentConversationID, isChatGPTConversation } = useContext(ChatStateContext)
   const messages = useChatListener(currentConversationID!)
 
   useEffect(() => {

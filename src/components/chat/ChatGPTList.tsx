@@ -11,19 +11,13 @@ import EditIcon from '@mui/icons-material/Edit'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CheckIcon from '@mui/icons-material/Check'
 import CloseIcon from '@mui/icons-material/Close'
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 
 const ChatGPTList = () => {
   const [chatGPTConversations, setChatGPTConversations] = useState<any[]>([])
   const [showDeleteIcons, setShowDeleteIcons] = useState<boolean>(false)
-  const {
-    conversations,
-    setCurrentConversation,
-    setCurrentConversationID,
-    chatGPTConversation,
-    setChatGPTConversation,
-    setConversations,
-    setIsChatGPTConversation
-  } = useContext(ChatStateContext)
+  const { conversations, setCurrentConversation, setCurrentConversationID, chatGPTConversation, setConversations, setIsChatGPTConversation } =
+    useContext(ChatStateContext)
   const { authState } = useContext(AuthStateContext)
   const { id } = authState
 
@@ -40,25 +34,21 @@ const ChatGPTList = () => {
   }
 
   const handleNewChatGPTClick = async () => {
-    if (!chatGPTConversation) {
-      try {
-        const conversationID = await createChatGPTConversation4(id)
-        const convos = await getUsersConversations(id)
-        setConversations(convos)
-        setCurrentConversation(null)
-        setCurrentConversationID(conversationID)
-        setIsChatGPTConversation(true)
-      } catch (error) {
-        console.error(error)
-      }
-    } else {
-      setCurrentConversation(chatGPTConversation)
-      setCurrentConversationID(chatGPTConversation.id!)
+    try {
+      const conversationID = await createChatGPTConversation4(id)
+      const convos = await getUsersConversations(id)
+      setConversations(convos)
+      setCurrentConversation(null)
+      setCurrentConversationID(conversationID)
       setIsChatGPTConversation(true)
+    } catch (error) {
+      console.error(error)
     }
   }
 
-  // const handleEditChatGPTTitle = async (ConversationID: string)
+  const handleEditChatGPTTitle = async (ConversationID: string) => {
+    console.log(ConversationID)
+  }
 
   const handleDeleteChatGPTConversation = async (ConversationID: string) => {
     console.log(ConversationID)
@@ -92,7 +82,7 @@ const ChatGPTList = () => {
           {chatGPTConversations.map((chat: any) => (
             <div key={chat.id} className="flex items-start justify-between mt-4 ">
               <div className="flex items-center cursor-pointer" onClick={() => handleSetConversation(chat.id)}>
-                <ChatBubbleOutlineIcon className="mx-4">4</ChatBubbleOutlineIcon>
+                <ChatBubbleOutlineIcon className="mx-4"></ChatBubbleOutlineIcon>
                 {chat.messages.length === 0 ? (
                   <h1 className="text-black font-semibold">New Chat</h1>
                 ) : (
