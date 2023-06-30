@@ -9,7 +9,7 @@ import BoltIcon from '@mui/icons-material/Bolt'
 const Message = (message: any) => {
   const [imageUrl, setImageUrl] = useState<string>('')
   const { authState } = useContext(AuthStateContext)
-  const { secondUser, secondUserID, isChatGPTConversation } = useContext(ChatStateContext)
+  const { secondUser, secondUserID } = useContext(ChatStateContext)
   const isChatGPT: boolean = message.message.senderID === 'chatGPT-3.5'
 
   useEffect(() => {
