@@ -8,20 +8,15 @@ import BoltIcon from '@mui/icons-material/Bolt'
 
 const Message = (message: any) => {
   const [imageUrl, setImageUrl] = useState<string>('')
-  const [username, setUsername] = useState<string>('')
   const { authState } = useContext(AuthStateContext)
   const { secondUser, secondUserID, isChatGPTConversation } = useContext(ChatStateContext)
   const isChatGPT: boolean = message.message.senderID === 'chatGPT-3.5'
 
   useEffect(() => {
-    console.log(message.message)
-    console.log(isChatGPT)
-  }, [])
-  useEffect(() => {
     const getProfilePic = async () => {
       setImageUrl('')
+
       if (message.message.senderID === secondUserID) {
-        setUsername(secondUser.username)
         if (Object.keys(secondUser.profilePicture).length !== 0) {
           if (secondUser.provider === 'firebaseGoogle' && secondUser.profilePicture) {
             setImageUrl(secondUser.profilePicture)
@@ -30,7 +25,6 @@ const Message = (message: any) => {
           }
         }
       } else if (message.message.senderID === localStorage.getItem('id')) {
-        setUsername(authState.username)
         if (authState.provider === 'local' && authState.user.profilePicture) {
           setImageUrl(authState.user.profilePicture.url)
         } else if (authState.provider === 'firebaseGoogle' && authState.user.photoURL) {
@@ -54,11 +48,6 @@ const Message = (message: any) => {
             ) : (
               <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '45px' }}></AccountCircleIcon>
             )}
-            {/* {imageUrl ? (
-              <Image alt="profilePicture" width="15" height="15" src={imageUrl} />
-            ) : (
-              <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '45px' }}></AccountCircleIcon>
-            )} */}
           </div>
         </div>
         <div className="chat-details">
