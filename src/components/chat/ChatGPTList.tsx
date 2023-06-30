@@ -16,8 +16,7 @@ import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 const ChatGPTList = () => {
   const [chatGPTConversations, setChatGPTConversations] = useState<any[]>([])
   const [showDeleteIcons, setShowDeleteIcons] = useState<boolean>(false)
-  const { conversations, setCurrentConversation, setCurrentConversationID, chatGPTConversation, setConversations, setIsChatGPTConversation } =
-    useContext(ChatStateContext)
+  const { conversations, setCurrentConversation, setCurrentConversationID, setConversations, setIsChatGPTConversation } = useContext(ChatStateContext)
   const { authState } = useContext(AuthStateContext)
   const { id } = authState
 
@@ -35,7 +34,7 @@ const ChatGPTList = () => {
 
   const handleNewChatGPTClick = async () => {
     try {
-      const conversationID = await createChatGPTConversation4(id)
+      const conversationID = await createChatGPTConversation3(id)
       const convos = await getUsersConversations(id)
       setConversations(convos)
       setCurrentConversation(null)

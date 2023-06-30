@@ -79,7 +79,7 @@ const SendMessage = () => {
     if (currentConversationID !== null && isChatGPTConversation === true) {
       console.log('chat gpt')
       const response = await axios.post(
-        process.env.NEXT_PUBLIC_CHATGPT_CONVERSATION_ROUTE4!,
+        process.env.NEXT_PUBLIC_CHATGPT3_CONVERSATION_ROUTE!,
         {
           message: value,
           conversationID: currentConversationID,
@@ -105,7 +105,7 @@ const SendMessage = () => {
         {isChatGPTConversation ? (
           <div className="flex">
             <BoltIcon style={{ color: 'purple', fontSize: '40px' }}></BoltIcon>
-            <p className="mr-2 my-2 text-black">ChatGPT 4</p>
+            <p className="mr-2 my-2">ChatGPT 3.5</p>
           </div>
         ) : (
           <div className="flex items-center">{returnSecondUserDisplay()}</div>

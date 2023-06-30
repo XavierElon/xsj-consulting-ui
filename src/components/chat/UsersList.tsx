@@ -38,7 +38,7 @@ const UsersList = () => {
     const filteredConversation = getConversationWithUser(conversations, secondUserID)
     if (filteredConversation !== undefined) {
       setCurrentConversation(filteredConversation)
-      setCurrentConversationID(filteredConversation.id)
+      setCurrentConversationID(filteredConversation.id!)
     } else if (secondUserID) {
       const existingEmptyConversation = conversations.find(
         (conversation) => conversation.users.includes(secondUserID) && conversation.messages?.length === 0
@@ -47,7 +47,7 @@ const UsersList = () => {
         createNewConversation()
       } else {
         setCurrentConversation(existingEmptyConversation)
-        setCurrentConversationID(existingEmptyConversation.id)
+        setCurrentConversationID(existingEmptyConversation.id!)
       }
     } else {
       return

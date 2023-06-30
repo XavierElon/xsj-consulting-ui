@@ -4,16 +4,18 @@ import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
 import Image from 'next/image'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import BoltIcon from '@mui/icons-material/Bolt'
 
 const Message = (message: any) => {
   const [imageUrl, setImageUrl] = useState<string>('')
   const [username, setUsername] = useState<string>('')
   const { authState } = useContext(AuthStateContext)
-  const { secondUser, secondUserID } = useContext(ChatStateContext)
-  const isChatGpt: boolean = false
+  const { secondUser, secondUserID, isChatGPTConversation } = useContext(ChatStateContext)
+  const isChatGPT: boolean = message.message.senderID === 'chatGPT-3.5'
 
   useEffect(() => {
     console.log(message.message)
+    console.log(isChatGPT)
   }, [])
   useEffect(() => {
     const getProfilePic = async () => {
@@ -45,11 +47,18 @@ const Message = (message: any) => {
       <div className="flex items-start">
         <div className="chat-image avatar">
           <div className="w-10 rounded-full mr-2">
-            {imageUrl ? (
+            {isChatGPT ? (
+              <BoltIcon style={{ color: 'purple', fontSize: '40px' }}></BoltIcon>
+            ) : imageUrl ? (
               <Image alt="profilePicture" width="15" height="15" src={imageUrl} />
             ) : (
               <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '45px' }}></AccountCircleIcon>
             )}
+            {/* {imageUrl ? (
+              <Image alt="profilePicture" width="15" height="15" src={imageUrl} />
+            ) : (
+              <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '45px' }}></AccountCircleIcon>
+            )} */}
           </div>
         </div>
         <div className="chat-details">
