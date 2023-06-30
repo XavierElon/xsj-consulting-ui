@@ -37,10 +37,18 @@ const UsersList = () => {
   useEffect(() => {
     const filteredConversation = getConversationWithUser(conversations, secondUserID)
     if (filteredConversation !== undefined) {
-      setCurrentConversation(filteredConversation!)
-      setCurrentConversationID(filteredConversation.id!)
+      setCurrentConversation(filteredConversation)
+      setCurrentConversationID(filteredConversation.id)
     } else if (secondUserID) {
-      createNewConversation()
+      const existingEmptyConversation = conversations.find(
+        (conversation) => conversation.users.includes(secondUserID) && conversation.messages?.length === 0
+      )
+      if (!existingEmptyConversation) {
+        createNewConversation()
+      } else {
+        setCurrentConversation(existingEmptyConversation)
+        setCurrentConversationID(existingEmptyConversation.id)
+      }
     } else {
       return
     }
