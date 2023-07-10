@@ -64,6 +64,7 @@ export const getUsersConversations = async (userID: string): Promise<Conversatio
     return {
       id: doc.id,
       users: data.users,
+      title: data.title,
       createdAt: data.createdAt,
       messages: messages
     } as ConversationInterface
