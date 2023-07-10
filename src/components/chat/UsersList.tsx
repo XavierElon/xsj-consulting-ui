@@ -21,7 +21,6 @@ const UsersList = () => {
     conversations,
     setConversations,
     setCurrentConversation,
-    currentConversationID,
     setCurrentConversationID,
     setIsChatGPTConversation
   } = useContext(ChatStateContext)
