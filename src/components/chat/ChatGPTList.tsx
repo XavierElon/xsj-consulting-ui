@@ -12,11 +12,14 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CheckIcon from '@mui/icons-material/Check'
 import CloseIcon from '@mui/icons-material/Close'
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
+import { bgcolor } from '@mui/system'
+import { grey } from '@mui/material/colors'
 
 const ChatGPTList = () => {
   const [chatGPTConversations, setChatGPTConversations] = useState<any[]>([])
   const [showDeleteIcons, setShowDeleteIcons] = useState<boolean>(false)
-  const { conversations, setCurrentConversation, setCurrentConversationID, setConversations, setIsChatGPTConversation } = useContext(ChatStateContext)
+  const { conversations, setCurrentConversation, currentConversationID, setCurrentConversationID, setConversations, setIsChatGPTConversation } =
+    useContext(ChatStateContext)
   const { authState } = useContext(AuthStateContext)
   const { id } = authState
 
@@ -78,45 +81,44 @@ const ChatGPTList = () => {
     <div className="flex flex-col min-h-screen">
       <div className="flex-grow overflow-auto">
         <div className="my-20">
-          {chatGPTConversations.map((chat: any) => (
-            <div key={chat.id} className="flex items-start justify-between mt-4 ">
-              <div className="flex items-center cursor-pointer" onClick={() => handleSetConversation(chat.id)}>
-                <ChatBubbleOutlineIcon className="mx-4"></ChatBubbleOutlineIcon>
-                {chat.messages.length === 0 ? (
-                  <h1 className="text-black font-semibold">New Chat</h1>
-                ) : (
-                  <h1 className="text-black font-semibold">{chat.id}</h1>
-                )}
+          {chatGPTConversations.map((chat: any) => {
+            const isSelected: boolean = chat.id === currentConversationID
+            return (
+              <div key={chat.id} className={`flex items-start justify-between mt-4 ${isSelected ? 'bg-gray-300 py-2 pl-2 rounded-lg' : 'inherit'}`}>
+                <div className="flex items-center cursor-pointer" onClick={() => handleSetConversation(chat.id)}>
+                  <ChatBubbleOutlineIcon className="mx-4"></ChatBubbleOutlineIcon>
+                  <h1 className="text-black font-semibold">{chat.title}</h1>
+                </div>
+                {showDeleteIcons && isSelected ? (
+                  <div>
+                    <CheckIcon
+                      style={{ color: 'black', fontSize: '30px' }}
+                      className="justify-end mx-4 font-black cursor-pointer"
+                      onClick={() => handleDeleteChatGPTConversation(chat.id)}
+                    ></CheckIcon>
+                    <CloseIcon
+                      style={{ color: 'black', fontSize: '30px' }}
+                      className="justify-end mx-4 font-black cursor-pointer"
+                      onClick={() => setShowDeleteIcons(false)}
+                    ></CloseIcon>
+                  </div>
+                ) : isSelected ? (
+                  <div>
+                    <EditIcon
+                      style={{ color: 'black', fontSize: '30px' }}
+                      className="justify-end mx-4 font-black cursor-pointer"
+                      onClick={() => setShowDeleteIcons(true)}
+                    ></EditIcon>
+                    <DeleteOutlineIcon
+                      style={{ color: 'black', fontSize: '30px' }}
+                      className="justify-end mx-4 font-black cursor-pointer"
+                      onClick={() => setShowDeleteIcons(true)}
+                    ></DeleteOutlineIcon>
+                  </div>
+                ) : null}
               </div>
-              {showDeleteIcons ? (
-                <div>
-                  <CheckIcon
-                    style={{ color: 'black', fontSize: '30px' }}
-                    className="justify-end mx-4 font-black cursor-pointer"
-                    onClick={() => handleDeleteChatGPTConversation(chat.id)}
-                  ></CheckIcon>
-                  <CloseIcon
-                    style={{ color: 'black', fontSize: '30px' }}
-                    className="justify-end mx-4 font-black cursor-pointer"
-                    onClick={() => setShowDeleteIcons(false)}
-                  ></CloseIcon>
-                </div>
-              ) : (
-                <div>
-                  <EditIcon
-                    style={{ color: 'black', fontSize: '30px' }}
-                    className="justify-end mx-4 font-black cursor-pointer"
-                    onClick={() => setShowDeleteIcons(true)}
-                  ></EditIcon>
-                  <DeleteOutlineIcon
-                    style={{ color: 'black', fontSize: '30px' }}
-                    className="justify-end mx-4 font-black cursor-pointer"
-                    onClick={() => setShowDeleteIcons(true)}
-                  ></DeleteOutlineIcon>
-                </div>
-              )}
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
       <div className="flex justify-center border-white rounded-xl border-4 py-3 mx-4 cursor-pointer mb-5" onClick={handleNewChatGPTClick}>
