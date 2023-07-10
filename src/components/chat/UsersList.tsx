@@ -72,24 +72,16 @@ const UsersList = () => {
 
   useEffect(() => {
     getUsers()
-    console.log(conversations)
   }, [conversations])
 
   useEffect(() => {
     const filteredConversation = getConversationWithUser(conversations, secondUserID)
-    console.log(filteredConversation)
     if (filteredConversation !== undefined) {
       setCurrentConversation(filteredConversation)
       setCurrentConversationID(filteredConversation.id!)
     } else if (secondUserID) {
-      console.log('here')
-      const existingEmptyConversation = conversations.find((conversation) => {
-        console.log(conversation)
-        conversation.users.includes(secondUserID)
-      })
-      console.log(existingEmptyConversation)
+      const existingEmptyConversation = conversations.find((conversation) => conversation.users.includes(secondUserID))
       if (!existingEmptyConversation) {
-        console.log('Creatying new convo')
         createNewConversation()
       } else {
         setCurrentConversation(existingEmptyConversation)
