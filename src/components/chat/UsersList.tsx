@@ -6,7 +6,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
 import { ConversationInterface } from '@/models/chat.interfaces'
-import { createConversation } from '@/firebase/chat.firebase'
+import { createConversation, getUsersConversations } from '@/firebase/chat.firebase'
 import 'firebase/compat/firestore'
 import './UsersList.css'
 
@@ -19,7 +19,9 @@ const UsersList = () => {
     secondUser,
     setSecondUser,
     conversations,
+    setConversations,
     setCurrentConversation,
+    currentConversationID,
     setCurrentConversationID,
     setIsChatGPTConversation
   } = useContext(ChatStateContext)
@@ -30,32 +32,10 @@ const UsersList = () => {
     return user.username.toLowerCase().includes(searchField.toLowerCase())
   })
 
-  useEffect(() => {
-    getUsers()
-  }, [conversations])
-
-  useEffect(() => {
-    const filteredConversation = getConversationWithUser(conversations, secondUserID)
-    if (filteredConversation !== undefined) {
-      setCurrentConversation(filteredConversation)
-      setCurrentConversationID(filteredConversation.id!)
-    } else if (secondUserID) {
-      const existingEmptyConversation = conversations.find(
-        (conversation) => conversation.users.includes(secondUserID) && conversation.messages?.length === 0
-      )
-      if (!existingEmptyConversation) {
-        createNewConversation()
-      } else {
-        setCurrentConversation(existingEmptyConversation)
-        setCurrentConversationID(existingEmptyConversation.id!)
-      }
-    } else {
-      return
-    }
-  }, [secondUser, secondUserID])
-
   const createNewConversation = async () => {
     const newConversationId = await createConversation(id, secondUserID)
+    const convos = await getUsersConversations(id)
+    setConversations(convos)
     setCurrentConversationID(newConversationId)
     const conversation = getConversationWithUser(conversations, secondUserID)
     setCurrentConversation(conversation!)
@@ -90,6 +70,36 @@ const UsersList = () => {
     setIsChatGPTConversation(false)
   }
 
+  useEffect(() => {
+    getUsers()
+    console.log(conversations)
+  }, [conversations])
+
+  useEffect(() => {
+    const filteredConversation = getConversationWithUser(conversations, secondUserID)
+    console.log(filteredConversation)
+    if (filteredConversation !== undefined) {
+      setCurrentConversation(filteredConversation)
+      setCurrentConversationID(filteredConversation.id!)
+    } else if (secondUserID) {
+      console.log('here')
+      const existingEmptyConversation = conversations.find((conversation) => {
+        console.log(conversation)
+        conversation.users.includes(secondUserID)
+      })
+      console.log(existingEmptyConversation)
+      if (!existingEmptyConversation) {
+        console.log('Creatying new convo')
+        createNewConversation()
+      } else {
+        setCurrentConversation(existingEmptyConversation)
+        setCurrentConversationID(existingEmptyConversation.id!)
+      }
+    } else {
+      return
+    }
+  }, [secondUser, secondUserID])
+
   return (
     <div className="flex min-h-screen">
       <div className="flex flex-col-reverse">
@@ -103,8 +113,13 @@ const UsersList = () => {
         </div>
 
         {filteredUsers.map((user: any) => {
+          const isSelected: boolean = user.id === secondUserID
           return (
-            <div key={user.id} className="flex items-center mt-4 ml-4 cursor-pointer" onClick={() => handleUserClick(user)}>
+            <div
+              key={user.id}
+              className={`flex items-center mt-2 ml-4 cursor-pointer ${isSelected ? 'bg-gray-300 py-2 px-2 rounded-lg' : ' bg-inherit'}`}
+              onClick={() => handleUserClick(user)}
+            >
               <div className="chat-image avatar">
                 <div className="w-10 rounded-full mr-2">
                   {user.provider === 'firebaseGoogle' ? (
