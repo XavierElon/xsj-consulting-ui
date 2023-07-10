@@ -1,6 +1,6 @@
 import 'firebase/firestore'
 import { db } from './firebase'
-import { addDoc, collection, deleteDoc, doc, getDocs, query, serverTimestamp, where } from 'firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, getDocs, query, serverTimestamp, updateDoc, where } from 'firebase/firestore'
 import { ConversationInterface, MessageInterface } from '@/models/chat.interfaces'
 
 export const createChatGPTConversation3 = async (userID: string): Promise<any> => {
@@ -33,6 +33,14 @@ export const createConversation = async (user1ID: string, user2ID: string): Prom
   const docRef = await addDoc(collection(db, 'conversations'), conversation)
   const conversationRef = doc(db, 'conversations', docRef.id)
   return conversationRef.id
+}
+
+export const updateConversationTitle = async (conversationID: string, newTitle: string) => {
+  const conversationRef = doc(db, 'conversations', conversationID)
+
+  await updateDoc(conversationRef, {
+    title: newTitle
+  })
 }
 
 export const addMessageToConversation = async (conversationID: string, senderID: string, text: string): Promise<void> => {
