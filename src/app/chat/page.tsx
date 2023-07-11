@@ -46,7 +46,7 @@ const Chat: NextPage = () => {
             </div>
 
             <div className="w-8/12 flex flex-col h-full relative">
-              <div className="overflow-y-scroll flex-grow">
+              <div className="overflow-y-scroll flex-grow w-full">
                 <ChatBox />
               </div>
               <div className="fixed bottom-0 w-2/3">
