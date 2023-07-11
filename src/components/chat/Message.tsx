@@ -38,7 +38,7 @@ const Message = (message: any) => {
 
   return (
     <div>
-      <div className="flex items-start">
+      <div className="chat chat-end">
         <div className="chat-image avatar">
           <div className="w-10 rounded-full mr-2">
             {isChatGPT ? (
@@ -51,9 +51,9 @@ const Message = (message: any) => {
           </div>
         </div>
         <div className="chat-details">
-          <div className="mt-4 chat-header font-sm text-black"></div>
+          {/* <div className="mt-4 chat-header font-sm text-black"></div> */}
           <div className="flex flex-wrap">
-            <div className=" pr-6 chat-bubble bg-blue-500 text-white">{message.message.text}</div>
+            <div className=" pr-6 chat-bubble chat-bubble-primary text-white">{message.message.text}</div>
           </div>
         </div>
       </div>
