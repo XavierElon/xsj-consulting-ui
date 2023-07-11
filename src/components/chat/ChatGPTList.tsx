@@ -14,7 +14,6 @@ import 'firebase/compat/firestore'
 import './UsersList.css'
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
 import EditIcon from '@mui/icons-material/Edit'
-
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CheckIcon from '@mui/icons-material/Check'
 import CloseIcon from '@mui/icons-material/Close'
@@ -25,6 +24,8 @@ const ChatGPTList = () => {
   const [chatGPTConversations, setChatGPTConversations] = useState<any[]>([])
   const [showDeleteIcons, setShowDeleteIcons] = useState<boolean>(false)
   const [showEditTitleInput, setShowEditTitleInput] = useState<boolean>(false)
+  const [isChatGpt3Selected, setIsChatGpt3Selected] = useState<boolean>(true)
+  const [isChatGpt4Selected, setIsChatGpt4Selected] = useState<boolean>(false)
   const [newTitle, setNewTitle] = useState<string>('')
   const {
     conversations,
@@ -130,12 +131,12 @@ const ChatGPTList = () => {
                       />
                       <CheckIcon
                         style={{ color: 'black', fontSize: '30px' }}
-                        className="fkex justify-end items-center mx-2 font-black cursor-pointer"
+                        className="flex justify-end items-center mx-2 font-black cursor-pointer"
                         onClick={() => handleEditChatGPTTitle(chat.id)}
                       ></CheckIcon>
                       <CloseIcon
                         style={{ color: 'black', fontSize: '30px' }}
-                        className="justify-end mx-2 font-black cursor-pointer"
+                        className="flex justify-end mx-2 font-black cursor-pointer"
                         onClick={() => setShowEditTitleInput(false)}
                       ></CloseIcon>
                     </div>
@@ -175,6 +176,26 @@ const ChatGPTList = () => {
               </div>
             )
           })}
+        </div>
+      </div>
+      <div className="flex justify-center border-white rounded-xl border-4 py-1 mx-4 cursor-pointer mb-5">
+        <div
+          onClick={() => {
+            setIsChatGpt4Selected(false)
+            setIsChatGpt3Selected(true)
+          }}
+          className={`flex-grow bg-gray-300 flex justify-center items-center py-2 ${isChatGpt3Selected ? 'bg-gray-400 rounded-xl' : 'bg-inherit'}`}
+        >
+          <p className={`text-xl ${isChatGpt3Selected ? 'text-white' : 'text-black'}`}>GPT-3.5</p>
+        </div>
+        <div
+          onClick={() => {
+            setIsChatGpt3Selected(false)
+            setIsChatGpt4Selected(true)
+          }}
+          className={`flex-grow flex justify-center items-center ${isChatGpt4Selected ? 'bg-gray-400 rounded-xl text-white' : 'bg-inherit'}`}
+        >
+          <p className={`text-xl ${isChatGpt4Selected ? 'text-white' : 'text-black'}`}>GPT-4</p>
         </div>
       </div>
       <div className="flex justify-center border-white rounded-xl border-4 py-3 mx-4 cursor-pointer mb-5" onClick={handleNewChatGPTClick}>
