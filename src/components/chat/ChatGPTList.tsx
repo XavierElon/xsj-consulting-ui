@@ -101,7 +101,7 @@ const ChatGPTList = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="flex-grow overflow-auto">
+      <div className="flex-grow overflow-y-auto">
         <div className="my-20">
           {chatGPTConversations.map((chat: any) => {
             const isSelected: boolean = chat.id === currentConversationID
