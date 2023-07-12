@@ -9,8 +9,10 @@ import BoltIcon from '@mui/icons-material/Bolt'
 const Message = (message: any) => {
   const [imageUrl, setImageUrl] = useState<string>('')
   const { authState } = useContext(AuthStateContext)
+  const { id, username } = authState
   const { secondUser, secondUserID } = useContext(ChatStateContext)
   const isChatGPT: boolean = message.message.senderID === 'chatGPT-3.5'
+  const isSecondUser: boolean = message.message.senderID !== id
 
   useEffect(() => {
     const getProfilePic = async () => {
@@ -37,10 +39,10 @@ const Message = (message: any) => {
   }, [message, secondUser, secondUserID])
 
   return (
-    <div>
-      <div className="flex items-start">
+    <div className="">
+      <div className={`chat ${isSecondUser ? 'chat-start' : 'chat-end'}`}>
         <div className="chat-image avatar">
-          <div className="w-10 rounded-full mr-2">
+          <div className="w-10 rounded-full">
             {isChatGPT ? (
               <BoltIcon style={{ color: 'purple', fontSize: '40px' }}></BoltIcon>
             ) : imageUrl ? (
@@ -50,12 +52,16 @@ const Message = (message: any) => {
             )}
           </div>
         </div>
-        <div className="chat-details">
-          <div className="mt-4 chat-header font-sm text-black"></div>
-          <div className="flex flex-wrap">
-            <div className=" pr-6 chat-bubble bg-blue-500 text-white">{message.message.text}</div>
+        <div className="chat-header text-black">
+          {isChatGPT ? 'Chat GPT' : isSecondUser ? 'Achilles' : username}
+          <time className="text-xs opacity-75 ml-2">12:45</time>
+        </div>
+        <div className="chat-details flex-grow">
+          <div className={`flex ${!isSecondUser ? 'justify-end' : ''}`}>
+            <div className={`chat-bubble text-white ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}>{message.message.text}</div>
           </div>
         </div>
+        <div className="chat-footer opacity-75">Delivered</div>
       </div>
     </div>
   )

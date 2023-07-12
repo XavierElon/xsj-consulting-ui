@@ -18,9 +18,9 @@ const SendMessage = () => {
   const { secondUser, secondUserID, currentConversationID, isChatGPTConversation } = useContext(ChatStateContext)
   const messages = useChatListener(currentConversationID!)
 
-  useEffect(() => {
-    console.log(messages)
-  }, [messages])
+  // useEffect(() => {
+  //   console.log(messages)
+  // }, [messages])
 
   useEffect(() => {
     if (secondUser) {
@@ -72,6 +72,8 @@ const SendMessage = () => {
 
   const handleSendMessage = async (e: any) => {
     e.preventDefault()
+    console.log('jere')
+    setValue('')
     console.log(isChatGPTConversation)
     if (currentConversationID !== null) {
       await addMessageToConversation(currentConversationID, id, value)
@@ -87,7 +89,7 @@ const SendMessage = () => {
         },
         { withCredentials: true }
       )
-      console.log(response)
+      // console.log(response)
       if (response.status === 200) {
         try {
           await addMessageToConversation(currentConversationID, 'chatGPT-3.5', response.data.message)
@@ -96,7 +98,6 @@ const SendMessage = () => {
         }
       }
     }
-    setValue('')
   }
 
   return (

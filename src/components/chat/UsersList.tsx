@@ -92,9 +92,9 @@ const UsersList = () => {
   }, [secondUser, secondUserID])
 
   return (
-    <div className="flex min-h-screen">
-      <div className="flex flex-col-reverse">
-        <div className="p-2 my-4 ml-2">
+    <div className="flex min-h-screen w-full">
+      <div className="flex flex-col-reverse flex-grow overflow-y-auto">
+        <div className=" my-4">
           <input
             className="border rounded-lg py-2 px-4 focus:outline-none bg-gray-400 text-white placeholder-white focus:ring-1 focus:ring-blue-500"
             type="search"
@@ -108,14 +108,14 @@ const UsersList = () => {
           return (
             <div
               key={user.id}
-              className={`flex items-center mt-2 ml-4 cursor-pointer ${isSelected ? 'bg-gray-300 py-2 px-2 rounded-lg' : ' bg-inherit'}`}
+              className={`flex items-center w-full mt-2 pt-2 pl-2 cursor-pointer ${isSelected ? 'bg-gray-300 py-2 px-4 rounded-lg' : ' bg-inherit'}`}
               onClick={() => handleUserClick(user)}
             >
               <div className="chat-image avatar">
                 <div className="w-10 rounded-full mr-2">
-                  {user.provider === 'firebaseGoogle' ? (
+                  {user.provider === 'firebaseGoogle' && user.profilePicture ? (
                     <Image alt="profilePicture" width="15" height="15" src={user.profilePicture}></Image>
-                  ) : user.provider === 'local' && user.profilePicture.url ? (
+                  ) : user.provider === 'local' && user.profilePicture && user.profilePicture.url ? (
                     <Image alt="profilePicture" width="15" height="15" src={user.profilePicture.url}></Image>
                   ) : (
                     <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '45px' }}></AccountCircleIcon>
