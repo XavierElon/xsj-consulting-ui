@@ -15,9 +15,14 @@ const Message = (message: any) => {
   const isChatGPT: boolean = message.message.senderID === 'chatGPT-3.5'
   const isSecondUser: boolean = message.message.senderID !== id
   const timeOptions: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit' }
-  const formattedTime = new Intl.DateTimeFormat('default', timeOptions).format(message.message.createdAt.toDate())
-  const date = message.message.createdAt.toDate()
-  const formattedDate = formatDate(date)
+  let formattedTime
+  let date
+  let formattedDate
+  if (message.message.createdAt) {
+    formattedTime = new Intl.DateTimeFormat('default', timeOptions).format(message.message.createdAt.toDate())
+    date = message.message.createdAt.toDate()
+    formattedDate = formatDate(date)
+  }
 
   useEffect(() => {
     const getProfilePic = async () => {

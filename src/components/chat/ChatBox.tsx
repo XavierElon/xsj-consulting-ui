@@ -20,7 +20,6 @@ const ChatBox = () => {
   }
 
   const scrollToBottom = () => {
-    console.log('scroll to bottom')
     if (messagesEndRef.current !== null) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' })
     }
