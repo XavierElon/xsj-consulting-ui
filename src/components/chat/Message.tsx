@@ -53,7 +53,7 @@ const Message = (message: any) => {
           </div>
         </div>
         <div className="chat-header text-black">
-          {isChatGPT ? 'Chat GPT' : isSecondUser ? 'Achilles' : username}
+          {isChatGPT ? 'Chat GPT' : isSecondUser ? message.username : username}
           <time className="text-xs opacity-75 ml-2">12:45</time>
         </div>
         <div className="chat-details flex-grow">

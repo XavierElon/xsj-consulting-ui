@@ -14,7 +14,7 @@ const SendMessage = () => {
   const [secondUserProfilePictureUrl, setSecondUserProfilePictureUrl] = useState<string>('')
   const [conversationSelected, setConversationSelected] = useState<boolean>(false)
   const { authState } = useContext(AuthStateContext)
-  let { id } = authState
+  let { id, username } = authState
   const { secondUser, secondUserID, currentConversationID, isChatGPTConversation } = useContext(ChatStateContext)
   const messages = useChatListener(currentConversationID!)
 
@@ -72,11 +72,9 @@ const SendMessage = () => {
 
   const handleSendMessage = async (e: any) => {
     e.preventDefault()
-    console.log('jere')
     setValue('')
-    console.log(isChatGPTConversation)
     if (currentConversationID !== null) {
-      await addMessageToConversation(currentConversationID, id, value)
+      await addMessageToConversation(currentConversationID, id, value, username)
     }
     if (currentConversationID !== null && isChatGPTConversation === true) {
       console.log('chat gpt')
@@ -89,10 +87,9 @@ const SendMessage = () => {
         },
         { withCredentials: true }
       )
-      // console.log(response)
       if (response.status === 200) {
         try {
-          await addMessageToConversation(currentConversationID, 'chatGPT-3.5', response.data.message)
+          await addMessageToConversation(currentConversationID, 'chatGPT-3.5', response.data.message, 'chatGPT-3.5')
         } catch (error) {
           console.error(error)
         }

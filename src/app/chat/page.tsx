@@ -39,24 +39,21 @@ const Chat: NextPage = () => {
           <Navbar open={isOpen} handleClick={() => setIsOpen(!isOpen)} />
 
           <div className="flex flex-row flex-grow h-screen">
-            <div className="w-2/12 flex flex-col-reverse bg-slate-200">
-              <div className="overflow-y-auto flex-grow h-full">
-                <ChatGPTList />
-              </div>
+            <div className="w-2/12 flex flex-col-reverse bg-slate-200 overflow-y-auto">
+              <ChatGPTList />
             </div>
 
-            <div className="w-8/12 flex flex-col h-full relative">
-              <div className="overflow-y-auto flex-grow h-full w-full">
+            <div className="w-8/12 flex flex-col h-full">
+              <div className="overflow-y-auto flex-grow">
                 <ChatBox />
               </div>
-              <div className="fixed bottom-0 w-2/3">
+              <div className="bg-gray-200 w-full py-6 shadow-lg px-2">
                 <SendMessage />
               </div>
             </div>
-            <div className="w-2/12 flex flex-col bg-slate-200">
-              <div className="overflow-y-auto flex-grow h-full">
-                <UsersList />
-              </div>
+
+            <div className="w-2/12 flex flex-col bg-slate-200 overflow-y-auto">
+              <UsersList />
             </div>
           </div>
         </div>

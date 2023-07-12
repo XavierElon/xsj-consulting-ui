@@ -43,10 +43,11 @@ export const updateConversationTitle = async (conversationID: string, newTitle: 
   })
 }
 
-export const addMessageToConversation = async (conversationID: string, senderID: string, text: string): Promise<void> => {
+export const addMessageToConversation = async (conversationID: string, senderID: string, text: string, username: string): Promise<void> => {
   const newMessage: MessageInterface = {
     senderID: senderID,
     text: text,
+    username: username,
     createdAt: serverTimestamp()
   }
 

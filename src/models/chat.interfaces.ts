@@ -5,6 +5,7 @@ export interface MessageInterface {
   id?: string
   senderID: string
   text: string
+  username: string
   createdAt: firebase.firestore.FieldValue
 }
 

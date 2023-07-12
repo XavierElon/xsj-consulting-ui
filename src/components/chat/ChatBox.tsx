@@ -5,6 +5,7 @@ import { ChatStateContext } from '@/context/ChatContext'
 import Message from './Message'
 import { getUsersConversations } from '@/firebase/chat.firebase'
 import useChatListener from '@/hooks/useChatListener'
+import './ChatBox.css'
 
 const ChatBox = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -13,31 +14,30 @@ const ChatBox = () => {
   const { authState } = useContext(AuthStateContext)
   const { id } = authState
 
-  useEffect(() => {
-    getConversations()
-  }, [])
-
-  const getConversations = async () => {
-    const convos = await getUsersConversations(id)
-    setConversations(convos)
+  const updateConversations = async () => {
+    const updatedConversations = await getUsersConversations(id)
+    setConversations(updatedConversations)
   }
 
   const scrollToBottom = () => {
+    console.log('scroll to bottom')
     if (messagesEndRef.current !== null) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' })
     }
   }
 
+  useEffect(() => {
+    updateConversations()
+  }, [])
+
   useEffect(scrollToBottom, [messages])
 
   return (
-    <div className="flex flex-col-reverse w-full">
-      <div className="pl-10 pt-16 pb-10 mb-20 flex-none flex flex-col-reverse">
-        {messages.map((message: any) => (
-          <Message key={message.id} message={message} />
-        ))}
-        <div ref={messagesEndRef}></div>
-      </div>
+    <div className="flex flex-col-reverse overflow-y-auto h-full mt-18">
+      <div ref={messagesEndRef}></div>
+      {messages.map((message: any) => (
+        <Message key={message.id} message={message} />
+      ))}
     </div>
   )
 }
