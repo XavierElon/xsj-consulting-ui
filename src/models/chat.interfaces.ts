@@ -7,7 +7,7 @@ export interface MessageInterface {
   text: string
   username: string
   createdAt: firebase.firestore.FieldValue
-  readyBy?: string[]
+  readBy?: string[]
 }
 
 export interface ConversationInterface {
