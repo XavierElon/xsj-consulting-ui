@@ -15,6 +15,10 @@ const Message = (message: any) => {
   const isSecondUser: boolean = message.message.senderID !== id
 
   useEffect(() => {
+    console.log(message.message)
+  }, [])
+
+  useEffect(() => {
     const getProfilePic = async () => {
       setImageUrl('')
 

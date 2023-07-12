@@ -83,6 +83,7 @@ export const getMessagesForConversation = async (conversationID: string): Promis
       id: doc.id,
       senderID: data.senderID,
       text: data.text,
+      username: data.username,
       createdAt: data.createdAt
     } as MessageInterface
   })
