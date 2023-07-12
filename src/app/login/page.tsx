@@ -1,5 +1,6 @@
 'use client'
 import { NextPage } from 'next'
+import Head from 'next/head'
 import { useRouter } from 'next/navigation'
 import Layout from '@/components/Layout'
 import { useAuthorization } from '@/hooks/useAuthorization'
@@ -33,6 +34,9 @@ const Login: NextPage = () => {
     <>
       {!authorized ? (
         <Layout>
+          <Head>
+            <script src="https://accounts.google.com/gsi/client" async></script>
+          </Head>
           <div className="flex min-h-screen">
             <div className="flex w-1/2 bg-white mx-auto items-center justify-center">
               <LoginModal className=""></LoginModal>
