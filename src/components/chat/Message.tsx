@@ -9,7 +9,7 @@ import BoltIcon from '@mui/icons-material/Bolt'
 const Message = (message: any) => {
   const [imageUrl, setImageUrl] = useState<string>('')
   const { authState } = useContext(AuthStateContext)
-  const { id } = authState
+  const { id, username } = authState
   const { secondUser, secondUserID } = useContext(ChatStateContext)
   const isChatGPT: boolean = message.message.senderID === 'chatGPT-3.5'
   const isSecondUser: boolean = message.message.senderID !== id
@@ -40,7 +40,7 @@ const Message = (message: any) => {
 
   return (
     <div className="">
-      <div className={`chat ${isSecondUser ? 'chat-end' : 'chat-start'}`}>
+      <div className={`chat ${isSecondUser ? 'chat-start' : 'chat-end'}`}>
         <div className="chat-image avatar">
           <div className="w-10 rounded-full">
             {isChatGPT ? (
@@ -53,11 +53,11 @@ const Message = (message: any) => {
           </div>
         </div>
         <div className="chat-header text-black">
-          Obi-Wan Kenobi
+          {isChatGPT ? 'Chat GPT' : isSecondUser ? 'Achilles' : username}
           <time className="text-xs opacity-75 ml-2">12:45</time>
         </div>
         <div className="chat-details flex-grow">
-          <div className={`flex ${isSecondUser ? 'justify-end' : ''}`}>
+          <div className={`flex ${!isSecondUser ? 'justify-end' : ''}`}>
             <div className={`chat-bubble text-white ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}>{message.message.text}</div>
           </div>
         </div>

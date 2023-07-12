@@ -35,18 +35,18 @@ const Chat: NextPage = () => {
   return (
     <>
       {authorized ? (
-        <div className="flex-grid min-h-screen grid-rows-header">
+        <div className="flex-grid grid-rows-header">
           <Navbar open={isOpen} handleClick={() => setIsOpen(!isOpen)} />
 
-          <div className="flex flex-row flex-grow">
+          <div className="flex flex-row flex-grow h-screen">
             <div className="w-2/12 flex flex-col-reverse bg-slate-200">
-              <div className="overflow-y-scroll flex-grow">
+              <div className="overflow-y-auto flex-grow h-full">
                 <ChatGPTList />
               </div>
             </div>
 
             <div className="w-8/12 flex flex-col h-full relative">
-              <div className="overflow-y-scroll flex-grow w-full">
+              <div className="overflow-y-auto flex-grow h-full w-full">
                 <ChatBox />
               </div>
               <div className="fixed bottom-0 w-2/3">
@@ -54,7 +54,7 @@ const Chat: NextPage = () => {
               </div>
             </div>
             <div className="w-2/12 flex flex-col bg-slate-200">
-              <div className="overflow-y-scroll flex-grow">
+              <div className="overflow-y-auto flex-grow h-full">
                 <UsersList />
               </div>
             </div>
