@@ -33,7 +33,7 @@ const ChatBox = () => {
   useEffect(scrollToBottom, [messages])
 
   return (
-    <div className="flex flex-col-reverse overflow-y-auto h-full mt-18">
+    <div className="flex flex-col-reverse overflow-y-auto h-full pt-16">
       <div ref={messagesEndRef}></div>
       {messages.map((message: any) => (
         <Message key={message.id} message={message} />

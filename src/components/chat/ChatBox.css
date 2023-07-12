@@ -9,6 +9,6 @@
   ::-webkit-scrollbar-thumb {
     background-color: lightgray;    /* Color of the scroll thumb */
     border-radius: 10px;       /* Roundness of the scroll thumb */
-    height: 10px;
+    height: 6px;
     width:10px;
   }
