@@ -1,5 +1,7 @@
 import 'firebase/firestore'
 import { db } from './firebase'
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/firestore'
 import { addDoc, collection, deleteDoc, doc, getDocs, query, serverTimestamp, updateDoc, where } from 'firebase/firestore'
 import { ConversationInterface, MessageInterface } from '@/models/chat.interfaces'
 
@@ -43,14 +45,31 @@ export const updateConversationTitle = async (conversationID: string, newTitle: 
   })
 }
 
-export const addMessageToConversation = async (conversationID: string, senderID: string, text: string): Promise<void> => {
+export const addMessageToConversation = async (conversationID: string, senderID: string, text: string, username: string): Promise<void> => {
   const newMessage: MessageInterface = {
     senderID: senderID,
     text: text,
+    username: username,
     createdAt: serverTimestamp()
   }
 
   await addDoc(collection(db, 'conversations', conversationID, 'messages'), newMessage)
+}
+
+export const markMessageAsRead = async (conversationID: string, messageID: string, userID: string) => {
+  const messageRef = doc(db, 'conversations', conversationID, 'messages', messageID)
+  await updateDoc(messageRef, {
+    readBy: firebase.firestore.FieldValue.arrayUnion(userID)
+  })
+
+  // Update the conversation
+  const conversationRef = doc(db, 'conversations', conversationID)
+  await updateDoc(conversationRef, {
+    lastRead: {
+      ...firebase.firestore.FieldValue.serverTimestamp(), // Make sure to spread the existing values
+      [userID]: firebase.firestore.FieldValue.serverTimestamp() // This will overwrite the timestamp for this user
+    }
+  })
 }
 
 export const getUsersConversations = async (userID: string): Promise<ConversationInterface[]> => {
@@ -82,6 +101,7 @@ export const getMessagesForConversation = async (conversationID: string): Promis
       id: doc.id,
       senderID: data.senderID,
       text: data.text,
+      username: data.username,
       createdAt: data.createdAt
     } as MessageInterface
   })
