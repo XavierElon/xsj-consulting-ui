@@ -13,6 +13,8 @@ const Message = (message: any) => {
   const { secondUser, secondUserID } = useContext(ChatStateContext)
   const isChatGPT: boolean = message.message.senderID === 'chatGPT-3.5'
   const isSecondUser: boolean = message.message.senderID !== id
+  const dateOptions: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit' }
+  const formattedDate = new Intl.DateTimeFormat('default', dateOptions).format(message.message.createdAt.toDate())
 
   useEffect(() => {
     console.log(message.message)
@@ -58,7 +60,7 @@ const Message = (message: any) => {
         </div>
         <div className="chat-header text-black">
           {isChatGPT ? 'Chat GPT' : isSecondUser ? message.username : username}
-          <time className="text-xs opacity-75 ml-2">12:45</time>
+          <time className="text-xs opacity-75 ml-2">{formattedDate}</time>
         </div>
         <div className="chat-details flex-grow">
           <div className={`flex ${!isSecondUser ? 'justify-end' : ''}`}>
