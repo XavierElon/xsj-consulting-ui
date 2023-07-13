@@ -7,22 +7,29 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import BoltIcon from '@mui/icons-material/Bolt'
 import { formatDate } from '@/utils/date.helpers'
 
-const Message = (message: any) => {
+const Message = (message: any, isLastMessageRead: boolean) => {
   const [imageUrl, setImageUrl] = useState<string>('')
   const { authState } = useContext(AuthStateContext)
   const { id, username } = authState
   const { secondUser, secondUserID } = useContext(ChatStateContext)
+
   const isChatGPT: boolean = message.message.senderID === 'chatGPT-3.5'
   const isSecondUser: boolean = message.message.senderID !== id
+
   const timeOptions: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit' }
   let formattedTime
   let date
   let formattedDate
+
   if (message.message.createdAt) {
     formattedTime = new Intl.DateTimeFormat('default', timeOptions).format(message.message.createdAt.toDate())
     date = message.message.createdAt.toDate()
     formattedDate = formatDate(date)
   }
+
+  useEffect(() => {
+    console.log(isLastMessageRead)
+  }, [])
 
   useEffect(() => {
     const getProfilePic = async () => {
@@ -73,7 +80,11 @@ const Message = (message: any) => {
             <div className={`chat-bubble text-white ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}>{message.message.text}</div>
           </div>
         </div>
-        <div className="chat-footer opacity-75">Delivered</div>
+        {!isSecondUser && !isChatGPT && isLastMessageRead ? (
+          <div className="chat-footer opacity-75">Read</div>
+        ) : (
+          !isSecondUser && <div className="chat-footer opacity-75">Delivered</div>
+        )}
       </div>
     </div>
   )

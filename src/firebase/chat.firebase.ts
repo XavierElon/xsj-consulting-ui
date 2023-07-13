@@ -30,7 +30,8 @@ export const createChatGPTConversation4 = async (userID: string): Promise<any> =
 export const createConversation = async (user1ID: string, user2ID: string): Promise<string> => {
   const conversation: ConversationInterface = {
     users: [user1ID, user2ID],
-    createdAt: serverTimestamp()
+    createdAt: serverTimestamp(),
+    lastRead: {}
   }
   const docRef = await addDoc(collection(db, 'conversations'), conversation)
   const conversationRef = doc(db, 'conversations', docRef.id)
@@ -50,7 +51,8 @@ export const addMessageToConversation = async (conversationID: string, senderID:
     senderID: senderID,
     text: text,
     username: username,
-    createdAt: serverTimestamp()
+    createdAt: serverTimestamp(),
+    readBy: []
   }
 
   await addDoc(collection(db, 'conversations', conversationID, 'messages'), newMessage)
@@ -102,7 +104,8 @@ export const getMessagesForConversation = async (conversationID: string): Promis
       senderID: data.senderID,
       text: data.text,
       username: data.username,
-      createdAt: data.createdAt
+      createdAt: data.createdAt,
+      readBy: data.readBy
     } as MessageInterface
   })
   const messages = await Promise.all(messagePromises)
