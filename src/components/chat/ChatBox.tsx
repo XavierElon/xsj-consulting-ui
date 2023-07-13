@@ -23,7 +23,7 @@ const ChatBox = () => {
     if (messages) {
       lastMessage = messages[messages.length - 1]
       console.log(lastMessage)
-      if (lastMessage.senderID !== id) {
+      if (lastMessage && lastMessage.senderID !== id) {
         isLastMessageRead = checkIfMessageRead(lastMessage, id)
         console.log(isLastMessageRead)
         if (!isLastMessageRead) {
