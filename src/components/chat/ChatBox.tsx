@@ -15,23 +15,40 @@ const ChatBox = () => {
   const messages = useChatListener(currentConversationID!)
   const { authState } = useContext(AuthStateContext)
   const { id } = authState
-  let lastMessage: MessageInterface
+  // let lastMessage = useRef<MessageInterface | null>(null)
+  const [lastMessage, setLastMessage] = useState<MessageInterface | null>(null)
+
   let isLastMessageRead: boolean = false
 
   useEffect(() => {
     console.log(messages)
     if (messages) {
-      lastMessage = messages[messages.length - 1]
-      console.log(lastMessage)
-      if (lastMessage && lastMessage?.senderID !== id) {
-        isLastMessageRead = checkIfMessageRead(lastMessage, id)
+      console.log(messages)
+      const newLastMessage = messages[messages.length - 1]
+      console.log(newLastMessage)
+      setLastMessage(newLastMessage)
+      if (lastMessage && newLastMessage?.senderID !== id) {
+        isLastMessageRead = checkIfMessageRead(newLastMessage, id)
         console.log(isLastMessageRead)
-        if (!isLastMessageRead) {
-          markMessageAsRead(currentConversationID!, lastMessage.id!, lastMessage.senderID)
-        }
+        // if (!isLastMessageRead) {
+        //   markMessageAsRead(currentConversationID!, newLastMessage.id!, newLastMessage.senderID)
+        // }
       }
     }
   }, [currentConversationID, messages])
+
+  useEffect(() => {
+    if (lastMessage && lastMessage.senderID !== id) {
+      const isLastMessageRead = checkIfMessageRead(lastMessage, id)
+      if (!isLastMessageRead) {
+        markMessageAsRead(currentConversationID!, lastMessage.id!, lastMessage.senderID)
+      }
+    }
+  }, [lastMessage])
+
+  useEffect(() => {
+    console.log(lastMessage)
+  }, [lastMessage])
 
   const updateConversations = async () => {
     const updatedConversations = await getUsersConversations(id)
@@ -54,7 +71,7 @@ const ChatBox = () => {
     <div className="flex flex-col-reverse overflow-y-auto h-full pt-16">
       <div ref={messagesEndRef}></div>
       {messages.map((message: any) => (
-        <Message key={message.id} message={message} isLastMessageRead={isLastMessageRead} />
+        <Message key={message.id} message={message} isLastMessageRead={isLastMessageRead} lastMessage={lastMessage} />
       ))}
     </div>
   )

@@ -18,7 +18,8 @@ const useChatListener = (currentConversationID: string) => {
           id: doc.id,
           senderID: doc.data().senderID,
           text: doc.data().text,
-          createdAt: doc.data().createdAt
+          createdAt: doc.data().createdAt,
+          readBy: doc.data().readyBy
         }))
         setMessages(newMessages.reverse())
       })
