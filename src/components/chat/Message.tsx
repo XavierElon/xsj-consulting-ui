@@ -6,21 +6,35 @@ import Image from 'next/image'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import BoltIcon from '@mui/icons-material/Bolt'
 import { formatDate } from '@/utils/date.helpers'
+import { checkIfMessageRead } from '@/utils/firebase.helpers'
 
-const Message = (message: any) => {
+interface MessageProps {
+  message: any
+  // isLastMessageRead: boolean | undefined
+  lastMessage: any
+}
+
+const Message = (props: MessageProps) => {
+  const { message, lastMessage } = props
   const [imageUrl, setImageUrl] = useState<string>('')
   const { authState } = useContext(AuthStateContext)
   const { id, username } = authState
   const { secondUser, secondUserID } = useContext(ChatStateContext)
-  const isChatGPT: boolean = message.message.senderID === 'chatGPT-3.5'
-  const isSecondUser: boolean = message.message.senderID !== id
+
+  const isChatGPT: boolean = message?.senderID === 'chatGPT-3.5'
+  const isSecondUser: boolean = message?.senderID !== id
+  const isLastMessageRead = checkIfMessageRead(message)
+  const isLastMessage: boolean = message.id === lastMessage?.id
+  console.log(message)
+
   const timeOptions: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit' }
   let formattedTime
   let date
   let formattedDate
-  if (message.message.createdAt) {
-    formattedTime = new Intl.DateTimeFormat('default', timeOptions).format(message.message.createdAt.toDate())
-    date = message.message.createdAt.toDate()
+
+  if (message?.createdAt) {
+    formattedTime = new Intl.DateTimeFormat('default', timeOptions).format(message.createdAt.toDate())
+    date = message.createdAt.toDate()
     formattedDate = formatDate(date)
   }
 
@@ -28,7 +42,7 @@ const Message = (message: any) => {
     const getProfilePic = async () => {
       setImageUrl('')
 
-      if (message.message.senderID === secondUserID) {
+      if (message?.senderID === secondUserID) {
         if (Object.keys(secondUser.profilePicture).length !== 0) {
           if (secondUser.provider === 'firebaseGoogle' && secondUser.profilePicture) {
             setImageUrl(secondUser.profilePicture)
@@ -36,7 +50,7 @@ const Message = (message: any) => {
             setImageUrl(secondUser.profilePicture.url)
           }
         }
-      } else if (message.message.senderID === localStorage.getItem('id')) {
+      } else if (message.senderID === localStorage.getItem('id')) {
         if (authState.provider === 'local' && authState.user.profilePicture) {
           setImageUrl(authState.user.profilePicture.url)
         } else if (authState.provider === 'firebaseGoogle' && authState.user.photoURL) {
@@ -63,17 +77,21 @@ const Message = (message: any) => {
           </div>
         </div>
         <div className="chat-header text-black">
-          {isChatGPT ? 'Chat GPT' : isSecondUser ? message.username : username}
+          {isChatGPT ? 'Chat GPT' : message.username}
           <time className="text-xs opacity-75 ml-2">
             {formattedDate} {formattedTime}
           </time>
         </div>
         <div className="chat-details flex-grow">
           <div className={`flex ${!isSecondUser ? 'justify-end' : ''}`}>
-            <div className={`chat-bubble text-white ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}>{message.message.text}</div>
+            <div className={`chat-bubble text-white ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}>{message?.text}</div>
           </div>
         </div>
-        <div className="chat-footer opacity-75">Delivered</div>
+        {!isSecondUser && !isChatGPT && isLastMessageRead && isLastMessage ? (
+          <div className="chat-footer opacity-75">Read</div>
+        ) : (
+          !isSecondUser && isLastMessage && <div className="chat-footer opacity-75">Delivered</div>
+        )}
       </div>
     </div>
   )

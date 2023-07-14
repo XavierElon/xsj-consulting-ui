@@ -30,7 +30,8 @@ export const createChatGPTConversation4 = async (userID: string): Promise<any> =
 export const createConversation = async (user1ID: string, user2ID: string): Promise<string> => {
   const conversation: ConversationInterface = {
     users: [user1ID, user2ID],
-    createdAt: serverTimestamp()
+    createdAt: serverTimestamp(),
+    lastRead: {}
   }
   const docRef = await addDoc(collection(db, 'conversations'), conversation)
   const conversationRef = doc(db, 'conversations', docRef.id)
@@ -50,7 +51,8 @@ export const addMessageToConversation = async (conversationID: string, senderID:
     senderID: senderID,
     text: text,
     username: username,
-    createdAt: serverTimestamp()
+    createdAt: serverTimestamp(),
+    read: false
   }
 
   await addDoc(collection(db, 'conversations', conversationID, 'messages'), newMessage)
@@ -59,7 +61,7 @@ export const addMessageToConversation = async (conversationID: string, senderID:
 export const markMessageAsRead = async (conversationID: string, messageID: string, userID: string) => {
   const messageRef = doc(db, 'conversations', conversationID, 'messages', messageID)
   await updateDoc(messageRef, {
-    readBy: firebase.firestore.FieldValue.arrayUnion(userID)
+    read: true
   })
 
   // Update the conversation
@@ -102,7 +104,8 @@ export const getMessagesForConversation = async (conversationID: string): Promis
       senderID: data.senderID,
       text: data.text,
       username: data.username,
-      createdAt: data.createdAt
+      createdAt: data.createdAt,
+      read: data.read
     } as MessageInterface
   })
   const messages = await Promise.all(messagePromises)

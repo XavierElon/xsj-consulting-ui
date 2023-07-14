@@ -18,10 +18,6 @@ const SendMessage = () => {
   const { secondUser, secondUserID, currentConversationID, isChatGPTConversation } = useContext(ChatStateContext)
   const messages = useChatListener(currentConversationID!)
 
-  // useEffect(() => {
-  //   console.log(messages)
-  // }, [messages])
-
   useEffect(() => {
     if (secondUser) {
       if (secondUser.provider === 'firebaseGoogle') {
@@ -33,6 +29,7 @@ const SendMessage = () => {
   }, [secondUser])
 
   useEffect(() => {
+    setValue('')
     if (currentConversationID || secondUserID) {
       setConversationSelected(true)
     }
