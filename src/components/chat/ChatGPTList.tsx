@@ -34,7 +34,8 @@ const ChatGPTList = () => {
     setCurrentConversationID,
     setConversations,
     setIsChatGPTConversation,
-    setSecondUserID
+    setSecondUserID,
+    updateConversations
   } = useContext(ChatStateContext)
   const {
     authState: { id }
@@ -45,11 +46,6 @@ const ChatGPTList = () => {
       (conversation) => conversation.users.includes('chatGPT-4') || conversation.users.includes('chatGPT-3.5')
     )
     return chatGPTConversations ? chatGPTConversations : []
-  }
-
-  const updateConversations = async () => {
-    const updatedConversations = await getUsersConversations(id)
-    setConversations(updatedConversations)
   }
 
   const handleSetConversation = (chatID: string) => {

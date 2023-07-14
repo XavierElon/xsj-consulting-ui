@@ -18,14 +18,13 @@ const Message = (props: MessageProps) => {
   const { message, lastMessage } = props
   const [imageUrl, setImageUrl] = useState<string>('')
   const { authState } = useContext(AuthStateContext)
-  const { id, username } = authState
+  const { id } = authState
   const { secondUser, secondUserID } = useContext(ChatStateContext)
 
   const isChatGPT: boolean = message?.senderID === 'chatGPT-3.5'
   const isSecondUser: boolean = message?.senderID !== id
   const isLastMessageRead = checkIfMessageRead(message)
   const isLastMessage: boolean = message.id === lastMessage?.id
-  console.log(message)
 
   const timeOptions: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit' }
   let formattedTime

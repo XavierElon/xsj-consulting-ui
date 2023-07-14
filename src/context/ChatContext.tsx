@@ -28,6 +28,7 @@ type ContextInterface = {
   isChatGPTConversation4: boolean
   setIsChatGPTConversation4: (value: boolean) => void
   getFirebaseUserConversations: (value: string) => any
+  updateConversations: () => void
 }
 
 const ChatStateContext = createContext<ContextInterface>({
@@ -51,7 +52,8 @@ const ChatStateContext = createContext<ContextInterface>({
   setIsChatGPTConversation3: () => {},
   isChatGPTConversation4: false,
   setIsChatGPTConversation4: () => {},
-  getFirebaseUserConversations: () => {}
+  getFirebaseUserConversations: () => {},
+  updateConversations: () => {}
 })
 
 const ChatStateProvider = (props: any) => {
@@ -65,8 +67,9 @@ const ChatStateProvider = (props: any) => {
   const [isChatGPTConversation, setIsChatGPTConversation] = useState<boolean>(false)
   const [isChatGPTConversation3, setIsChatGPTConversation3] = useState<boolean>(false)
   const [isChatGPTConversation4, setIsChatGPTConversation4] = useState<boolean>(false)
-  const { authState } = useContext(AuthStateContext)
-  const { id } = authState
+  const {
+    authState: { id }
+  } = useContext(AuthStateContext)
 
   const getFirebaseUserConversations = useCallback(async (userID: string) => {
     try {
@@ -77,6 +80,11 @@ const ChatStateProvider = (props: any) => {
       console.log(error)
     }
   }, [])
+
+  const updateConversations = async () => {
+    const updatedConversations = await getUsersConversations(id)
+    setConversations(updatedConversations)
+  }
 
   useEffect(() => {
     getFirebaseUserConversations(id)
@@ -105,7 +113,8 @@ const ChatStateProvider = (props: any) => {
         setIsChatGPTConversation3,
         isChatGPTConversation4,
         setIsChatGPTConversation4,
-        getFirebaseUserConversations
+        getFirebaseUserConversations,
+        updateConversations
       }}
     >
       {props.children}

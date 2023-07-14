@@ -11,7 +11,7 @@ import { MessageInterface } from '@/models/chat.interfaces'
 
 const ChatBox = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
-  const { setConversations, currentConversationID } = useContext(ChatStateContext)
+  const { setConversations, currentConversationID, updateConversations } = useContext(ChatStateContext)
   const messages = useChatListener(currentConversationID!)
   const {
     authState: { id }
@@ -19,11 +19,6 @@ const ChatBox = () => {
   const [lastMessage, setLastMessage] = useState<MessageInterface | null>(null)
 
   let isLastMessageRead: boolean | undefined = false
-
-  const updateConversations = async () => {
-    const updatedConversations = await getUsersConversations(id)
-    setConversations(updatedConversations)
-  }
 
   const scrollToBottom = () => {
     if (messagesEndRef.current !== null) {
