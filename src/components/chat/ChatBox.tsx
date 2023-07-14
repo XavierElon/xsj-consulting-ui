@@ -15,7 +15,6 @@ const ChatBox = () => {
   const messages = useChatListener(currentConversationID!)
   const { authState } = useContext(AuthStateContext)
   const { id } = authState
-  // let lastMessage = useRef<MessageInterface | null>(null)
   const [lastMessage, setLastMessage] = useState<MessageInterface | null>(null)
 
   let isLastMessageRead: boolean = false
@@ -23,17 +22,9 @@ const ChatBox = () => {
   useEffect(() => {
     console.log(messages)
     if (messages) {
-      console.log(messages)
       const newLastMessage = messages[messages.length - 1]
       console.log(newLastMessage)
       setLastMessage(newLastMessage)
-      if (lastMessage && newLastMessage?.senderID !== id) {
-        isLastMessageRead = checkIfMessageRead(newLastMessage, id)
-        console.log(isLastMessageRead)
-        // if (!isLastMessageRead) {
-        //   markMessageAsRead(currentConversationID!, newLastMessage.id!, newLastMessage.senderID)
-        // }
-      }
     }
   }, [currentConversationID, messages])
 
