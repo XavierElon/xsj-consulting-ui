@@ -3,7 +3,7 @@ import { useContext, useEffect, useRef, useState } from 'react'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
 import Message from './Message'
-import { getUsersConversations, markMessageAsRead } from '@/firebase/chat.firebase'
+import { markMessageAsRead } from '@/firebase/chat.firebase'
 import useChatListener from '@/hooks/useChatListener'
 import './ChatBox.css'
 import { checkIfMessageRead } from '@/utils/firebase.helpers'
@@ -11,7 +11,7 @@ import { MessageInterface } from '@/models/chat.interfaces'
 
 const ChatBox = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
-  const { setConversations, currentConversationID, updateConversations } = useContext(ChatStateContext)
+  const { currentConversationID, updateConversations } = useContext(ChatStateContext)
   const messages = useChatListener(currentConversationID!)
   const {
     authState: { id }

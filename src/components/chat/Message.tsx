@@ -10,7 +10,6 @@ import { checkIfMessageRead } from '@/utils/firebase.helpers'
 
 interface MessageProps {
   message: any
-  // isLastMessageRead: boolean | undefined
   lastMessage: any
 }
 

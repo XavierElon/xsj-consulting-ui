@@ -7,14 +7,10 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
 
 type ContextInterface = {
-  currentUserID: string
-  setCurrentUserID: (value: string) => void
   secondUserID: string
   setSecondUserID: (value: string) => void
   secondUser: any
   setSecondUser: (value: any) => void
-  senderID: string
-  setSenderID: (value: string) => void
   conversations: ConversationInterface[]
   setConversations: (value: ConversationInterface[]) => void
   currentConversationID: string | null
@@ -32,14 +28,10 @@ type ContextInterface = {
 }
 
 const ChatStateContext = createContext<ContextInterface>({
-  currentUserID: '',
-  setCurrentUserID: () => {},
   secondUserID: '',
   setSecondUserID: () => {},
   secondUser: null,
   setSecondUser: () => {},
-  senderID: '',
-  setSenderID: () => {},
   conversations: [],
   setConversations: () => {},
   currentConversationID: null,
@@ -57,10 +49,8 @@ const ChatStateContext = createContext<ContextInterface>({
 })
 
 const ChatStateProvider = (props: any) => {
-  const [currentUserID, setCurrentUserID] = useState<string>('')
   const [secondUserID, setSecondUserID] = useState<string>('')
   const [secondUser, setSecondUser] = useState<any>()
-  const [senderID, setSenderID] = useState<string>('')
   const [conversations, setConversations] = useState<ConversationInterface[]>([])
   const [currentConversationID, setCurrentConversationID] = useState<string | null>(null)
   const [currentConversation, setCurrentConversation] = useState<any>(null)
@@ -93,14 +83,10 @@ const ChatStateProvider = (props: any) => {
   return (
     <ChatStateContext.Provider
       value={{
-        currentUserID,
-        setCurrentUserID,
         secondUserID,
         setSecondUserID,
         secondUser,
         setSecondUser,
-        senderID,
-        setSenderID,
         conversations,
         setConversations,
         currentConversationID,

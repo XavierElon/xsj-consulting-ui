@@ -3,13 +3,7 @@ import { useContext, useEffect, useRef, useState } from 'react'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
 import { ConversationInterface } from '@/models/chat.interfaces'
-import {
-  createChatGPTConversation3,
-  createChatGPTConversation4,
-  deleteConversation,
-  getUsersConversations,
-  updateConversationTitle
-} from '@/firebase/chat.firebase'
+import { createChatGPTConversation3, createChatGPTConversation4, deleteConversation, updateConversationTitle } from '@/firebase/chat.firebase'
 import 'firebase/compat/firestore'
 import './UsersList.css'
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
@@ -32,7 +26,6 @@ const ChatGPTList = () => {
     setCurrentConversation,
     currentConversationID,
     setCurrentConversationID,
-    setConversations,
     setIsChatGPTConversation,
     setSecondUserID,
     updateConversations
@@ -90,10 +83,6 @@ const ChatGPTList = () => {
     const convos = getConversationsWithChatGPT(conversations)
     setChatGPTConversations(convos)
   }, [conversations])
-
-  useEffect(() => {
-    // console.log(chatGPTConversations)
-  }, [chatGPTConversations])
 
   return (
     <div className="flex flex-col min-h-screen">
