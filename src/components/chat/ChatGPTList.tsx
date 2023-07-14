@@ -36,8 +36,9 @@ const ChatGPTList = () => {
     setIsChatGPTConversation,
     setSecondUserID
   } = useContext(ChatStateContext)
-  const { authState } = useContext(AuthStateContext)
-  const { id } = authState
+  const {
+    authState: { id }
+  } = useContext(AuthStateContext)
 
   const getConversationsWithChatGPT = (conversations: ConversationInterface[]): ConversationInterface[] => {
     const chatGPTConversations = conversations.filter(
@@ -91,12 +92,11 @@ const ChatGPTList = () => {
 
   useEffect(() => {
     const convos = getConversationsWithChatGPT(conversations)
-    console.log(convos)
     setChatGPTConversations(convos)
   }, [conversations])
 
   useEffect(() => {
-    console.log(chatGPTConversations)
+    // console.log(chatGPTConversations)
   }, [chatGPTConversations])
 
   return (

@@ -13,33 +13,13 @@ const ChatBox = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const { setConversations, currentConversationID } = useContext(ChatStateContext)
   const messages = useChatListener(currentConversationID!)
-  const { authState } = useContext(AuthStateContext)
-  const { id } = authState
+  const {
+    authState: { id }
+  } = useContext(AuthStateContext)
   const [lastMessage, setLastMessage] = useState<MessageInterface | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
-  let isLastMessageRead: boolean = false
-
-  useEffect(() => {
-    console.log(messages)
-    if (messages) {
-      const newLastMessage = messages[messages.length - 1]
-      console.log(newLastMessage)
-      setLastMessage(newLastMessage)
-    }
-  }, [currentConversationID, messages])
-
-  useEffect(() => {
-    if (lastMessage && lastMessage.senderID !== id) {
-      const isLastMessageRead = checkIfMessageRead(lastMessage, id)
-      if (!isLastMessageRead) {
-        markMessageAsRead(currentConversationID!, lastMessage.id!, lastMessage.senderID)
-      }
-    }
-  }, [lastMessage])
-
-  useEffect(() => {
-    console.log(lastMessage)
-  }, [lastMessage])
+  let isLastMessageRead: boolean | undefined = false
 
   const updateConversations = async () => {
     const updatedConversations = await getUsersConversations(id)
@@ -52,18 +32,47 @@ const ChatBox = () => {
     }
   }
 
+  const updateLastMessageToRead = async () => {
+    if (messages) {
+      const newLastMessage = messages[0]
+      console.log(newLastMessage)
+      setLastMessage(newLastMessage)
+    }
+    if (lastMessage && lastMessage.senderID !== id) {
+      isLastMessageRead = checkIfMessageRead(lastMessage, id)
+      if (!isLastMessageRead) {
+        await markMessageAsRead(currentConversationID!, lastMessage.id!, lastMessage.senderID)
+        console.log('here')
+        isLastMessageRead = true
+      }
+    }
+    console.log(isLastMessageRead)
+    setIsLoading(false)
+  }
+
   useEffect(() => {
+    // messages.reverse()
     updateConversations()
   }, [])
+
+  useEffect(() => {
+    console.log(messages)
+  }, [currentConversationID, messages])
+
+  useEffect(() => {
+    updateLastMessageToRead()
+  }, [currentConversationID, messages, lastMessage])
+
+  useEffect(() => {
+    console.log(lastMessage)
+  }, [lastMessage])
 
   useEffect(scrollToBottom, [messages])
 
   return (
     <div className="flex flex-col-reverse overflow-y-auto h-full pt-16">
       <div ref={messagesEndRef}></div>
-      {messages.map((message: any) => (
-        <Message key={message.id} message={message} isLastMessageRead={isLastMessageRead} lastMessage={lastMessage} />
-      ))}
+      {!isLoading && messages.map((message: any) => <Message key={message.id} message={message} lastMessage={lastMessage} />)}
     </div>
   )
 }

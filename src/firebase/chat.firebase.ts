@@ -52,7 +52,7 @@ export const addMessageToConversation = async (conversationID: string, senderID:
     text: text,
     username: username,
     createdAt: serverTimestamp(),
-    readBy: []
+    read: false
   }
 
   await addDoc(collection(db, 'conversations', conversationID, 'messages'), newMessage)
@@ -61,7 +61,7 @@ export const addMessageToConversation = async (conversationID: string, senderID:
 export const markMessageAsRead = async (conversationID: string, messageID: string, userID: string) => {
   const messageRef = doc(db, 'conversations', conversationID, 'messages', messageID)
   await updateDoc(messageRef, {
-    readBy: firebase.firestore.FieldValue.arrayUnion(userID)
+    read: true
   })
 
   // Update the conversation
@@ -105,7 +105,7 @@ export const getMessagesForConversation = async (conversationID: string): Promis
       text: data.text,
       username: data.username,
       createdAt: data.createdAt,
-      readBy: data.readBy
+      read: data.read
     } as MessageInterface
   })
   const messages = await Promise.all(messagePromises)

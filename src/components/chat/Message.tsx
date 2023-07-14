@@ -6,15 +6,16 @@ import Image from 'next/image'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import BoltIcon from '@mui/icons-material/Bolt'
 import { formatDate } from '@/utils/date.helpers'
+import { checkIfMessageRead } from '@/utils/firebase.helpers'
 
 interface MessageProps {
   message: any
-  isLastMessageRead: boolean
+  // isLastMessageRead: boolean | undefined
   lastMessage: any
 }
 
 const Message = (props: MessageProps) => {
-  const { message, isLastMessageRead, lastMessage } = props
+  const { message, lastMessage } = props
   const [imageUrl, setImageUrl] = useState<string>('')
   const { authState } = useContext(AuthStateContext)
   const { id, username } = authState
@@ -22,28 +23,18 @@ const Message = (props: MessageProps) => {
 
   const isChatGPT: boolean = message?.senderID === 'chatGPT-3.5'
   const isSecondUser: boolean = message?.senderID !== id
+  let isLastMessageRead = checkIfMessageRead(message)
 
   const timeOptions: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit' }
   let formattedTime
   let date
   let formattedDate
 
-  if (message.message?.createdAt) {
+  if (message?.createdAt) {
     formattedTime = new Intl.DateTimeFormat('default', timeOptions).format(message.createdAt.toDate())
     date = message.createdAt.toDate()
     formattedDate = formatDate(date)
   }
-
-  let isLastMessage: boolean = false
-
-  useEffect(() => {
-    console.log(message)
-    console.log(lastMessage)
-    if (message === lastMessage) {
-      console.log('true')
-    } else {
-    }
-  }, [message])
 
   useEffect(() => {
     const getProfilePic = async () => {
