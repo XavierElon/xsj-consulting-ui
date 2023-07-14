@@ -23,7 +23,9 @@ const Message = (props: MessageProps) => {
 
   const isChatGPT: boolean = message?.senderID === 'chatGPT-3.5'
   const isSecondUser: boolean = message?.senderID !== id
-  let isLastMessageRead = checkIfMessageRead(message)
+  const isLastMessageRead = checkIfMessageRead(message)
+  const isLastMessage: boolean = message.id === lastMessage?.id
+  console.log(message)
 
   const timeOptions: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit' }
   let formattedTime
@@ -75,7 +77,7 @@ const Message = (props: MessageProps) => {
           </div>
         </div>
         <div className="chat-header text-black">
-          {isChatGPT ? 'Chat GPT' : isSecondUser ? message.username : username}
+          {isChatGPT ? 'Chat GPT' : message.username}
           <time className="text-xs opacity-75 ml-2">
             {formattedDate} {formattedTime}
           </time>
@@ -85,10 +87,10 @@ const Message = (props: MessageProps) => {
             <div className={`chat-bubble text-white ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}>{message?.text}</div>
           </div>
         </div>
-        {!isSecondUser && !isChatGPT && isLastMessageRead ? (
+        {!isSecondUser && !isChatGPT && isLastMessageRead && isLastMessage ? (
           <div className="chat-footer opacity-75">Read</div>
         ) : (
-          !isSecondUser && <div className="chat-footer opacity-75">Delivered</div>
+          !isSecondUser && isLastMessage && <div className="chat-footer opacity-75">Delivered</div>
         )}
       </div>
     </div>

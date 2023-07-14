@@ -17,7 +17,6 @@ const ChatBox = () => {
     authState: { id }
   } = useContext(AuthStateContext)
   const [lastMessage, setLastMessage] = useState<MessageInterface | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
 
   let isLastMessageRead: boolean | undefined = false
 
@@ -35,44 +34,31 @@ const ChatBox = () => {
   const updateLastMessageToRead = async () => {
     if (messages) {
       const newLastMessage = messages[0]
-      console.log(newLastMessage)
       setLastMessage(newLastMessage)
     }
     if (lastMessage && lastMessage.senderID !== id) {
-      isLastMessageRead = checkIfMessageRead(lastMessage, id)
+      isLastMessageRead = checkIfMessageRead(lastMessage)
       if (!isLastMessageRead) {
         await markMessageAsRead(currentConversationID!, lastMessage.id!, lastMessage.senderID)
-        console.log('here')
         isLastMessageRead = true
       }
     }
-    console.log(isLastMessageRead)
-    setIsLoading(false)
   }
 
   useEffect(() => {
-    // messages.reverse()
     updateConversations()
-  }, [])
-
-  useEffect(() => {
     console.log(messages)
-  }, [currentConversationID, messages])
-
-  useEffect(() => {
     updateLastMessageToRead()
   }, [currentConversationID, messages, lastMessage])
-
-  useEffect(() => {
-    console.log(lastMessage)
-  }, [lastMessage])
 
   useEffect(scrollToBottom, [messages])
 
   return (
     <div className="flex flex-col-reverse overflow-y-auto h-full pt-16">
       <div ref={messagesEndRef}></div>
-      {!isLoading && messages.map((message: any) => <Message key={message.id} message={message} lastMessage={lastMessage} />)}
+      {messages.map((message: any) => (
+        <Message key={message.id} message={message} lastMessage={lastMessage} />
+      ))}
     </div>
   )
 }
