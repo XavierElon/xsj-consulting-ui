@@ -7,14 +7,16 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import BoltIcon from '@mui/icons-material/Bolt'
 import { formatDate } from '@/utils/date.helpers'
 import { checkIfMessageRead } from '@/utils/firebase.helpers'
+import { MessageInterface } from '@/models/chat.interfaces'
 
 interface MessageProps {
-  message: any
-  lastMessage: any
+  message: MessageInterface
+  lastMessage: MessageInterface | null
+  showDate: boolean
 }
 
 const Message = (props: MessageProps) => {
-  const { message, lastMessage } = props
+  const { message, lastMessage, showDate } = props
   const [imageUrl, setImageUrl] = useState<string>('')
   const { authState } = useContext(AuthStateContext)
   const { id } = authState
@@ -56,6 +58,7 @@ const Message = (props: MessageProps) => {
 
   return (
     <div className="">
+      {showDate && <div style={{ display: 'flex', justifyContent: 'center' }}>{formattedDate}</div>}
       <div className={`chat ${isSecondUser ? 'chat-start' : 'chat-end'}`}>
         <div className="chat-image avatar">
           <div className="w-10 rounded-full">
@@ -70,9 +73,7 @@ const Message = (props: MessageProps) => {
         </div>
         <div className="chat-header text-black">
           {isChatGPT ? 'Chat GPT' : message.username}
-          <time className="text-xs opacity-75 ml-2">
-            {formattedDate} {formattedTime}
-          </time>
+          <time className="text-xs opacity-75 ml-2">{formattedTime}</time>
         </div>
         <div className="chat-details flex-grow">
           <div className={`flex ${!isSecondUser ? 'justify-end' : ''}`}>

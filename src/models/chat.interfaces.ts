@@ -6,8 +6,9 @@ export interface MessageInterface {
   senderID: string
   text: string
   username: string
-  createdAt: firebase.firestore.FieldValue
+  createdAt: firebase.firestore.Timestamp
   read?: boolean
+  readTime?: firebase.firestore.Timestamp
 }
 
 export interface ConversationInterface {
@@ -15,6 +16,6 @@ export interface ConversationInterface {
   users: string[]
   title?: string
   messages?: MessageInterface[]
-  createdAt: firebase.firestore.FieldValue
-  lastRead?: { [key: string]: firebase.firestore.FieldValue }
+  createdAt: firebase.firestore.Timestamp
+  lastRead?: { [key: string]: firebase.firestore.Timestamp }
 }

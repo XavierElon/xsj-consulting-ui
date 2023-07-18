@@ -51,9 +51,21 @@ const ChatBox = () => {
   return (
     <div className="flex flex-col-reverse overflow-y-auto h-full pt-16 pb-2">
       <div ref={messagesEndRef}></div>
-      {messages.map((message: any) => (
-        <Message key={message.id} message={message} lastMessage={lastMessage} />
-      ))}
+      {messages.map((message: any, index: number) => {
+        let showDate = true
+        if (index < messages.length - 1) {
+          const currentDate = new Date(message.createdAt.seconds * 1000)
+          const nextDate = new Date(messages[index + 1].createdAt.seconds * 1000)
+
+          showDate = !(
+            currentDate.getDate() === nextDate.getDate() &&
+            currentDate.getMonth() === nextDate.getMonth() &&
+            currentDate.getFullYear() === nextDate.getFullYear()
+          )
+        }
+
+        return <Message key={message.id} message={message} lastMessage={lastMessage} showDate={showDate} />
+      })}
     </div>
   )
 }
