@@ -97,10 +97,10 @@ const ChatGPTList = () => {
                 className={`flex items-start justify-between mt-4 ${isSelected ? 'bg-gray-300 py-2 pl-2 rounded-lg' : 'inherit'}`}
                 onClick={() => handleSetConversation(chat.id)}
               >
-                <div className="flex items-center cursor-pointer">
+                <div className="flex cursor-pointer">
                   <ChatBubbleOutlineIcon className="mx-4"></ChatBubbleOutlineIcon>
                   {showEditTitleInput && isSelected ? (
-                    <div>
+                    <div className="flex">
                       <TextField
                         id="outlined-size-small"
                         defaultValue={chat.title}
@@ -114,16 +114,18 @@ const ChatGPTList = () => {
                           }
                         }}
                       />
-                      <CheckIcon
-                        style={{ color: 'black', fontSize: '30px' }}
-                        className="flex justify-end items-center mx-2 font-black cursor-pointer"
-                        onClick={() => handleEditChatGPTTitle(chat.id)}
-                      ></CheckIcon>
-                      <CloseIcon
-                        style={{ color: 'black', fontSize: '30px' }}
-                        className="flex justify-end mx-2 font-black cursor-pointer"
-                        onClick={() => setShowEditTitleInput(false)}
-                      ></CloseIcon>
+                      <div className="mt-1">
+                        <CheckIcon
+                          style={{ color: 'black', fontSize: '30px' }}
+                          className="justify-end ml-8 font-black cursor-pointer"
+                          onClick={() => handleEditChatGPTTitle(chat.id)}
+                        ></CheckIcon>
+                        <CloseIcon
+                          style={{ color: 'black', fontSize: '30px' }}
+                          className="justify-end ml-4 font-black cursor-pointer"
+                          onClick={() => setShowEditTitleInput(false)}
+                        ></CloseIcon>
+                      </div>
                     </div>
                   ) : (
                     <h1 className="text-black font-semibold">{chat.title.length > 20 ? `${chat.title.substring(0, 20)}...` : chat.title}</h1>
