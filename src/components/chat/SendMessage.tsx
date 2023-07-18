@@ -11,23 +11,23 @@ import BoltIcon from '@mui/icons-material/Bolt'
 
 const SendMessage = () => {
   const [value, setValue] = useState('')
-  const [secondUserProfilePictureUrl, setSecondUserProfilePictureUrl] = useState<string>('')
+  // const [secondUserProfilePictureUrl, setSecondUserProfilePictureUrl] = useState<string>('')
   const [conversationSelected, setConversationSelected] = useState<boolean>(false)
   const { authState } = useContext(AuthStateContext)
   let { id, username, photoURL } = authState
   const { secondUser, secondUserID, currentConversationID, isChatGPTConversation } = useContext(ChatStateContext)
   const messages = useChatListener(currentConversationID!)
 
-  console.log(photoURL)
-  useEffect(() => {
-    if (secondUser) {
-      if (secondUser.provider === 'firebaseGoogle') {
-        setSecondUserProfilePictureUrl(secondUser.profilePicture)
-      } else if (secondUser.provider === 'local') {
-        setSecondUserProfilePictureUrl(secondUser.profilePicture.url)
-      }
-    }
-  }, [secondUser])
+  // console.log(photoURL)
+  // useEffect(() => {
+  //   if (secondUser) {
+  //     if (secondUser.provider === 'firebaseGoogle') {
+  //       setSecondUserProfilePictureUrl(secondUser.profilePicture)
+  //     } else if (secondUser.provider === 'local') {
+  //       setSecondUserProfilePictureUrl(secondUser.profilePicture.url)
+  //     }
+  //   }
+  // }, [secondUser])
 
   useEffect(() => {
     setValue('')
@@ -37,20 +37,20 @@ const SendMessage = () => {
   }, [currentConversationID, secondUserID])
 
   const returnSecondUserDisplay = () => {
-    if (secondUser && Object.keys(secondUser.profilePicture).length !== 0) {
+    if (secondUser?.profilePicture) {
       return (
         <div className="flex items-center w-1/6">
           <div className="chat-image avatar">
             <div className="w-10 h-10 rounded-full mr-2 overflow-hidden">
-              <Image src={secondUserProfilePictureUrl} width="25" height="25" alt="profilePic" className="rounded-full" />
+              <Image src={secondUser?.profilePicture} width="25" height="25" alt="profilePic" className="rounded-full" />
             </div>
           </div>
           <div className="flex flex-col items-center">
-            <p className="text-black font-bold mb-1">{secondUser.username}</p>
+            <p className="text-black font-bold mb-1">{secondUser?.username}</p>
           </div>
         </div>
       )
-    } else if (secondUser && Object.keys(secondUser.profilePicture).length === 0) {
+    } else if (secondUser && !secondUser?.profilePicture) {
       return (
         <div className="flex items-center w-1/6">
           <div className="chat-image avatar">
@@ -59,7 +59,7 @@ const SendMessage = () => {
             </div>
           </div>
           <div className="flex flex-col items-center">
-            <p className="text-black font-bold mb-1">{secondUser.username}</p>
+            <p className="text-black font-bold mb-1">{secondUser?.username}</p>
           </div>
         </div>
       )
