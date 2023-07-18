@@ -17,33 +17,17 @@ const SendMessage = () => {
   const { secondUser, secondUserID, currentConversationID, isChatGPTConversation } = useContext(ChatStateContext)
   const messages = useChatListener(currentConversationID!)
 
-  useEffect(() => {
-    setValue('')
-    if (currentConversationID || secondUserID) {
-      setConversationSelected(true)
-    }
-  }, [currentConversationID, secondUserID])
-
   const returnSecondUserDisplay = () => {
-    if (secondUser?.profilePicture) {
+    if (secondUser) {
       return (
         <div className="flex items-center w-1/6">
           <div className="chat-image avatar">
             <div className="w-10 h-10 rounded-full mr-2 overflow-hidden">
-              <Image src={secondUser?.profilePicture} width="25" height="25" alt="profilePic" className="rounded-full" />
-            </div>
-          </div>
-          <div className="flex flex-col items-center">
-            <p className="text-black font-bold mb-1">{secondUser?.username}</p>
-          </div>
-        </div>
-      )
-    } else if (secondUser && !secondUser?.profilePicture) {
-      return (
-        <div className="flex items-center w-1/6">
-          <div className="chat-image avatar">
-            <div className="w-10 h-10 rounded-full mr-2 overflow-hidden">
-              <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '50px' }}></AccountCircleIcon>
+              {secondUser?.profilePicture ? (
+                <Image src={secondUser?.profilePicture} width="25" height="25" alt="profilePic" className="rounded-full" />
+              ) : (
+                <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '50px' }}></AccountCircleIcon>
+              )}
             </div>
           </div>
           <div className="flex flex-col items-center">
@@ -82,6 +66,13 @@ const SendMessage = () => {
       }
     }
   }
+
+  useEffect(() => {
+    setValue('')
+    if (currentConversationID || secondUserID) {
+      setConversationSelected(true)
+    }
+  }, [currentConversationID, secondUserID])
 
   return (
     <div className="bg-gray-200 w-full py-6 shadow-lg px-2">
