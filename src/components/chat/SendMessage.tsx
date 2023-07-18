@@ -11,23 +11,11 @@ import BoltIcon from '@mui/icons-material/Bolt'
 
 const SendMessage = () => {
   const [value, setValue] = useState('')
-  // const [secondUserProfilePictureUrl, setSecondUserProfilePictureUrl] = useState<string>('')
   const [conversationSelected, setConversationSelected] = useState<boolean>(false)
   const { authState } = useContext(AuthStateContext)
-  let { id, username, photoURL } = authState
+  let { id, username } = authState
   const { secondUser, secondUserID, currentConversationID, isChatGPTConversation } = useContext(ChatStateContext)
   const messages = useChatListener(currentConversationID!)
-
-  // console.log(photoURL)
-  // useEffect(() => {
-  //   if (secondUser) {
-  //     if (secondUser.provider === 'firebaseGoogle') {
-  //       setSecondUserProfilePictureUrl(secondUser.profilePicture)
-  //     } else if (secondUser.provider === 'local') {
-  //       setSecondUserProfilePictureUrl(secondUser.profilePicture.url)
-  //     }
-  //   }
-  // }, [secondUser])
 
   useEffect(() => {
     setValue('')
