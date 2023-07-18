@@ -57,8 +57,11 @@ const SendMessage = () => {
         },
         { withCredentials: true }
       )
+      console.log(response)
       if (response.status === 200) {
+        console.log('200')
         try {
+          console.log('try')
           await addMessageToConversation(currentConversationID, 'chatGPT-3.5', response.data.message, 'chatGPT-3.5')
         } catch (error) {
           console.error(error)

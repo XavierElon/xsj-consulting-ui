@@ -2,7 +2,7 @@ import 'firebase/firestore'
 import { db } from './firebase'
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
-import { addDoc, collection, deleteDoc, doc, getDocs, query, serverTimestamp, updateDoc, where } from 'firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, serverTimestamp, updateDoc, where } from 'firebase/firestore'
 import { ConversationInterface, MessageInterface } from '@/models/chat.interfaces'
 
 export const createChatGPTConversation3 = async (userID: string): Promise<any> => {
@@ -56,6 +56,21 @@ export const addMessageToConversation = async (conversationID: string, senderID:
   }
 
   await addDoc(collection(db, 'conversations', conversationID, 'messages'), newMessage)
+
+  // Get the conversation document to check the title
+  const conversationRef = doc(db, 'conversations', conversationID)
+  const conversationSnapshot = await getDoc(conversationRef)
+
+  // If the title is 'New Chat', it means it's the first message of the conversation
+  if (conversationSnapshot.data()?.title === 'New Chat') {
+    let newTitle = text.slice(0, 20)
+    if (text.length > 20) newTitle += '...'
+
+    // Update the conversation title
+    await updateDoc(conversationRef, {
+      title: newTitle
+    })
+  }
 }
 
 export const markMessageAsRead = async (conversationID: string, messageID: string, userID: string) => {
