@@ -113,10 +113,8 @@ const UsersList = () => {
             >
               <div className="chat-image avatar">
                 <div className="w-10 rounded-full mr-2">
-                  {user.provider === 'firebaseGoogle' && user.profilePicture ? (
+                  {user.profilePicture ? (
                     <Image alt="profilePicture" width="15" height="15" src={user.profilePicture}></Image>
-                  ) : user.provider === 'local' && user.profilePicture && user.profilePicture.url ? (
-                    <Image alt="profilePicture" width="15" height="15" src={user.profilePicture.url}></Image>
                   ) : (
                     <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '45px' }}></AccountCircleIcon>
                   )}

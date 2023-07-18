@@ -42,18 +42,12 @@ const Message = (props: MessageProps) => {
 
       if (message?.senderID === secondUserID) {
         if (Object.keys(secondUser.profilePicture).length !== 0) {
-          if (secondUser.provider === 'firebaseGoogle' && secondUser.profilePicture) {
+          if (secondUser.profilePicture) {
             setImageUrl(secondUser.profilePicture)
-          } else {
-            setImageUrl(secondUser.profilePicture.url)
           }
         }
       } else if (message.senderID === localStorage.getItem('id')) {
-        if (authState.provider === 'local' && authState.user.profilePicture) {
-          setImageUrl(authState.user.profilePicture.url)
-        } else if (authState.provider === 'firebaseGoogle' && authState.user.photoURL) {
-          setImageUrl(authState.user.photoURL)
-        }
+        if (authState.profilePicture) setImageUrl(authState.profilePicture)
       }
     }
 

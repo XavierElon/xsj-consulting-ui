@@ -16,7 +16,8 @@ const ProfileSettings = () => {
   const { email } = authState.user
 
   const authorized = useAuthorization()
-
+  console.log(authState)
+  console.log(authState.profilePicture)
   if (authorized === null) {
     return (
       <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-white">
@@ -37,7 +38,7 @@ const ProfileSettings = () => {
                     {authState.provider === 'firebaseGoogle ' ? (
                       <>
                         <Image
-                          src={user?.photoURL || ''}
+                          src={authState.profilePicture || ''}
                           width="50"
                           height="50"
                           referrerPolicy="no-referrer"
@@ -47,30 +48,17 @@ const ProfileSettings = () => {
                       </>
                     ) : (
                       <>
-                        <AccountCircleIcon
-                          fontSize="inherit"
-                          color="primary"
-                          sx={{ fontSize: '100px' }}
-                        ></AccountCircleIcon>
+                        <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '100px' }}></AccountCircleIcon>
                       </>
                     )}
                     <div className="flex flex-col ml-4">
-                      <p className="font-bold text-black text-3xl mb-1">
-                        {email}
-                      </p>
-                      <p className="text-slate-500 text-lg">
-                        Member since unknown
-                      </p>
+                      <p className="font-bold text-black text-3xl mb-1">{email}</p>
+                      <p className="text-slate-500 text-lg">Member since unknown</p>
                     </div>
                   </div>
                   <div className="flex items-center mt-2 px-24">
-                    <p className="font-bold text-black text-3xl mr-2">
-                      Sign-in method:
-                    </p>
-                    <p className="text-slate-500 text-xl mx-2">
-                      {authState.provider.charAt(0).toUpperCase() +
-                        authState.provider.slice(1)}
-                    </p>
+                    <p className="font-bold text-black text-3xl mr-2">Sign-in method:</p>
+                    <p className="text-slate-500 text-xl mx-2">{authState.provider.charAt(0).toUpperCase() + authState.provider.slice(1)}</p>
                     <Link href="/profile/settings/changepassword">
                       <p className="text-black">Change Password</p>
                     </Link>

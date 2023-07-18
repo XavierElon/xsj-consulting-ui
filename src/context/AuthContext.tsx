@@ -20,7 +20,8 @@ const AuthStateProvider = (props: any) => {
     provider: '',
     id: '',
     isLoggedIn: false,
-    username: ''
+    username: '',
+    profilePicture: ''
   })
 
   const getLoggedInUser = useCallback(async (id: any) => {
@@ -32,26 +33,43 @@ const AuthStateProvider = (props: any) => {
         const provider = result.data.user.provider
         const authToken = result.data.authToken
         if (provider === 'local') {
-          setUserState(authToken, result.data.user.local, 'local', id, true, result.data.user.username)
+          setUserState(authToken, result.data.user.local, 'local', id, true, result.data.user.username, result.data.user.profilePicture)
         } else {
-          setUserState(authToken, result.data.user.firebaseGoogle, 'firebaseGoogle', id, true, result.data.user.username)
+          setUserState(
+            authToken,
+            result.data.user.firebaseGoogle,
+            'firebaseGoogle',
+            id,
+            true,
+            result.data.user.username,
+            result.data.user.profilePicture
+          )
         }
       })
       .catch((error) => {
         console.error(error)
         localStorage.clear()
-        setUserState('', '', '', '', false, '')
+        setUserState('', '', '', '', false, '', '')
       })
   }, [])
 
-  const setUserState = (authToken: any, userData: any, provider: string, id: string, isLoggedIn: boolean, username: string) => {
+  const setUserState = (
+    authToken: any,
+    userData: any,
+    provider: string,
+    id: string,
+    isLoggedIn: boolean,
+    username: string,
+    profilePicture: string
+  ) => {
     setAuthState({
       authToken: authToken,
       user: userData,
       provider: provider,
       id: id,
       isLoggedIn: isLoggedIn,
-      username: username
+      username: username,
+      profilePicture: profilePicture
     })
   }
 

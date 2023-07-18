@@ -14,10 +14,11 @@ const SendMessage = () => {
   const [secondUserProfilePictureUrl, setSecondUserProfilePictureUrl] = useState<string>('')
   const [conversationSelected, setConversationSelected] = useState<boolean>(false)
   const { authState } = useContext(AuthStateContext)
-  let { id, username } = authState
+  let { id, username, photoURL } = authState
   const { secondUser, secondUserID, currentConversationID, isChatGPTConversation } = useContext(ChatStateContext)
   const messages = useChatListener(currentConversationID!)
 
+  console.log(photoURL)
   useEffect(() => {
     if (secondUser) {
       if (secondUser.provider === 'firebaseGoogle') {
