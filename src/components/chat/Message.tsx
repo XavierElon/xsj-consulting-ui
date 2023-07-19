@@ -1,7 +1,6 @@
 'use client'
 import { useContext, useEffect, useState } from 'react'
 import { AuthStateContext } from '@/context/AuthContext'
-import { ChatStateContext } from '@/context/ChatContext'
 import Image from 'next/image'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import BoltIcon from '@mui/icons-material/Bolt'
@@ -9,6 +8,7 @@ import { formatDate } from '@/utils/date.helpers'
 import { checkIfMessageRead } from '@/utils/firebase.helpers'
 import { MessageInterface } from '@/models/chat.interfaces'
 import useProfilePic from '@/hooks/useProfilePic'
+import CursorSVG from '../icons/CursorSVG'
 
 interface MessageProps {
   message: MessageInterface
@@ -18,10 +18,10 @@ interface MessageProps {
 
 const Message = (props: MessageProps) => {
   const { message, lastMessage, showDate } = props
-  // const [imageUrl, setImageUrl] = useState<string>('')
+  const [displayResponse, setDisplayResponse] = useState('')
+  const [completedTyping, setCompletedTyping] = useState(false)
   const { authState } = useContext(AuthStateContext)
   const { id } = authState
-  const { secondUser, secondUserID } = useContext(ChatStateContext)
   const profilePicture = useProfilePic(message)
 
   const isChatGPT: boolean = message?.senderID === 'chatGPT-3.5'
@@ -45,23 +45,22 @@ const Message = (props: MessageProps) => {
     formattedReadTime = new Intl.DateTimeFormat('default', timeOptions).format(message.readTime.toDate())
   }
 
-  // useEffect(() => {
-  //   const getProfilePic = async () => {
-  //     setImageUrl('')
+  useEffect(() => {
+    if (isChatGPT && isLastMessage) {
+      setCompletedTyping(false)
+      let i = 0
+      const intervalId = setInterval(() => {
+        setDisplayResponse(message.text.slice(0, i))
+        i++
+        if (i > message.text.length) {
+          clearInterval(intervalId)
+          setCompletedTyping(true)
+        }
+      }, 30)
 
-  //     if (message?.senderID === secondUserID) {
-  //       if (Object.keys(secondUser.profilePicture).length !== 0) {
-  //         if (secondUser.profilePicture) {
-  //           setImageUrl(secondUser.profilePicture)
-  //         }
-  //       }
-  //     } else if (message.senderID === localStorage.getItem('id')) {
-  //       if (authState.profilePicture) setImageUrl(authState.profilePicture)
-  //     }
-  //   }
-
-  //   getProfilePic()
-  // }, [message, secondUser, secondUserID])
+      return () => clearInterval(intervalId)
+    }
+  }, [message])
 
   return (
     <div className="">
@@ -84,7 +83,16 @@ const Message = (props: MessageProps) => {
         </div>
         <div className="chat-details flex-grow">
           <div className={`flex ${!isSecondUser ? 'justify-end' : ''}`}>
-            <div className={`chat-bubble text-white ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}>{message?.text}</div>
+            <div className={`chat-bubble text-white whitespace-pre-line ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}>
+              {isChatGPT && isLastMessage ? (
+                <div>
+                  {displayResponse}
+                  {!completedTyping && <CursorSVG />}
+                </div>
+              ) : (
+                message?.text
+              )}
+            </div>
           </div>
         </div>
         {!isSecondUser && !isChatGPT && isLastMessageRead && isLastMessage ? (
