@@ -186,7 +186,7 @@ const ChatGPTList = () => {
         </div>
       </div>
       <div className="flex justify-center border-white border-2 rounded-xl py-3 mx-4 cursor-pointer mb-5 bg-gray-400" onClick={handleNewChatGPTClick}>
-        <p className="justify-center text-white text-xl justify-between">New Chat</p>
+        <p className="justify-center text-white text-xl">New Chat</p>
       </div>
     </div>
   )

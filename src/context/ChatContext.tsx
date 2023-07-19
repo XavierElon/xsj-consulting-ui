@@ -5,6 +5,7 @@ import { AuthStateContext } from './AuthContext'
 import { getUsersConversations } from '@/firebase/chat.firebase'
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
+import { Timestamp } from 'firebase/firestore'
 
 type ContextInterface = {
   secondUserID: string
@@ -36,7 +37,7 @@ const ChatStateContext = createContext<ContextInterface>({
   setConversations: () => {},
   currentConversationID: null,
   setCurrentConversationID: () => {},
-  currentConversation: { users: [], createdAt: firebase.firestore.FieldValue.serverTimestamp() },
+  currentConversation: { users: [], createdAt: Timestamp.now() },
   setCurrentConversation: () => {},
   isChatGPTConversation: false,
   setIsChatGPTConversation: () => {},
