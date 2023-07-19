@@ -60,7 +60,7 @@ const Message = (props: MessageProps) => {
 
       return () => clearInterval(intervalId)
     }
-  }, [message])
+  }, [])
 
   return (
     <div className="">
