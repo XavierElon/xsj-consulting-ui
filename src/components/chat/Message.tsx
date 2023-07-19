@@ -8,6 +8,7 @@ import BoltIcon from '@mui/icons-material/Bolt'
 import { formatDate } from '@/utils/date.helpers'
 import { checkIfMessageRead } from '@/utils/firebase.helpers'
 import { MessageInterface } from '@/models/chat.interfaces'
+import useProfilePic from '@/hooks/useProfilePic'
 
 interface MessageProps {
   message: MessageInterface
@@ -17,10 +18,11 @@ interface MessageProps {
 
 const Message = (props: MessageProps) => {
   const { message, lastMessage, showDate } = props
-  const [imageUrl, setImageUrl] = useState<string>('')
+  // const [imageUrl, setImageUrl] = useState<string>('')
   const { authState } = useContext(AuthStateContext)
   const { id } = authState
   const { secondUser, secondUserID } = useContext(ChatStateContext)
+  const profilePicture = useProfilePic(message)
 
   const isChatGPT: boolean = message?.senderID === 'chatGPT-3.5'
   const isSecondUser: boolean = message?.senderID !== id
@@ -43,23 +45,23 @@ const Message = (props: MessageProps) => {
     formattedReadTime = new Intl.DateTimeFormat('default', timeOptions).format(message.readTime.toDate())
   }
 
-  useEffect(() => {
-    const getProfilePic = async () => {
-      setImageUrl('')
+  // useEffect(() => {
+  //   const getProfilePic = async () => {
+  //     setImageUrl('')
 
-      if (message?.senderID === secondUserID) {
-        if (Object.keys(secondUser.profilePicture).length !== 0) {
-          if (secondUser.profilePicture) {
-            setImageUrl(secondUser.profilePicture)
-          }
-        }
-      } else if (message.senderID === localStorage.getItem('id')) {
-        if (authState.profilePicture) setImageUrl(authState.profilePicture)
-      }
-    }
+  //     if (message?.senderID === secondUserID) {
+  //       if (Object.keys(secondUser.profilePicture).length !== 0) {
+  //         if (secondUser.profilePicture) {
+  //           setImageUrl(secondUser.profilePicture)
+  //         }
+  //       }
+  //     } else if (message.senderID === localStorage.getItem('id')) {
+  //       if (authState.profilePicture) setImageUrl(authState.profilePicture)
+  //     }
+  //   }
 
-    getProfilePic()
-  }, [message, secondUser, secondUserID])
+  //   getProfilePic()
+  // }, [message, secondUser, secondUserID])
 
   return (
     <div className="">
@@ -69,8 +71,8 @@ const Message = (props: MessageProps) => {
           <div className="w-10 rounded-full">
             {isChatGPT ? (
               <BoltIcon style={{ color: 'purple', fontSize: '40px' }}></BoltIcon>
-            ) : imageUrl ? (
-              <Image alt="profilePicture" width="15" height="15" src={imageUrl} />
+            ) : profilePicture ? (
+              <Image alt="profilePicture" width="15" height="15" src={profilePicture} />
             ) : (
               <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '45px' }}></AccountCircleIcon>
             )}
