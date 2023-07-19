@@ -3,13 +3,7 @@ import { useContext, useEffect, useRef, useState } from 'react'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
 import { ConversationInterface } from '@/models/chat.interfaces'
-import {
-  createChatGPTConversation3,
-  createChatGPTConversation4,
-  deleteConversation,
-  getUsersConversations,
-  updateConversationTitle
-} from '@/firebase/chat.firebase'
+import { createChatGPTConversation3, createChatGPTConversation4, deleteConversation, updateConversationTitle } from '@/firebase/chat.firebase'
 import 'firebase/compat/firestore'
 import './UsersList.css'
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
@@ -32,9 +26,9 @@ const ChatGPTList = () => {
     setCurrentConversation,
     currentConversationID,
     setCurrentConversationID,
-    setConversations,
     setIsChatGPTConversation,
-    setSecondUserID
+    setSecondUserID,
+    updateConversations
   } = useContext(ChatStateContext)
   const {
     authState: { id }
@@ -45,11 +39,6 @@ const ChatGPTList = () => {
       (conversation) => conversation.users.includes('chatGPT-4') || conversation.users.includes('chatGPT-3.5')
     )
     return chatGPTConversations ? chatGPTConversations : []
-  }
-
-  const updateConversations = async () => {
-    const updatedConversations = await getUsersConversations(id)
-    setConversations(updatedConversations)
   }
 
   const handleSetConversation = (chatID: string) => {
@@ -95,10 +84,6 @@ const ChatGPTList = () => {
     setChatGPTConversations(convos)
   }, [conversations])
 
-  useEffect(() => {
-    // console.log(chatGPTConversations)
-  }, [chatGPTConversations])
-
   return (
     <div className="flex flex-col min-h-screen">
       <div className="flex-grow overflow-y-auto">
@@ -112,10 +97,10 @@ const ChatGPTList = () => {
                 className={`flex items-start justify-between mt-4 ${isSelected ? 'bg-gray-300 py-2 pl-2 rounded-lg' : 'inherit'}`}
                 onClick={() => handleSetConversation(chat.id)}
               >
-                <div className="flex items-center cursor-pointer">
+                <div className="flex cursor-pointer">
                   <ChatBubbleOutlineIcon className="mx-4"></ChatBubbleOutlineIcon>
                   {showEditTitleInput && isSelected ? (
-                    <div>
+                    <div className="flex">
                       <TextField
                         id="outlined-size-small"
                         defaultValue={chat.title}
@@ -129,16 +114,18 @@ const ChatGPTList = () => {
                           }
                         }}
                       />
-                      <CheckIcon
-                        style={{ color: 'black', fontSize: '30px' }}
-                        className="flex justify-end items-center mx-2 font-black cursor-pointer"
-                        onClick={() => handleEditChatGPTTitle(chat.id)}
-                      ></CheckIcon>
-                      <CloseIcon
-                        style={{ color: 'black', fontSize: '30px' }}
-                        className="flex justify-end mx-2 font-black cursor-pointer"
-                        onClick={() => setShowEditTitleInput(false)}
-                      ></CloseIcon>
+                      <div className="mt-1">
+                        <CheckIcon
+                          style={{ color: 'black', fontSize: '30px' }}
+                          className="justify-end ml-8 font-black cursor-pointer"
+                          onClick={() => handleEditChatGPTTitle(chat.id)}
+                        ></CheckIcon>
+                        <CloseIcon
+                          style={{ color: 'black', fontSize: '30px' }}
+                          className="justify-end ml-4 font-black cursor-pointer"
+                          onClick={() => setShowEditTitleInput(false)}
+                        ></CloseIcon>
+                      </div>
                     </div>
                   ) : (
                     <h1 className="text-black font-semibold">{chat.title.length > 20 ? `${chat.title.substring(0, 20)}...` : chat.title}</h1>
@@ -198,8 +185,8 @@ const ChatGPTList = () => {
           <p className={`text-xl ${isChatGpt4Selected ? 'text-white' : 'text-black'}`}>GPT-4</p>
         </div>
       </div>
-      <div className="flex justify-center border-white rounded-xl border-4 py-3 mx-4 cursor-pointer mb-5" onClick={handleNewChatGPTClick}>
-        <p className="justify-center text-black text-xl font-bold">New Chat</p>
+      <div className="flex justify-center border-white border-2 rounded-xl py-3 mx-4 cursor-pointer mb-5 bg-gray-400" onClick={handleNewChatGPTClick}>
+        <p className="justify-center text-white text-xl">New Chat</p>
       </div>
     </div>
   )

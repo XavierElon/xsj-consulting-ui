@@ -2,14 +2,14 @@ import 'firebase/firestore'
 import { db } from './firebase'
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
-import { addDoc, collection, deleteDoc, doc, getDocs, query, serverTimestamp, updateDoc, where } from 'firebase/firestore'
+import { Timestamp, addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, serverTimestamp, updateDoc, where } from 'firebase/firestore'
 import { ConversationInterface, MessageInterface } from '@/models/chat.interfaces'
 
 export const createChatGPTConversation3 = async (userID: string): Promise<any> => {
   const conversation: ConversationInterface = {
     title: 'New Chat',
     users: [userID, 'chatGPT-3.5'],
-    createdAt: serverTimestamp()
+    createdAt: Timestamp.now()
   }
   const docRef = await addDoc(collection(db, 'conversations'), conversation)
   const conversationRef = doc(db, 'conversations', docRef.id)
@@ -20,7 +20,7 @@ export const createChatGPTConversation4 = async (userID: string): Promise<any> =
   const conversation: ConversationInterface = {
     title: 'New Chat',
     users: [userID, 'chatGPT-4'],
-    createdAt: serverTimestamp()
+    createdAt: Timestamp.now()
   }
   const docRef = await addDoc(collection(db, 'conversations'), conversation)
   const conversationRef = doc(db, 'conversations', docRef.id)
@@ -30,7 +30,7 @@ export const createChatGPTConversation4 = async (userID: string): Promise<any> =
 export const createConversation = async (user1ID: string, user2ID: string): Promise<string> => {
   const conversation: ConversationInterface = {
     users: [user1ID, user2ID],
-    createdAt: serverTimestamp(),
+    createdAt: Timestamp.now(),
     lastRead: {}
   }
   const docRef = await addDoc(collection(db, 'conversations'), conversation)
@@ -51,17 +51,33 @@ export const addMessageToConversation = async (conversationID: string, senderID:
     senderID: senderID,
     text: text,
     username: username,
-    createdAt: serverTimestamp(),
+    createdAt: Timestamp.now(),
     read: false
   }
 
   await addDoc(collection(db, 'conversations', conversationID, 'messages'), newMessage)
+
+  // Get the conversation document to check the title
+  const conversationRef = doc(db, 'conversations', conversationID)
+  const conversationSnapshot = await getDoc(conversationRef)
+
+  // If the title is 'New Chat', it means it's the first message of the conversation
+  if (conversationSnapshot.data()?.title === 'New Chat') {
+    let newTitle = text.slice(0, 20)
+    if (text.length > 20) newTitle += '...'
+
+    // Update the conversation title
+    await updateDoc(conversationRef, {
+      title: newTitle
+    })
+  }
 }
 
 export const markMessageAsRead = async (conversationID: string, messageID: string, userID: string) => {
   const messageRef = doc(db, 'conversations', conversationID, 'messages', messageID)
   await updateDoc(messageRef, {
-    read: true
+    read: true,
+    readTime: Timestamp.now()
   })
 
   // Update the conversation

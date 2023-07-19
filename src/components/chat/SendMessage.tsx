@@ -11,54 +11,27 @@ import BoltIcon from '@mui/icons-material/Bolt'
 
 const SendMessage = () => {
   const [value, setValue] = useState('')
-  const [secondUserProfilePictureUrl, setSecondUserProfilePictureUrl] = useState<string>('')
   const [conversationSelected, setConversationSelected] = useState<boolean>(false)
   const { authState } = useContext(AuthStateContext)
   let { id, username } = authState
   const { secondUser, secondUserID, currentConversationID, isChatGPTConversation } = useContext(ChatStateContext)
   const messages = useChatListener(currentConversationID!)
 
-  useEffect(() => {
-    if (secondUser) {
-      if (secondUser.provider === 'firebaseGoogle') {
-        setSecondUserProfilePictureUrl(secondUser.profilePicture)
-      } else if (secondUser.provider === 'local') {
-        setSecondUserProfilePictureUrl(secondUser.profilePicture.url)
-      }
-    }
-  }, [secondUser])
-
-  useEffect(() => {
-    setValue('')
-    if (currentConversationID || secondUserID) {
-      setConversationSelected(true)
-    }
-  }, [currentConversationID, secondUserID])
-
   const returnSecondUserDisplay = () => {
-    if (secondUser && Object.keys(secondUser.profilePicture).length !== 0) {
+    if (secondUser) {
       return (
         <div className="flex items-center w-1/6">
           <div className="chat-image avatar">
             <div className="w-10 h-10 rounded-full mr-2 overflow-hidden">
-              <Image src={secondUserProfilePictureUrl} width="25" height="25" alt="profilePic" className="rounded-full" />
+              {secondUser?.profilePicture ? (
+                <Image src={secondUser?.profilePicture} width="25" height="25" alt="profilePic" className="rounded-full" />
+              ) : (
+                <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '50px' }}></AccountCircleIcon>
+              )}
             </div>
           </div>
           <div className="flex flex-col items-center">
-            <p className="text-black font-bold mb-1">{secondUser.username}</p>
-          </div>
-        </div>
-      )
-    } else if (secondUser && Object.keys(secondUser.profilePicture).length === 0) {
-      return (
-        <div className="flex items-center w-1/6">
-          <div className="chat-image avatar">
-            <div className="w-10 h-10 rounded-full mr-2 overflow-hidden">
-              <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '50px' }}></AccountCircleIcon>
-            </div>
-          </div>
-          <div className="flex flex-col items-center">
-            <p className="text-black font-bold mb-1">{secondUser.username}</p>
+            <p className="text-black font-bold mb-1">{secondUser?.username}</p>
           </div>
         </div>
       )
@@ -84,8 +57,11 @@ const SendMessage = () => {
         },
         { withCredentials: true }
       )
+      console.log(response)
       if (response.status === 200) {
+        console.log('200')
         try {
+          console.log('try')
           await addMessageToConversation(currentConversationID, 'chatGPT-3.5', response.data.message, 'chatGPT-3.5')
         } catch (error) {
           console.error(error)
@@ -93,6 +69,13 @@ const SendMessage = () => {
       }
     }
   }
+
+  useEffect(() => {
+    setValue('')
+    if (currentConversationID || secondUserID) {
+      setConversationSelected(true)
+    }
+  }, [currentConversationID, secondUserID])
 
   return (
     <div className="bg-gray-200 w-full py-6 shadow-lg px-2">

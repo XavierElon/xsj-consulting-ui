@@ -3,7 +3,7 @@ import { useContext, useEffect, useRef, useState } from 'react'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
 import Message from './Message'
-import { getUsersConversations, markMessageAsRead } from '@/firebase/chat.firebase'
+import { markMessageAsRead } from '@/firebase/chat.firebase'
 import useChatListener from '@/hooks/useChatListener'
 import './ChatBox.css'
 import { checkIfMessageRead } from '@/utils/firebase.helpers'
@@ -11,7 +11,7 @@ import { MessageInterface } from '@/models/chat.interfaces'
 
 const ChatBox = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
-  const { setConversations, currentConversationID } = useContext(ChatStateContext)
+  const { currentConversationID, updateConversations } = useContext(ChatStateContext)
   const messages = useChatListener(currentConversationID!)
   const {
     authState: { id }
@@ -19,11 +19,6 @@ const ChatBox = () => {
   const [lastMessage, setLastMessage] = useState<MessageInterface | null>(null)
 
   let isLastMessageRead: boolean | undefined = false
-
-  const updateConversations = async () => {
-    const updatedConversations = await getUsersConversations(id)
-    setConversations(updatedConversations)
-  }
 
   const scrollToBottom = () => {
     if (messagesEndRef.current !== null) {
@@ -54,11 +49,23 @@ const ChatBox = () => {
   useEffect(scrollToBottom, [messages])
 
   return (
-    <div className="flex flex-col-reverse overflow-y-auto h-full pt-16">
+    <div className="flex flex-col-reverse overflow-y-auto h-full pt-16 pb-2">
       <div ref={messagesEndRef}></div>
-      {messages.map((message: any) => (
-        <Message key={message.id} message={message} lastMessage={lastMessage} />
-      ))}
+      {messages.map((message: any, index: number) => {
+        let showDate = true
+        if (index < messages.length - 1) {
+          const currentDate = new Date(message.createdAt.seconds * 1000)
+          const nextDate = new Date(messages[index + 1].createdAt.seconds * 1000)
+
+          showDate = !(
+            currentDate.getDate() === nextDate.getDate() &&
+            currentDate.getMonth() === nextDate.getMonth() &&
+            currentDate.getFullYear() === nextDate.getFullYear()
+          )
+        }
+
+        return <Message key={message.id} message={message} lastMessage={lastMessage} showDate={showDate} />
+      })}
     </div>
   )
 }

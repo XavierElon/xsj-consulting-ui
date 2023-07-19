@@ -152,38 +152,20 @@ const Navbar = (props: Props) => {
               <Link href="/store/cart">
                 <Button className="bg-blue-500 text-white px-2 mx-2 py-1 rounded-md">Cart {productsCount} Items</Button>
               </Link>
-              {googleUser ? (
+              {authState.profilePicture ? (
                 <>
                   <p className="text-black mr-2">{username}</p>
                   <Image
-                    src={authState?.user.photoURL || ''}
+                    src={authState.profilePicture || ''}
                     width="50"
-                    height="50"
+                    height="35"
                     alt="profilePic"
-                    className="rounded-md transform hover:scale-110 transition-all duration-300 cursor-pointer"
+                    className="rounded-full transform hover:scale-110 transition-all duration-300 cursor-pointer"
                     onClick={handleDropdownOpen}
                   ></Image>
                 </>
               ) : (
-                <>
-                  {imageUrl ? (
-                    <>
-                      <p className="text-black mr-2">{username}</p>
-                      <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
-                        <Image
-                          src={imageUrl}
-                          alt="profilePicture"
-                          width="50"
-                          height="50"
-                          className="rounded-md transform hover:scale-110 transition-all duration-300 cursor-pointer"
-                          onClick={handleDropdownOpen}
-                        ></Image>
-                      </div>
-                    </>
-                  ) : (
-                    <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '50px' }}></AccountCircleIcon>
-                  )}
-                </>
+                <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '50px' }}></AccountCircleIcon>
               )}
               <ExpandMoreIcon
                 className=" transform hover:scale-150 transition-all duration-300 cursor-pointer"
