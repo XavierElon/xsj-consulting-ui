@@ -29,6 +29,7 @@ const Message = (props: MessageProps) => {
 
   const timeOptions: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit' }
   let formattedTime
+  let formattedReadTime
   let date
   let formattedDate
 
@@ -36,6 +37,10 @@ const Message = (props: MessageProps) => {
     formattedTime = new Intl.DateTimeFormat('default', timeOptions).format(message.createdAt.toDate())
     date = message.createdAt.toDate()
     formattedDate = formatDate(date)
+  }
+
+  if (message?.readTime) {
+    formattedReadTime = new Intl.DateTimeFormat('default', timeOptions).format(message.readTime.toDate())
   }
 
   useEffect(() => {
@@ -81,7 +86,7 @@ const Message = (props: MessageProps) => {
           </div>
         </div>
         {!isSecondUser && !isChatGPT && isLastMessageRead && isLastMessage ? (
-          <div className="chat-footer opacity-75">Read</div>
+          <div className="chat-footer opacity-75">Read {formattedReadTime}</div>
         ) : (
           !isSecondUser && isLastMessage && <div className="chat-footer opacity-75">Delivered</div>
         )}
