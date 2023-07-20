@@ -60,7 +60,7 @@ const Message = (props: MessageProps) => {
 
       return () => clearInterval(intervalId)
     }
-  }, [])
+  }, [message, isLastMessage])
 
   return (
     <div className="">
@@ -83,14 +83,14 @@ const Message = (props: MessageProps) => {
         </div>
         <div className="chat-details flex-grow">
           <div className={`flex ${!isSecondUser ? 'justify-end' : ''}`}>
-            <div className={`chat-bubble text-white whitespace-pre-line ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}>
+            <div>
               {isChatGPT && isLastMessage ? (
-                <div>
+                <div className={`chat-bubble text-white whitespace-pre-line ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}>
                   {displayResponse}
                   {!completedTyping && <CursorSVG />}
                 </div>
               ) : (
-                message?.text
+                <div className={`chat-bubble text-white whitespace-pre ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}>{message?.text}</div>
               )}
             </div>
           </div>

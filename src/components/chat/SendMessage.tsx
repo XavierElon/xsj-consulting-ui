@@ -90,11 +90,11 @@ const SendMessage = () => {
         )}
 
         <form className="containerWrap flex justify-end flex-grow">
-          <input
+          <textarea
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            className="input flex-grow text-black focus:outline-none bg-gray-100 rounded-r-none"
-            type="text"
+            className="input h-16 mr-4 flex-grow text-black focus:outline-none bg-gray-100 rounded-r-none"
+            style={{ whiteSpace: 'pre-wrap' }}
           />
           <button
             type="submit"
