@@ -65,6 +65,7 @@ const Message = (props: MessageProps) => {
     }
   }, [message, isLastMessage])
 
+
   return (
     <div className="">
       {showDate && <div style={{ display: 'flex', justifyContent: 'center' }}>{formattedDate}</div>}
