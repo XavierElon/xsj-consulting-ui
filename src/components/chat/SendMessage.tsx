@@ -10,11 +10,11 @@ import useChatListener from '@/hooks/useChatListener'
 import BoltIcon from '@mui/icons-material/Bolt'
 
 const SendMessage = () => {
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState<string>('')
   const [conversationSelected, setConversationSelected] = useState<boolean>(false)
   const { authState } = useContext(AuthStateContext)
   let { id, username } = authState
-  const { secondUser, secondUserID, currentConversationID, isChatGPTConversation } = useContext(ChatStateContext)
+  const { secondUser, secondUserID, currentConversationID, isChatGPTConversation, setIsChatGPTMessageLoading } = useContext(ChatStateContext)
   const messages = useChatListener(currentConversationID!)
 
   const returnSecondUserDisplay = () => {
@@ -48,6 +48,7 @@ const SendMessage = () => {
     }
     if (currentConversationID !== null && isChatGPTConversation === true) {
       console.log('chat gpt')
+      setIsChatGPTMessageLoading(true)
       const response = await axios.post(
         process.env.NEXT_PUBLIC_CHATGPT3_CONVERSATION_ROUTE!,
         {
@@ -63,6 +64,7 @@ const SendMessage = () => {
         try {
           console.log('try')
           await addMessageToConversation(currentConversationID, 'chatGPT-3.5', response.data.message, 'chatGPT-3.5')
+          setIsChatGPTMessageLoading(false)
         } catch (error) {
           console.error(error)
         }
@@ -90,11 +92,11 @@ const SendMessage = () => {
         )}
 
         <form className="containerWrap flex justify-end flex-grow">
-          <input
+          <textarea
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            className="input flex-grow text-black focus:outline-none bg-gray-100 rounded-r-none"
-            type="text"
+            className="input h-16 mr-4 flex-grow text-black focus:outline-none bg-gray-100 rounded-r-none"
+            style={{ whiteSpace: 'pre-wrap' }}
           />
           <button
             type="submit"
