@@ -1,6 +1,6 @@
 'use client'
 import { useContext, useEffect, useState } from 'react'
-import { AuthStateContext } from '@/context/AuthContext'
+import { AuthStateContext, ChatStateContext } from '@/context'
 import Image from 'next/image'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import BoltIcon from '@mui/icons-material/Bolt'
@@ -8,6 +8,7 @@ import { formatDate } from '@/utils/date.helpers'
 import { checkIfMessageRead } from '@/utils/firebase.helpers'
 import { MessageInterface } from '@/models/chat.interfaces'
 import useProfilePic from '@/hooks/useProfilePic'
+import { ThreeDots } from 'react-loader-spinner'
 import CursorSVG from '../icons/CursorSVG'
 
 interface MessageProps {
@@ -21,6 +22,7 @@ const Message = (props: MessageProps) => {
   const [displayResponse, setDisplayResponse] = useState('')
   const [completedTyping, setCompletedTyping] = useState(false)
   const { authState } = useContext(AuthStateContext)
+  const { isChatGPTMessageLoading } = useContext(ChatStateContext)
   const { id } = authState
   const profilePicture = useProfilePic(message)
 
@@ -46,6 +48,7 @@ const Message = (props: MessageProps) => {
   }
 
   useEffect(() => {
+    console.log('isLastmesageLoading: ' + isChatGPTMessageLoading)
     if (isChatGPT && isLastMessage) {
       setCompletedTyping(false)
       let i = 0
@@ -65,7 +68,7 @@ const Message = (props: MessageProps) => {
   return (
     <div className="">
       {showDate && <div style={{ display: 'flex', justifyContent: 'center' }}>{formattedDate}</div>}
-      <div className={`chat ${isSecondUser ? 'chat-start' : 'chat-end'}`}>
+      <div className={`chat overflow-x-hidden ${isSecondUser ? 'chat-start' : 'chat-end'}`}>
         <div className="chat-image avatar">
           <div className="w-10 rounded-full">
             {isChatGPT ? (
@@ -81,16 +84,22 @@ const Message = (props: MessageProps) => {
           {isChatGPT ? 'Chat GPT' : message.username}
           <time className="text-xs opacity-75 ml-2">{formattedTime}</time>
         </div>
-        <div className="chat-details flex-grow">
+        <div className="chat-details overflow-x-hidden flex-grow">
           <div className={`flex ${!isSecondUser ? 'justify-end' : ''}`}>
             <div>
-              {isChatGPT && isLastMessage ? (
-                <div className={`chat-bubble text-white whitespace-pre-line ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}>
+              {isChatGPT && isLastMessage && isChatGPTMessageLoading ? (
+                <ThreeDots height="80" width="80" radius="9" color="#4fa94d" ariaLabel="three-dots-loading" wrapperStyle={{}} visible={true} />
+              ) : isChatGPT && isLastMessage ? (
+                <div
+                  className={`chat-bubble text-white overflow-x-hidden whitespace-nowrap truncate ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}
+                >
                   {displayResponse}
                   {!completedTyping && <CursorSVG />}
                 </div>
               ) : (
-                <div className={`chat-bubble text-white whitespace-pre ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}>{message?.text}</div>
+                <div className={`chat-bubble text-white overflow-x-hidden whitespace-pre truncate ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}>
+                  {message?.text}
+                </div>
               )}
             </div>
           </div>

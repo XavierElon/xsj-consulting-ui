@@ -24,6 +24,8 @@ type ContextInterface = {
   setIsChatGPTConversation3: (value: boolean) => void
   isChatGPTConversation4: boolean
   setIsChatGPTConversation4: (value: boolean) => void
+  isChatGPTMessageLoading: boolean
+  setIsChatGPTMessageLoading: (value: boolean) => void
   getFirebaseUserConversations: (value: string) => any
   updateConversations: () => void
 }
@@ -45,6 +47,8 @@ const ChatStateContext = createContext<ContextInterface>({
   setIsChatGPTConversation3: () => {},
   isChatGPTConversation4: false,
   setIsChatGPTConversation4: () => {},
+  isChatGPTMessageLoading: false,
+  setIsChatGPTMessageLoading: () => {},
   getFirebaseUserConversations: () => {},
   updateConversations: () => {}
 })
@@ -58,6 +62,7 @@ const ChatStateProvider = (props: any) => {
   const [isChatGPTConversation, setIsChatGPTConversation] = useState<boolean>(false)
   const [isChatGPTConversation3, setIsChatGPTConversation3] = useState<boolean>(false)
   const [isChatGPTConversation4, setIsChatGPTConversation4] = useState<boolean>(false)
+  const [isChatGPTMessageLoading, setIsChatGPTMessageLoading] = useState<boolean>(false)
   const {
     authState: { id }
   } = useContext(AuthStateContext)
@@ -100,6 +105,8 @@ const ChatStateProvider = (props: any) => {
         setIsChatGPTConversation3,
         isChatGPTConversation4,
         setIsChatGPTConversation4,
+        isChatGPTMessageLoading,
+        setIsChatGPTMessageLoading,
         getFirebaseUserConversations,
         updateConversations
       }}
