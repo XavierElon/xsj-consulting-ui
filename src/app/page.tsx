@@ -26,9 +26,10 @@ const HomePage: NextPage = (Component, pageProps) => {
           <CardTwo />
         </div>
 
-        <div className="row-span-1">
+        {/* <div className="row-span-1">
           <CardThree />
-        </div>
+        </div> */}
+
         <div className="row-span-1">
           <TableCard />
         </div>
