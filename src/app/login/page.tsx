@@ -1,11 +1,11 @@
 'use client'
+import { useEffect, useState } from 'react'
 import { NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/navigation'
 import Layout from '@/components/Layout'
 import { useAuthorization } from '@/hooks/useAuthorization'
 import LoginModal from '@/components/modals/LoginModal'
-import { useEffect, useState } from 'react'
 
 const Login: NextPage = () => {
   const [loading, setLoading] = useState<boolean>(true)
