@@ -22,8 +22,8 @@ const features = [
     icon: <StoreIcon></StoreIcon>
   },
   {
-    title: 'Secure User Authorization',
-    description: 'Custom developed user authorization ensures your data is secure with us!',
+    title: 'Secure User Authorization & Authenticaton',
+    description: 'Custom developed user authorization and authentication ensures your data is secure with us!',
     icon: <SecurityIcon></SecurityIcon>
   }
 ]
@@ -38,10 +38,10 @@ export const CardTwo = () => {
       <div className="mt-10 relative max-w-6xl mx-auto px-4 sm:px-6">
         <div className="py-2 md:py-2">
           {/* Section header */}
-          <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-            <h1 className="h2 mb-4 my-10 text-white text-5xl">DevGru Is An Industry Leader</h1>
-            <p className="text-xl text-blue-400 dark:text-white">Where Our Experts Live To Deliver The Highest Impact Solutions</p>
-          </div>
+          {/* <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20"> */}
+          {/* <h1 className="h2 mb-4 my-10 text-white text-5xl">DevGru Is An Industry Leader</h1>
+            <p className="text-xl text-blue-400 dark:text-white">Where Our Experts Live To Deliver The Highest Impact Solutions</p> */}
+          {/* </div> */}
 
           {/* Items */}
           <div className="my-20 max-w-sm mx-auto grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-start md:max-w-2xl lg:max-w-none">
