@@ -48,7 +48,9 @@ const Message = (props: MessageProps) => {
   }
 
   useEffect(() => {
-    console.log('isLastmesageLoading: ' + isChatGPTMessageLoading)
+    console.log('isChatGptMessageLoading: ' + isChatGPTMessageLoading)
+    console.log('isChatGPT: ' + isChatGPT)
+    console.log('isLastMesage: ' + isLastMessage)
     if (isChatGPT && isLastMessage) {
       setCompletedTyping(false)
       let i = 0
@@ -64,7 +66,6 @@ const Message = (props: MessageProps) => {
       return () => clearInterval(intervalId)
     }
   }, [message, isLastMessage])
-
 
   return (
     <div className="">
@@ -91,14 +92,12 @@ const Message = (props: MessageProps) => {
               {isChatGPT && isLastMessage && isChatGPTMessageLoading ? (
                 <ThreeDots height="80" width="80" radius="9" color="#4fa94d" ariaLabel="three-dots-loading" wrapperStyle={{}} visible={true} />
               ) : isChatGPT && isLastMessage ? (
-                <div
-                  className={`chat-bubble text-white overflow-x-hidden whitespace-nowrap truncate ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}
-                >
+                <div className={`chat-bubble text-white overflow text-clip ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}>
                   {displayResponse}
                   {!completedTyping && <CursorSVG />}
                 </div>
               ) : (
-                <div className={`chat-bubble text-white overflow-x-hidden whitespace-pre truncate ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}>
+                <div className={`chat-bubble text-white overflow whitespace-pre text-clip ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}>
                   {message?.text}
                 </div>
               )}
