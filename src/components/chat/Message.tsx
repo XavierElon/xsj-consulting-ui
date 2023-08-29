@@ -17,13 +17,15 @@ interface MessageProps {
   showDate: boolean
 }
 
-const Message = (props: MessageProps) => {
-  const { message, lastMessage, showDate } = props
+const Message = ({ message, lastMessage, showDate }: MessageProps) => {
+  const {
+    authState: { id }
+  } = useContext(AuthStateContext)
+  const { isChatGPTMessageLoading } = useContext(ChatStateContext)
+
   const [displayResponse, setDisplayResponse] = useState('')
   const [completedTyping, setCompletedTyping] = useState(false)
-  const { authState } = useContext(AuthStateContext)
-  const { isChatGPTMessageLoading } = useContext(ChatStateContext)
-  const { id } = authState
+
   const profilePicture = useProfilePic(message)
 
   const isChatGPT: boolean = message?.senderID === 'chatGPT-3.5'
@@ -31,41 +33,35 @@ const Message = (props: MessageProps) => {
   const isLastMessageRead = checkIfMessageRead(message)
   const isLastMessage: boolean = message.id === lastMessage?.id
 
-  const timeOptions: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit' }
-  let formattedTime
-  let formattedReadTime
-  let date
-  let formattedDate
-
-  if (message?.createdAt) {
-    formattedTime = new Intl.DateTimeFormat('default', timeOptions).format(message.createdAt.toDate())
-    date = message.createdAt.toDate()
-    formattedDate = formatDate(date)
+  const formatTime = (date: any | undefined) => {
+    const options: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit' }
+    return date ? new Intl.DateTimeFormat('default', options).format(date) : null
   }
 
-  if (message?.readTime) {
-    formattedReadTime = new Intl.DateTimeFormat('default', timeOptions).format(message.readTime.toDate())
-  }
+  const formattedTime = formatTime(message?.createdAt)
+  const formattedReadTime = formatTime(message?.readTime)
+  const formattedDate = message?.createdAt ? formatDate(message.createdAt.toDate()) : null
 
   useEffect(() => {
-    // console.log('isLoading: ' + isChatGPTMessageLoading)
-    // console.log('isChatGPT: ' + isChatGPT)
-    // console.log('isLastMesage: ' + isLastMessage)
     if (isChatGPT && isLastMessage) {
-      setCompletedTyping(false)
-      let i = 0
-      const intervalId = setInterval(() => {
-        setDisplayResponse(message.text.slice(0, i))
-        i++
-        if (i > message.text.length) {
-          clearInterval(intervalId)
-          setCompletedTyping(true)
-        }
-      }, 30)
-
-      return () => clearInterval(intervalId)
+      simulateTypingEffect(message.text)
     }
   }, [message, isLastMessage, isChatGPTMessageLoading])
+
+  const simulateTypingEffect = (text: string) => {
+    setCompletedTyping(false)
+    let i = 0
+    const intervalId = setInterval(() => {
+      setDisplayResponse(text.slice(0, i))
+      i++
+      if (i > text.length) {
+        clearInterval(intervalId)
+        setCompletedTyping(true)
+      }
+    }, 30)
+
+    return () => clearInterval(intervalId)
+  }
 
   return (
     <div className="">
@@ -97,9 +93,7 @@ const Message = (props: MessageProps) => {
               ) : isLastMessage && isChatGPTMessageLoading && isSecondUser ? (
                 <ThreeDots height="80" width="80" radius="9" color="#4fa94d" ariaLabel="three-dots-loading" wrapperStyle={{}} visible={true} />
               ) : (
-                <div className={`chat-bubble text-white overflow whitespace-pre text-clip ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}>
-                  {message?.text}
-                </div>
+                <div className={`chat-bubble text-white overflow whitespace-pre text-clip ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}>{message?.text}</div>
               )}
             </div>
           </div>
