@@ -14,7 +14,8 @@ const SendMessage = () => {
   const [conversationSelected, setConversationSelected] = useState<boolean>(false)
   const { authState } = useContext(AuthStateContext)
   let { id, username } = authState
-  const { secondUser, secondUserID, currentConversationID, isChatGPTConversation, setIsChatGPTMessageLoading } = useContext(ChatStateContext)
+  const { secondUser, secondUserID, currentConversationID, isChatGPTConversation, setIsChatGPTMessageLoading, isChatGPTMessageLoading } =
+    useContext(ChatStateContext)
   const messages = useChatListener(currentConversationID!)
 
   const returnSecondUserDisplay = () => {
@@ -58,7 +59,8 @@ const SendMessage = () => {
         },
         { withCredentials: true }
       )
-      console.log(response)
+      // console.log(response)
+      console.log('send message: ' + isChatGPTMessageLoading)
       if (response.status === 200) {
         console.log('200')
         try {
