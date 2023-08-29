@@ -93,7 +93,7 @@ const Message = ({ message, lastMessage, showDate }: MessageProps) => {
               ) : isLastMessage && isChatGPTMessageLoading && isSecondUser ? (
                 <ThreeDots height="80" width="80" radius="9" color="#4fa94d" ariaLabel="three-dots-loading" wrapperStyle={{}} visible={true} />
               ) : (
-                <div className={`chat-bubble text-white overflow whitespace-pre text-clip ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}>{message?.text}</div>
+                <div className={`chat-bubble text-white overflow whitespace-pre text-clip ${!isSecondUser ? 'bg-blue-500 mr-8' : 'bg-gray-400'}`}>{message?.text}</div>
               )}
             </div>
           </div>
