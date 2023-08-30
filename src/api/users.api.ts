@@ -1,5 +1,6 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { UserType } from '@/types/types'
+import { MessageInterface } from '@/models/chat.interfaces'
 
 export const fetchUsers = async (): Promise<UserType[]> => {
   try {
@@ -11,4 +12,16 @@ export const fetchUsers = async (): Promise<UserType[]> => {
     console.error(error)
     return []
   }
+}
+
+export const sendChatGpt3Message = async (message: string, currentConversationID: string, messages: MessageInterface[]): Promise<AxiosResponse<any>> => {
+  return await axios.post(
+    process.env.NEXT_PUBLIC_CHATGPT3_CONVERSATION_ROUTE!,
+    {
+      message: message,
+      conversationID: currentConversationID,
+      messages: messages
+    },
+    { withCredentials: true }
+  )
 }

@@ -9,13 +9,14 @@ import Image from 'next/image'
 import useChatListener from '@/hooks/useChatListener'
 import BoltIcon from '@mui/icons-material/Bolt'
 import MessageForm from './MessageForm'
+import { sendChatGpt3Message } from '@/api/users.api'
 
 const SendMessage = () => {
   const [value, setValue] = useState<string>('')
   const {
     authState: { id, username }
   } = useContext(AuthStateContext)
-  const { secondUser, currentConversationID, isChatGPTConversation, setIsChatGPTMessageLoading, isChatGPTMessageLoading } = useContext(ChatStateContext)
+  const { secondUser, currentConversationID, isChatGPTConversation, setIsChatGPTMessageLoading } = useContext(ChatStateContext)
 
   const messages = useChatListener(currentConversationID!)
 
@@ -30,15 +31,7 @@ const SendMessage = () => {
 
     if (currentConversationID !== null && isChatGPTConversation === true) {
       setIsChatGPTMessageLoading(true)
-      const response = await axios.post(
-        process.env.NEXT_PUBLIC_CHATGPT3_CONVERSATION_ROUTE!,
-        {
-          message: value,
-          conversationID: currentConversationID,
-          messages: messages
-        },
-        { withCredentials: true }
-      )
+      const response = await sendChatGpt3Message(value, currentConversationID, messages)
 
       if (response.status === 200) {
         try {

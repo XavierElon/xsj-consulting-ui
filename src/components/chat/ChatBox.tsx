@@ -53,7 +53,7 @@ const ChatBox = () => {
   return (
     <div className="flex flex-col-reverse overflow-y-auto h-full pt-16 pb-2">
       <div ref={messagesEndRef}></div>
-      <div className="ml-12">{isChatGPTMessageLoading && <ThreeDots height="80" width="80" radius="9" color="#4fa94d" ariaLabel="three-dots-loading" visible={true} />}</div>
+      <div className="mb-8 ml-12">{isChatGPTMessageLoading && <ThreeDots height="80" width="80" radius="9" color="#4fa94d" ariaLabel="three-dots-loading" visible={true} />}</div>
       {messages.map((message: any, index: number) => {
         let showDate = true
         if (index < messages.length - 1) {
