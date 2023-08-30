@@ -1,5 +1,5 @@
 'use client'
-import { useContext, useEffect, useState } from 'react'
+import { SyntheticEvent, useContext, useState } from 'react'
 import axios from 'axios'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
@@ -8,6 +8,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import Image from 'next/image'
 import useChatListener from '@/hooks/useChatListener'
 import BoltIcon from '@mui/icons-material/Bolt'
+import MessageForm from './MessageForm'
 
 const SendMessage = () => {
   const [value, setValue] = useState<string>('')
@@ -20,16 +21,15 @@ const SendMessage = () => {
 
   const isConversationSelected = Boolean(currentConversationID || secondUser?.id)
 
-  const handleSendMessage = async (e: any) => {
+  const handleSendMessage = async (e: SyntheticEvent) => {
     e.preventDefault()
     setValue('')
     if (currentConversationID !== null) {
       await addMessageToConversation(currentConversationID, id, value, username)
     }
+
     if (currentConversationID !== null && isChatGPTConversation === true) {
-      console.log('chat gpt')
       setIsChatGPTMessageLoading(true)
-      console.log('send message: ' + isChatGPTMessageLoading)
       const response = await axios.post(
         process.env.NEXT_PUBLIC_CHATGPT3_CONVERSATION_ROUTE!,
         {
@@ -39,12 +39,9 @@ const SendMessage = () => {
         },
         { withCredentials: true }
       )
-      // console.log(response)
-      console.log('send message: ' + isChatGPTMessageLoading)
+
       if (response.status === 200) {
-        console.log('200')
         try {
-          console.log('try')
           await addMessageToConversation(currentConversationID, 'chatGPT-3.5', response.data.message, 'chatGPT-3.5')
           setIsChatGPTMessageLoading(false)
         } catch (error) {
@@ -53,6 +50,7 @@ const SendMessage = () => {
       }
     }
   }
+
   return (
     <div className="bg-gray-200 w-full py-6 shadow-lg px-2">
       <div className="flex items-center justify-between">
@@ -85,25 +83,6 @@ const UserHeader = ({ user }: { user: any }) => (
       <p className="text-black font-bold mb-1">{user?.username}</p>
     </div>
   </div>
-)
-
-const MessageForm = ({ value, setValue, onSubmit, isConversationSelected }: any) => (
-  <form className="containerWrap flex justify-end flex-grow">
-    <textarea
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-      className="input h-16 mr-4 flex-grow text-black focus:outline-none bg-gray-100 rounded-r-none"
-      style={{ whiteSpace: 'pre-wrap' }}
-    />
-    <button
-      type="submit"
-      onClick={onSubmit}
-      className={`w-auto btn text-white rounded-r-lg text-sm ${isConversationSelected ? 'btn-primary' : 'bg-gray-500 cursor-not-allowed'}`}
-      disabled={!isConversationSelected}
-    >
-      Send
-    </button>
-  </form>
 )
 
 export default SendMessage

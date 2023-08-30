@@ -8,7 +8,6 @@ import { formatDate } from '@/utils/date.helpers'
 import { checkIfMessageRead } from '@/utils/firebase.helpers'
 import { MessageInterface } from '@/models/chat.interfaces'
 import useProfilePic from '@/hooks/useProfilePic'
-import { ThreeDots } from 'react-loader-spinner'
 import CursorSVG from '../icons/CursorSVG'
 
 interface MessageProps {
@@ -56,10 +55,6 @@ const Message = ({ message, lastMessage, showDate }: MessageProps) => {
 
     return () => clearInterval(intervalId)
   }
-
-  // useEffect(() => {
-  //   console.log(isChatGPTMessageLoading)
-  // }, [])
 
   useEffect(() => {
     if (isChatGPT && isLastMessage) {

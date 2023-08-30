@@ -48,10 +48,6 @@ const ChatBox = () => {
     updateLastMessageToRead()
   }, [currentConversationID, messages, lastMessage])
 
-  // useEffect(() => {
-  //   console.log(isChatGPTMessageLoading)
-  // }, [])
-
   useEffect(scrollToBottom, [messages])
 
   return (
