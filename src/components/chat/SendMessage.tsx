@@ -29,6 +29,7 @@ const SendMessage = () => {
     if (currentConversationID !== null && isChatGPTConversation === true) {
       console.log('chat gpt')
       setIsChatGPTMessageLoading(true)
+      console.log('send message: ' + isChatGPTMessageLoading)
       const response = await axios.post(
         process.env.NEXT_PUBLIC_CHATGPT3_CONVERSATION_ROUTE!,
         {

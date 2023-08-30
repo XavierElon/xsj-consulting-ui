@@ -8,6 +8,7 @@ import useChatListener from '@/hooks/useChatListener'
 import './ChatBox.css'
 import { checkIfMessageRead } from '@/utils/firebase.helpers'
 import { MessageInterface } from '@/models/chat.interfaces'
+import { ThreeDots } from 'react-loader-spinner'
 
 const ChatBox = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -16,6 +17,7 @@ const ChatBox = () => {
   const {
     authState: { id }
   } = useContext(AuthStateContext)
+  const { isChatGPTMessageLoading } = useContext(ChatStateContext)
   const [lastMessage, setLastMessage] = useState<MessageInterface | null>(null)
 
   let isLastMessageRead: boolean | undefined = false
@@ -46,22 +48,23 @@ const ChatBox = () => {
     updateLastMessageToRead()
   }, [currentConversationID, messages, lastMessage])
 
+  // useEffect(() => {
+  //   console.log(isChatGPTMessageLoading)
+  // }, [])
+
   useEffect(scrollToBottom, [messages])
 
   return (
     <div className="flex flex-col-reverse overflow-y-auto h-full pt-16 pb-2">
       <div ref={messagesEndRef}></div>
+      <div className="ml-12">{isChatGPTMessageLoading && <ThreeDots height="80" width="80" radius="9" color="#4fa94d" ariaLabel="three-dots-loading" visible={true} />}</div>
       {messages.map((message: any, index: number) => {
         let showDate = true
         if (index < messages.length - 1) {
           const currentDate = new Date(message.createdAt.seconds * 1000)
           const nextDate = new Date(messages[index + 1].createdAt.seconds * 1000)
 
-          showDate = !(
-            currentDate.getDate() === nextDate.getDate() &&
-            currentDate.getMonth() === nextDate.getMonth() &&
-            currentDate.getFullYear() === nextDate.getFullYear()
-          )
+          showDate = !(currentDate.getDate() === nextDate.getDate() && currentDate.getMonth() === nextDate.getMonth() && currentDate.getFullYear() === nextDate.getFullYear())
         }
 
         return <Message key={message.id} message={message} lastMessage={lastMessage} showDate={showDate} />
