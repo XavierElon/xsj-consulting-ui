@@ -32,14 +32,21 @@ const Message = ({ message, lastMessage, showDate }: MessageProps) => {
   const isLastMessageRead = checkIfMessageRead(message)
   const isLastMessage: boolean = message.id === lastMessage?.id
 
-  const formatTime = (date: any | undefined) => {
-    const options: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit' }
-    return date ? new Intl.DateTimeFormat('default', options).format(date) : null
+  const timeOptions: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit' }
+  let formattedTime: any
+  let formattedReadTime
+  let date
+  let formattedDate
+
+  if (message?.createdAt) {
+    formattedTime = new Intl.DateTimeFormat('default', timeOptions).format(message.createdAt.toDate())
+    date = message.createdAt.toDate()
+    formattedDate = formatDate(date)
   }
 
-  const formattedTime = formatTime(message?.createdAt)
-  const formattedReadTime = formatTime(message?.readTime)
-  const formattedDate = message?.createdAt ? formatDate(message.createdAt.toDate()) : null
+  if (message?.readTime) {
+    formattedReadTime = new Intl.DateTimeFormat('default', timeOptions).format(message.readTime.toDate())
+  }
 
   const simulateTypingEffect = (text: string) => {
     setCompletedTyping(false)
