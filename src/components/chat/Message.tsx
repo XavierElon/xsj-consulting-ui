@@ -63,7 +63,7 @@ const Message = ({ message, lastMessage, showDate }: MessageProps) => {
   }, [message, isLastMessage, isChatGPTMessageLoading])
 
   return (
-    <div className="">
+    <div className="w-full">
       {showDate && <div style={{ display: 'flex', justifyContent: 'center' }}>{formattedDate}</div>}
       <div className={`chat overflow-x-hidden ${isSecondUser ? 'chat-start' : 'chat-end'}`}>
         <div className="chat-image avatar">
@@ -90,7 +90,7 @@ const Message = ({ message, lastMessage, showDate }: MessageProps) => {
                   {!completedTyping && <CursorSVG />}
                 </div>
               ) : (
-                <div className={`chat-bubble text-white overflow whitespace-pre text-clip ${!isSecondUser ? 'bg-blue-500 mr-8' : 'bg-gray-400'}`}>{message?.text}</div>
+                <div className={`chat-bubble text-white overflow whitespace-pre text-clip ${!isSecondUser ? 'bg-blue-500 mr-8' : 'mr-8 bg-gray-400'}`}>{message?.text}</div>
               )}
             </div>
           </div>

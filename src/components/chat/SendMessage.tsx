@@ -1,6 +1,5 @@
 'use client'
 import { SyntheticEvent, useContext, useState } from 'react'
-import axios from 'axios'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
 import { addMessageToConversation } from '@/firebase/chat.firebase'
@@ -31,15 +30,19 @@ const SendMessage = () => {
 
     if (currentConversationID !== null && isChatGPTConversation === true) {
       setIsChatGPTMessageLoading(true)
-      const response = await sendChatGpt3Message(value, currentConversationID, messages)
 
-      if (response.status === 200) {
-        try {
-          await addMessageToConversation(currentConversationID, 'chatGPT-3.5', response.data.message, 'chatGPT-3.5')
-          setIsChatGPTMessageLoading(false)
-        } catch (error) {
-          console.error(error)
+      try {
+        const response = await sendChatGpt3Message(value, currentConversationID, messages)
+
+        if (response.status !== 200) {
+          throw new Error(`Received status code ${response.status}`)
         }
+
+        await addMessageToConversation(currentConversationID, 'chatGPT-3.5', response.data.message, 'chatGPT-3.5')
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setIsChatGPTMessageLoading(false)
       }
     }
   }
@@ -47,7 +50,7 @@ const SendMessage = () => {
   return (
     <div className="bg-gray-200 w-full py-6 shadow-lg px-2">
       <div className="flex items-center justify-between">
-        {isChatGPTConversation ? <ChatGPTHeader /> : <UserHeader user={secondUser} />}
+        {isChatGPTConversation ? <ChatGPTHeader /> : <UserHeader user={secondUser} currentConversationID={currentConversationID} />}
         <MessageForm value={value} setValue={setValue} onSubmit={handleSendMessage} isConversationSelected={isConversationSelected} />
       </div>
     </div>
@@ -61,14 +64,16 @@ const ChatGPTHeader = () => (
   </div>
 )
 
-const UserHeader = ({ user }: { user: any }) => (
+const UserHeader = ({ user, currentConversationID }: { user: any; currentConversationID: string | null }) => (
   <div className="flex items-center">
     <div className="chat-image avatar">
       <div className="w-10 h-10 rounded-full mr-2 overflow-hidden">
         {user?.profilePicture ? (
           <Image src={user.profilePicture} width="25" height="25" alt="profilePic" className="rounded-full" />
-        ) : (
+        ) : currentConversationID ? (
           <AccountCircleIcon fontSize="inherit" color="primary" sx={{ fontSize: '50px' }} />
+        ) : (
+          <div></div>
         )}
       </div>
     </div>

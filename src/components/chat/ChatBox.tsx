@@ -44,7 +44,6 @@ const ChatBox = () => {
 
   useEffect(() => {
     updateConversations()
-    console.log(messages)
     updateLastMessageToRead()
   }, [currentConversationID, messages, lastMessage])
 
