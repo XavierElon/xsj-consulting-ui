@@ -8,7 +8,6 @@ import { formatDate } from '@/utils/date.helpers'
 import { checkIfMessageRead } from '@/utils/firebase.helpers'
 import { MessageInterface } from '@/models/chat.interfaces'
 import useProfilePic from '@/hooks/useProfilePic'
-import { ThreeDots } from 'react-loader-spinner'
 import CursorSVG from '../icons/CursorSVG'
 
 interface MessageProps {
@@ -17,13 +16,15 @@ interface MessageProps {
   showDate: boolean
 }
 
-const Message = (props: MessageProps) => {
-  const { message, lastMessage, showDate } = props
+const Message = ({ message, lastMessage, showDate }: MessageProps) => {
+  const {
+    authState: { id }
+  } = useContext(AuthStateContext)
+  const { isChatGPTMessageLoading } = useContext(ChatStateContext)
+
   const [displayResponse, setDisplayResponse] = useState('')
   const [completedTyping, setCompletedTyping] = useState(false)
-  const { authState } = useContext(AuthStateContext)
-  const { isChatGPTMessageLoading } = useContext(ChatStateContext)
-  const { id } = authState
+
   const profilePicture = useProfilePic(message)
 
   const isChatGPT: boolean = message?.senderID === 'chatGPT-3.5'
@@ -32,7 +33,7 @@ const Message = (props: MessageProps) => {
   const isLastMessage: boolean = message.id === lastMessage?.id
 
   const timeOptions: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit' }
-  let formattedTime
+  let formattedTime: any
   let formattedReadTime
   let date
   let formattedDate
@@ -47,28 +48,29 @@ const Message = (props: MessageProps) => {
     formattedReadTime = new Intl.DateTimeFormat('default', timeOptions).format(message.readTime.toDate())
   }
 
-  useEffect(() => {
-    console.log('isChatGptMessageLoading: ' + isChatGPTMessageLoading)
-    console.log('isChatGPT: ' + isChatGPT)
-    console.log('isLastMesage: ' + isLastMessage)
-    if (isChatGPT && isLastMessage) {
-      setCompletedTyping(false)
-      let i = 0
-      const intervalId = setInterval(() => {
-        setDisplayResponse(message.text.slice(0, i))
-        i++
-        if (i > message.text.length) {
-          clearInterval(intervalId)
-          setCompletedTyping(true)
-        }
-      }, 30)
+  const simulateTypingEffect = (text: string) => {
+    setCompletedTyping(false)
+    let i = 0
+    const intervalId = setInterval(() => {
+      setDisplayResponse(text.slice(0, i))
+      i++
+      if (i > text.length) {
+        clearInterval(intervalId)
+        setCompletedTyping(true)
+      }
+    }, 30)
 
-      return () => clearInterval(intervalId)
+    return () => clearInterval(intervalId)
+  }
+
+  useEffect(() => {
+    if (isChatGPT && isLastMessage) {
+      simulateTypingEffect(message.text)
     }
-  }, [message, isLastMessage])
+  }, [message, isLastMessage, isChatGPTMessageLoading])
 
   return (
-    <div className="">
+    <div className="w-full">
       {showDate && <div style={{ display: 'flex', justifyContent: 'center' }}>{formattedDate}</div>}
       <div className={`chat overflow-x-hidden ${isSecondUser ? 'chat-start' : 'chat-end'}`}>
         <div className="chat-image avatar">
@@ -89,17 +91,13 @@ const Message = (props: MessageProps) => {
         <div className="chat-details overflow-x-hidden flex-grow">
           <div className={`flex ${!isSecondUser ? 'justify-end' : ''}`}>
             <div>
-              {isChatGPT && isLastMessage && isChatGPTMessageLoading ? (
-                <ThreeDots height="80" width="80" radius="9" color="#4fa94d" ariaLabel="three-dots-loading" wrapperStyle={{}} visible={true} />
-              ) : isChatGPT && isLastMessage ? (
+              {isChatGPT && isLastMessage ? (
                 <div className={`chat-bubble text-white overflow text-clip ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}>
                   {displayResponse}
                   {!completedTyping && <CursorSVG />}
                 </div>
               ) : (
-                <div className={`chat-bubble text-white overflow whitespace-pre text-clip ${!isSecondUser ? 'bg-blue-500' : 'bg-gray-400'}`}>
-                  {message?.text}
-                </div>
+                <div className={`chat-bubble text-white overflow whitespace-pre text-clip ${!isSecondUser ? 'bg-blue-500 mr-8' : 'mr-8 bg-gray-400'}`}>{message?.text}</div>
               )}
             </div>
           </div>
