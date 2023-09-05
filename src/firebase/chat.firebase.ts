@@ -90,6 +90,19 @@ export const markMessageAsRead = async (conversationID: string, messageID: strin
   })
 }
 
+export const getUnreadMessagesForConversation = async (userID: string, conversationID: string): Promise<number> => {
+  const messagesSnapshot = await getDocs(collection(db, 'conversations', conversationID, 'messages'))
+
+  let count = 0
+  for (let message of messagesSnapshot.docs) {
+    if (message.data().read === false && message.data().senderID !== userID) {
+      count++
+    }
+  }
+
+  return count
+}
+
 export const getUsersConversations = async (userID: string): Promise<ConversationInterface[]> => {
   // Query the 'conversations' collection where 'users' array contains the userID
   const q = query(collection(db, 'conversations'), where('users', 'array-contains', userID))

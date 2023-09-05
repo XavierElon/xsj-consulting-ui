@@ -16,19 +16,12 @@ const HomePage: NextPage = (Component, pageProps) => {
       <div className="stars" />
       <Layout>
         <ToastContainer autoClose={1000} />
-        {/* <div className="row-span-1 py-20">
-          <CardOne />
-        </div> */}
 
         <CityCard />
 
         <div className="row-span-2">
           <CardTwo />
         </div>
-
-        {/* <div className="row-span-1">
-          <CardThree />
-        </div> */}
 
         <div className="row-span-1">{/* <TableCard /> */}</div>
       </Layout>

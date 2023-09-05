@@ -1,10 +1,9 @@
 'use client'
 import { useContext, useEffect, useState } from 'react'
-import axios from 'axios'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
 import { ConversationInterface } from '@/models/chat.interfaces'
-import { createConversation, getUsersConversations } from '@/firebase/chat.firebase'
+import { createConversation, getUnreadMessagesForConversation, getUsersConversations } from '@/firebase/chat.firebase'
 import 'firebase/compat/firestore'
 import './UsersList.css'
 import SearchInput from './SearchInput'
@@ -14,10 +13,12 @@ import { fetchUsers } from '@/api/users.api'
 const UsersList = () => {
   const [users, setUsers] = useState<any[]>([])
   const [searchField, setSearchField] = useState<string>('')
+  const [unreadCounts, setUnreadCounts] = useState<{ [userID: string]: number }>({})
   const { secondUserID, setSecondUserID, secondUser, setSecondUser, conversations, setConversations, setCurrentConversation, setCurrentConversationID, setIsChatGPTConversation } =
     useContext(ChatStateContext)
-  const { authState } = useContext(AuthStateContext)
-  const { id } = authState
+  const {
+    authState: { id }
+  } = useContext(AuthStateContext)
 
   let filteredUsers = users.filter((user: any) => {
     return user.username.toLowerCase().includes(searchField.toLowerCase())
@@ -64,9 +65,22 @@ const UsersList = () => {
     loadUsers()
   }, [])
 
-  // useEffect(() => {
-  //   getUsers()
-  // }, [conversations])
+  useEffect(() => {
+    const fetchUnreadCounts = async () => {
+      const counts: { [userID: string]: number } = {}
+      for (const user of users) {
+        const conversation = getConversationWithUser(conversations, user.id)
+        if (conversation && conversation.id) {
+          counts[user.id] = await getUnreadMessagesForConversation(id, conversation.id)
+        } else {
+          counts[user.id] = 0
+        }
+      }
+      setUnreadCounts(counts)
+    }
+
+    fetchUnreadCounts()
+  }, [id, conversations, users])
 
   useEffect(() => {
     // If there's no user ID, exit early.
@@ -94,7 +108,7 @@ const UsersList = () => {
       <div className="flex flex-col-reverse flex-grow overflow-y-auto">
         <SearchInput onChange={setSearchField} />
         {filteredUsers.map((user) => (
-          <UserItem key={user.id} user={user} isSelected={user.id === secondUserID} onClick={handleUserClick} />
+          <UserItem key={user.id} user={user} isSelected={user.id === secondUserID} onClick={handleUserClick} unreadCount={unreadCounts[user.id] || 0} />
         ))}
       </div>
     </div>
