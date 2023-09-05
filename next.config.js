@@ -5,7 +5,7 @@ const nextConfig = {
   },
   reactStrictMode: false,
   swcMinify: true,
-  concurrentFeatures: true,
+  // concurrentFeatures: true,
   //configure the images loader
   images: {
     domains: ['cdn-icons-png.flaticon.com', 'lh3.googleusercontent.com']
