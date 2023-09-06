@@ -1,8 +1,10 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
+import { getDatabase } from 'firebase/database'
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import axios from 'axios'
 import { getFirestore } from 'firebase/firestore'
+import { setUserOnlineStatus } from './onlineStatus'
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -23,6 +25,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
 export const db = getFirestore(app)
+export const realtimeDB = getDatabase(app)
 
 const GoogleProvider = new GoogleAuthProvider()
 
@@ -49,10 +52,13 @@ export const signInWithGooglePopup = () => {
           username: displayName
         })
         .then((response) => {
-          console.log(response.data.user._id)
+          const userID = response.data.user._id.toString()
           localStorage.setItem('isLoggedIn', 'true')
           localStorage.setItem('username', displayName)
           localStorage.setItem('id', response.data.user._id.toString())
+
+          setUserOnlineStatus(userID)
+
           return { result, response }
         })
         .catch((error) => {
