@@ -2,9 +2,10 @@ import { createMachine, assign } from 'xstate'
 
 type TodoEvents = { type: 'Create New' } | { type: 'Form input changed'; value: string } | { type: 'Submit' } | { type: 'Delete'; todo: string } | { type: 'Speed up' }
 
+
 export const todoMachine = createMachine(
   {
-    /** @xstate-layout N4IgpgJg5mDOIC5QBUD2FUAICyBDAxgBYCWAdmAHQAyquEZUmaGsAxBuRWQG6oDWlZljxEylGnQZN0qWAh6p8uAC7FUpANoAGALradiUAAdZxVesMgAHogC0AFgCcFewCYnAVgDsrrx4DMjloAbK4eADQgAJ52YV4UwQEAjCHBAByO9skAvtmRQjgEJJwS9KSMQmxgAE7VqNUURgA2KgBm9QC2FAUixeK0ZRUycgpK5pq6+pYmsGZqpJY2CA5uFJlaXlr2-lmb-kmRMctJaUkU7q5JHsGOaRcnabn5MoWinJWYpZCsAMLVYCowJgAHJgADuUyQIBmcwsUKW-hCFH8aW26QywXsqPshzsSSSrgoAS89j8HjSHkc-j8TxAPSKYm6w0+A2+ABEwE0wMowJDjKZxotEB5XFpzltgul0lo7jdccsdmLtgTXGlgtSbgFafS3pQ-gDVOUQeDpBgKABlQioMFSdrVDqYMhGACuylYADFOo7SC7lJgiLhypA+dCBfMhQhXIiEptfKrfEksfYcdFEE4zqqvKEtB5k9t-MFtS9eoz9SopKCwabUBarTajXaHU7Xaxzc6AEYdMwhmGC+GIQLxLYa1yivYEiKphD+UXIsIpPwk+yhRxFjCvPoUMuGxiV6sW3DcKRCdjqSgKARM9clzjbismoQHo9GoTyUi8MbzfQ9sNw0BLewtH8NZ0i8QI7hJMDMnlWxZyxDwQnsB51UcVUPDXYQGVvf5yyNPdH3NQ9jxkVgajqBpmjaTor0w3UtxwndjSrAiiJfGQ3w-ct1G-XRpl-BZ+wQa57GRa5-ERNIvCuO55UCYDyUcW5JJlJxgiSDCN0ZDkuUYk8OHPd9+EEYssMobTuWIjAOMULiJj0XioV7cNBJSNIKBOLQtCSRFRTScTXGCGCRXiElsQLICPCuQs8jpEy6PM3SSLI+pGhaZRGxozTOASyzUGsz9uMmBz+VmPt-0QdUPAoU4Un8SLrjCGCkkcKqsUcTUo3xZqvEeGKdU3HKjWUF5kv+CBWCsWBlEBChcFaHlqgACjCTyAEpWH6rTOQsoaRtqepg2K0NSuc8qhN8NYoqcJDANCScjlgjxWoxFrOvxRweo0m8zO2xjhvXUbvnNIwwEgTBnSMH8Tr-awKsyZFUMuZrExCRqp1grxnDajr9nemlaVIdA4EsTbyD46GBLOhwgjWQDNm2XYgIOdG1KqqNKWTfFLiQ1c+rizdSly+BHP4iMHCA9yrgQoJ-KZmDl3iXwdmlJJF1OL7TJo2AWToSBydhSnYcjVX3OCLRMjHLMCx8GCfPc1Ucyenxpa8LwNbowW2JYTAAFF9rG-WyqN2xAmCGN2uuW57kceUozDzMRW80JEVJd3NzvPCHxkQPTqNxNnExdF8QiqLXHlbr3MxoDAiuUUTnsNPSwY+9mJkWtrVtL1m2UHOYaWCvC7SGqS4a2TmooDY7n2GqRR2Bu+evTWM93LOzUI58hgwXvDaWYIpIoLMUiSdJGf2WPUQSSUAmTKM7nVhfaIG37cu3iNQjc0JLlQlFVQneW9-OGBZcaQvJq3Ug-LKP0dJSH+lgQGEBX6CUxPERwV1MgozujBTEawWpUnNhkck4l565CAA */
+    /** @xstate-layout N4IgpgJg5mDOIC5QBUD2FUAICyBDAxgBYCWAdmAHQAyquEZUmaGsAxBuRWQG6oDWlZljxEylGnQZN0qWAh6p8uAC7FUpANoAGALradiUAAdZxVesMgAHogC0ARntaKjgBwA2ACwAmewHZ7b28AZgBOPwAaEABPO3dvdxcAVmDAvy1gzyStJPsAXzyooRwCEk4JelJGITYwACc61DqKIwAbFQAzJoBbCmKRMvFaSuqZOQUlc01dfUsTWDM1UksbBFtspIpvTy13AL9Q4Pd7UNco2LWk7K2-TO9b+88-TwKimRLRThrMCshWAGE6mAVGBMAA5MAAd1mSBA80WFlhq22ngoWlcnh29kxriSe0iMTsnlc9goeNczyShy0p1C7leIH6pTEfTGP2GfwAImBWmBlGAYcZTFMVogsn4KKEtE8tIFgt5Qk5vOc7OlQhRPPFPLTXI9ngymZ9KIDgaoquCodIMBQAMqEVCQqRdOrdTBkIwAV2UrAAYj03aRPcpMERcFVIIK4cKlqKEPZ3K4KMF0sEcsnQiF-EkVXGgls8cFsidDiSngb3gMWSaVFIIZCrahbfbHebna73V7WDaPQAjbpmSPwkVIxDBTIUZ7pp5UxxZdw52zEie7eP3dJJVwZ4LljAfQYUatmxh1hu23DcKRCdjqSgKASs3eVziH2uWoRni-moTyUi8SZLfRB2jRFQFWTJSXcBM-D8EIDiuGDs0JNZgk3Ml4zHLIx3cRUXkKRkK2ZZ8gRrc0T3fG1z0vGRWHqRpmjaToegfYRCONYijwtetyMor8ZB-P8a3UQDdDmYDlhHBBsm8NEC3cO4jncFJEIubYyQ3AJXCOTJPDCW4dxYo0KG5XkOKvDhb1-fhBAIwzjL5KiMH4xRBOmPQRNhIcYwkrIKFcVwtGleCFXjDd5yQ2xN0SaDwnsMJiTxaD9L3Fk7NM6jaKaFp2mUNtmOSzhUoc1AnP-ISZncoUFmHUDECSW40KcfF0THTIFzxVEkm8GlFLq44AlCJKn0oQrzWUd4MqBCBWCsWBlBBChcA6fk6gACm8bItAASlYQ19xGxgxt3CaIwqqMqq8mqEE1TZjnJE5IOxDcFy1MkurpeC+pOQbWKMnl7NG8aGiaP4bSMMBIEwD0jCA86QOsRA5OkmkgkxTVjiyUJnqXTruo+-wvrw3aWQqIq2HMrhLPvInymGUmSpcwD7AMDyxNjBwnBcewPB8fGgl0hdtVRTSdL8dxZQQ9a-AKPDSHQOBLGpsBRNh8TLvWFIth2PZ-EOY5Qkx8LTlRBIYOxcUTlwt5Hx+kneJYZWEVV+G1mujV7CSJ4vBJRxTgXTTElTJ4UKOBJU28b7DO+X4IAd6rnfdoWxfCTUFRggLgmegJkkOdbFT8PECatgz91t0YWEwABRIHJtji7ncXDdJQOLUdIyFC8QXWLpMnZ5N11Z5Jwj-cX1It8ZFruHVgpJNNUVI4ripTdPE7rPcT5rwFVxLRvFcIeq3Y18uJkJsHSdf0O2UCendWWLNkybDYp6xfQmX8LtUlFIMlxMdOo8DE96IqaQ+p4KKfjLqgK+sYk4amONKQ44Q-AeGUnYDESYvC3CpL4FGADhp-TShgSBEk8QByCCjQ4xJQhUj9kcJM0pbj+1DtvHBv0TJSEOlgY6McWYq1jBuG67sEz3XRlQt+45t5p1ivfQsSRpZ5CAA */
     id: 'Todo Machine',
     initial: 'Loading Todos',
     schema: {
@@ -34,8 +35,10 @@ export const todoMachine = createMachine(
           onDone: [
             {
               target: 'Todos Loaded',
-              actions: 'assignTodosToContext'
-            }
+              actions: 'assignTodosToContext',
+              cond: 'Has todos'
+            },
+            'Creating New Todo'
           ],
           onError: [
             {
@@ -124,21 +127,32 @@ export const todoMachine = createMachine(
     }
   },
   {
+    guards: {
+      'Has todos': (context: any, event: any) => {
+          return event.data.length > 0+
+      }
+    },
     actions: {
-      assignTodosToContext: assign((context, event) => {
+      assignTodosToContext: assign((context: any, event: any) => {
         return {
           todos: event.data
         }
       }),
-      assignErrorToContext: assign((context, event) => {
-        return {
-          errorMessage: (event.data as Error).message
+      assignErrorToContext: assign((context: any, event: any) => {
+        if ('data' in event) {
+          return {
+            errorMessage: (event.data as Error).message
+          }
         }
+        
       }),
-      assignInputFormToContext: assign((context, event) => {
-        return {
-          createNewTodoFormInput: event.value
+      assignInputFormToContext: assign((context: any, event: any) => {
+        if (event.type === 'Form input changed') {
+          return {
+            createNewTodoFormInput: event.value
+          }
         }
+        
       })
     }
     //   actions: {

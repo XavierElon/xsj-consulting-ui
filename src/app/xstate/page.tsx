@@ -4,7 +4,7 @@ import Layout from '@/components/Layout'
 import { useMachine } from '@xstate/react'
 import { todoMachine } from 'machines/todoMachine'
 
-const todos = new Set<string>(['Take bins out', 'Do laundry'])
+const todos = new Set<string>([])
 
 const XState: NextPage = () => {
   const [state, send] = useMachine(todoMachine, {
@@ -90,7 +90,7 @@ const XState: NextPage = () => {
                   }}
                 >
                   <input
-                    className="bg-white"
+                    className="bg-slate-100 border-t-emerald-200"
                     onChange={(e) => {
                       send({ type: 'Form input changed', value: e.target.value })
                     }}
