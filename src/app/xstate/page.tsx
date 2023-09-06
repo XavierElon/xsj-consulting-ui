@@ -1,7 +1,6 @@
 'use client'
 import { NextPage } from 'next'
 import Layout from '@/components/Layout'
-import { useEffect } from 'react'
 import { useMachine } from '@xstate/react'
 import { todoMachine } from 'machines/todoMachine'
 
@@ -22,6 +21,27 @@ const XState: NextPage = () => {
             <p>{JSON.stringify(state.value)}</p>
             <pre>{JSON.stringify(state.value)}</pre>
             <pre>{JSON.stringify(state.context)}</pre>
+            <div>
+              {state.matches('Todos Loaded') && (
+                <button
+                  onClick={() => {
+                    send({
+                      type: 'Create New'
+                    })
+                  }}
+                >
+                  Create New
+                </button>
+              )}
+              {state.matches('Creating New Todo.Showing form input') && (
+                <input
+                  className="bg-white"
+                  onChange={(e) => {
+                    send({ type: 'Form input changed', value: e.target.value })
+                  }}
+                ></input>
+              )}
+            </div>
           </div>
 
           {/* <button
