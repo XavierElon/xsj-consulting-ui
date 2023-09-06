@@ -16,9 +16,8 @@ const XState: NextPage = () => {
         todos.add(context.createNewTodoFormInput)
       },
       deleteTodo: async (context, event) => {
-        console.log(event.type)
         if (event.type === 'Delete') {
-          console.log('here')
+          // throw new Error('error')
           todos.delete(event.todo)
         }
       }
@@ -34,22 +33,27 @@ const XState: NextPage = () => {
             <pre>{JSON.stringify(state.value)}</pre>
             <pre>{JSON.stringify(state.context)}</pre>
             <div>
-              {state.context.todos.map((todo) => (
-                <div key={todo} className="flex items-center">
-                  <p>{todo}</p>
-                  <button
-                    onClick={() => {
-                      send({
-                        type: 'Delete',
-                        todo
-                      })
-                    }}
-                    className="ml-2 bg-slate-500"
-                  >
-                    Delete
-                  </button>
-                </div>
-              ))}
+              {state.matches('Todos Loaded') && (
+                <>
+                  {state.context.todos.map((todo) => (
+                    <div key={todo} className="flex items-center">
+                      <p>{todo}</p>
+                      <button
+                        onClick={() => {
+                          send({
+                            type: 'Delete',
+                            todo
+                          })
+                        }}
+                        className="ml-2 bg-slate-500"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  ))}
+                </>
+              )}
+
               {state.matches('Todos Loaded') && (
                 <button
                   onClick={() => {
@@ -60,6 +64,21 @@ const XState: NextPage = () => {
                 >
                   Create New
                 </button>
+              )}
+              {state.matches('Deleting todo errored') && (
+                <>
+                  <p>Something went wrong: {state.context.errorMessage}</p>
+                  <button
+                    onClick={() => {
+                      send({
+                        type: 'Speed up'
+                      })
+                    }}
+                    className="bg-slate-400"
+                  >
+                    Speed Up
+                  </button>
+                </>
               )}
               {state.matches('Creating New Todo.Showing form input') && (
                 <form
