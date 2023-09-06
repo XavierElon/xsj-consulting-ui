@@ -1,12 +1,11 @@
 'use client'
 import { NextPage } from 'next'
-import React, { useContext, useEffect } from 'react'
+import React from 'react'
 import axios from 'axios'
 import Layout from '@/components/Layout'
-import { CardOne, CardTwo, CardThree, CityCard, TableCard } from '@/components/cards'
+import { CardTwo, CityCard, TableCard } from '@/components/cards'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { AuthStateContext } from '@/context/AuthContext'
 
 const HomePage: NextPage = (Component, pageProps) => {
   axios.defaults.withCredentials = true
