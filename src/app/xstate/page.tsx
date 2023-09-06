@@ -35,7 +35,7 @@ const XState: NextPage = () => {
             <div>
               {state.matches('Todos Loaded') && (
                 <>
-                  {state.context.todos.map((todo) => (
+                  {state.context.todos.map((todo: any) => (
                     <div key={todo} className="flex items-center">
                       <p>{todo}</p>
                       <button
