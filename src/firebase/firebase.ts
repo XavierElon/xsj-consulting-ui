@@ -1,8 +1,14 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
+import { getDatabase } from 'firebase/database'
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import axios from 'axios'
 import { getFirestore } from 'firebase/firestore'
+// import { setUserOnlineStatus } from './onlineStatus'
+import { ref, onDisconnect, onValue, set, serverTimestamp } from 'firebase/database'
+import { Timestamp } from 'firebase/firestore'
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/auth'
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -12,6 +18,7 @@ import { getFirestore } from 'firebase/firestore'
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
   authDomain: 'xsj-consulting-ui-7c9e0.firebaseapp.com',
+  databaseURL: 'https://xsj-consulting-ui-7c9e0-default-rtdb.firebaseio.com/',
   projectId: 'xsj-consulting-ui-7c9e0',
   storageBucket: 'xsj-consulting-ui-7c9e0.appspot.com',
   messagingSenderId: '144214686445',
@@ -20,9 +27,10 @@ const firebaseConfig = {
 }
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig)
-export const auth = getAuth(app)
-export const db = getFirestore(app)
+export const firebaseApp = initializeApp(firebaseConfig)
+export const auth = getAuth(firebaseApp)
+export const db = getFirestore(firebaseApp)
+export const realtimeDB = getDatabase(firebaseApp)
 
 const GoogleProvider = new GoogleAuthProvider()
 
@@ -49,10 +57,13 @@ export const signInWithGooglePopup = () => {
           username: displayName
         })
         .then((response) => {
-          console.log(response.data.user._id)
           localStorage.setItem('isLoggedIn', 'true')
           localStorage.setItem('username', displayName)
-          localStorage.setItem('id', response.data.user._id.toString())
+          localStorage.setItem('id', firebaseUid)
+          const user = auth.currentUser
+          const userID: string | undefined = user?.uid
+          setUserOnlineStatus(userID)
+
           return { result, response }
         })
         .catch((error) => {
@@ -62,4 +73,46 @@ export const signInWithGooglePopup = () => {
     .catch((error) => {
       console.log(error)
     })
+}
+
+export const setUserOnlineStatus = (userID: string | undefined) => {
+  const userStatusDatabaseRef = ref(realtimeDB, `/status/${userID}`)
+  const isOfflineForDatabase = {
+    state: 'offline',
+    last_changed: serverTimestamp()
+  }
+
+  const isOnlineForDatabase = {
+    state: 'online',
+    last_changed: serverTimestamp()
+  }
+
+  const connectedRef = ref(realtimeDB, '.info/connected')
+  onValue(connectedRef, (snapshot) => {
+    if (snapshot.val() === false) {
+      return
+    }
+
+    onDisconnect(userStatusDatabaseRef)
+      .set(isOfflineForDatabase)
+      .then(() => {
+        set(userStatusDatabaseRef, isOnlineForDatabase)
+      })
+  })
+}
+
+export const setOnlineStatusForUser = (userID: string, isOnline: boolean) => {
+  const userStatusRef = ref(realtimeDB, `status/${userID}`)
+
+  if (isOnline) {
+    set(userStatusRef, {
+      state: 'online',
+      last_changed: serverTimestamp()
+    })
+  } else {
+    set(userStatusRef, {
+      state: 'offline',
+      last_changed: serverTimestamp()
+    })
+  }
 }

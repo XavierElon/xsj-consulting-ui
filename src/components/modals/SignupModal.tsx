@@ -8,12 +8,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import GoogleLogo from 'public/google-logo.svg'
 import { signInWithGooglePopup } from '@/firebase/firebase'
 import { validateEmail, validatePassword } from '@/utils/verification.helpers'
-import {
-  showEmailNotValidErrorToastMessage,
-  showPasswordMatchErrorToastMessage,
-  showPasswordNotValidErrorToastMessage,
-  showSignupSuccessToastMessage
-} from '@/utils/toast.helpers'
+import { showEmailNotValidErrorToastMessage, showPasswordMatchErrorToastMessage, showPasswordNotValidErrorToastMessage, showSignupSuccessToastMessage } from '@/utils/toast.helpers'
 import { ToastContainer } from 'react-toastify'
 import { AuthStateContext } from '@/context/AuthContext'
 
@@ -89,6 +84,7 @@ const SignupModal = (props: any) => {
 
   const handleGoogleLogin = async () => {
     const data = await signInWithGooglePopup()
+    console.log(data)
     const googleAuthResult: any = data?.result
     const axiosResult: any = data?.response
     setGoogleAuthState(googleAuthResult, axiosResult)
@@ -126,10 +122,7 @@ const SignupModal = (props: any) => {
   return (
     <div className="flex flex-col">
       <ToastContainer />
-      <div
-        style={{ ...containerStyle, width: '450px' }}
-        className="w-96 h-96 bg-white border-b-2 border-gray-200 rounded-lg p-4 shadow-md flex flex-col items-center justify-center"
-      >
+      <div style={{ ...containerStyle, width: '450px' }} className="w-96 h-96 bg-white border-b-2 border-gray-200 rounded-lg p-4 shadow-md flex flex-col items-center justify-center">
         <h2 style={headerStyle} className="text-black text-center">
           Sign Up with Email
         </h2>
@@ -141,25 +134,13 @@ const SignupModal = (props: any) => {
                 <span className="text-red-600 relative top-1">*</span>
               </p>
             </div>
-            <TextField
-              required
-              id="outlined-required"
-              size="small"
-              className="transform hover:scale-110 transition-all duration-300 w-80"
-              onChange={(e) => setFirstName(e.target.value)}
-            />
+            <TextField required id="outlined-required" size="small" className="transform hover:scale-110 transition-all duration-300 w-80" onChange={(e) => setFirstName(e.target.value)} />
           </div>
           <p style={pStyle} className="mx-10">
             <span className="text-[#0069FF]">last name </span>
             <span className="text-red-600 relative top-1">*</span>
           </p>
-          <TextField
-            required
-            id="outlined-required"
-            size="small"
-            className="transform hover:scale-110 transition-all duration-300 w-80"
-            onChange={(e) => setLastName(e.target.value)}
-          />
+          <TextField required id="outlined-required" size="small" className="transform hover:scale-110 transition-all duration-300 w-80" onChange={(e) => setLastName(e.target.value)} />
           <p style={pStyle} className="mx-10">
             <span className="text-[#0069FF]">email </span>
             <span className="text-red-600 relative top-1">*</span>
@@ -221,12 +202,7 @@ const SignupModal = (props: any) => {
             </div>
           )}
 
-          <button
-            type="submit"
-            className="text-white bg-[#0061EB] hover:bg-[#022cac] rounded-lg my-7"
-            style={submitButtonStyle}
-            onClick={handleSignup}
-          >
+          <button type="submit" className="text-white bg-[#0061EB] hover:bg-[#022cac] rounded-lg my-7" style={submitButtonStyle} onClick={handleSignup}>
             Sign Up
           </button>
           <Button
