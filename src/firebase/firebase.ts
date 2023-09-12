@@ -5,7 +5,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import axios from 'axios'
 import { getFirestore } from 'firebase/firestore'
 // import { setUserOnlineStatus } from './onlineStatus'
-import { ref, onDisconnect, onValue, set } from 'firebase/database'
+import { ref, onDisconnect, onValue, set, serverTimestamp } from 'firebase/database'
 import { Timestamp } from 'firebase/firestore'
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
@@ -59,7 +59,7 @@ export const signInWithGooglePopup = () => {
         .then((response) => {
           localStorage.setItem('isLoggedIn', 'true')
           localStorage.setItem('username', displayName)
-          localStorage.setItem('id', response.data.user._id.toString())
+          localStorage.setItem('id', firebaseUid)
           const user = auth.currentUser
           const userID: string | undefined = user?.uid
           setUserOnlineStatus(userID)
@@ -75,18 +75,16 @@ export const signInWithGooglePopup = () => {
     })
 }
 
-// const fireStoreDB = getDatabase() // Assume you have initialized Firebase already
-
 export const setUserOnlineStatus = (userID: string | undefined) => {
   const userStatusDatabaseRef = ref(realtimeDB, `/status/${userID}`)
   const isOfflineForDatabase = {
     state: 'offline',
-    last_changed: Date.now()
+    last_changed: serverTimestamp()
   }
 
   const isOnlineForDatabase = {
     state: 'online',
-    last_changed: Date.now()
+    last_changed: serverTimestamp()
   }
 
   const connectedRef = ref(realtimeDB, '.info/connected')
@@ -98,7 +96,6 @@ export const setUserOnlineStatus = (userID: string | undefined) => {
     onDisconnect(userStatusDatabaseRef)
       .set(isOfflineForDatabase)
       .then(() => {
-        console.log('hereeeeee')
         set(userStatusDatabaseRef, isOnlineForDatabase)
       })
   })
@@ -110,12 +107,12 @@ export const setOnlineStatusForUser = (userID: string, isOnline: boolean) => {
   if (isOnline) {
     set(userStatusRef, {
       state: 'online',
-      last_changed: Date.now() // Using client-side timestamp, consider Firebase ServerValue.TIMESTAMP if you want server-assigned timestamp
+      last_changed: serverTimestamp()
     })
   } else {
     set(userStatusRef, {
       state: 'offline',
-      last_changed: Date.now() // Using client-side timestamp
+      last_changed: serverTimestamp()
     })
   }
 }

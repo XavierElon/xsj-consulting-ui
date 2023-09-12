@@ -18,11 +18,11 @@ const UsersList = () => {
   const { secondUserID, setSecondUserID, secondUser, setSecondUser, conversations, setConversations, setCurrentConversation, setCurrentConversationID, setIsChatGPTConversation } =
     useContext(ChatStateContext)
   const {
-    authState: { id }
+    authState: { id, username }
   } = useContext(AuthStateContext)
 
   let filteredUsers = users.filter((user: any) => {
-    return user.username.toLowerCase().includes(searchField.toLowerCase())
+    return user.username.toLowerCase().includes(searchField.toLowerCase()) && user.username !== username
   })
 
   const createNewConversation = async () => {

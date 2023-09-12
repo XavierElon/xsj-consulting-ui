@@ -98,7 +98,7 @@ const LoginModal = (props: any) => {
       authToken: accessToken,
       user: firebaseObj,
       provider: 'firebaseGoogle',
-      id: googleAuthResult.user._id,
+      id: firebaseUid,
       isLoggedIn: true,
       username: displayName
     })

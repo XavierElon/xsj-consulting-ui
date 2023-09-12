@@ -46,22 +46,6 @@ const ChatBox = () => {
     return true
   }
 
-  // useEffect(() => {
-  //   const statusRef = ref(realtimeDB, `/status/${id}`)
-
-  //   onValue(statusRef, (snapshot) => {
-  //     const status = snapshot.val()
-
-  //     if (status) {
-  //       setOnlineStatusForUser(id, status.state === 'online')
-  //     }
-  //     // console.log(status)
-  //     // if (status.state === 'online') {
-  //     //   setIsOnline(true)
-  //     // }
-  //   })
-  // }, [])
-
   useEffect(() => {
     updateConversations()
     updateLastMessageToRead()

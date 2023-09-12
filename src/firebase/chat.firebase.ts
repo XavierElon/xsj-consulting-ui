@@ -2,7 +2,7 @@ import 'firebase/firestore'
 import { db } from './firebase'
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
-import { Timestamp, addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, serverTimestamp, updateDoc, where } from 'firebase/firestore'
+import { Timestamp, addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, onSnapshot, updateDoc, where } from 'firebase/firestore'
 import { ConversationInterface, MessageInterface } from '@/models/chat.interfaces'
 
 export const createChatGPTConversation3 = async (userID: string): Promise<any> => {
@@ -102,6 +102,21 @@ export const getUnreadMessagesForConversation = async (userID: string, conversat
 
   return count
 }
+
+// const listenForUnreadMessages = (conversationId: string) => {
+//   const messagesQuery = query(
+//     collection(db, `/conversations/${conversationId}`),
+//     where('status', '==', 'unread'),
+//     where('sender', '!=', id)
+//   );
+
+//   const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
+//     const unreadMessages = snapshot.docs.map(doc => doc.data());
+//     updateUnreadCount(unreadMessages.length, conversationId);
+//   });
+
+//   return unsubscribe;
+// }
 
 export const getUsersConversations = async (userID: string): Promise<ConversationInterface[]> => {
   // Query the 'conversations' collection where 'users' array contains the userID
