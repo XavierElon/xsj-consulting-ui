@@ -1,5 +1,6 @@
 'use client'
 import { useContext, useEffect, useRef, useState } from 'react'
+import { onValue, ref } from 'firebase/database'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
 import Message from './Message'
@@ -9,6 +10,7 @@ import './ChatBox.css'
 import { checkIfMessageRead } from '@/utils/firebase.helpers'
 import { MessageInterface } from '@/models/chat.interfaces'
 import { ThreeDots } from 'react-loader-spinner'
+import { realtimeDB, setOnlineStatusForUser } from '@/firebase/firebase'
 
 const ChatBox = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -43,6 +45,28 @@ const ChatBox = () => {
     }
     return true
   }
+
+  const [isOnline, setIsOnline] = useState<boolean>(false)
+
+  useEffect(() => {
+    // console.log(user.id)
+    // console.log(realtimeDB)
+    const statusRef = ref(realtimeDB, `/status/${id}`)
+    console.log(statusRef)
+    onValue(statusRef, (snapshot) => {
+      // console.log('onValue')
+      console.log(snapshot)
+      console.log(snapshot.val)
+      const status = snapshot.val()
+      if (status) {
+        setOnlineStatusForUser(id, status.state === 'online')
+      }
+      // console.log(status)
+      if (status.state === 'online') {
+        setIsOnline(true)
+      }
+    })
+  }, [])
 
   useEffect(() => {
     updateConversations()

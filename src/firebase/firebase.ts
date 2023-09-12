@@ -6,7 +6,9 @@ import axios from 'axios'
 import { getFirestore } from 'firebase/firestore'
 // import { setUserOnlineStatus } from './onlineStatus'
 import { ref, onDisconnect, onValue, set } from 'firebase/database'
+import { Timestamp } from 'firebase/firestore'
 import firebase from 'firebase/compat/app'
+import 'firebase/compat/auth'
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -16,6 +18,7 @@ import firebase from 'firebase/compat/app'
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
   authDomain: 'xsj-consulting-ui-7c9e0.firebaseapp.com',
+  databaseURL: 'https://xsj-consulting-ui-7c9e0-default-rtdb.firebaseio.com/',
   projectId: 'xsj-consulting-ui-7c9e0',
   storageBucket: 'xsj-consulting-ui-7c9e0.appspot.com',
   messagingSenderId: '144214686445',
@@ -54,11 +57,13 @@ export const signInWithGooglePopup = () => {
           username: displayName
         })
         .then((response) => {
-          const userID = response.data.user._id.toString()
+          // const userID = response.data.user._id.toString()
           localStorage.setItem('isLoggedIn', 'true')
           localStorage.setItem('username', displayName)
           localStorage.setItem('id', response.data.user._id.toString())
-
+          const user = auth.currentUser
+          console.log(user?.uid)
+          const userID: string | undefined = user?.uid
           setUserOnlineStatus(userID)
 
           return { result, response }
@@ -72,11 +77,12 @@ export const signInWithGooglePopup = () => {
     })
 }
 
-const fireStoreDB = getDatabase() // Assume you have initialized Firebase already
+// const fireStoreDB = getDatabase() // Assume you have initialized Firebase already
 
-export const setUserOnlineStatus = (userID: string) => {
+export const setUserOnlineStatus = (userID: string | undefined) => {
   const userStatusDatabaseRef = ref(realtimeDB, `/status/${userID}`)
-
+  console.log(realtimeDB)
+  console.log(userStatusDatabaseRef)
   const isOfflineForDatabase = {
     state: 'offline',
     last_changed: firebase.database.ServerValue.TIMESTAMP
@@ -88,6 +94,7 @@ export const setUserOnlineStatus = (userID: string) => {
   }
 
   const connectedRef = ref(realtimeDB, '.info/connected')
+  console.log(connectedRef)
   onValue(connectedRef, (snapshot) => {
     if (snapshot.val() === false) {
       return
@@ -102,7 +109,7 @@ export const setUserOnlineStatus = (userID: string) => {
 }
 
 export const setOnlineStatusForUser = (userID: string, isOnline: boolean) => {
-  const userStatusRef = ref(fireStoreDB, `users/${userID}/status`)
+  const userStatusRef = ref(realtimeDB, `users/${userID}/status`)
 
   if (isOnline) {
     set(userStatusRef, {

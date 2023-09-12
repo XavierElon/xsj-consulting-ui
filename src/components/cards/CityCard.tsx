@@ -10,7 +10,6 @@ export const CityCard = () => {
 
   const handleClick = (e: any) => {
     e.preventDefault()
-    console.log(authorized)
     if (authorized !== null) {
       if (authorized === true) {
         router.push('/chat')

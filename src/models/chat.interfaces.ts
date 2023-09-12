@@ -19,3 +19,8 @@ export interface ConversationInterface {
   createdAt: firebase.firestore.Timestamp
   lastRead?: { [key: string]: firebase.firestore.Timestamp }
 }
+
+export interface onlineStatus {
+  online: boolean
+  lastActiveTimestamp: firebase.firestore.Timestamp
+}
