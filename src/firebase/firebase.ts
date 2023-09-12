@@ -57,12 +57,10 @@ export const signInWithGooglePopup = () => {
           username: displayName
         })
         .then((response) => {
-          // const userID = response.data.user._id.toString()
           localStorage.setItem('isLoggedIn', 'true')
           localStorage.setItem('username', displayName)
           localStorage.setItem('id', response.data.user._id.toString())
           const user = auth.currentUser
-          console.log(user?.uid)
           const userID: string | undefined = user?.uid
           setUserOnlineStatus(userID)
 
@@ -81,20 +79,17 @@ export const signInWithGooglePopup = () => {
 
 export const setUserOnlineStatus = (userID: string | undefined) => {
   const userStatusDatabaseRef = ref(realtimeDB, `/status/${userID}`)
-  console.log(realtimeDB)
-  console.log(userStatusDatabaseRef)
   const isOfflineForDatabase = {
     state: 'offline',
-    last_changed: firebase.database.ServerValue.TIMESTAMP
+    last_changed: Date.now()
   }
 
   const isOnlineForDatabase = {
     state: 'online',
-    last_changed: firebase.database.ServerValue.TIMESTAMP
+    last_changed: Date.now()
   }
 
   const connectedRef = ref(realtimeDB, '.info/connected')
-  console.log(connectedRef)
   onValue(connectedRef, (snapshot) => {
     if (snapshot.val() === false) {
       return
@@ -103,13 +98,14 @@ export const setUserOnlineStatus = (userID: string | undefined) => {
     onDisconnect(userStatusDatabaseRef)
       .set(isOfflineForDatabase)
       .then(() => {
+        console.log('hereeeeee')
         set(userStatusDatabaseRef, isOnlineForDatabase)
       })
   })
 }
 
 export const setOnlineStatusForUser = (userID: string, isOnline: boolean) => {
-  const userStatusRef = ref(realtimeDB, `users/${userID}/status`)
+  const userStatusRef = ref(realtimeDB, `status/${userID}`)
 
   if (isOnline) {
     set(userStatusRef, {

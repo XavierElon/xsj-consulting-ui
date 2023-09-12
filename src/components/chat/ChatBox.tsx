@@ -46,27 +46,21 @@ const ChatBox = () => {
     return true
   }
 
-  const [isOnline, setIsOnline] = useState<boolean>(false)
+  // useEffect(() => {
+  //   const statusRef = ref(realtimeDB, `/status/${id}`)
 
-  useEffect(() => {
-    // console.log(user.id)
-    // console.log(realtimeDB)
-    const statusRef = ref(realtimeDB, `/status/${id}`)
-    console.log(statusRef)
-    onValue(statusRef, (snapshot) => {
-      // console.log('onValue')
-      console.log(snapshot)
-      console.log(snapshot.val)
-      const status = snapshot.val()
-      if (status) {
-        setOnlineStatusForUser(id, status.state === 'online')
-      }
-      // console.log(status)
-      if (status.state === 'online') {
-        setIsOnline(true)
-      }
-    })
-  }, [])
+  //   onValue(statusRef, (snapshot) => {
+  //     const status = snapshot.val()
+
+  //     if (status) {
+  //       setOnlineStatusForUser(id, status.state === 'online')
+  //     }
+  //     // console.log(status)
+  //     // if (status.state === 'online') {
+  //     //   setIsOnline(true)
+  //     // }
+  //   })
+  // }, [])
 
   useEffect(() => {
     updateConversations()

@@ -25,3 +25,15 @@ export const sendChatGpt3Message = async (message: string, currentConversationID
     { withCredentials: true }
   )
 }
+
+export const fetchUser = async (userID: string): Promise<UserType> => {
+  try {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_USERS_GET_PROFILE_ROUTE}/${userID}`!, {
+      withCredentials: true
+    })
+    return res.data
+  } catch (error) {
+    console.error(error)
+    throw new Error('User not found')
+  }
+}

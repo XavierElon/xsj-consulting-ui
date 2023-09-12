@@ -5,9 +5,10 @@ import Image from 'next/image'
 import { UserType } from '@/types/types'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import { CSSProperties } from 'react'
-import { realtimeDB } from '@/firebase/firebase'
+import { db, realtimeDB } from '@/firebase/firebase'
 // import { setOnlineStatusForUser } from '@/firebase/onlineStatus'
 import { setOnlineStatusForUser } from '@/firebase/firebase'
+import { doc, onSnapshot } from 'firebase/firestore'
 
 interface UserItemProps {
   user: UserType
@@ -17,35 +18,38 @@ interface UserItemProps {
 }
 
 const UserItem = ({ user, isSelected, onClick, unreadCount }: UserItemProps) => {
-  const [isOnline, setIsOnline] = useState<boolean>(false)
-
-  // useEffect(() => {
-  //   // console.log(user.id)
-  //   // console.log(realtimeDB)
-  //   const statusRef = ref(realtimeDB, `/status/${user.id}`)
-  //   console.log(statusRef)
-  //   onValue(statusRef, (snapshot) => {
-  //     // console.log('onValue')
-  //     console.log(snapshot)
-  //     console.log(snapshot.val)
-  //     const status = snapshot.val()
-  //     if (status) {
-  //       setOnlineStatusForUser(user.id, status.state === 'online')
-  //     }
-  //     // console.log(status)
-  //     if (status.state === 'online') {
-  //       setIsOnline(true)
-  //     }
-  //   })
-  // }, [])
+  const [isOnline, setIsOnline] = useState<boolean>()
 
   useEffect(() => {
-    // console.log(isOnline)
+    const userRef = doc(db, `/status/${user.id}/`)
+    const unsubscribe = onSnapshot(userRef, (doc) => {
+      if (doc.exists()) {
+        setIsOnline(doc.data().state === 'online')
+        setIsOnline(true)
+      }
+    })
+
+    // Clean up the listener
+    return () => unsubscribe()
+  }, [user.id])
+
+  useEffect(() => {
+    const statusRef = ref(realtimeDB, `/status/${user.id}`)
+    onValue(statusRef, (snapshot) => {
+      const status = snapshot.val()
+      if (status) {
+        setOnlineStatusForUser(user.id, status.state === 'online')
+      }
+
+      if (status.state === 'online') {
+        setIsOnline(true)
+      }
+    })
   }, [])
 
   return (
     <div key={user.id} className={`flex items-center w-full mt-2 pt-2 pl-2 cursor-pointer ${isSelected ? 'bg-gray-300 py-2 px-4 rounded-lg' : ' bg-inherit'}`} onClick={() => onClick(user)}>
-      {/* <div>{!isOnline ? <span style={onlineStatusStyle}></span> : null}</div> */}
+      <div>{!isOnline ? <span style={onlineStatusStyle}></span> : null}</div>
       <div className="relative chat-image avatar w-12 h-12 rounded-full overflow-hidden mr-2">
         {user.profilePicture ? (
           <Image alt="profilePicture" width="15" height="15" src={user.profilePicture}></Image>

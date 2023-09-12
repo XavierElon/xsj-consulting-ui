@@ -11,6 +11,7 @@ import { signInWithGooglePopup } from '@/firebase/firebase'
 import 'react-toastify/dist/ReactToastify.css'
 import { showEmailDoesNotExistErrorToastMessage, showIncorrectLoginInfoErrorToastMessage, showLoginSuccessToastMessage } from '@/utils/toast.helpers'
 import { AuthStateContext } from '@/context/AuthContext'
+import { setUserOnlineStatus } from '@/firebase/firebase'
 
 const LoginModal = (props: any) => {
   const [email, setEmail] = useState('')
@@ -47,6 +48,7 @@ const LoginModal = (props: any) => {
         localStorage.setItem('isLoggedIn', 'true')
         localStorage.setItem('username', response.data.user.username)
         localStorage.setItem('provider', 'local')
+        setUserOnlineStatus(response.data.user._id)
         setTimeout(() => {
           router.push('/')
         }, 1000)
@@ -115,13 +117,7 @@ const LoginModal = (props: any) => {
               <span className="text-[#0069FF]">email </span>
               <span className="text-red-600 relative top-1">*</span>
             </p>
-            <TextField
-              required
-              id="outlined-required"
-              size="small"
-              className="transform hover:scale-110 transition-all duration-300 w-80 mx-10"
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            <TextField required id="outlined-required" size="small" className="transform hover:scale-110 transition-all duration-300 w-80 mx-10" onChange={(e) => setEmail(e.target.value)} />
             {errorMessage && <p className="text-red-600 relative top-1">{errorMessage}</p>}
           </div>
           <p style={pStyle} className="mx-10">
@@ -136,12 +132,7 @@ const LoginModal = (props: any) => {
             className="transform hover:scale-110 transition-all duration-300 w-80 mx-10"
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button
-            type="submit"
-            className="text-white bg-[#0061EB] hover:bg-[#022cac] rounded-lg my-7 mx-10"
-            style={submitButtonStyle}
-            onClick={handleLogin}
-          >
+          <button type="submit" className="text-white bg-[#0061EB] hover:bg-[#022cac] rounded-lg my-7 mx-10" style={submitButtonStyle} onClick={handleLogin}>
             Log In
           </button>
           <Button
