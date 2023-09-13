@@ -45,17 +45,21 @@ export const signInWithGooglePopup = () => {
       const refreshToken: string = result._tokenResponse.refreshToken
 
       return axios
-        .post(process.env.NEXT_PUBLIC_USERS_GOOGLE_AUTH_ROUTE!, {
-          firebaseGoogle: {
-            firebaseUid: firebaseUid,
-            accessToken: accessToken,
-            email: email,
-            displayName: displayName,
-            photoURL: profilePic,
-            refreshToken: refreshToken
+        .post(
+          process.env.NEXT_PUBLIC_USERS_GOOGLE_AUTH_ROUTE!,
+          {
+            firebaseGoogle: {
+              firebaseUid: firebaseUid,
+              accessToken: accessToken,
+              email: email,
+              displayName: displayName,
+              photoURL: profilePic,
+              refreshToken: refreshToken
+            },
+            username: displayName
           },
-          username: displayName
-        })
+          { withCredentials: true }
+        )
         .then((response) => {
           localStorage.setItem('isLoggedIn', 'true')
           localStorage.setItem('username', displayName)

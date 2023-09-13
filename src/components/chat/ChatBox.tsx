@@ -10,7 +10,6 @@ import './ChatBox.css'
 import { checkIfMessageRead } from '@/utils/firebase.helpers'
 import { MessageInterface } from '@/models/chat.interfaces'
 import { ThreeDots } from 'react-loader-spinner'
-import { realtimeDB, setOnlineStatusForUser } from '@/firebase/firebase'
 
 const ChatBox = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
