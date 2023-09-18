@@ -64,6 +64,10 @@ export const signInWithGooglePopup = () => {
           localStorage.setItem('isLoggedIn', 'true')
           localStorage.setItem('username', displayName)
           localStorage.setItem('id', firebaseUid)
+          console.log(response)
+          if (response.data.isAuthenticated) {
+            sessionStorage.setItem('isAuthenticated', 'true')
+          }
           const user = auth.currentUser
           const userID: string | undefined = user?.uid
           setUserOnlineStatus(userID)
