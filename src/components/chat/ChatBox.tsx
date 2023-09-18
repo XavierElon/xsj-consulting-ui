@@ -1,6 +1,5 @@
 'use client'
 import { useContext, useEffect, useRef, useState } from 'react'
-import { onValue, ref } from 'firebase/database'
 import { AuthStateContext } from '@/context/AuthContext'
 import { ChatStateContext } from '@/context/ChatContext'
 import Message from './Message'
