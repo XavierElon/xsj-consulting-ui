@@ -21,23 +21,13 @@ const ChatGPTList = () => {
   const [isChatGpt3Selected, setIsChatGpt3Selected] = useState<boolean>(true)
   const [isChatGpt4Selected, setIsChatGpt4Selected] = useState<boolean>(false)
   const [newTitle, setNewTitle] = useState<string>('')
-  const {
-    conversations,
-    setCurrentConversation,
-    currentConversationID,
-    setCurrentConversationID,
-    setIsChatGPTConversation,
-    setSecondUserID,
-    updateConversations
-  } = useContext(ChatStateContext)
+  const { conversations, setCurrentConversation, currentConversationID, setCurrentConversationID, setIsChatGPTConversation, setSecondUserID, updateConversations } = useContext(ChatStateContext)
   const {
     authState: { id }
   } = useContext(AuthStateContext)
 
   const getConversationsWithChatGPT = (conversations: ConversationInterface[]): ConversationInterface[] => {
-    const chatGPTConversations = conversations.filter(
-      (conversation) => conversation.users.includes('chatGPT-4') || conversation.users.includes('chatGPT-3.5')
-    )
+    const chatGPTConversations = conversations.filter((conversation) => conversation.users.includes('chatGPT-4') || conversation.users.includes('chatGPT-3.5'))
     return chatGPTConversations ? chatGPTConversations : []
   }
 
@@ -92,11 +82,7 @@ const ChatGPTList = () => {
             const isSelected: boolean = chat.id === currentConversationID
 
             return (
-              <div
-                key={chat.id}
-                className={`flex items-start justify-between mt-4 ${isSelected ? 'bg-gray-300 py-2 pl-2 rounded-lg' : 'inherit'}`}
-                onClick={() => handleSetConversation(chat.id)}
-              >
+              <div key={chat.id} className={`flex items-start justify-between mt-4 ${isSelected ? 'bg-gray-300 py-2 pl-2 rounded-lg' : 'inherit'}`} onClick={() => handleSetConversation(chat.id)}>
                 <div className="flex cursor-pointer">
                   <ChatBubbleOutlineIcon className="mx-4"></ChatBubbleOutlineIcon>
                   {showEditTitleInput && isSelected ? (
@@ -115,16 +101,8 @@ const ChatGPTList = () => {
                         }}
                       />
                       <div className="mt-1">
-                        <CheckIcon
-                          style={{ color: 'black', fontSize: '30px' }}
-                          className="justify-end ml-8 font-black cursor-pointer"
-                          onClick={() => handleEditChatGPTTitle(chat.id)}
-                        ></CheckIcon>
-                        <CloseIcon
-                          style={{ color: 'black', fontSize: '30px' }}
-                          className="justify-end ml-4 font-black cursor-pointer"
-                          onClick={() => setShowEditTitleInput(false)}
-                        ></CloseIcon>
+                        <CheckIcon style={{ color: 'black', fontSize: '30px' }} className="justify-end ml-8 font-black cursor-pointer" onClick={() => handleEditChatGPTTitle(chat.id)}></CheckIcon>
+                        <CloseIcon style={{ color: 'black', fontSize: '30px' }} className="justify-end ml-4 font-black cursor-pointer" onClick={() => setShowEditTitleInput(false)}></CloseIcon>
                       </div>
                     </div>
                   ) : (
@@ -133,25 +111,13 @@ const ChatGPTList = () => {
                 </div>
                 {showDeleteIcons && isSelected ? (
                   <div>
-                    <CheckIcon
-                      style={{ color: 'black', fontSize: '30px' }}
-                      className="justify-end mx-2 font-black cursor-pointer"
-                      onClick={() => handleDeleteChatGPTConversation(chat.id)}
-                    ></CheckIcon>
-                    <CloseIcon
-                      style={{ color: 'black', fontSize: '30px' }}
-                      className="justify-end mx-2 font-black cursor-pointer"
-                      onClick={() => setShowDeleteIcons(false)}
-                    ></CloseIcon>
+                    <CheckIcon style={{ color: 'black', fontSize: '30px' }} className="justify-end mx-2 font-black cursor-pointer" onClick={() => handleDeleteChatGPTConversation(chat.id)}></CheckIcon>
+                    <CloseIcon style={{ color: 'black', fontSize: '30px' }} className="justify-end mx-2 font-black cursor-pointer" onClick={() => setShowDeleteIcons(false)}></CloseIcon>
                   </div>
                 ) : isSelected && !showEditTitleInput ? (
                   <div>
                     <div>
-                      <EditIcon
-                        style={{ color: 'black', fontSize: '30px' }}
-                        className="justify-end mx-2 font-black cursor-pointer"
-                        onClick={() => setShowEditTitleInput(true)}
-                      ></EditIcon>
+                      <EditIcon style={{ color: 'black', fontSize: '30px' }} className="justify-end mx-2 font-black cursor-pointer" onClick={() => setShowEditTitleInput(true)}></EditIcon>
                       <DeleteOutlineIcon
                         style={{ color: 'black', fontSize: '30px' }}
                         className="justify-end mx-2 font-black cursor-pointer"
@@ -165,28 +131,30 @@ const ChatGPTList = () => {
           })}
         </div>
       </div>
-      <div className="flex justify-center border-white rounded-xl border-4 py-1 mx-4 cursor-pointer mb-5">
-        <div
+      <div className="flex justify-between items-center mt-4 space-x-2">
+        <button
           onClick={() => {
-            setIsChatGpt4Selected(false)
             setIsChatGpt3Selected(true)
+            setIsChatGpt4Selected(false)
           }}
-          className={`flex-grow bg-gray-300 flex justify-center items-center py-2 ${isChatGpt3Selected ? 'bg-gray-400 rounded-xl' : 'bg-inherit'}`}
+          className={`flex-grow text-xl p-2 rounded-xl ${isChatGpt3Selected ? 'bg-gray-400 text-white' : 'bg-gray-300 text-black'}`}
         >
-          <p className={`text-xl ${isChatGpt3Selected ? 'text-white' : 'text-black'}`}>GPT-3.5</p>
-        </div>
-        <div
+          GPT-3.5
+        </button>
+        <button
           onClick={() => {
             setIsChatGpt3Selected(false)
             setIsChatGpt4Selected(true)
           }}
-          className={`flex-grow flex justify-center items-center ${isChatGpt4Selected ? 'bg-gray-400 rounded-xl text-white' : 'bg-inherit'}`}
+          className={`flex-grow text-xl p-2 rounded-xl ${isChatGpt4Selected ? 'bg-gray-400 text-white' : 'bg-gray-300 text-black'}`}
         >
-          <p className={`text-xl ${isChatGpt4Selected ? 'text-white' : 'text-black'}`}>GPT-4</p>
-        </div>
+          GPT-4
+        </button>
       </div>
-      <div className="flex justify-center border-white border-2 rounded-xl py-3 mx-4 cursor-pointer mb-5 bg-gray-400" onClick={handleNewChatGPTClick}>
-        <p className="justify-center text-white text-xl">New Chat</p>
+      <div className="flex justify-center mt-4">
+        <button className="w-full md:w-auto text-white text-xl p-3 rounded-xl bg-gray-400" onClick={handleNewChatGPTClick}>
+          New Chat
+        </button>
       </div>
     </div>
   )

@@ -38,12 +38,13 @@ const Chat: NextPage = () => {
         <div className="flex-grid grid-rows-header">
           <Navbar open={isOpen} handleClick={() => setIsOpen(!isOpen)} />
 
-          <div className="flex flex-row flex-grow h-screen">
-            <div className="w-2/12 flex flex-col-reverse bg-slate-200 overflow-y-auto">
+          <div className="flex flex-row flex-wrap h-screen">
+            {/* ChatGPTList - Visible on larger screens, full width on small screens */}
+            <div className="w-full sm:block sm:w-2/12 flex flex-col-reverse bg-slate-200 overflow-y-auto">
               <ChatGPTList />
             </div>
 
-            <div className="w-8/12 flex flex-col h-full">
+            <div className="w-full sm:w-8/12 flex flex-col h-full">
               <div className="overflow-y-auto flex-grow">
                 <ChatBox />
               </div>
@@ -52,7 +53,8 @@ const Chat: NextPage = () => {
               </div>
             </div>
 
-            <div className="w-2/12 flex flex-col bg-slate-200 overflow-y-auto">
+            {/* UsersList - Visible on larger screens, full width on small screens */}
+            <div className="w-full sm:block sm:w-2/12 flex flex-col bg-slate-200 overflow-y-auto">
               <UsersList />
             </div>
           </div>
