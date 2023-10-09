@@ -30,23 +30,12 @@ const features = [
 
 export const CardTwo = () => {
   return (
-    <section className="relative">
-      {/* Section background (needs .relative class on parent and next sibling elements) */}
-      <div className="absolute inset-0 top-1/2 md:mt-24 lg:mt-0 bg-inherit dark:bg-black pointer-events-none" aria-hidden="true"></div>
-      <div className="absolute left-0 right-0 bottom-0 m-auto w-px p-px h-20 bg-inherit transform translate-y-1/2"></div>
-
-      <div className="mt-10 relative max-w-6xl mx-auto px-4 sm:px-6">
+    <section className="relative flex justify-center items-center min-h-screen">
+      <div className="mt-0 relative max-w-6xl mx-auto px-4 sm:px-6">
         <div className="py-2 md:py-2">
-          {/* Section header */}
-          {/* <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20"> */}
-          {/* <h1 className="h2 mb-4 my-10 text-white text-5xl">DevGru Is An Industry Leader</h1>
-            <p className="text-xl text-blue-400 dark:text-white">Where Our Experts Live To Deliver The Highest Impact Solutions</p> */}
-          {/* </div> */}
-
-          {/* Items */}
-          <div className="my-20 max-w-sm mx-auto grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-start md:max-w-2xl lg:max-w-none">
+          <div className="my-0 mx-auto grid gap-6 justify-center md:grid-cols-2 lg:grid-cols-3 md:max-w-2xl lg:max-w-none">
             {features.map((feature) => (
-              <div key={feature.title} className="flex flex-col items-center p-4 bg-inherit rounded shadow-xl">
+              <div key={feature.title} className="flex flex-col items-center p-4 bg-white rounded shadow-xl">
                 <div className="flex-shrink-0">{feature.icon}</div>
                 <h4 className="h4 mt-4 mb-1 text-blue-400">{feature.title}</h4>
                 <p className="text-gray-400 text-center">{feature.description}</p>

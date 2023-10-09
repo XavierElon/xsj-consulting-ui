@@ -6,6 +6,7 @@ import Layout from '@/components/Layout'
 import { CardTwo, CityCard, TableCard } from '@/components/cards'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import Matrix from '../components/effects/MatrixRain'
 
 const HomePage: NextPage = (Component, pageProps) => {
   axios.defaults.withCredentials = true
@@ -15,14 +16,13 @@ const HomePage: NextPage = (Component, pageProps) => {
       <div className="stars" />
       <Layout>
         <ToastContainer autoClose={1000} />
-
         <CityCard />
 
-        <div className="row-span-2">
-          <CardTwo />
-        </div>
-
-        <div className="row-span-1">{/* <TableCard /> */}</div>
+        <Matrix>
+          <div className="justify-center items-center flex">
+            <CardTwo />
+          </div>
+        </Matrix>
       </Layout>
     </>
   )
