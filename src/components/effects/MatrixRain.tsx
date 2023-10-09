@@ -29,8 +29,8 @@ const Matrix: React.FC<MatrixProps> = (props) => {
   useEffect(() => {
     if (!canvasRef.current) return
 
-    const canvas = canvasRef.current
-    const ctx = canvas.getContext('2d')
+    const canvas: any = canvasRef.current
+    const ctx: any = canvas.getContext('2d')
     if (!ctx) return
 
     canvas.width = dimensions.width
