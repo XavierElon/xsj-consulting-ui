@@ -11,7 +11,7 @@ import { signInWithGooglePopup } from '@/firebase/firebase'
 import 'react-toastify/dist/ReactToastify.css'
 import { showEmailDoesNotExistErrorToastMessage, showIncorrectLoginInfoErrorToastMessage, showLoginSuccessToastMessage } from '@/utils/toast.helpers'
 import { AuthStateContext } from '@/context/AuthContext'
-import { setUserOnlineStatus } from '@/firebase/firebase'
+import { setUserOnlineStatus } from '@/firebase/onlineStatus'
 
 const LoginModal = (props: any) => {
   const [email, setEmail] = useState('')

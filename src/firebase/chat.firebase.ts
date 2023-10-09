@@ -103,27 +103,12 @@ export const getUnreadMessagesForConversation = async (userID: string, conversat
   return count
 }
 
-// const listenForUnreadMessages = (conversationId: string) => {
-//   const messagesQuery = query(
-//     collection(db, `/conversations/${conversationId}`),
-//     where('status', '==', 'unread'),
-//     where('sender', '!=', id)
-//   );
-
-//   const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
-//     const unreadMessages = snapshot.docs.map(doc => doc.data());
-//     updateUnreadCount(unreadMessages.length, conversationId);
-//   });
-
-//   return unsubscribe;
-// }
-
 export const getUsersConversations = async (userID: string): Promise<ConversationInterface[]> => {
   // Query the 'conversations' collection where 'users' array contains the userID
   const q = query(collection(db, 'conversations'), where('users', 'array-contains', userID))
   const querySnapshot = await getDocs(q)
 
-  const conversationPromises = querySnapshot.docs.map(async (doc) => {
+  const conversationPromises = querySnapshot.docs.map(async (doc: any) => {
     const data = doc.data()
     const messages = await getMessagesForConversation(doc.id)
     return {
@@ -141,7 +126,7 @@ export const getMessagesForConversation = async (conversationID: string): Promis
   const messagesCollection = collection(db, 'conversations', conversationID, 'messages')
   const querySnapshot = await getDocs(messagesCollection)
 
-  const messagePromises = querySnapshot.docs.map((doc) => {
+  const messagePromises = querySnapshot.docs.map((doc: any) => {
     const data = doc.data()
     return {
       id: doc.id,
