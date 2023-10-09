@@ -6,8 +6,7 @@ import { UserType } from '@/types/types'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import { CSSProperties } from 'react'
 import { db, realtimeDB } from '@/firebase/firebase'
-// import { setOnlineStatusForUser } from '@/firebase/onlineStatus'
-import { setOnlineStatusForUser } from '@/firebase/firebase'
+import { setOnlineStatusForUser } from '@/firebase/onlineStatus'
 import { doc, onSnapshot } from 'firebase/firestore'
 
 interface UserItemProps {
